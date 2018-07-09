@@ -8,16 +8,40 @@ SET default_with_oids = false;
 
 SET search_path TO public;
 
-TRUNCATE "user" CASCADE;
+TRUNCATE "pessoa" CASCADE;
 
-INSERT INTO "user" (id, created, disabled, email, password, name, role) 
-     VALUES ( 9999, NOW(), false, 'admin@email.com', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 'Administrator', 0);
-     
-INSERT INTO "user" (id, created, disabled, email, password, name, role) 
-     VALUES ( 1000, NOW(), false, 'user001@testing.com', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 'User 001', 0);
-     
-INSERT INTO "user" (id, created, disabled, email, password, name, role) 
-     VALUES ( 1001, NOW(), false, 'user002@testing.com', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 'User 002', 1);
-     
-INSERT INTO "user" (id, created, disabled, email, password, name, role) 
-     VALUES ( 1002, NOW(), false, 'xova@testing.com', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 'Xóva :x', 2);
+INSERT INTO pessoa(
+            id, created, updated, email, is_ativo, last_login, login, nome, 
+            objetivo, papel, password_reset_token, password_reset_token_expiration, 
+            senha)
+    VALUES (9999, NOW() , null, 'admin@email.com', true, null, 'admin', 'Administrador', 
+            null, 0, null , null, 
+           'testestes'
+    );
+
+INSERT INTO pessoa(
+            id, created, updated, email, is_ativo, last_login, login, nome, 
+            objetivo, papel, password_reset_token, password_reset_token_expiration, 
+            senha)
+    VALUES (1000, NOW() , null, 'user001@testing.com', true, null, 'User 001', 'Administrador', 
+            null, 0, null , null, 
+           'd1bd2f08fead38a982aed9d4ca060152400b1b8f'
+    );
+    
+INSERT INTO pessoa(
+            id, created, updated, email, is_ativo, last_login, login, nome, 
+            objetivo, papel, password_reset_token, password_reset_token_expiration, 
+            senha)
+    VALUES (1001, NOW() , null, 'user002@testing.com', true, null, 'User 002', 'User 002', 
+            null, 0, null , null, 
+           'd1bd2f08fead38a982aed9d4ca060152400b1b8f'
+    );
+    
+INSERT INTO pessoa(
+            id, created, updated, email, is_ativo, last_login, login, nome, 
+            objetivo, papel, password_reset_token, password_reset_token_expiration, 
+            senha)
+    VALUES (1002, NOW() , null, 'xova@testing.com', true, null, 'Xóva :x', 'Xóva :x', 
+            null, 0, null , null, 
+           'd1bd2f08fead38a982aed9d4ca060152400b1b8f'
+    );

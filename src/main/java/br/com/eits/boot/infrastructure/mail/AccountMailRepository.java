@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import br.com.eits.boot.domain.entity.account.User;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.IAccountMailRepository;
 
 /**
@@ -60,7 +60,7 @@ public class AccountMailRepository implements IAccountMailRepository
 	 */
 	@Async
 	@Override
-	public Future<Void> sendNewUserAccount( final User user )
+	public Future<Void> sendNewUserAccount( final Pessoa user )
 	{
 		final MimeMessagePreparator preparator = new MimeMessagePreparator()
 		{
@@ -92,13 +92,13 @@ public class AccountMailRepository implements IAccountMailRepository
 	}
 
 	@Override
-	public Future<Void> sendPasswordReset( User user )
+	public Future<Void> sendPasswordReset( Pessoa user )
 	{
 		return new AsyncResult<>( null );
 	}
 
 	@Override
-	public Future<Void> sendPasswordResetNotice( User user )
+	public Future<Void> sendPasswordResetNotice( Pessoa user )
 	{
 		return new AsyncResult<>( null );
 	}

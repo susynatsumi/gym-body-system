@@ -6,7 +6,7 @@ app:
 
 #GENERAL
 spring:
-  application.name: boot
+  application.name: gym
   jmx.enabled: false
 
 #DATA SOURCE
@@ -19,7 +19,7 @@ spring:
 
 #JPA
   jpa:
-    hibernate.ddl-auto: validate
+    hibernate.ddl-auto: create
     show-sql: true
     open-in-view: false
     properties:

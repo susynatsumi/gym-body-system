@@ -6,7 +6,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.com.eits.boot.domain.entity.account.User;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 
 /**
  *
@@ -20,9 +20,9 @@ public abstract class RequestContext
 	 *
 	 * @return
 	 */
-	public static Optional<User> currentUser()
+	public static Optional<Pessoa> currentUser()
 	{
 		return Optional.ofNullable( SecurityContextHolder.getContext().getAuthentication() )
-				.map( auth -> (User) auth.getPrincipal() );
+				.map( auth -> (Pessoa) auth.getPrincipal() );
 	}
 }

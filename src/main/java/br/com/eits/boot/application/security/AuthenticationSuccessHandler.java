@@ -2,7 +2,6 @@ package br.com.eits.boot.application.security;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.util.Calendar;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -11,12 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.eits.boot.domain.entity.account.User;
-import br.com.eits.boot.domain.repository.account.IUserRepository;
-import org.springframework.stereotype.Component;
+import br.com.eits.boot.domain.entity.account.Pessoa;
+import br.com.eits.boot.domain.repository.account.IPessoaRepository;
 
 /**
  * @author rodrigo@eits.com.br
@@ -36,14 +35,14 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
 	/**
 	 *
 	 */
-	private final IUserRepository userRepository;
+	private final IPessoaRepository pessoaRepository;
 
 	private final ObjectMapper objectMapper;
 
 	@Autowired
-	public AuthenticationSuccessHandler( IUserRepository userRepository, ObjectMapper objectMapper )
+	public AuthenticationSuccessHandler( IPessoaRepository pessoaRepository, ObjectMapper objectMapper )
 	{
-		this.userRepository = userRepository;
+		this.pessoaRepository = pessoaRepository;
 		this.objectMapper = objectMapper;
 	}
 
@@ -59,9 +58,9 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
 	{
 		try
 		{
-			final User user = RequestContext.currentUser().map( User::getId ).flatMap( this.userRepository::findById ).get();
+			final Pessoa user = RequestContext.currentUser().map( Pessoa::getId ).flatMap( this.pessoaRepository::findById ).get();
 			user.setLastLogin( OffsetDateTime.now() );
-			this.userRepository.save( user );
+			this.pessoaRepository.save( user );
 			this.objectMapper.writeValue( response.getWriter(), user );
 		}
 		catch ( Exception e )

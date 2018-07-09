@@ -3,10 +3,8 @@ package br.com.eits.boot.domain.entity;
 import java.io.Serializable;
 
 import org.hibernate.envers.RevisionType;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 
 import br.com.eits.boot.application.security.RequestContext;
-import br.com.eits.boot.domain.entity.account.User;
 
 /**
  *

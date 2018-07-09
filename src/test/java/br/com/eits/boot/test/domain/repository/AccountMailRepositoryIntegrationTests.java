@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.eits.boot.domain.entity.account.User;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.IAccountMailRepository;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
@@ -39,9 +39,9 @@ public class AccountMailRepositoryIntegrationTests extends AbstractIntegrationTe
 	@Test
 	public void sendNewUserAccountTestMustPass() throws InterruptedException, ExecutionException
 	{
-		final User user = new User();
+		final Pessoa user = new Pessoa();
 		user.setEmail( "eits@mailinator.com" );
-		user.setName( "Suporte da eits" );
+		user.setNome( "Suporte da eits" );
 
 		final Future<Void> emailSent = this.accountMailRepository.sendNewUserAccount( user );
 		

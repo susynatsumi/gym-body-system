@@ -1,7 +1,7 @@
 package br.com.eits.boot.domain.repository;
 import java.util.concurrent.Future;
 
-import br.com.eits.boot.domain.entity.account.User;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 
 /**
  *
@@ -14,15 +14,15 @@ public interface IAccountMailRepository
     /**
      * @param user
      */
-    Future<Void> sendNewUserAccount( User user );
+    Future<Void> sendNewUserAccount( Pessoa user );
 
     /**
      *
      */
-    Future<Void> sendPasswordReset( User user );
+    Future<Void> sendPasswordReset( Pessoa user );
 
     /**
      *
      */
-    Future<Void> sendPasswordResetNotice( User user );
+    Future<Void> sendPasswordResetNotice( Pessoa user );
 }

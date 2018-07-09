@@ -8,8 +8,8 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 
-import br.com.eits.boot.domain.entity.account.User;
-import br.com.eits.boot.domain.entity.account.UserRole;
+import br.com.eits.boot.domain.entity.account.Pessoa;
+import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.service.AccountService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
@@ -37,7 +37,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void insertUserMustFail() 
 	{
-		this.accountService.insertUser( new User() );
+		this.accountService.insertUser( new Pessoa() );
 	}
 	
 	/**
@@ -50,13 +50,13 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertUserMustPass()
 	{
-		User user = new User( null, "Testing user", "test@user.com", true, UserRole.USER, "user" );
+		Pessoa user = new Pessoa( null, "Testing user", "teste.emial@email.com", true, Papel.ALUNO, "user" );
 		user = this.accountService.insertUser( user );
 
 		Assert.assertNotNull( user );
 		Assert.assertNotNull( user.getId() );
 		Assert.assertNotNull( user.getCreated() );
-		Assert.assertFalse( user.getDisabled() );
+		Assert.assertTrue( user.getIsAtivo() );
 		Assert.assertFalse( user.getPassword().equals( "user" ) );
 	}
 	
@@ -69,7 +69,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void findUserByIdMustPass()
 	{
-		final User user = this.accountService.findUserById( 9999L );
+		final Pessoa user = this.accountService.findUserById( 9999L );
 	
 		Assert.assertNotNull( user );
 		Assert.assertNotNull( user.getId() );
@@ -86,7 +86,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void listUsersByFiltersMustReturn2()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( "user", null );
+		final Page<Pessoa> users = this.accountService.listUsersByFilters( "user", null );
 		
 		Assert.assertNotNull( users );
 		Assert.assertEquals( 2, users.getTotalElements() );
@@ -101,7 +101,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void listUsersByFiltersMustReturn3()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( "1000,1001,xó", null );
+		final Page<Pessoa> users = this.accountService.listUsersByFilters( "1000,1001,xó", null );
 		
 		Assert.assertNotNull( users );
 		Assert.assertEquals( 3, users.getTotalElements());
@@ -116,7 +116,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void listUsersByFiltersMustReturn1()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( "xó", null );
+		final Page<Pessoa> users = this.accountService.listUsersByFilters( "xó", null );
 		
 		Assert.assertNotNull( users );
 		Assert.assertEquals( 1, users.getTotalElements());
@@ -131,7 +131,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void listUsersByFiltersMustReturnAll()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( null, null );
+		final Page<Pessoa> users = this.accountService.listUsersByFilters( null, null );
 		
 		Assert.assertNotNull( users );
 		Assert.assertEquals( 4, users.getTotalElements() );

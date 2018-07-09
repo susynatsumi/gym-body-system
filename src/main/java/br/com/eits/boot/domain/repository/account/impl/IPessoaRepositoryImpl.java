@@ -10,12 +10,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.eits.boot.domain.entity.account.User;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 
 /**
  *
  */
-public class IUserRepositoryImpl implements UserDetailsService
+public class IPessoaRepositoryImpl implements UserDetailsService
 {
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
@@ -26,7 +26,7 @@ public class IUserRepositoryImpl implements UserDetailsService
 	private final EntityManager entityManager;
 
 	@Autowired
-	public IUserRepositoryImpl( EntityManager entityManager )
+	public IPessoaRepositoryImpl( EntityManager entityManager )
 	{
 		this.entityManager = entityManager;
 	}
@@ -44,17 +44,17 @@ public class IUserRepositoryImpl implements UserDetailsService
 	{
 		try
 		{
-			final String hql = "FROM User user "
-							+ "WHERE lower(user.email) = lower(:email)";
+			final String hql = "FROM Pessoa pessoa "
+							+ "WHERE lower(pessoa.email) = lower(:email)";
 			
-			final TypedQuery<User> query = this.entityManager.createQuery( hql, User.class );
+			final TypedQuery<Pessoa> query = this.entityManager.createQuery( hql, Pessoa.class );
 			query.setParameter( "email", email);
 			
 			return query.getSingleResult();
 		}
 		catch (NoResultException e)
 		{
-			throw new UsernameNotFoundException("This email '"+email+"' was not found");
+			throw new UsernameNotFoundException("Este email '"+email+"' é inválido");
 		}
 	}
 }

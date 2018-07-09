@@ -2,7 +2,6 @@ package br.com.eits.boot.domain.entity.account;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,21 +10,18 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
@@ -40,7 +36,7 @@ import lombok.EqualsAndHashCode;
 @Table
 @EqualsAndHashCode(callSuper=true)
 @DataTransferObject
-public class User extends AbstractEntity implements Serializable, UserDetails
+public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 {
 	/**
 	 * 
@@ -51,35 +47,49 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	 *				 		     ATTRIBUTES
 	 *-------------------------------------------------------------------*/
 	// Basic
+	
 	/**
-	 * 
+	 * Nome da pessoa
 	 */
 	@NotEmpty
 	@Column(nullable = false, length = 50)
-	private String name;
+	private String nome;
 
 	/**
-	 * 
+	 * email, campo não é login
 	 */
 	@Email
 	@NotNull
 	@Column(nullable = false, length = 144, unique = true)
 	private String email;
+	
+	/**
+	 * login para sistema ou aplicativo, pode ser null quando a pessoa não tiver acesso
+	 */
+	@Column
+	private String login;
+	
+	/**
+	 * senha, poderá ser null da mesma forma que o login 
+	 */
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@NotBlank
+	@Column(length = 100)
+	private String senha;
+
+	/**
+	 * objetivo da pessoa, pode ser um texto longo
+	 */
+	@Column(length = 255)
+	private String objetivo;
 
 	/**
 	 * 
 	 */
 	@NotNull
 	@Column(nullable = false)
-	private Boolean disabled;
+	private Boolean isAtivo;
 
-	/**
-	 * 
-	 */
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@NotBlank
-	@Column(nullable = false, length = 100)
-	private String password;
 
 	/**
 	 * 
@@ -87,7 +97,7 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	@NotNull
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
-	private UserRole role;
+	private Papel papel;
 
 	/**
 	 * 
@@ -103,45 +113,45 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	 *
 	 */
 	private OffsetDateTime passwordResetTokenExpiration;
-
+	
 	/*-------------------------------------------------------------------
-	 * 		 					CONSTRUCTORS
+	 *							CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
-	/**
-	 * 
-	 */
-	public User()
-	{
-	}
 
 	/**
-	 * 
-	 * @param id
+	 * default
 	 */
-	public User( Long id )
-	{
-		super( id );
+	public Pessoa(){
+		
 	}
 	
 	/**
 	 * 
 	 * @param id
-	 * @param name
-	 * @param email
-	 * @param enabled
-	 * @param role
-	 * @param password
 	 */
-	public User( Long id, String name, String email, Boolean disabled, UserRole role, String password )
+	public Pessoa( long id ){
+		this.id = id;
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param nome
+	 * @param email
+	 * @param isAtivo
+	 * @param papel
+	 * @param senha
+	 */
+	public Pessoa( Long id, String nome, String email, Boolean isAtivo, Papel papel, String senha )
 	{
 		super( id );
 		this.email = email;
-		this.name = name;
-		this.disabled = disabled;
-		this.password = password;
-		this.role = role;
+		this.nome = nome;
+		this.isAtivo = isAtivo;
+		this.senha = senha;
+		this.papel = papel;
 	}
-
+	
 	/*-------------------------------------------------------------------
 	 *							BEHAVIORS
 	 *-------------------------------------------------------------------*/
@@ -154,12 +164,12 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	{
 		final Set<GrantedAuthority> authorities = new HashSet<>();
 
-		if ( this.role == null )
+		if ( this.papel == null )
 		{
 			return null;
 		}
 		
-		authorities.addAll( this.role.getAuthorities() );
+		authorities.addAll( this.papel.getAuthorities() );
 
 		return authorities;
 	}
@@ -201,7 +211,7 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	@Transient
 	public boolean isEnabled()
 	{
-		return !this.disabled;
+		return !this.isAtivo;
 	}
 
 	/*
@@ -213,7 +223,7 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	@Transient
 	public String getPassword()
 	{
-		return this.password;
+		return this.senha;
 	}
 
 	/*

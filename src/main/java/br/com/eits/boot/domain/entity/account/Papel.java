@@ -10,18 +10,18 @@ import org.springframework.security.core.GrantedAuthority;
  *
  */
 @DataTransferObject(type = "enum")
-public enum UserRole implements GrantedAuthority
+public enum Papel implements GrantedAuthority
 {
 	/*-------------------------------------------------------------------
 	 *				 		     ENUMS
 	 *-------------------------------------------------------------------*/
 	ADMINISTRATOR, // 0
-	MANAGER, // 1
-	USER; // 2
+	PERSONAL, // 1
+	ALUNO; // 2
 
 	public static final String ADMINISTRATOR_VALUE 	= "ADMINISTRATOR";
-	public static final String MANAGER_VALUE 		= "MANAGER";
-	public static final String USER_VALUE 			= "USER";
+	public static final String PERSONAL_VALUE 		= "PERSONAL";
+	public static final String ALUNO_VALUE 			= "ALUNO";
 	
 	/*
 	 * (non-Javadoc)
@@ -42,12 +42,12 @@ public enum UserRole implements GrantedAuthority
 
 		authorities.add( this );
 
-		if ( this.equals( UserRole.ADMINISTRATOR ) )
+		if ( this.equals( Papel.ADMINISTRATOR ) )
 		{
-			authorities.add( UserRole.MANAGER );
+			authorities.add( Papel.PERSONAL );
 		}
 
-		authorities.add( UserRole.USER );
+		authorities.add( Papel.ALUNO );
 
 		return authorities;
 	}
