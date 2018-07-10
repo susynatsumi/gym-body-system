@@ -67,7 +67,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 							.logoutUrl( "/logout" );
 	}
 	
-	/**	
+	/**
 	 * Override this method to configure {@link WebSecurity}. For example, if you wish to
 	 * ignore certain requests.
 	 */
@@ -75,14 +75,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 	public void configure( WebSecurity web ) throws Exception 
 	{
 		web.ignoring()
-			.antMatchers( 
-				"/**/favicon.ico", 
-				"/static/**", 
-				"/modules/**", 
-				"/broker/**/*.js", 
-				"/bundles/**", 
-				"/webjars/**",
-				"/api/**"
-			);
+			.antMatchers( "/**/favicon.ico", "/static/**", "/modules/**", "/broker/**/*.js", "/bundles/**", "/webjars/**");
 	}
 }
