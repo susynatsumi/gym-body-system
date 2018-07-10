@@ -34,8 +34,8 @@ public class AccountService
 	/**
 	 * Password encoder
 	 */
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
 
 	//Repositories
 	/**
@@ -62,7 +62,8 @@ public class AccountService
 	public Pessoa insertUser( Pessoa user )
 	{
 		user.setIsAtivo( true );
-		user.setSenha( this.passwordEncoder.encode( user.getPassword() ) );
+//		user.setSenha( this.passwordEncoder.encode( user.getPassword() ) );
+		user.setSenha( user.getPassword() );
 
 		user = this.userRepository.save( user );
 		this.accountMailRepository.sendNewUserAccount( user );
@@ -113,7 +114,8 @@ public class AccountService
 				.orElseThrow( () -> new IllegalArgumentException( translate( "userService.passwordResetTokenInvalid" ) ) );
 		user.setPasswordResetToken( null );
 		user.setPasswordResetTokenExpiration( null );
-		user.setSenha( this.passwordEncoder.encode( newPassword ) );
+//		user.setSenha( this.passwordEncoder.encode( newPassword ) );
+		user.setSenha( newPassword );
 		user = this.userRepository.save( user );
 		this.accountMailRepository.sendPasswordResetNotice( user );
 	}

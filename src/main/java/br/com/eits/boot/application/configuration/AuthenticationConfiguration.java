@@ -12,9 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.eits.boot.application.security.AuthenticationFailureHandler;
-import br.com.eits.boot.application.security.AuthenticationSuccessHandler;
-
 /**
  * @author rodrigo
  *
@@ -47,11 +44,11 @@ public class AuthenticationConfiguration extends GlobalAuthenticationConfigurerA
      * 
      * @return
      */
-    @Bean
-    public PasswordEncoder passwordEncoder() 
-    {
-    	return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() 
+//    {
+//    	return new BCryptPasswordEncoder();
+//    }
     
 	/*-------------------------------------------------------------------
 	 * 		 					 OVERRIDES
@@ -66,7 +63,7 @@ public class AuthenticationConfiguration extends GlobalAuthenticationConfigurerA
 	public void init( AuthenticationManagerBuilder builder ) throws Exception
 	{
 		builder
-			.userDetailsService( this.userDetailsService )
-			.passwordEncoder( this.passwordEncoder() );
+			.userDetailsService( this.userDetailsService );
+//			.passwordEncoder( this.passwordEncoder() );
 	}
 }

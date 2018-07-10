@@ -76,10 +76,10 @@ dwr:
 #WEB CONTAINER
 server:
   servlet:
-    context-path:
+    context-path: 
   compression.enabled: true
   session.persistent: true
-
+ 
 
 logging:
   level:
