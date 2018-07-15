@@ -1,7 +1,5 @@
 package br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,7 +21,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @DataTransferObject
-public class ProtocoloGuedes extends ProtocoloAvaliacaoAntropometrica {
+public class ProtocoloGuedes extends AvaliacaoAntropometrica {
 
 	/**
 	 * 
@@ -42,17 +40,17 @@ public class ProtocoloGuedes extends ProtocoloAvaliacaoAntropometrica {
 	 * 
 	 * @param hdc
 	 */
-	public void equacaoHomem(BigDecimal hdc) {
-
-		BigDecimal primeiroValor = new BigDecimal(1.1714);
-		BigDecimal segundoValor = new BigDecimal(0.0671);
+//	public void equacaoHomem(BigDecimal hdc) {
+//
+//		BigDecimal primeiroValor = new BigDecimal(1.1714);
+//		BigDecimal segundoValor = new BigDecimal(0.0671);
 //		primeiroValor.divide(new Double(10), BigDecimal.ROUND_HALF_EVEN);
-	}
-
-	public void equacaoMulher(BigDecimal mdc) {
-
-		BigDecimal primeiroValor = new BigDecimal(1.1665);
-		BigDecimal segundoValor = new BigDecimal(0.0706);
-	}
+//	}
+//
+//	public void equacaoMulher(BigDecimal mdc) {
+//
+//		BigDecimal primeiroValor = new BigDecimal(1.1665);
+//		BigDecimal segundoValor = new BigDecimal(0.0706);
+//	}
 	
 }

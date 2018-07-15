@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @DataTransferObject
 @EqualsAndHashCode(callSuper = true)
-public class ProtocoloPollock extends ProtocoloAvaliacaoAntropometrica {
+public class ProtocoloPollock extends AvaliacaoAntropometrica {
 	
 	/**
 	 * 
