@@ -49,6 +49,8 @@ public class AcademiaService {
 			MessageSourceHolder.translate("exercicio.service.id.null")
 		);
 		
+		academia.setIsAtiva(true);
+		
 		return this.academiaRepository.save(academia);
 	}
 	

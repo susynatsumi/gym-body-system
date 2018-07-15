@@ -1,7 +1,13 @@
 package br.com.eits.boot.domain.entity.academia.exercicio;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -32,7 +38,7 @@ public class Exercicio extends AbstractEntity {
 	
 	// Nome do exercício
 	@NotBlank
-	@Column(nullable = false, length = 60, unique = true )
+	@Column(nullable = false, length = 60)
 	private String nome;
 	
 	// Descricao do exercícios, texto longo
@@ -48,7 +54,23 @@ public class Exercicio extends AbstractEntity {
 	// não deve aparecer pra montagem de treinos
 	@Column(nullable = false)
 	private Boolean isAtivo;
+	
+	@ManyToOne(
+		fetch = FetchType.LAZY,
+		optional = false,
+		targetEntity = Equipamento.class
+	)
+	private Equipamento equipamento;
 
+	@OneToMany(
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY,
+		mappedBy = "exercicio",
+		orphanRemoval = true, 
+		targetEntity = ExercicioGrupoMuscular.class
+	)
+	private List<ExercicioGrupoMuscular> exercicioGrupoMusculares;
+	
 	// ---------------------------------------
 	// ------------ CONSTRUCTORS -------------
 	// ---------------------------------------
@@ -68,22 +90,29 @@ public class Exercicio extends AbstractEntity {
 	public Exercicio( Long id ){
 		super(id);
 	}
-	
+
 	/**
-	 * 
 	 * Constructor usando todos os fields
 	 * 
 	 * @param nome
 	 * @param descricao
 	 * @param linkVideo
 	 * @param isAtivo
+	 * @param equipamento
 	 */
-	public Exercicio(@NotBlank String nome, @NotBlank String descricao, String linkVideo, Boolean isAtivo) {
+	public Exercicio(
+		String nome, 
+		String descricao, 
+		String linkVideo, 
+		Boolean isAtivo,
+		Equipamento equipamento
+	) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
 		this.linkVideo = linkVideo;
 		this.isAtivo = isAtivo;
+		this.equipamento = equipamento;
 	}
 	
 	
