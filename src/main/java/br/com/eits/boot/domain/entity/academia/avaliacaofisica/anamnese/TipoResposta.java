@@ -9,7 +9,6 @@ public enum TipoResposta {
 	 *				   ENUM TIPO RESPOSTA PARA ANAMNESE
 	 *-------------------------------------------------------------------*/
 
-	DIAGNOSTICO,
-	HISTORICO_MEDICO,
-	QUEIXA;
+	MULTIPLA_ESCOLHA,
+	TEXTO;
 }
