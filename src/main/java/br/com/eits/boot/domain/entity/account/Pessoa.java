@@ -211,7 +211,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	@Transient
 	public boolean isEnabled()
 	{
-		return !this.isAtivo;
+		return this.isAtivo;
 	}
 
 	/*

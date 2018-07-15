@@ -61,6 +61,9 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
 			final Pessoa user = RequestContext.currentUser().map( Pessoa::getId ).flatMap( this.pessoaRepository::findById ).get();
 			user.setLastLogin( OffsetDateTime.now() );
 			this.pessoaRepository.save( user );
+			
+			response.addHeader("Content-Type", "application/json;charset=UTF-8");
+			
 			this.objectMapper.writeValue( response.getWriter(), user );
 		}
 		catch ( Exception e )

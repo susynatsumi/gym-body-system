@@ -23,8 +23,8 @@
             <label for="email" class="mdl-textfield__label">Email</label>
         </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label login" style="width: 100%">
-            <input id="password" type="password" name="password" class="mdl-textfield__input">
-            <label for="password" class="mdl-textfield__label">Senha</label>
+            <input id="senha" type="password" name="senha" class="mdl-textfield__input">
+            <label for="senha" class="mdl-textfield__label">Senha</label>
         </div>
         <button id="submit" type="submit" style="margin-top: 13px;"
                 class="mdl-button mdl-button--raised mdl-button--primary">Acessar
@@ -40,7 +40,7 @@
             url: '/authenticate',
             data: {
                 email: $('#email').val(),
-                password: $('#password').val()
+                senha: $('#senha').val()
             },
             success: function () {
                 window.location.replace("/");

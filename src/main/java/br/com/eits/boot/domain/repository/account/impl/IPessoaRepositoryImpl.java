@@ -42,6 +42,7 @@ public class IPessoaRepositoryImpl implements UserDetailsService
 	@Transactional
 	public UserDetails loadUserByUsername( String email ) throws UsernameNotFoundException
 	{
+		System.out.println("email: "+email);
 		try
 		{
 			final String hql = "FROM Pessoa pessoa "
