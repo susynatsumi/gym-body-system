@@ -70,6 +70,7 @@ public class AccountService
 		return user;
 	}
 
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
 	public Pessoa updatePessoa(Pessoa pessoa){
 		
 		Assert.notNull(pessoa, "pessoa.service.pessoa.null");
@@ -77,6 +78,7 @@ public class AccountService
 		
 		return this.pessoaRepository.save(pessoa);
 	}
+	
 	
 	public void alterarSenha(Long idPessoa, String novaSenha) {
 		
@@ -105,6 +107,7 @@ public class AccountService
 	 * @param pageRequest
 	 * @return
 	 */
+	@Transactional( readOnly = true )
 	public Page<Pessoa> listByFilters(
 		String filtro,
 		Boolean isAtivo,
