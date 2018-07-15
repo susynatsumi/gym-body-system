@@ -1,0 +1,86 @@
+
+<div>
+  <form  class="example-form" [formGroup]="formGroup" (submit)="salvar($event)">
+    <mat-form-field class="example-full-width">
+        <input 
+            matInput 
+            placeholder="Nome" 
+            formControlName="nome"
+            name="nome" 
+            [(ngModel)]="pessoa.nome"  />
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-select 
+            placeholder="Gênero" 
+            formControlName="genero"
+            name="genero" 
+            [(ngModel)]="pessoa.genero">
+            <mat-option *ngFor="let gen of generos" [value]="gen">{{gen}}</mat-option>
+            <!-- <mat-option  [value]="gen">{{gen}}</mat-option> -->
+            <!-- <mat-option  [value]="gen">Feminino</mat-option> -->
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input 
+        matInput 
+        [matDatepicker]="picker" 
+        placeholder="Data Nascimento:"  
+        formControlName="dataNascimento"
+        name="dataNascimento" 
+        [(ngModel)]="pessoa.dataNascimento"
+        disabled>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker disabled="false"></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <input 
+            matInput 
+            placeholder="Login:"
+            formControlName="login"
+            name="login" 
+            [(ngModel)]="pessoa.login"/>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <input 
+            matInput 
+            placeholder="Senha:"
+            formControlName="senha"
+            name="senha" 
+            type="password"
+            [(ngModel)]="pessoa.senha"/>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <input 
+            matInput 
+            placeholder="Email:"
+            formControlName="email"
+            name="email" 
+            [(ngModel)]="pessoa.email"/>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <textarea 
+            rows="4"
+            matInput 
+            placeholder="Objetivo"
+            formControlName="objetivo"
+            name="objetivo" 
+            [(ngModel)]="pessoa.objetivo"></textarea>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-select 
+            placeholder="Papel"
+            formControlName="papel"
+            name="papel" 
+            [(ngModel)]="pessoa.papel">
+                <mat-option *ngFor="let papel of papeis" [value]="papel">{{papel}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-button *ngIf="parametroId == null" type="submit" color="primary" [disabled]="formGroup.invalid" >
+        Salvar
+    </button>
+    <button mat-button *ngIf="parametroId != null" type="submit" color="primary" [disabled]="formGroup.invalid" >
+        Atualizar
+    </button>
+    <a mat-button [routerLink]="['/pessoas']" color="warn">Voltar</a>
+  </form>
+</div>

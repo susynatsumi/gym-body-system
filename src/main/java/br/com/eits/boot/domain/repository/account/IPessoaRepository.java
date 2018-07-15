@@ -31,11 +31,30 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 	 *
 	 */
 	@Query("FROM Pessoa pessoa " +
-			"WHERE filter(:filter, pessoa.id, pessoa.nome, pessoa.email) = TRUE ")
-	Page<Pessoa> listByFilters( @Param("filter") String filter, Pageable pageable );
+			"WHERE "
+			+ "	filter(:filter, pessoa.id, pessoa.nome, pessoa.email) = TRUE ")
+	Page<Pessoa> listByFilters( 
+			@Param("filter") String filter, Pageable pageable );
+	
+	/**
+	 *
+	 */
+	@Query("FROM Pessoa pessoa " +
+			"WHERE "+ 
+			"	filter(:filter, pessoa.id, pessoa.nome, pessoa.email) = TRUE "+ 
+			"	AND ( "+ 
+			"			:isAtivo IS NULL "+ 
+			"			OR pessoa.isAtivo = :isAtivo "+ 
+			"	) "
+	)
+	Page<Pessoa> listPessoaByFilters( 
+		@Param("filter") String filter,
+		@Param("isAtivo") Boolean isAtivo, 
+		Pageable pageable 
+	);
 	
 	@Query("FROM Pessoa pessoa WHERE pessoa.login IS NOT NULL AND lower(pessoa.login) = lower(:login)")
 	Optional<Pessoa> findByLogin( @Param("login") String login );
-	
+
 	
 }

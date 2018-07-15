@@ -6,12 +6,12 @@
   "apps": [
     {
       "root": "src",
-      "deployUrl": "modules/app/",
       "outDir": "../resources/META-INF/resources/modules/app",
       "assets": [
         "assets",
         "favicon.ico"
       ],
+      "deployUrl": "modules/app/",
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -20,7 +20,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -55,7 +55,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "class": {
       "spec": false
     },
