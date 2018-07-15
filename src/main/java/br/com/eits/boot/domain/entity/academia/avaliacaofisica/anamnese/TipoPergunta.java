@@ -8,7 +8,8 @@ public enum TipoPergunta {
 	/*-------------------------------------------------------------------
 	 *				   ENUM TIPO PERGUNTA PARA ANAMNESE
 	 *-------------------------------------------------------------------*/
-
-	MULTIPLA_ESCOLHA,
-	TEXTO;
+	
+	DIAGNOSTICO,
+	HISTORICO_MEDICO,
+	QUEIXA;
 }

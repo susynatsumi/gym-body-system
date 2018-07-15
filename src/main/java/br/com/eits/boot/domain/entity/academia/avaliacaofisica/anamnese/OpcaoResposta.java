@@ -2,6 +2,8 @@ package br.com.eits.boot.domain.entity.academia.avaliacaofisica.anamnese;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -28,4 +30,11 @@ public class OpcaoResposta extends AbstractEntity {
 	@NotNull
 	@Column(nullable = false)
 	private String texto;
+	
+	@ManyToOne(
+			fetch = FetchType.LAZY,
+			targetEntity = Pergunta.class,
+			optional = false  //não pode ser nula
+	)
+	private Pergunta pergunta;	
 }
