@@ -5,6 +5,11 @@ import org.directwebremoting.annotations.DataTransferObject;
 @DataTransferObject(type = "enum")
 public enum Genero {
 
-	MASCULINO,
-	FEMININO
+	// --------------------------------------------------------------------------
+	// -------- GENERO PARA PESSOAS E AVALAÇÃO FISICA ---------------------------
+	// --------------------------------------------------------------------------
+	
+	MASCULINO,//0
+	FEMININO;//1
+	
 }

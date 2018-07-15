@@ -14,7 +14,7 @@ INSERT INTO pessoa(
             id, created, updated, email, is_ativo, last_login, login, nome, 
             objetivo, papel, password_reset_token, password_reset_token_expiration, 
             senha, data_nascimento, genero)
-    VALUES (9999, NOW() , null, 'admin@email.com', true, null, 'admin', 'Administrador', 
+    VALUES (1011, NOW() , null, 'admin@email.com', true, null, 'admin', 'Administrador', 
             null, 0, null , null, 
            'testestes', NOW(), 0
     );
@@ -23,7 +23,7 @@ INSERT INTO pessoa(
             id, created, updated, email, is_ativo, last_login, login, nome, 
             objetivo, papel, password_reset_token, password_reset_token_expiration, 
             senha, data_nascimento, genero)
-    VALUES (1000, NOW() , null, 'user001@testing.com', true, null, 'User 001', 'Administrador', 
+    VALUES (1012, NOW() , null, 'user001@testing.com', true, null, 'User 001', 'Administrador', 
             null, 0, null , null, 
            'd1bd2f08fead38a982aed9d4ca060152400b1b8f', NOW(), 0
     );
@@ -32,7 +32,7 @@ INSERT INTO pessoa(
             id, created, updated, email, is_ativo, last_login, login, nome, 
             objetivo, papel, password_reset_token, password_reset_token_expiration, 
             senha, data_nascimento, genero)
-    VALUES (1001, NOW() , null, 'user002@testing.com', true, null, 'User 002', 'User 002', 
+    VALUES (1013, NOW() , null, 'user002@testing.com', true, null, 'User 002', 'User 002', 
             null, 0, null , null, 
            'd1bd2f08fead38a982aed9d4ca060152400b1b8f', NOW(), 0
     );
@@ -41,7 +41,7 @@ INSERT INTO pessoa(
             id, created, updated, email, is_ativo, last_login, login, nome, 
             objetivo, papel, password_reset_token, password_reset_token_expiration, 
             senha, data_nascimento, genero)
-    VALUES (1002, NOW() , null, 'xova@testing.com', true, null, 'Xóva :x', 'Xóva :x', 
+    VALUES (1014, NOW() , null, 'xova@testing.com', true, null, 'Xóva :x', 'Xóva :x', 
             null, 0, null , null, 
            'd1bd2f08fead38a982aed9d4ca060152400b1b8f', NOW(), 0
     );

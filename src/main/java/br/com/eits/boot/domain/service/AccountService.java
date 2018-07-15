@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import br.com.eits.boot.application.configuration.settings.AppSettings;
 import br.com.eits.boot.domain.entity.account.Papel;
@@ -42,7 +43,7 @@ public class AccountService
 	 *
 	 */
 	@Autowired
-	private IPessoaRepository userRepository;
+	private IPessoaRepository pessoaRepository;
 
 	@Autowired
 	private IAccountMailRepository accountMailRepository;
@@ -59,27 +60,60 @@ public class AccountService
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
-	public Pessoa insertUser( Pessoa user )
+	public Pessoa insertPessoa( Pessoa user)
 	{
 		user.setIsAtivo( true );
 		user.setSenha( this.passwordEncoder.encode( user.getPassword() ) );
 
-		user = this.userRepository.save( user );
+		user = this.pessoaRepository.save( user );
 		this.accountMailRepository.sendNewUserAccount( user );
 		return user;
 	}
 
+	public Pessoa updatePessoa(Pessoa pessoa){
+		
+		Assert.notNull(pessoa, "pessoa.service.pessoa.null");
+		Assert.notNull(pessoa.getId(), "pessoa.service.pessoa.id.null");
+		
+		return this.pessoaRepository.save(pessoa);
+	}
+	
+	public void alterarSenha(Long idPessoa, String novaSenha) {
+		
+		Pessoa pessoa = this.findPessoaById(idPessoa);
+		pessoa.setSenha( this.passwordEncoder.encode( novaSenha ) );
+		
+		this.pessoaRepository.save(pessoa);
+		
+	}
+	
 	/**
 	 * @param id
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public Pessoa findUserById( long id )
+	public Pessoa findPessoaById( long id )
 	{
-		return this.userRepository.findById( id )
+		return this.pessoaRepository.findById( id )
 				.orElseThrow( () -> new IllegalArgumentException( translate( "repository.notFoundById", id ) ) );
 	}
 
+	/**
+	 * 
+	 * @param filtro
+	 * @param isAtivo
+	 * @param pageRequest
+	 * @return
+	 */
+	public Page<Pessoa> listByFilters(
+		String filtro,
+		Boolean isAtivo,
+		PageRequest pageRequest 
+	){
+
+		return this.pessoaRepository.listPessoaByFilters(filtro, isAtivo, pageRequest);
+	}
+	
 	/**
 	 * @param pageable
 	 * @param filter
@@ -88,7 +122,7 @@ public class AccountService
 	@Transactional(readOnly = true)
 	public Page<Pessoa> listUsersByFilters( String filter, PageRequest pageable )
 	{
-		return this.userRepository.listByFilters( filter, pageable );
+		return this.pessoaRepository.listByFilters( filter, pageable );
 	}
 
 	/**
@@ -96,11 +130,11 @@ public class AccountService
 	 */
 	public void sendPasswordResetToken( String email )
 	{
-		Pessoa user = this.userRepository.findByEmail( email )
+		Pessoa user = this.pessoaRepository.findByEmail( email )
 				.orElseThrow( () -> new IllegalArgumentException( translate( "userService.userNotFoundByEmail", email ) ) );
 		user.setPasswordResetToken( UUID.randomUUID().toString() );
 		user.setPasswordResetTokenExpiration( OffsetDateTime.now().plusHours( appSettings.getPasswordTokenExpirationHours() ) );
-		user = this.userRepository.save( user );
+		user = this.pessoaRepository.save( user );
 		this.accountMailRepository.sendPasswordReset( user );
 	}
 
@@ -109,12 +143,12 @@ public class AccountService
 	 */
 	public void setUserPasswordByToken( String token, String newPassword )
 	{
-		Pessoa user = this.userRepository.findByPasswordResetTokenAndPasswordResetTokenExpirationAfter( token, OffsetDateTime.now() )
+		Pessoa user = this.pessoaRepository.findByPasswordResetTokenAndPasswordResetTokenExpirationAfter( token, OffsetDateTime.now() )
 				.orElseThrow( () -> new IllegalArgumentException( translate( "userService.passwordResetTokenInvalid" ) ) );
 		user.setPasswordResetToken( null );
 		user.setPasswordResetTokenExpiration( null );
 		user.setSenha( this.passwordEncoder.encode( newPassword ) );
-		user = this.userRepository.save( user );
+		user = this.pessoaRepository.save( user );
 		this.accountMailRepository.sendPasswordResetNotice( user );
 	}
 }
