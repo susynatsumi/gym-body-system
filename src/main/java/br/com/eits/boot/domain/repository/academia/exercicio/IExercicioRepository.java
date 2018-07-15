@@ -12,7 +12,7 @@ public interface IExercicioRepository extends JpaRepository<Exercicio, Long>{
 
 	@Query(
 		" FROM "
-		+ "	Exercicio exercico "
+		+ "	Exercicio exercicio "
 		+ "WHERE "
 		+ "	filter( :filtros, exercicio.id, exercicio.nome ) = TRUE "
 		+ "	AND ( "
