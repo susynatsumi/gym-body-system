@@ -2,14 +2,18 @@ package br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.AvaliacaoAntropometrica;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -68,6 +72,14 @@ public class DobrasCutaneas extends AbstractEntity {
 	@NotNull
 	@Column(nullable = false)
 	private BigDecimal panturrilhaMedial; //o avaliado deve estar sentado, com a articulação do joelho em flexão de 90 graus, o tornozelo em posição anatômica e o pé sem apoio. A dobra é pinçada no ponto de maior perímetro da perna, com o polegar da mão esquerda apoiado na borda medial da tíbia.
+	
+	@ManyToOne(
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY,
+		optional = false,
+		targetEntity = AvaliacaoAntropometrica.class
+	)
+	private AvaliacaoAntropometrica avaliacaoAntropometrica;
 	
 	/*-------------------------------------------------------------------
 	 *				    	TODO DOBRAS CÁLCULOS

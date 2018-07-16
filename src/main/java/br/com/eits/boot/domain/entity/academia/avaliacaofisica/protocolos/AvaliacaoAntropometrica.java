@@ -1,5 +1,7 @@
 package br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,21 +45,21 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 	*/
 	
 	@OneToMany(
-			fetch = FetchType.LAZY,
-			targetEntity = PredicaoGorduraSiri.class,
-			mappedBy = "avaliacaoAntropometrica",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
+		fetch = FetchType.LAZY,
+		targetEntity = PredicaoGorduraSiri.class,
+		mappedBy = "avaliacaoAntropometrica",
+		cascade = CascadeType.ALL,
+		orphanRemoval = true
 	)
-	private PredicaoGorduraSiri predicaoGorduraSiri; //densidade corporal
+	private List<PredicaoGorduraSiri> predicaoGorduraSiri; //densidade corporal
 	
 	@OneToMany(
-			fetch = FetchType.LAZY,
-			targetEntity = DobrasCutaneas.class,
-			mappedBy = "avaliacaoAntrometrica",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
+		fetch = FetchType.LAZY,
+		targetEntity = DobrasCutaneas.class,
+		mappedBy = "avaliacaoAntropometrica",
+		cascade = CascadeType.ALL,
+		orphanRemoval = true
 	)
-	private DobrasCutaneas dobrasCutaneas; //dobras cutaneas
+	private List<DobrasCutaneas> dobrasCutaneas; //dobras cutaneas
 
 }

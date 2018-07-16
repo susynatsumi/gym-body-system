@@ -48,6 +48,6 @@ public class Anamnese extends AbstractEntity {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 	)
-	private List<Pergunta> pergunta;
+	private List<Pergunta> perguntas;
 	
 }

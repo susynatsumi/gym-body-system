@@ -1,11 +1,14 @@
 package br.com.eits.boot.domain.entity.academia.avaliacaofisica.anamnese;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -53,7 +56,7 @@ public class Pergunta extends AbstractEntity {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 	)
-	private OpcaoResposta opcaoResposta;
+	private List<OpcaoResposta> opcoesResposta;
 
 	@NotNull
 	@Column(nullable = false)
@@ -64,4 +67,12 @@ public class Pergunta extends AbstractEntity {
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
 	private TipoResposta tipoResposta;
+	
+	@ManyToOne(
+		optional = true, 
+		fetch = FetchType.LAZY,
+		cascade = CascadeType.ALL,
+		targetEntity = Anamnese.class
+	)
+	private Anamnese anamnese;
 }
