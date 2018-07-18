@@ -9,10 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
@@ -37,12 +37,12 @@ public class Exercicio extends AbstractEntity {
 	// ---------------------------------
 	
 	// Nome do exercício
-	@NotBlank
+	@NotEmpty
 	@Column(nullable = false, length = 60)
 	private String nome;
 	
 	// Descricao do exercícios, texto longo
-	@NotBlank 
+	@NotEmpty 
 	@Column(nullable = false , length = 255)
 	private String descricao;
 	
@@ -58,7 +58,8 @@ public class Exercicio extends AbstractEntity {
 	@ManyToOne(
 		fetch = FetchType.LAZY,
 		optional = false,
-		targetEntity = Equipamento.class
+		targetEntity = Equipamento.class,
+		cascade = CascadeType.REFRESH
 	)
 	private Equipamento equipamento;
 

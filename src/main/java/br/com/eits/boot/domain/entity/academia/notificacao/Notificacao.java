@@ -1,9 +1,13 @@
 package br.com.eits.boot.domain.entity.academia.notificacao;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -11,6 +15,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
+import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,6 +51,15 @@ public class Notificacao extends AbstractEntityAcademia {
 	)
 	private TreinoData treinoData;
 	
+	
+	@OneToMany( 
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY,
+		mappedBy = "notificacao",
+		orphanRemoval = true,
+		targetEntity = PessoaNotificacao.class
+	)
+	private List<PessoaNotificacao> pessoasNotificacoes;
 	// ----------------------------------
 	// ------ CONSTRUTORES --------------
 	// ----------------------------------
@@ -77,12 +91,15 @@ public class Notificacao extends AbstractEntityAcademia {
 	public Notificacao(
 		String titulo, 
 		String texto, 
-		TreinoData treinoData
+		TreinoData treinoData,
+		Academia academia,
+		List<PessoaNotificacao> pessoasNotificacoes
 	) {
-		super();
+		super(academia);
 		this.titulo = titulo;
 		this.texto = texto;
 		this.treinoData = treinoData;
+		this.pessoasNotificacoes = pessoasNotificacoes;
 	}
 	
 	

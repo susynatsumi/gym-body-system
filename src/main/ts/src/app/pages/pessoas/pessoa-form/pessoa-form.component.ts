@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Pessoa, GeneroValues, PapelValues } from '../../../../generated/entities';
-import { PessoaService } from '../../../../generated/services';
 import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
+import { AccountService } from '../../../../generated/services';
 
 @Component({
   selector: 'pessoa-form',
@@ -19,7 +19,7 @@ export class PessoaFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private pessoaService: PessoaService,
+    private pessoaService: AccountService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -32,7 +32,7 @@ export class PessoaFormComponent implements OnInit {
     this.pessoa = {};
 
     if(this.parametroId != null){
-      this.pessoaService.findById(this.parametroId).subscribe(
+      this.pessoaService.findPessoaById(this.parametroId).subscribe(
         (pessoa: Pessoa) => this.pessoa = pessoa
       );
     }
@@ -61,13 +61,13 @@ export class PessoaFormComponent implements OnInit {
 
     if(this.parametroId == null){
 
-      this.pessoaService.salvar(this.pessoa).subscribe((pessoa: Pessoa) => {
+      this.pessoaService.insertPessoa(this.pessoa).subscribe((pessoa: Pessoa) => {
         console.log('Pessoa '+this.pessoa.nome+' Salva com id '+this.pessoa.id);
       });
 
     } else {
 
-      this.pessoaService.update(this.pessoa).subscribe(
+      this.pessoaService.updatePessoa(this.pessoa).subscribe(
         (pessoa: Pessoa) => {
           console.log('Pessoa '+this.pessoa.nome+ ' atualizada com sucesso '+this.pessoa.id);
         }

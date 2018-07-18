@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '../../../../node_modules/@angular/material';
 import { Pessoa, Page } from '../../../generated/entities';
 import { Router } from '../../../../node_modules/@angular/router';
-import { PessoaService } from '../../../generated/services';
+import { AccountService } from '../../../generated/services';
 
 // const pessoas: Pessoa[] = [
 //   {nome: 'Teste', email: 'teste@email', isAtivo: true, id: 1},
@@ -24,7 +24,7 @@ export class PessoasComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private pessoaService: PessoaService
+    private pessoaService: AccountService
   ){
   }
 

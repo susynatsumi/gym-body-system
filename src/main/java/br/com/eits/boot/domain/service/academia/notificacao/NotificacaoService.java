@@ -32,6 +32,7 @@ public class NotificacaoService {
 	 * @return
 	 */
 	public Notificacao insertNotificacao( Notificacao notificacao ){
+		
 		Assert.notNull(
 			notificacao,
 			MessageSourceHolder.translate("exercicio.service.null")
@@ -41,6 +42,37 @@ public class NotificacaoService {
 			notificacao.getId(),
 			MessageSourceHolder.translate("exercicio.service.id.null")
 		);
+		
+		Assert.notEmpty(
+			notificacao.getPessoasNotificacoes(),
+			MessageSourceHolder.translate("service.notificacao.pessoas.empty")
+		);
+		
+		// se existe um remetente 
+		Assert.isTrue(
+			notificacao.getPessoasNotificacoes()
+				.stream()
+				.filter( notificacaoPessoa -> 
+					notificacaoPessoa.getIsDestinatario() == false
+				).findFirst().isPresent(),
+				MessageSourceHolder.translate("service.notificacao.pessoas.empty.send")
+		);
+		
+		// se existe um destinatario 
+		Assert.isTrue(
+				notificacao.getPessoasNotificacoes()
+				.stream()
+				.filter( notificacaoPessoa -> 
+				notificacaoPessoa.getIsDestinatario() == true
+						).findFirst().isPresent(),
+				MessageSourceHolder.translate("service.notificacao.pessoas.empty")
+				);
+		
+		notificacao.getPessoasNotificacoes()
+			.forEach(notificacaoPessoa ->{
+				notificacaoPessoa.setNotificacao(notificacao);
+			});
+		
 		
 		return this.notificacaoRepository.save(notificacao);
 	}

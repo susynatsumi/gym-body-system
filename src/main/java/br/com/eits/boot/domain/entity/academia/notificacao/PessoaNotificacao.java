@@ -1,10 +1,12 @@
 package br.com.eits.boot.domain.entity.academia.notificacao;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -15,7 +17,11 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Table
+@Table(uniqueConstraints = {
+	@UniqueConstraint(columnNames =  {
+		"pessoa_id", "notificacao_id"
+	})
+})
 @Entity
 @Audited
 @Data
@@ -28,6 +34,10 @@ public class PessoaNotificacao extends AbstractEntity {
 	 */
 	private static final long serialVersionUID = -4652998065722919520L;
 
+	// para saber se é pessoa que criou a mensagem ou se é o destinatario
+	@Column( nullable = false )
+	private Boolean isDestinatario;
+	
 	// Pessoa da notificação
 	@NotNull
 	@ManyToOne( 
@@ -76,11 +86,13 @@ public class PessoaNotificacao extends AbstractEntity {
 	 */
 	public PessoaNotificacao( 
 		Pessoa pessoa, 
-		Notificacao notificacao
+		Notificacao notificacao, 
+		Boolean isDestinatario
 	) {
 		super();
 		this.pessoa = pessoa;
 		this.notificacao = notificacao;
+		this.isDestinatario = isDestinatario;
 	}
 	
 }
