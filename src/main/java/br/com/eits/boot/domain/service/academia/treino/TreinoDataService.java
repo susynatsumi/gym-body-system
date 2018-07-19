@@ -1,5 +1,10 @@
 package br.com.eits.boot.domain.service.academia.treino;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -7,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import br.com.eits.boot.domain.entity.academia.treino.DiaSemana;
+import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoDataRepository;
@@ -48,6 +55,10 @@ public class TreinoDataService {
 			treinoData.getId(),
 			MessageSourceHolder.translate("exercicio.service.id.null")
 		);
+		
+		treinoData.setHoraInicio(null);
+		treinoData.setHoraTermino(null);
+		treinoData.setCompleto(false);
 		
 		return this.treinoDataRepository.save(treinoData);
 	}
@@ -95,6 +106,56 @@ public class TreinoDataService {
 						)
 					)
 				);
+		
+	}
+
+	/**
+	 * Gera as datas de treino de acordo com os dias da semana selecionados para o treino 
+	 * e o intervalo de datas
+	 * @param treino
+	 * @return
+	 */
+	public List<TreinoData> criaDatasTreino(Treino treino) {
+			
+		LocalDate dataAtual = treino.getDataInicio();
+		final List<DiaSemana> diasSemana = treino.getDiasSemanaSelecionados();
+		
+		List<TreinoData> datasDoTreino = new ArrayList<TreinoData>();
+		
+		do {
+			final LocalDate data = dataAtual;
+			final Optional<DiaSemana> diaSemanaAtual = diasSemana.stream()
+				.filter(diaSemana -> 
+					diaSemana.getDayOfWeek().equals(String.valueOf(data.getDayOfWeek()))
+				)
+				.findFirst();
+			
+			if(diaSemanaAtual.isPresent()){
+				datasDoTreino.add(
+					new TreinoData(
+						dataAtual, // data treino
+						null,// hora inicio
+						null,// hora termino
+						false, // se está completo
+						treino, // treino
+						diaSemanaAtual.get(), // dia da semana 
+						treino.getAcademia() // academia
+					)
+				);
+			}
+//			System.out.println(dataAtual);
+//			System.out.println(dataAtual.getDayOfWeek());
+//			System.out.println(datasDoTreino.size());
+			dataAtual = dataAtual.plusDays(1);
+			
+		} while( !dataAtual.isAfter(treino.getDataFim()) );
+		
+		Assert.notEmpty(
+			datasDoTreino,
+			MessageSourceHolder.translate("service.treino.insert.dias.semana.empty")
+		);
+		
+		return datasDoTreino;
 		
 	}
 	

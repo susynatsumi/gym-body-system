@@ -18,6 +18,7 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
 import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
+import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -80,6 +81,11 @@ public class TreinoExercicio extends AbstractEntityAcademia {
 	)
 	private Treino treino;
 	
+	@Enumerated(EnumType.ORDINAL)
+	@NotNull
+	@Column(nullable = false )
+	private TipoTreinoExercicio tipoTreinoExercicio;
+	
 	// exercicio do treino
 	@NotNull
 	@ManyToOne(
@@ -114,7 +120,6 @@ public class TreinoExercicio extends AbstractEntityAcademia {
 	 * 
 	 * Construtor com todos os fields
 	 * 
-	 * @param dataInativacao
 	 * @param carga
 	 * @param repeticoes
 	 * @param tempoMin
@@ -124,24 +129,24 @@ public class TreinoExercicio extends AbstractEntityAcademia {
 	 * @param exercicio
 	 */
 	public TreinoExercicio(
-		LocalDateTime dataInativacao,
 		Integer carga, 
 		Integer repeticoes,
 		Integer tempoMin, 
 		String observacoes, 
-		Boolean isAtivo, 
 		Treino treino,
-		Exercicio exercicio
+		Exercicio exercicio,
+		TipoTreinoExercicio tipoTreinoExercicio,
+		Academia academia
 	) {
-		super();
-		this.dataInativacao = dataInativacao;
+		super(academia);
 		this.carga = carga;
 		this.repeticoes = repeticoes;
 		this.tempoMin = tempoMin;
 		this.observacoes = observacoes;
-		this.isAtivo = isAtivo;
+		this.isAtivo = true;
 		this.treino = treino;
 		this.exercicio = exercicio;
+		this.tipoTreinoExercicio = tipoTreinoExercicio;
 	}
 	
 }

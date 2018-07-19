@@ -6,6 +6,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 @MappedSuperclass
 public abstract class AbstractEntityAcademia extends AbstractEntity {
@@ -20,6 +22,8 @@ public abstract class AbstractEntityAcademia extends AbstractEntity {
 	// ----------------------------- 
 	
 	// Academia vinculada a entidade
+	@Getter
+	@Setter
 	@ManyToOne(
 		fetch = FetchType.LAZY,
 		cascade = CascadeType.REFRESH,

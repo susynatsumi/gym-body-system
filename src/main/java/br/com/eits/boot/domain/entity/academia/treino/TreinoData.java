@@ -17,15 +17,16 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
 import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
+import br.com.eits.boot.domain.entity.academia.Academia;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Table
 @Entity
 @Audited
-@Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
+@Data
 public class TreinoData extends AbstractEntityAcademia {
 	
 	/**
@@ -41,22 +42,20 @@ public class TreinoData extends AbstractEntityAcademia {
 	// data para realização de um treino
 	@NotNull
 	@Column( nullable = false )
-	public LocalDate data;
+	private LocalDate data;
 	
 	// hora de inicio da realizacao do treino
-	@NotNull
-	@Column( nullable = false )
-	public LocalTime horaInicio;
+	@Column( nullable = true )
+	private LocalTime horaInicio;
 	
 	// hora de termino da realização do treino
-	@NotNull
-	@Column( nullable = false)
-	public LocalTime horaTermino;
+	@Column( nullable = true)
+	private LocalTime horaTermino;
 	
 	// indica se o treino foi completo ou não
 	@NotNull
 	@Column( nullable = false )
-	public Boolean completo;
+	private Boolean completo;
 	
 	// referencia do treino
 	@NotNull
@@ -108,9 +107,10 @@ public class TreinoData extends AbstractEntityAcademia {
 		LocalTime horaTermino,
 		Boolean completo, 
 		Treino treino, 
-		DiaSemana diaSemana
+		DiaSemana diaSemana,
+		Academia academia
 	) {
-		super();
+		super(academia);
 		this.data = data;
 		this.horaInicio = horaInicio;
 		this.horaTermino = horaTermino;

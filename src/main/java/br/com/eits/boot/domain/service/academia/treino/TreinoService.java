@@ -24,6 +24,9 @@ public class TreinoService {
 	@Autowired
 	private ITreinoRepository treinoRepository;
 	
+	@Autowired
+	private TreinoDataService treinoDataService;
+	
 	// ------------------------------------
 	// -------------- MÉTODOS -------------
 	// ------------------------------------
@@ -49,8 +52,42 @@ public class TreinoService {
 			MessageSourceHolder.translate("exercicio.service.id.null")
 		);
 		
+		Assert.notEmpty(
+			treino.getTreinoExercicios(),
+			MessageSourceHolder.translate("service.treino.insert.exercicios.empty")
+		);
+		
+		Assert.notEmpty(
+			treino.getDiasSemanaSelecionados(),
+			MessageSourceHolder.translate("service.treino.insert.dias.semana.empty")
+		);
+		
+		Assert.notNull(
+			treino.getDataInicio(),
+			MessageSourceHolder.translate("service.treino.insert.data.inicio.null")
+		);
+		
+		Assert.notNull(
+			treino.getDataFim(),
+			MessageSourceHolder.translate("service.treino.insert.data.fim.null")
+		);
+		
+		Assert.isTrue(
+			treino.getDataInicio().isBefore(treino.getDataFim()), 
+			MessageSourceHolder.translate("service.treino.insert.data.fim.menor.data.inicio")
+		);
+		
+		treino.getTreinoExercicios()
+		.forEach(treinoExercico ->{
+			treinoExercico.setTreino(treino);
+			treinoExercico.setAcademia(treino.getAcademia());
+		});
+		
+		treino.setTreinoDatas(this.treinoDataService.criaDatasTreino(treino));
+		
 		return this.treinoRepository.save(treino);
 	}
+	
 	
 	/**
 	 * Realiza update de um treino 
