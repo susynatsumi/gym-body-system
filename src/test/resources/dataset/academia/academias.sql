@@ -12,19 +12,19 @@ TRUNCATE "academia" CASCADE;
 
 INSERT INTO academia(
             id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
+            nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
     VALUES (1000, NOW(), NULL, '89890000', 'Cidade Bl bla', '43.576.756/0001-96', 'Rua XXy, 16', true, 
-            'Academia Bl bla ', 'bla Bla asfd', '48966548130');
+            'Academia Bl bla ', 'bla Bla asfd', '48966548130', 1011 );
             
 INSERT INTO academia(
             id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
+            nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
     VALUES (1001, NOW(), NULL, '89890000', 'Cidade Bl bla', '34.287.463/0001-06', 'Rua Bl bla, 165', true, 
-            'Academia blz blz', 'bla blz blz', '48944548130');
+            'Academia blz blz', 'bla blz blz', '48944548130', 1012);
       
          
 INSERT INTO academia(
             id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
+            nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
     VALUES (1002, NOW(), NULL, '66654321', 'Cidade sahhsahsa', '53.014.283/0001-97', 'Rua Abra cadabra, 15', false, 
-            'Academia Abra Cadabra', 'Abra Cadabra', '56944548130');
+            'Academia Abra Cadabra', 'Abra Cadabra', '56944548130', 1013);

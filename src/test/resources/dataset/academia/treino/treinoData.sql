@@ -48,25 +48,27 @@ VALUES (1002, NOW(), NULL, 'sdfaklfdjalkjfdsajfa', true, null, 'Corrida abc',
     1001);
 
 -- --------------------------------------------------------------------------------
+
     
+
 INSERT INTO academia(
             id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
+            nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
     VALUES (1000, NOW(), NULL, '89890000', 'Cidade Bl bla', '43.576.756/0001-96', 'Rua XXy, 16', true, 
-            'Academia Bl bla ', 'bla Bla asfd', '48966548130');
+            'Academia Bl bla ', 'bla Bla asfd', '48966548130', 1011 );
             
 INSERT INTO academia(
             id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
+            nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
     VALUES (1001, NOW(), NULL, '89890000', 'Cidade Bl bla', '34.287.463/0001-06', 'Rua Bl bla, 165', true, 
-            'Academia blz blz', 'bla blz blz', '48944548130');
+            'Academia blz blz', 'bla blz blz', '48944548130', 1012);
       
          
 INSERT INTO academia(
             id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
+            nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
     VALUES (1002, NOW(), NULL, '66654321', 'Cidade sahhsahsa', '53.014.283/0001-97', 'Rua Abra cadabra, 15', false, 
-            'Academia Abra Cadabra', 'Abra Cadabra', '56944548130');
+            'Academia Abra Cadabra', 'Abra Cadabra', '56944548130', 1013);
 
             
 -- --------------------------------------------------------------------------------------
@@ -96,27 +98,39 @@ INSERT INTO treino(
             
 INSERT INTO treino_exercicio(
             id, created, updated, carga, data_inativacao, is_ativo, observacoes, 
-            repeticoes, tempo_min, academia_id, exercicio_id, treino_id, tipo_treino_exercicio)
+            repeticoes, tempo_min, exercicio_id, treino_id, tipo_treino_exercicio)
     VALUES (1000, NOW(), null, 0, null, true, '', 
-            1, 10, 1000, 1000, 1000, 2);
+            1, 10, 1000, 1000, 2);
 
 INSERT INTO treino_exercicio(
             id, created, updated, carga, data_inativacao, is_ativo, observacoes, 
-            repeticoes, tempo_min, academia_id, exercicio_id, treino_id, tipo_treino_exercicio)
+            repeticoes, tempo_min, exercicio_id, treino_id, tipo_treino_exercicio)
     VALUES (1001, NOW(), null, 0, null, true, '', 
-            null, 10, 1000, 1001, 1000,1);
+            null, 10, 1001, 1000,1);
 
             
 INSERT INTO treino_exercicio(
             id, created, updated, carga, data_inativacao, is_ativo, observacoes, 
-            repeticoes, tempo_min, academia_id, exercicio_id, treino_id, tipo_treino_exercicio)
+            repeticoes, tempo_min, exercicio_id, treino_id, tipo_treino_exercicio)
     VALUES (1002, NOW(), null, 0, NOW(), false, '', 
-            null, 10, 1000, 1001, 1002, 0);
+            null, 10, 1001, 1002, 0);
 
 -- ----------------------------------------------------------------------------------
             
 INSERT INTO treino_data(
             id, created, updated, completo, data, dia_semana, hora_inicio, 
-            hora_termino, academia_id, treino_id)
-    VALUES (1000, NOW(), null, false, , ?, ?, 
-            ?, ?, ?);
+            hora_termino, treino_id)
+    VALUES (1000, NOW(), null, false, '2018-01-01' , 0, '10:00:00', 
+            '11:00:00', 1000);
+            
+INSERT INTO treino_data(
+            id, created, updated, completo, data, dia_semana, hora_inicio, 
+            hora_termino, treino_id)
+    VALUES (1001, NOW(), null, false, '2018-01-05' , 0, '10:00:00', 
+            '11:00:00', 1000);
+            
+INSERT INTO treino_data(
+            id, created, updated, completo, data, dia_semana, hora_inicio, 
+            hora_termino, treino_id)
+    VALUES (1002, NOW(), null, false, '2018-01-06' , 0, '10:00:00', 
+            '11:00:00', 1000);

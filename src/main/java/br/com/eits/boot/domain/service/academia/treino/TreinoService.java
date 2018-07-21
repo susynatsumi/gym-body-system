@@ -62,6 +62,11 @@ public class TreinoService {
 			MessageSourceHolder.translate("service.treino.insert.dias.semana.empty")
 		);
 		
+		Assert.notEmpty(
+			treino.getPessoasTreino(),
+			MessageSourceHolder.translate("service.treino.insert.pessoas.empty")
+		);
+		
 		Assert.notNull(
 			treino.getDataInicio(),
 			MessageSourceHolder.translate("service.treino.insert.data.inicio.null")
@@ -80,8 +85,14 @@ public class TreinoService {
 		treino.getTreinoExercicios()
 		.forEach(treinoExercico ->{
 			treinoExercico.setTreino(treino);
-			treinoExercico.setAcademia(treino.getAcademia());
 		});
+		
+		treino.getPessoasTreino()
+		.forEach(
+			pessoaTreino ->{
+				pessoaTreino.setTreino(treino);
+			}
+		);
 		
 		treino.setTreinoDatas(this.treinoDataService.criaDatasTreino(treino));
 		

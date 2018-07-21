@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -17,8 +18,8 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
 import br.com.eits.boot.domain.entity.academia.Academia;
+import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,7 +29,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
-public class Treino extends AbstractEntityAcademia {
+public class Treino extends AbstractEntity {
 	
 	/**
 	 * 
@@ -83,6 +84,23 @@ public class Treino extends AbstractEntityAcademia {
 	)
 	private List<TreinoData> treinoDatas;
 	
+	@OneToMany( 
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY,
+		mappedBy = "treino",
+		orphanRemoval = false,
+		targetEntity = PessoaTreino.class
+	)
+	private List<PessoaTreino> pessoasTreino;
+	
+	@ManyToOne(
+		cascade = CascadeType.REFRESH,
+		fetch = FetchType.LAZY,
+		optional = false,
+		targetEntity = Academia.class
+	)
+	private Academia academia;
+	
 	/**
 	 * Dias selecionados na tela
 	 */
@@ -131,9 +149,10 @@ public class Treino extends AbstractEntityAcademia {
 		LocalTime horaPrevistaTermino,
 		List<TreinoExercicio> treinoExercicios, 
 		List<DiaSemana> diasSemanaSelecionados,
-		Academia academia
+		Academia academia,
+		List<PessoaTreino> pessoasTreino
 	) {
-		super(academia);
+		super();
 		this.nome = nome;
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
@@ -141,4 +160,6 @@ public class Treino extends AbstractEntityAcademia {
 		this.horaPrevistaTermino = horaPrevistaTermino;
 		this.treinoExercicios = treinoExercicios;
 		this.diasSemanaSelecionados = diasSemanaSelecionados;
+		this.academia = academia;
+		this.pessoasTreino = pessoasTreino;
 	}}

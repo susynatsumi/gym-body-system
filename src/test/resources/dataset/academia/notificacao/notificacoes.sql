@@ -9,7 +9,6 @@ SET default_with_oids = false;
 SET search_path TO public;
 
 TRUNCATE "notificacao" CASCADE;
-TRUNCATE "academia" CASCADE;
 TRUNCATE "pessoa" CASCADE;
 TRUNCATE "pessoa_notificacao" CASCADE;
 
@@ -49,37 +48,17 @@ INSERT INTO pessoa(
            'd1bd2f08fead38a982aed9d4ca060152400b1b8f', NOW(), 0
     );
 
-
-INSERT INTO academia(
-            id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
-    VALUES (1000, NOW(), NULL, '89890000', 'Cidade Bl bla', '43.576.756/0001-96', 'Rua XXy, 16', true, 
-            'Academia Bl bla ', 'bla Bla asfd', '48966548130');
-            
-INSERT INTO academia(
-            id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
-    VALUES (1001, NOW(), NULL, '89890000', 'Cidade Bl bla', '34.287.463/0001-06', 'Rua Bl bla, 165', true, 
-            'Academia blz blz', 'bla blz blz', '48944548130');
-      
-         
-INSERT INTO academia(
-            id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
-            nome_fantasia, razao_social, telefone)
-    VALUES (1002, NOW(), NULL, '66654321', 'Cidade sahhsahsa', '53.014.283/0001-97', 'Rua Abra cadabra, 15', false, 
-            'Academia Abra Cadabra', 'Abra Cadabra', '56944548130');
-
 -- -----------------------------------------------------------------------------------
             
 INSERT INTO notificacao(
-            id, created, updated, texto, titulo, academia_id, treino_data_id)
-    VALUES (1000, NOW(), null, 'Notificacao de teste bla bla bla', 'Teste', 1000, null);
+            id, created, updated, texto, titulo, treino_data_id)
+    VALUES (1000, NOW(), null, 'Notificacao de teste bla bla bla', 'Teste', null);
 
     
 INSERT INTO notificacao(
-            id, created, updated, texto, titulo, academia_id, treino_data_id)
-    VALUES (1001, NOW(), null, 'Notificacao de teste blaasdf bla bla', 'Teste 1', 1000, null);
+            id, created, updated, texto, titulo, treino_data_id)
+    VALUES (1001, NOW(), null, 'Notificacao de teste blaasdf bla bla', 'Teste 1', null);
     
 INSERT INTO notificacao(
-            id, created, updated, texto, titulo, academia_id, treino_data_id)
-    VALUES (1002, NOW(), null, 'Notificacao de teste blaasdf bla bla', 'Teste 1', 1001, null);
+            id, created, updated, texto, titulo, treino_data_id)
+    VALUES (1002, NOW(), null, 'Notificacao de teste blaasdf bla bla', 'Teste 1', null);

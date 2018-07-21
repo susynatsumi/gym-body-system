@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
+import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
-public class ExercicioTreinoData extends AbstractEntityAcademia {
+public class ExercicioTreinoData extends AbstractEntity {
 
 	/**
 	 * 
@@ -45,8 +45,7 @@ public class ExercicioTreinoData extends AbstractEntityAcademia {
 	// data de realizacao do treino
 	@NotNull
 	@ManyToOne(
-		fetch = FetchType.LAZY,
-		cascade = CascadeType.REFRESH,
+		fetch = FetchType.EAGER,
 		optional = false, 
 		targetEntity = TreinoData.class
 	)
@@ -55,8 +54,7 @@ public class ExercicioTreinoData extends AbstractEntityAcademia {
 	// exercicio do treino
 	@NotNull
 	@ManyToOne(
-		fetch = FetchType.LAZY,
-		cascade = CascadeType.REFRESH,
+		fetch = FetchType.EAGER,
 		optional = false,
 		targetEntity = TreinoExercicio.class
 	)
@@ -91,7 +89,7 @@ public class ExercicioTreinoData extends AbstractEntityAcademia {
 	public ExercicioTreinoData(
 		Boolean completo, 
 		TreinoData treinoData,
-		TreinoExercicio treinoExercicio
+		TreinoExercicio treinoExercicio 
 	) {
 		super();
 		this.completo = completo;

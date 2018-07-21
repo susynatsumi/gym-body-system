@@ -2,7 +2,6 @@ package br.com.eits.boot.domain.entity.academia.treino;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,9 +16,8 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
-import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
+import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,7 +29,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
-public class TreinoExercicio extends AbstractEntityAcademia {
+public class TreinoExercicio extends AbstractEntity {
 
 	/**
 	 * 
@@ -76,7 +74,6 @@ public class TreinoExercicio extends AbstractEntityAcademia {
 	@ManyToOne( 
 		fetch = FetchType.LAZY,
 		optional = false,
-		cascade = CascadeType.REFRESH,
 		targetEntity = Treino.class
 	)
 	private Treino treino;
@@ -91,7 +88,6 @@ public class TreinoExercicio extends AbstractEntityAcademia {
 	@ManyToOne(
 		fetch = FetchType.LAZY,
 		optional = false,
-		cascade = CascadeType.REFRESH,
 		targetEntity = Exercicio.class
 	)
 	private Exercicio exercicio;
@@ -135,10 +131,9 @@ public class TreinoExercicio extends AbstractEntityAcademia {
 		String observacoes, 
 		Treino treino,
 		Exercicio exercicio,
-		TipoTreinoExercicio tipoTreinoExercicio,
-		Academia academia
+		TipoTreinoExercicio tipoTreinoExercicio
 	) {
-		super(academia);
+		super();
 		this.carga = carga;
 		this.repeticoes = repeticoes;
 		this.tempoMin = tempoMin;

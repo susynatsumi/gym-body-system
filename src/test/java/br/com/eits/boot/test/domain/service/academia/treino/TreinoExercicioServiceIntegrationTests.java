@@ -9,12 +9,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 
-import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.academia.treino.TipoTreinoExercicio;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoExercicio;
-import br.com.eits.boot.domain.repository.academia.IAcademiaRepository;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoExercicioRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoRepository;
@@ -34,9 +32,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 	
 	@Autowired
 	private IExercicioRepository exercicioRepository;
-	
-	@Autowired
-	private IAcademiaRepository academiaRepository;
 	
 	// ------------------------------------------------------
 	// --------- INSERTS ------------------------------------
@@ -61,10 +56,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findById(1002L)
 				.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
 			10, 
 			165, 
@@ -72,8 +63,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			"asdfsfdaf", 
 			treino, 
 			exercicio,
-			TipoTreinoExercicio.CARGA_REPETICOES,
-			academia
+			TipoTreinoExercicio.CARGA_REPETICOES
 		);
 		
 		treinoExercicio.setIsAtivo(false);
@@ -105,10 +95,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findById(1000L)
 				.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
 			10, 
 			165, 
@@ -116,8 +102,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			"asdfsfdaf", 
 			treino, 
 			exercicio,
-			TipoTreinoExercicio.CARGA_REPETICOES,
-			academia
+			TipoTreinoExercicio.CARGA_REPETICOES
 		);
 		
 		treinoExercicio = this.treinoExercicioService
@@ -140,10 +125,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findById(1002L)
 				.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
 			0, // carga
 			110, // repet
@@ -151,8 +132,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			"asdfsfdaf", 
 			null, 
 			exercicio,
-			TipoTreinoExercicio.REPETICOES,
-			academia
+			TipoTreinoExercicio.REPETICOES
 		);
 		
 		treinoExercicio = this.treinoExercicioService
@@ -170,14 +150,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 		"/dataset/academia/treino/treinoExercicios.sql"
 	})
 	public void insertTreinoExercicioMustFailForeignKeyExercicio(){
-
-		final Treino treino = this.treinoRepository
-				.findById(1001L)
-				.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
+		final Treino treino = new Treino(1001L);
 		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
 			10, // carga 
@@ -186,8 +160,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			"asdfsfdaf", 
 			treino, 
 			null,
-			TipoTreinoExercicio.CARGA_REPETICOES,
-			academia
+			TipoTreinoExercicio.CARGA_REPETICOES
 		);
 		
 		treinoExercicio = this.treinoExercicioService
@@ -211,10 +184,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findById(1001L)
 				.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
 			10, // carga 
 			0, // repet
@@ -222,8 +191,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			"asdfsfdaf", 
 			treino, 
 			null,
-			TipoTreinoExercicio.CARGA_REPETICOES,
-			academia
+			TipoTreinoExercicio.CARGA_REPETICOES
 		);
 		
 		this.treinoExercicioService
@@ -247,10 +215,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findById(1001L)
 				.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
 			0, // carga 
 			0, // repet
@@ -258,8 +222,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			"asdfsfdaf", 
 			treino, 
 			null,
-			TipoTreinoExercicio.CARGA_REPETICOES,
-			academia
+			TipoTreinoExercicio.CARGA_REPETICOES
 		);
 		
 		this.treinoExercicioService
@@ -283,10 +246,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findById(1001L)
 				.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
 			0, // carga 
 			0, // repets
@@ -294,8 +253,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			"asdfsfdaf", 
 			treino, 
 			null,
-			TipoTreinoExercicio.TEMPO,
-			academia
+			TipoTreinoExercicio.TEMPO
 		);
 		
 		this.treinoExercicioService

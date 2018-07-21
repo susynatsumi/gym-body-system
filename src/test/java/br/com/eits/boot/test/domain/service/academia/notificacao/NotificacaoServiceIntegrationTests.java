@@ -12,11 +12,9 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
 
-import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.notificacao.Notificacao;
 import br.com.eits.boot.domain.entity.academia.notificacao.PessoaNotificacao;
 import br.com.eits.boot.domain.entity.account.Pessoa;
-import br.com.eits.boot.domain.repository.academia.IAcademiaRepository;
 import br.com.eits.boot.domain.repository.academia.notificacao.INotificacaoRepository;
 import br.com.eits.boot.domain.repository.account.IPessoaRepository;
 import br.com.eits.boot.domain.service.academia.notificacao.NotificacaoService;
@@ -30,9 +28,6 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	
 	@Autowired
 	private NotificacaoService notificacaoService;
-	
-	@Autowired
-	private IAcademiaRepository academiaRepository;
 	
 	@Autowired
 	private IPessoaRepository pessoaRepository;
@@ -69,15 +64,10 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertNotificacaoMustPass(){
 		
-		final Academia academia = this.academiaRepository
-				.findById(1002L)
-				.orElse(null);
-		
 		Notificacao notificacao = new Notificacao(
 			"Titulo",
 			"asdfafasjlkfajslçkfa",
 			null, 
-			academia,
 			mockPessoasNotificacoes()
 		);
 		
@@ -100,15 +90,10 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertNotificacaoMustFailMandatoryFieldTitulo(){
 		
-		final Academia academia = this.academiaRepository
-				.findById(1002L)
-				.orElse(null);
-		
 		Notificacao notificacao = new Notificacao(
 			"",
 			"asdfafasjlkfajslçkfa",
 			null, 
-			academia,
 			mockPessoasNotificacoes()
 		);
 		
@@ -128,15 +113,10 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertNotificacaoMustFailMandatoryFieldDescricao(){
 		
-		final Academia academia = this.academiaRepository
-				.findById(1002L)
-				.orElse(null);
-		
 		Notificacao notificacao = new Notificacao(
 			"asdfasffasdfa",
 			"",
 			null, 
-			academia,
 			mockPessoasNotificacoes()
 		);
 		
@@ -156,10 +136,6 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertNotificacaoMustFailEmptyListDestinatarios(){
 		
-		final Academia academia = this.academiaRepository
-				.findById(1002L)
-				.orElse(null);
-		
 		Pessoa pessoa = this.pessoaRepository
 				.findById(1012L)
 				.orElse(null);
@@ -172,7 +148,6 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 			"asdfasffasdfa",
 			"",
 			null, 
-			academia,
 			remetente
 		);
 		
@@ -192,10 +167,6 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertNotificacaoMustFailEmptyListRemetente(){
 		
-		final Academia academia = this.academiaRepository
-				.findById(1002L)
-				.orElse(null);
-		
 		Pessoa pessoa = this.pessoaRepository
 				.findById(1012L)
 				.orElse(null);
@@ -208,7 +179,6 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 			"asdfasffasdfa",
 			"",
 			null, 
-			academia,
 			destinatario
 		);
 		

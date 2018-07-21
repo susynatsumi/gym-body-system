@@ -138,8 +138,7 @@ public class TreinoDataService {
 						null,// hora termino
 						false, // se está completo
 						treino, // treino
-						diaSemanaAtual.get(), // dia da semana 
-						treino.getAcademia() // academia
+						diaSemanaAtual.get() // dia da semana 
 					)
 				);
 			}

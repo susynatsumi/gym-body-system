@@ -1,7 +1,10 @@
 package br.com.eits.boot.domain.entity.academia;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -9,6 +12,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -66,6 +70,15 @@ public class Academia extends AbstractEntity{
 	@Column( nullable = false )
 	private String cidade;
 	
+	// Proprietario da academia
+	@ManyToOne(
+		cascade = CascadeType.MERGE,
+		fetch = FetchType.LAZY,
+		optional = false,
+		targetEntity = Pessoa.class
+	)
+	private Pessoa pessoaProprietario;
+	
 	// --------------------------------------
 	// ------ CONSTRUTORES ------------------
 	// --------------------------------------
@@ -86,7 +99,8 @@ public class Academia extends AbstractEntity{
 		String endereco, 
 		String cep,
 		Boolean isAtiva, 
-		String cidade
+		String cidade,
+		Pessoa pessoaProprietario
 	) {
 		super();
 		this.razaoSocial = razaoSocial;
@@ -97,6 +111,7 @@ public class Academia extends AbstractEntity{
 		this.cep = cep;
 		this.isAtiva = isAtiva;
 		this.cidade = cidade;
+		this.pessoaProprietario = pessoaProprietario;
 	}
 	
 	

@@ -58,8 +58,7 @@ public class Exercicio extends AbstractEntity {
 	@ManyToOne(
 		fetch = FetchType.LAZY,
 		optional = false,
-		targetEntity = Equipamento.class,
-		cascade = CascadeType.REFRESH
+		targetEntity = Equipamento.class
 	)
 	private Equipamento equipamento;
 

@@ -3,7 +3,6 @@ package br.com.eits.boot.domain.entity.academia.treino;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,23 +10,27 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
-import br.com.eits.boot.domain.entity.academia.Academia;
+import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Table
+@Table(uniqueConstraints ={
+	@UniqueConstraint(columnNames={
+		"data", "treino_id"
+	})
+})
 @Entity
 @Audited
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
 @Data
-public class TreinoData extends AbstractEntityAcademia {
+public class TreinoData extends AbstractEntity {
 	
 	/**
 	 * 
@@ -41,7 +44,7 @@ public class TreinoData extends AbstractEntityAcademia {
 	
 	// data para realização de um treino
 	@NotNull
-	@Column( nullable = false )
+	@Column( nullable = false, updatable = false )
 	private LocalDate data;
 	
 	// hora de inicio da realizacao do treino
@@ -61,7 +64,6 @@ public class TreinoData extends AbstractEntityAcademia {
 	@NotNull
 	@ManyToOne(
 		fetch = FetchType.LAZY,
-		cascade = CascadeType.MERGE,
 		targetEntity = Treino.class,
 		optional = false
 	)
@@ -70,7 +72,7 @@ public class TreinoData extends AbstractEntityAcademia {
 	// Dia da semana 
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull 
-	@Column(nullable = false)
+	@Column(nullable = false, updatable = false)
 	private DiaSemana diaSemana;
 	
 	
@@ -107,10 +109,9 @@ public class TreinoData extends AbstractEntityAcademia {
 		LocalTime horaTermino,
 		Boolean completo, 
 		Treino treino, 
-		DiaSemana diaSemana,
-		Academia academia
+		DiaSemana diaSemana
 	) {
-		super(academia);
+		super();
 		this.data = data;
 		this.horaInicio = horaInicio;
 		this.horaTermino = horaTermino;

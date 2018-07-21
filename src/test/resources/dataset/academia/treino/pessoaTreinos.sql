@@ -48,7 +48,7 @@ VALUES (1002, NOW(), NULL, 'sdfaklfdjalkjfdsajfa', true, null, 'Corrida abc',
     1001);
 
 -- --------------------------------------------------------------------------------
-
+    
 
 INSERT INTO academia(
             id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
@@ -69,7 +69,7 @@ INSERT INTO academia(
     VALUES (1002, NOW(), NULL, '66654321', 'Cidade sahhsahsa', '53.014.283/0001-97', 'Rua Abra cadabra, 15', false, 
             'Academia Abra Cadabra', 'Abra Cadabra', '56944548130', 1013);
 
-    
+            
 -- --------------------------------------------------------------------------------------
             
 INSERT INTO treino(
@@ -91,3 +91,16 @@ INSERT INTO treino(
             hora_prevista_termino, nome, academia_id)
     VALUES (1002, NOW(), null, '2019-12-31', '2019-11-01', '08:00:00', 
             '09:00:00', 'Treino Testes B', 1000);
+            
+-- ---------------------------------------------------------------------
+
+            
+INSERT INTO pessoa_treino(
+            id, created, updated, papel, pessoa_id, treino_id)
+    VALUES (1000, NOW(), null, 0, 1011, 1000);
+    
+    INSERT INTO pessoa_treino(
+            id, created, updated, papel, pessoa_id, treino_id)
+    VALUES (1001, NOW(), null, 1, 1012, 1000);
+
+        

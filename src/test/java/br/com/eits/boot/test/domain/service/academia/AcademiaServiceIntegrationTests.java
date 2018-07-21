@@ -11,7 +11,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
 
 import br.com.eits.boot.domain.entity.academia.Academia;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.IAcademiaRepository;
+import br.com.eits.boot.domain.repository.account.IPessoaRepository;
 import br.com.eits.boot.domain.service.academia.AcademiaService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
@@ -22,6 +24,9 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 	
 	@Autowired
 	private AcademiaService academiaService;
+	
+	@Autowired
+	private IPessoaRepository pessoaRepository;
 	
 	// -----------------------------------------
 	// -------------- INSERTS ------------------
@@ -40,6 +45,10 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertAcademiaMustPass(){
 		
+		final Pessoa pessoaProprietario = this.pessoaRepository
+				.findById(1012L)
+				.orElse(null);
+		
 		final Academia academia = new Academia(
 			"razaoSocial", 
 			"nomeFantasia", 
@@ -48,7 +57,8 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 			"Rua dos feijões 13",
 			"11668000", 
 			false,
-			"CATANDUBAS"
+			"CATANDUBAS",
+			pessoaProprietario
 		);
 
 		final Academia inserida = this.academiaService.insertAcademia(academia);
@@ -87,6 +97,10 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertAcademiaMustFailMandatoryFieldNomeFantasia(){
 		
+		final Pessoa pessoaProprietario = this.pessoaRepository
+				.findById(1012L)
+				.orElse(null);
+		
 		final Academia academia = new Academia(
 				"razaoSocial", 
 				null, 
@@ -95,7 +109,8 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				"Rua dos feijões 13",
 				"11668000", 
 				false,
-				"CATANDUBAS"
+				"CATANDUBAS",
+				pessoaProprietario
 			);
 
 		this.academiaService.insertAcademia(academia);
@@ -112,6 +127,10 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertAcademiaMustFailMandatoryFieldRazaoSocial(){
 		
+		final Pessoa pessoaProprietario = this.pessoaRepository
+				.findById(1012L)
+				.orElse(null);
+		
 		final Academia academia = new Academia(
 				null, 
 				"Nome Fantasia", 
@@ -120,7 +139,8 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				"Rua dos feijões 13",
 				"11668000", 
 				false,
-				"CATANDUBAS"
+				"CATANDUBAS",
+				pessoaProprietario
 				);
 		
 		this.academiaService.insertAcademia(academia);
@@ -137,6 +157,10 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertAcademiaMustFailMandatoryFieldCnpj(){
 		
+		final Pessoa pessoaProprietario = this.pessoaRepository
+				.findById(1012L)
+				.orElse(null);
+		
 		final Academia academia = new Academia(
 				"Teste", 
 				"Nome Fantasia", 
@@ -145,7 +169,8 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				"Rua dos feijões 13",
 				"11668000", 
 				false,
-				"CATANDUBAS"
+				"CATANDUBAS",
+				pessoaProprietario
 				);
 		
 		this.academiaService.insertAcademia(academia);
@@ -162,6 +187,10 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertAcademiaMustFailUniqueCnpj(){
 		
+		final Pessoa pessoaProprietario = this.pessoaRepository
+				.findById(1012L)
+				.orElse(null);
+		
 		final Academia academia = new Academia(
 				"Teste", 
 				"Nome Fantasia", 
@@ -170,7 +199,8 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				"Rua dos feijões 13",
 				"11668000", 
 				false,
-				"CATANDUBAS"
+				"CATANDUBAS",
+				pessoaProprietario
 				);
 		
 		this.academiaService.insertAcademia(academia);
@@ -180,7 +210,9 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 	// --------------- UPDATES ----------------------
 	// ----------------------------------------------
 	
-	
+	/**
+	 * Update com sucesso do campo razão social da academia
+	 */
 	@Test
 	@WithUserDetails("admin@email.com")
 	@Sql({
@@ -208,7 +240,9 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 		
 	}
 	
-	
+	/**
+	 * Update com sucesso do campo cnpj da academia
+	 */
 	@Test
 	@WithUserDetails("admin@email.com")
 	@Sql({
@@ -237,6 +271,9 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 		
 	}
 	
+	/**
+	 * Valida obrigatoriedade do campo razão social
+	 */
 	@Test(expected = TransactionSystemException.class)
 	@WithUserDetails("admin@email.com")
 	@Sql({
@@ -257,7 +294,9 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 		
 	}
 	
-
+	/**
+	 * Valida obrigatoriedade do campo nome fantasia
+	 */
 	@Test(expected = TransactionSystemException.class)
 	@WithUserDetails("admin@email.com")
 	@Sql({
@@ -278,6 +317,9 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 		
 	}
 	
+	/**
+	 * valida obrigatoriedade do campo cnpj
+	 */
 	@Test(expected = TransactionSystemException.class)
 	@WithUserDetails("admin@email.com")
 	@Sql({
@@ -298,6 +340,9 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 		
 	}
 	
+	/**
+	 * Valida unique do campo cnpj
+	 */
 	@Test(expected = DataIntegrityViolationException.class)
 	@WithUserDetails("admin@email.com")
 	@Sql({

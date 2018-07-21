@@ -8,12 +8,13 @@ SET default_with_oids = false;
 
 SET search_path TO public;
 
-TRUNCATE "academia" CASCADE;
+TRUNCATE "exercicio_treino_data" CASCADE;
 TRUNCATE "equipamento" CASCADE;
 TRUNCATE "exercicio" CASCADE;
 TRUNCATE "treino" CASCADE;
 TRUNCATE "treino_exercicio" CASCADE;
 TRUNCATE "treino_data" CASCADE;
+
 
 INSERT INTO equipamento(
             id, created, updated, descricao, imagem, is_ativo)
@@ -48,6 +49,7 @@ VALUES (1002, NOW(), NULL, 'sdfaklfdjalkjfdsajfa', true, null, 'Corrida abc',
     1001);
 
 -- --------------------------------------------------------------------------------
+
 
 
 INSERT INTO academia(
@@ -91,3 +93,66 @@ INSERT INTO treino(
             hora_prevista_termino, nome, academia_id)
     VALUES (1002, NOW(), null, '2019-12-31', '2019-11-01', '08:00:00', 
             '09:00:00', 'Treino Testes B', 1000);
+
+            
+-- ----------------------------------------------------------------------------------
+            
+INSERT INTO treino_exercicio(
+            id, created, updated, carga, data_inativacao, is_ativo, observacoes, 
+            repeticoes, tempo_min, exercicio_id, treino_id, tipo_treino_exercicio)
+    VALUES (1000, NOW(), null, 0, null, true, '', 
+            1, 10, 1000, 1000, 2);
+
+INSERT INTO treino_exercicio(
+            id, created, updated, carga, data_inativacao, is_ativo, observacoes, 
+            repeticoes, tempo_min, exercicio_id, treino_id, tipo_treino_exercicio)
+    VALUES (1001, NOW(), null, 0, null, true, '', 
+            null, 10, 1001, 1000,1);
+
+            
+INSERT INTO treino_exercicio(
+            id, created, updated, carga, data_inativacao, is_ativo, observacoes, 
+            repeticoes, tempo_min, exercicio_id, treino_id, tipo_treino_exercicio)
+    VALUES (1002, NOW(), null, 0, NOW(), false, '', 
+            null, 10, 1001, 1002, 0);
+
+-- ----------------------------------------------------------------------------------
+            
+INSERT INTO treino_data(
+            id, created, updated, completo, data, dia_semana, hora_inicio, 
+            hora_termino, treino_id)
+    VALUES (1000, NOW(), null, false, '2018-01-01' , 0, '10:00:00', 
+            '11:00:00', 1000);
+            
+INSERT INTO treino_data(
+            id, created, updated, completo, data, dia_semana, hora_inicio, 
+            hora_termino, treino_id)
+    VALUES (1001, NOW(), null, false, '2018-01-05' , 0, '10:00:00', 
+            '11:00:00', 1000);
+            
+INSERT INTO treino_data(
+            id, created, updated, completo, data, dia_semana, hora_inicio, 
+            hora_termino, treino_id)
+    VALUES (1002, NOW(), null, false, '2018-01-06' , 0, '10:00:00', 
+            '11:00:00', 1000);
+
+       
+-- ---------------------------------------------------------------
+
+INSERT INTO exercicio_treino_data(
+            id, created, updated, completo, treino_data_id, 
+            treino_exercicio_id)
+    VALUES (1000, NOW(), null, false, 1000, 
+            1000);
+
+INSERT INTO exercicio_treino_data(
+            id, created, updated, completo, treino_data_id, 
+            treino_exercicio_id)
+    VALUES (1001, NOW(), null, false, 1000, 
+            1001);
+
+INSERT INTO exercicio_treino_data(
+            id, created, updated, completo, treino_data_id, 
+            treino_exercicio_id)
+    VALUES (1002, NOW(), null, false, 1001, 
+            1002);

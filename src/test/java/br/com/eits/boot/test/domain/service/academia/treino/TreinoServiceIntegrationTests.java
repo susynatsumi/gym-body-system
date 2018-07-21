@@ -15,14 +15,18 @@ import org.springframework.transaction.TransactionSystemException;
 import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.academia.treino.DiaSemana;
+import br.com.eits.boot.domain.entity.academia.treino.PessoaTreino;
 import br.com.eits.boot.domain.entity.academia.treino.TipoTreinoExercicio;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoExercicio;
+import br.com.eits.boot.domain.entity.account.Papel;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.IAcademiaRepository;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoDataRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoRepository;
+import br.com.eits.boot.domain.repository.account.IPessoaRepository;
 import br.com.eits.boot.domain.service.academia.treino.TreinoService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
@@ -43,6 +47,9 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	@Autowired
 	private ITreinoDataRepository treinoDataRepository;
 	
+	@Autowired
+	private IPessoaRepository pessoaRepository;
+	
 	// ------------------------------------------------------
 	// --------- INSERTS ------------------------------------
 	// ------------------------------------------------------
@@ -62,13 +69,9 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 		.findById(1001L)
 		.orElse(null);
 		
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		return Arrays.asList(
-			new TreinoExercicio(10, 11, null, "Faça devagar", null,  exercicio1, TipoTreinoExercicio.CARGA_REPETICOES, academia),
-			new TreinoExercicio(10, 11, null, "", null, exercicio2, TipoTreinoExercicio.CARGA_REPETICOES, academia )
+			new TreinoExercicio(10, 11, null, "Faça devagar", null,  exercicio1, TipoTreinoExercicio.CARGA_REPETICOES),
+			new TreinoExercicio(10, 11, null, "", null, exercicio2, TipoTreinoExercicio.CARGA_REPETICOES)
 		);
 	}
 	
@@ -85,6 +88,30 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	}
 	
 	/**
+	 * Cria pessoas para inserção no treino
+	 * @return
+	 */
+	private List<PessoaTreino> mockPersonalAluno(){
+		Pessoa pessoa1 = this.pessoaRepository
+				.findById(1013L)
+				.orElse(null);
+		
+		Pessoa pessoa2 = this.pessoaRepository
+				.findById(1011L)
+				.orElse(null);
+		
+		PessoaTreino pessoaTreino1 = new PessoaTreino(pessoa1, null, Papel.PERSONAL);
+		PessoaTreino pessoaTreino2 = new PessoaTreino(pessoa2, null, Papel.ALUNO);
+		
+		return Arrays.asList(
+			pessoaTreino1,
+			pessoaTreino2
+		);
+		
+		
+	}
+	
+	/**
 	 * Inserção de um treino com sucesso
 	 */
 	@Test
@@ -95,7 +122,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertTreinoMustPass(){
 
-		final Academia Academia = this.academiaRepository
+		final Academia academia = this.academiaRepository
 				.findById(1001L)
 				.orElse(null);
 		
@@ -107,7 +134,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalTime.of(11, 00), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
-			Academia
+			academia,
+			mockPersonalAluno()
 		);
 		
 		treino = this.treinoService
@@ -143,7 +171,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertTreinoMustFailMandatoryFieldsDataInicioAndDataFim(){
 
-		final Academia Academia = this.academiaRepository
+		final Academia academia = this.academiaRepository
 				.findById(1001L)
 				.orElse(null);
 		
@@ -155,7 +183,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalTime.of(11, 00), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
-			Academia
+			academia,
+			mockPersonalAluno()
 		);
 		
 		treino = this.treinoService
@@ -174,7 +203,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertTreinoMustFailMandatoryFieldsDataInicio(){
 
-		final Academia Academia = this.academiaRepository
+		final Academia academia = this.academiaRepository
 				.findById(1001L)
 				.orElse(null);
 		
@@ -186,7 +215,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalTime.of(11, 00), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
-			Academia
+			academia,
+			mockPersonalAluno()
 		);
 		
 		treino = this.treinoService
@@ -205,7 +235,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertTreinoMustFailMandatoryFieldsDataFim(){
 
-		final Academia Academia = this.academiaRepository
+		final Academia academia = this.academiaRepository
 				.findById(1001L)
 				.orElse(null);
 		
@@ -217,7 +247,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalTime.of(11, 00), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
-			Academia
+			academia,
+			mockPersonalAluno()
 		);
 		
 		treino = this.treinoService
@@ -236,7 +267,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertTreinoMustFailListExercicios(){
 
-		final Academia Academia = this.academiaRepository
+		final Academia academia = this.academiaRepository
 				.findById(1001L)
 				.orElse(null);
 		
@@ -248,7 +279,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalTime.of(11, 00), 
 			null, 
 			mockDiasSemana(), 
-			Academia
+			academia,
+			mockPersonalAluno()
 		);
 		
 		treino = this.treinoService
@@ -267,7 +299,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertTreinoMustFailListDiasSemana(){
 
-		final Academia Academia = this.academiaRepository
+		final Academia academia = this.academiaRepository
 				.findById(1001L)
 				.orElse(null);
 		
@@ -279,7 +311,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalTime.of(11, 00), 
 			mockTreinoExercicio(),
 			null,
-			Academia
+			academia,
+			mockPersonalAluno()
 		);
 		
 		treino = this.treinoService
@@ -299,7 +332,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	})
 	public void insertTreinoMustFailListDatasTreino(){
 
-		final Academia Academia = this.academiaRepository
+		final Academia academia = this.academiaRepository
 				.findById(1001L)
 				.orElse(null);
 		
@@ -311,7 +344,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalTime.of(11, 00), 
 			mockTreinoExercicio(),
 			mockDiasSemana(),
-			Academia
+			academia,
+			mockPersonalAluno()
 		);
 		
 		treino = this.treinoService

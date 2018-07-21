@@ -15,7 +15,8 @@ public interface IExercicioRepository extends JpaRepository<Exercicio, Long>{
 
 
 	@EntityGraph(attributePaths = {
-		"equipamento.id"
+		"equipamento.id",
+		"exercicioGrupoMusculares.id"
 	})
 	@Query(
 		" FROM Exercicio exercicio where exercicio.id = :id "

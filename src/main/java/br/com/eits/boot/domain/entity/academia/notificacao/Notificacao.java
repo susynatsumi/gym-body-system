@@ -14,9 +14,8 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import br.com.eits.boot.domain.entity.academia.AbstractEntityAcademia;
-import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
+import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
-public class Notificacao extends AbstractEntityAcademia {
+public class Notificacao extends AbstractEntity {
 	
 	/**
 	 * 
@@ -92,10 +91,9 @@ public class Notificacao extends AbstractEntityAcademia {
 		String titulo, 
 		String texto, 
 		TreinoData treinoData,
-		Academia academia,
 		List<PessoaNotificacao> pessoasNotificacoes
 	) {
-		super(academia);
+		super();
 		this.titulo = titulo;
 		this.texto = texto;
 		this.treinoData = treinoData;

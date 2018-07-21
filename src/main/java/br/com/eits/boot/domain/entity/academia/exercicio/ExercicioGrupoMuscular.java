@@ -36,16 +36,14 @@ public class ExercicioGrupoMuscular extends AbstractEntity {
 	@ManyToOne( 
 		fetch = FetchType.EAGER,
 		optional = false,
-		targetEntity = Exercicio.class,
-		cascade = CascadeType.MERGE
+		targetEntity = Exercicio.class
 	)
 	private Exercicio exercicio;
 	
 	@ManyToOne(
 	    fetch = FetchType.EAGER,
 	    optional = false,
-	    targetEntity = GrupoMuscular.class,
-	    cascade = CascadeType.MERGE
+	    targetEntity = GrupoMuscular.class
 	)
 	private GrupoMuscular grupoMuscular;
 	
