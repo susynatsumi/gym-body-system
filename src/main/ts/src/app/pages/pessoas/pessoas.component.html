@@ -1,10 +1,12 @@
-<div fxLayout="row wrap" class="filtro">
+<div class="filtro">
   <button mat-button routerLinkActive="active" (click)="cadastrar()">
     Cadastrar
   </button>
-  <mat-form-field>
-    <input matInput (keyup)="filtrar($event.target.value)" placeholder="Filtrar" class="filtro-texto">
-  </mat-form-field>
+  <div class="input-row">
+    <mat-form-field fxFlex>
+      <input matInput (keyup)="filtrar($event.target.value)" placeholder="Filtrar" class="filtro-texto">
+    </mat-form-field>
+  </div>
   <!-- <mat-form-field>
     <mat-select [(value)]="statusFiltro" (change)="filtrarSelect()"
       placeholder="Status">

@@ -21,6 +21,7 @@ export class PessoasComponent implements OnInit {
 
   colunas: string[] = ['Nome', 'E-mail', 'Status', 'Id', 'Acoes'];
   dadosTable = new MatTableDataSource();
+ pessoasTable:  Page<Pessoa>;
 
   constructor(
     private router: Router,
@@ -33,21 +34,26 @@ export class PessoasComponent implements OnInit {
   }
 
   cadastrar(){
-    console.log('Chamou');
     this.router.navigateByUrl("pessoas/cadastrar");
   }
 
   editar(id){
-
-    console.log('Editar '+id);
     this.router.navigate(["pessoas/", {id: id}])
-
   }
 
   delete(id){
+    this.pessoaService.deletePessoa(id).subscribe(()=>{
+      this.removerLinhaTable(id);
+    },(error: Error)=>{
+      alert('Ocorreu um erro ao deletar');
+    });
 
-    console.log('Delete '+id);
+  }
 
+  removerLinhaTable(id){
+    const itemIndex = this.pessoasTable.content.findIndex(pessoa => pessoa.id === id);
+    this.pessoasTable.content.splice(itemIndex, 1);
+    this.dadosTable = new MatTableDataSource(this.pessoasTable.content);
   }
 
   filtrar(filtro: string) {
@@ -58,7 +64,10 @@ export class PessoasComponent implements OnInit {
   listByfilters(filters: string){
     this.pessoaService.listByFilters(filters)
       .subscribe(
-        (pessoas: Page<Pessoa>) => this.dadosTable = new MatTableDataSource(pessoas.content)
+        (pessoas: Page<Pessoa>) => {
+          this.pessoasTable  = pessoas;
+          this.dadosTable = new MatTableDataSource(pessoas.content)
+        }
       );
   }
 

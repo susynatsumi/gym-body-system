@@ -7,17 +7,17 @@
 
 <!-- mdMenuTriggerFor serve para exibir o menu neste botao -->
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <span>Gym Body App</span>
-  
-      <span class="example-spacer"></span>
-      
-      <button mat-button [matMenuTriggerFor]="menuPessoas" >Pessoas</button>
-      <mat-menu #menuPessoas="matMenu">
-        <button mat-menu-item routerLink="/pessoas">Listar</button>
-        <button mat-menu-item routerLink="/pessoas/cadastrar">Cadastrar</button>
-      </mat-menu>
-      <button mat-button>Services</button>
-      <button mat-button>Contact</button>
-    </mat-toolbar-row>
-  </mat-toolbar>
+  <mat-toolbar-row>
+    <span>Gym Body App</span>
+
+    <span class="example-spacer"></span>
+    
+    <button mat-button [matMenuTriggerFor]="menuPessoas" >Pessoas</button>
+    <mat-menu #menuPessoas="matMenu">
+      <button mat-menu-item routerLink="/pessoas">Listar</button>
+      <button mat-menu-item routerLink="/pessoas/cadastrar">Cadastrar</button>
+    </mat-menu>
+    <button mat-button>Services</button>
+    <button mat-button>Contact</button>
+  </mat-toolbar-row>
+</mat-toolbar>

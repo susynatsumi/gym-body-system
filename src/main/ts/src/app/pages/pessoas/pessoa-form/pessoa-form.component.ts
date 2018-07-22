@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Pessoa, GeneroValues, PapelValues } from '../../../../generated/entities';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { Pessoa, GeneroValues, PapelValues, Papel } from '../../../../generated/entities';
 import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
 import { AccountService } from '../../../../generated/services';
 
@@ -16,6 +16,7 @@ export class PessoaFormComponent implements OnInit {
   generos: string[];
   papeis: string[];
   parametroId: number;
+  pessoaLogada: Pessoa;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,20 +24,27 @@ export class PessoaFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    console.log('Passou');
-
-    this.route.params.subscribe(
-      paramns => this.parametroId = paramns.id
-    );
-
+    console.log('ada');
+    this.pessoaLogada = JSON.parse(localStorage.getItem('usuarioLogado'));
     this.pessoa = {};
 
-    if(this.parametroId != null){
-      this.pessoaService.findPessoaById(this.parametroId).subscribe(
-        (pessoa: Pessoa) => this.pessoa = pessoa
-      );
-    }
+    this.route.params.subscribe(
+      paramns => {
+        this.parametroId = paramns.id
 
+        if(this.parametroId != null){
+          this.pessoaService.findPessoaById(this.parametroId).subscribe(
+            (pessoa: Pessoa) => this.pessoa = pessoa
+          );
+        }else {
+          this.pessoa.isAtivo = true;
+        }
+      });
+
+  }
+
+  ngOnInit() {
+    
     this.formGroup = this.formBuilder.group({
       'nome': [this.pessoa.nome, Validators.compose([Validators.required, Validators.minLength(4)])],
       'email': [this.pessoa.email, Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -45,16 +53,18 @@ export class PessoaFormComponent implements OnInit {
       'genero': [this.pessoa.genero, Validators.required],
       'objetivo': [this.pessoa.objetivo],
       'dataNascimento': [this.pessoa.dataNascimento, Validators.required],
-      'papel': [this.pessoa.papel, Validators.required]
+      'papel': [this.pessoa.papel, Validators.required],
+      'isAtivo': this.pessoa.isAtivo
     });
 
-    // isAtivo
-
-  }
-
-  ngOnInit() {
     this.generos = GeneroValues;
     this.papeis = PapelValues;
+
+    if(this.pessoaLogada.papel != null && this.pessoaLogada.papel.toString() !=  'ADMINISTRATOR'  ){
+      console.log('if'+this.pessoaLogada.nome);
+      this.papeis = this.papeis.filter(papel => papel != 'ADMINISTRATOR');
+    }
+    
   }
 
   salvar(){
@@ -62,20 +72,28 @@ export class PessoaFormComponent implements OnInit {
     if(this.parametroId == null){
 
       this.pessoaService.insertPessoa(this.pessoa).subscribe((pessoa: Pessoa) => {
-        console.log('Pessoa '+this.pessoa.nome+' Salva com id '+this.pessoa.id);
-      });
+        //resultado
+      },(error: Error)=>{
+        //error
+        alert(error.message);
+      },() =>{
+        this.router.navigate(['/pessoas']);
+      }
+    );
 
     } else {
 
       this.pessoaService.updatePessoa(this.pessoa).subscribe(
-        (pessoa: Pessoa) => {
-          console.log('Pessoa '+this.pessoa.nome+ ' atualizada com sucesso '+this.pessoa.id);
+        () => {
+        },
+        (error: Error) => {
+          alert(error.message);
+        },() =>{
+          this.router.navigate(['/pessoas']);
         }
       ); 
       
     }
-
-    this.router.navigateByUrl("/pessoas");
 
   }
 

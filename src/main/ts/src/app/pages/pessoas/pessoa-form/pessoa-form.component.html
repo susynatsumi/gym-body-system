@@ -1,86 +1,107 @@
 
 <div>
-  <form  class="example-form" [formGroup]="formGroup" (submit)="salvar($event)">
-    <mat-form-field class="example-full-width">
-        <input 
-            matInput 
-            placeholder="Nome" 
-            formControlName="nome"
-            name="nome" 
-            [(ngModel)]="pessoa.nome"  />
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <mat-select 
-            placeholder="Gênero" 
-            formControlName="genero"
-            name="genero" 
-            [(ngModel)]="pessoa.genero">
-            <mat-option *ngFor="let gen of generos" [value]="gen">{{gen}}</mat-option>
-            <!-- <mat-option  [value]="gen">{{gen}}</mat-option> -->
-            <!-- <mat-option  [value]="gen">Feminino</mat-option> -->
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <input 
-        matInput 
-        [matDatepicker]="picker" 
-        placeholder="Data Nascimento:"  
-        formControlName="dataNascimento"
-        name="dataNascimento" 
-        [(ngModel)]="pessoa.dataNascimento"
-        disabled>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker disabled="false"></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <input 
-            matInput 
-            placeholder="Login:"
-            formControlName="login"
-            name="login" 
-            [(ngModel)]="pessoa.login"/>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <input 
-            matInput 
-            placeholder="Senha:"
-            formControlName="senha"
-            name="senha" 
-            type="password"
-            [(ngModel)]="pessoa.senha"/>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <input 
-            matInput 
-            placeholder="Email:"
-            formControlName="email"
-            name="email" 
-            [(ngModel)]="pessoa.email"/>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <textarea 
-            rows="4"
-            matInput 
-            placeholder="Objetivo"
-            formControlName="objetivo"
-            name="objetivo" 
-            [(ngModel)]="pessoa.objetivo"></textarea>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <mat-select 
-            placeholder="Papel"
-            formControlName="papel"
-            name="papel" 
-            [(ngModel)]="pessoa.papel">
-                <mat-option *ngFor="let papel of papeis" [value]="papel">{{papel}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <button mat-button *ngIf="parametroId == null" type="submit" color="primary" [disabled]="formGroup.invalid" >
-        Salvar
-    </button>
-    <button mat-button *ngIf="parametroId != null" type="submit" color="primary" [disabled]="formGroup.invalid" >
-        Atualizar
-    </button>
-    <a mat-button [routerLink]="['/pessoas']" color="warn">Voltar</a>
+  <form  fxLayout="column" class="example-form" [formGroup]="formGroup" (submit)="salvar($event)">
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <input 
+                matInput 
+                placeholder="Nome" 
+                formControlName="nome"
+                name="nome" 
+                [(ngModel)]="pessoa.nome"  />
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <mat-select 
+                placeholder="Gênero" 
+                formControlName="genero"
+                name="genero" 
+                [(ngModel)]="pessoa.genero">
+                <mat-option *ngFor="let gen of generos" [value]="gen">{{gen}}</mat-option>
+                <!-- <mat-option  [value]="gen">{{gen}}</mat-option> -->
+                <!-- <mat-option  [value]="gen">Feminino</mat-option> -->
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <input 
+                matInput 
+                [matDatepicker]="picker" 
+                placeholder="Data Nascimento:"  
+                formControlName="dataNascimento"
+                name="dataNascimento" 
+                [(ngModel)]="pessoa.dataNascimento"
+                disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <input 
+                matInput 
+                placeholder="Login:"
+                formControlName="login"
+                name="login" 
+                [(ngModel)]="pessoa.login"/>
+        </mat-form-field>
+    </div>
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <input 
+                matInput 
+                placeholder="Senha:"
+                formControlName="senha"
+                name="senha" 
+                type="password"
+                [(ngModel)]="pessoa.senha"/>
+        </mat-form-field>
+        <mat-form-field fxFlex >
+            <input 
+                matInput 
+                placeholder="Email:"
+                formControlName="email"
+                name="email" 
+                [(ngModel)]="pessoa.email"/>
+        </mat-form-field>
+    </div>
+    
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <mat-select 
+                placeholder="Papel"
+                formControlName="papel"
+                name="papel" 
+                [(ngModel)]="pessoa.papel">
+                    <mat-option *ngFor="let papel of papeis" [value]="papel">{{papel}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex >
+            <input matInput placeholder="" style="display: none">
+            <mat-checkbox 
+                formControlName="isAtivo"    
+                labelPosition='before'
+                [disabled]="parametroId == null"
+                [(ngModel)]="pessoa.isAtivo">Ativo</mat-checkbox>
+        </mat-form-field>
+    </div>
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <textarea 
+                rows="4"
+                matInput 
+                placeholder="Objetivo"
+                formControlName="objetivo"
+                name="objetivo" 
+                [(ngModel)]="pessoa.objetivo"></textarea>
+        </mat-form-field>
+    </div>
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <button fxFlex mat-button *ngIf="parametroId == null" type="submit" color="primary" [disabled]="formGroup.invalid" >
+            Salvar
+        </button>
+        <button fxFlex mat-button *ngIf="parametroId != null" type="submit" color="primary" [disabled]="formGroup.invalid" >
+            Atualizar
+        </button>
+        <a mat-button fxFlex [routerLink]="['/pessoas']" color="warn">Voltar</a>
+    </div>
   </form>
 </div>

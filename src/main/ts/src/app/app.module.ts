@@ -30,6 +30,7 @@ import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.com
     GeneratedModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FlexLayoutModule,
     ReactiveFormsModule,
     FormsModule
   ],
