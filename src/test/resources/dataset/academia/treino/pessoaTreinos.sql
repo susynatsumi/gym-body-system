@@ -75,22 +75,22 @@ INSERT INTO academia(
 INSERT INTO treino(
             id, created, updated, data_fim, data_inicio, hora_prevista_inicio, 
             hora_prevista_termino, nome, academia_id)
-    VALUES (1000, NOW(), null, '2018-12-31', '2018-11-01', '08:00:00', 
-            '09:00:00', 'Treino Testes', 1000);
+    VALUES (1000, NOW(), null, '2018-12-31', '2018-11-01', '2018-12-31 08:00:00', 
+            '2018-12-31 09:00:00', 'Treino Testes', 1000);
             
             
 INSERT INTO treino(
             id, created, updated, data_fim, data_inicio, hora_prevista_inicio, 
             hora_prevista_termino, nome, academia_id)
-    VALUES (1001, NOW(), null, '2017-12-31', '2017-11-01', '08:00:00', 
-            '09:00:00', 'Treino TESTE', 1000);
+    VALUES (1001, NOW(), null, '2017-12-31', '2017-11-01', '2018-12-31 08:00:00', 
+            '2018-12-31 09:00:00', 'Treino TESTE', 1000);
             
             
 INSERT INTO treino(
             id, created, updated, data_fim, data_inicio, hora_prevista_inicio, 
             hora_prevista_termino, nome, academia_id)
-    VALUES (1002, NOW(), null, '2019-12-31', '2019-11-01', '08:00:00', 
-            '09:00:00', 'Treino Testes B', 1000);
+    VALUES (1002, NOW(), null, '2019-12-31', '2019-11-01', '2018-12-31 08:00:00', 
+            '2018-12-31 09:00:00', 'Treino Testes B', 1000);
             
 -- ---------------------------------------------------------------------
 

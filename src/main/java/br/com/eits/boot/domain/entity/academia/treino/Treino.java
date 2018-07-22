@@ -1,7 +1,7 @@
 package br.com.eits.boot.domain.entity.academia.treino;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -58,12 +58,12 @@ public class Treino extends AbstractEntity {
 	// Hora prevista para inicio dos treinos
 	@NotNull
 	@Column(nullable = false)
-	private LocalTime horaPrevistaInicio;
+	private LocalDateTime horaPrevistaInicio;
 	
 	// hora prevista de termino dos treinos
 	@NotNull
 	@Column( nullable = false)
-	private LocalTime horaPrevistaTermino;
+	private LocalDateTime horaPrevistaTermino;
 	
 	
 	@OneToMany(
@@ -145,8 +145,8 @@ public class Treino extends AbstractEntity {
 		String nome, 
 		LocalDate dataInicio,
 		LocalDate dataFim,
-		LocalTime horaPrevistaInicio, 
-		LocalTime horaPrevistaTermino,
+		LocalDateTime horaPrevistaInicio, 
+		LocalDateTime horaPrevistaTermino,
 		List<TreinoExercicio> treinoExercicios, 
 		List<DiaSemana> diasSemanaSelecionados,
 		Academia academia,

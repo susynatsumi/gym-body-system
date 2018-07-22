@@ -1,6 +1,7 @@
 package br.com.eits.boot.test.domain.service.academia.treino;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.validation.ValidationException;
@@ -54,8 +55,8 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 
 		TreinoData treinoData = new TreinoData(
 			LocalDate.of(2018, 7, 19),
-			LocalTime.of(6, 0), 
-			LocalTime.of(10, 11), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			true, 
 			treino,
 			DiaSemana.QUINTA
@@ -89,8 +90,8 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		
 		TreinoData treinoData = new TreinoData(
 			null, // data
-			LocalTime.of(6, 0), 
-			LocalTime.of(10, 11), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			true, 
 			treino,
 			DiaSemana.QUINTA
@@ -113,8 +114,8 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 
 		TreinoData treinoData = new TreinoData(
 			LocalDate.of(2011, 5, 10), // data
-			LocalTime.of(6, 0), 
-			LocalTime.of(10, 11), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			true, 
 			null,
 			DiaSemana.QUINTA
@@ -141,8 +142,8 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		
 		TreinoData treinoData = new TreinoData(
 			LocalDate.of(2018, 1, 1), // data
-			LocalTime.of(6, 0), 
-			LocalTime.of(10, 11), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			true, 
 			treino,
 			DiaSemana.QUINTA
@@ -173,7 +174,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		
 		Assert.assertNotNull(treinoData);
 		
-		LocalTime novaHora = LocalTime.of(01, 1);
+		LocalDateTime novaHora = LocalDateTime.of(LocalDate.now(), LocalTime.of(01, 1));
 		
 		treinoData.setHoraInicio(novaHora);
 		
@@ -206,7 +207,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		
 		Assert.assertNotNull(treinoData);
 		
-		LocalTime novaHora = LocalTime.of(01, 1);
+		LocalDateTime novaHora = LocalDateTime.of(LocalDate.now(), LocalTime.of(01, 1));
 		
 		treinoData.setHoraTermino(novaHora);
 		

@@ -1,14 +1,17 @@
 package br.com.eits.boot.domain.entity.academia.treino;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -49,11 +52,11 @@ public class TreinoData extends AbstractEntity {
 	
 	// hora de inicio da realizacao do treino
 	@Column( nullable = true )
-	private LocalTime horaInicio;
+	private LocalDateTime horaInicio;
 	
 	// hora de termino da realização do treino
 	@Column( nullable = true)
-	private LocalTime horaTermino;
+	private LocalDateTime horaTermino;
 	
 	// indica se o treino foi completo ou não
 	@NotNull
@@ -75,7 +78,14 @@ public class TreinoData extends AbstractEntity {
 	@Column(nullable = false, updatable = false)
 	private DiaSemana diaSemana;
 	
-	
+	@OneToMany(
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY,
+		mappedBy = "treinoData",
+		orphanRemoval = false, 
+		targetEntity = ExercicioTreinoData.class
+	)
+	private List<ExercicioTreinoData> exerciciosTreinoDatas;
 	// --------------------------------
 	// ------------ CONSTRUCTORS ------
 	// --------------------------------
@@ -105,8 +115,8 @@ public class TreinoData extends AbstractEntity {
 	 */
 	public TreinoData(
 		LocalDate data,
-		LocalTime horaInicio, 
-		LocalTime horaTermino,
+		LocalDateTime horaInicio, 
+		LocalDateTime horaTermino,
 		Boolean completo, 
 		Treino treino, 
 		DiaSemana diaSemana

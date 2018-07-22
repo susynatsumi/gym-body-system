@@ -1,6 +1,7 @@
 package br.com.eits.boot.test.domain.service.academia.treino;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.transaction.TransactionSystemException;
 import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.academia.treino.DiaSemana;
+import br.com.eits.boot.domain.entity.academia.treino.ExercicioTreinoData;
 import br.com.eits.boot.domain.entity.academia.treino.PessoaTreino;
 import br.com.eits.boot.domain.entity.academia.treino.TipoTreinoExercicio;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
@@ -24,6 +26,7 @@ import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.IAcademiaRepository;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
+import br.com.eits.boot.domain.repository.academia.treino.IExercicioTreinoDataRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoDataRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoRepository;
 import br.com.eits.boot.domain.repository.account.IPessoaRepository;
@@ -49,6 +52,9 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	
 	@Autowired
 	private IPessoaRepository pessoaRepository;
+	
+	@Autowired
+	private IExercicioTreinoDataRepository exercicioTreinoDataRepository;
 	
 	// ------------------------------------------------------
 	// --------- INSERTS ------------------------------------
@@ -130,8 +136,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1), 
 			LocalDate.of(2018, 7, 1), 
-			LocalTime.of(10, 0), 
-			LocalTime.of(11, 00), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
 			academia,
@@ -158,6 +164,13 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 		Assert.assertNotNull(datasTreino);
 		Assert.assertEquals(9, datasTreino.size());
 		
+		List<ExercicioTreinoData> exerciciosTreinoDatas = this.exercicioTreinoDataRepository
+				.listExercicioTreinoDataByTreinoId(treino.getId());
+		
+		Assert.assertNotNull(exerciciosTreinoDatas);
+		Assert.assertEquals(18, exerciciosTreinoDatas.size());
+		
+		
 	}
 	
 	/**
@@ -179,8 +192,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 7, 1), 
 			LocalDate.of(2018, 7, 1), 
-			LocalTime.of(10, 0), 
-			LocalTime.of(11, 00), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
 			academia,
@@ -211,8 +224,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			null,// data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
-			LocalTime.of(10, 0), 
-			LocalTime.of(11, 00), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
 			academia,
@@ -243,8 +256,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 7, 1),  // data inicio 
 			null,// data fim 
-			LocalTime.of(10, 0), 
-			LocalTime.of(11, 00), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(), 
 			mockDiasSemana(), 
 			academia,
@@ -275,8 +288,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1),  // data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
-			LocalTime.of(10, 0), 
-			LocalTime.of(11, 00), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			null, 
 			mockDiasSemana(), 
 			academia,
@@ -307,8 +320,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1),  // data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
-			LocalTime.of(10, 0), 
-			LocalTime.of(11, 00), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			null,
 			academia,
@@ -340,8 +353,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 2),  // data inicio 
 			LocalDate.of(2018, 6, 3),  // data fim 
-			LocalTime.of(10, 0), 
-			LocalTime.of(11, 00), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			mockDiasSemana(),
 			academia,

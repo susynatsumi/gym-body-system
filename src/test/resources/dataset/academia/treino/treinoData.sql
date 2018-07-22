@@ -73,25 +73,26 @@ INSERT INTO academia(
             
 -- --------------------------------------------------------------------------------------
             
+       
 INSERT INTO treino(
             id, created, updated, data_fim, data_inicio, hora_prevista_inicio, 
             hora_prevista_termino, nome, academia_id)
-    VALUES (1000, NOW(), null, '2018-12-31', '2018-11-01', '08:00:00', 
-            '09:00:00', 'Treino Testes', 1000);
-            
-            
-INSERT INTO treino(
-            id, created, updated, data_fim, data_inicio, hora_prevista_inicio, 
-            hora_prevista_termino, nome, academia_id)
-    VALUES (1001, NOW(), null, '2017-12-31', '2017-11-01', '08:00:00', 
-            '09:00:00', 'Treino TESTE', 1000);
+    VALUES (1000, NOW(), null, '2018-12-31', '2018-11-01', '2018-12-31 08:00:00', 
+            '2018-12-31 09:00:00', 'Treino Testes', 1000);
             
             
 INSERT INTO treino(
             id, created, updated, data_fim, data_inicio, hora_prevista_inicio, 
             hora_prevista_termino, nome, academia_id)
-    VALUES (1002, NOW(), null, '2019-12-31', '2019-11-01', '08:00:00', 
-            '09:00:00', 'Treino Testes B', 1000);
+    VALUES (1001, NOW(), null, '2017-12-31', '2017-11-01', '2018-12-31 08:00:00', 
+            '2018-12-31 09:00:00', 'Treino TESTE', 1000);
+            
+            
+INSERT INTO treino(
+            id, created, updated, data_fim, data_inicio, hora_prevista_inicio, 
+            hora_prevista_termino, nome, academia_id)
+    VALUES (1002, NOW(), null, '2019-12-31', '2019-11-01', '2018-12-31 08:00:00', 
+            '2018-12-31 09:00:00', 'Treino Testes B', 1000);
 
             
 -- ----------------------------------------------------------------------------------
@@ -120,17 +121,17 @@ INSERT INTO treino_exercicio(
 INSERT INTO treino_data(
             id, created, updated, completo, data, dia_semana, hora_inicio, 
             hora_termino, treino_id)
-    VALUES (1000, NOW(), null, false, '2018-01-01' , 0, '10:00:00', 
-            '11:00:00', 1000);
+    VALUES (1000, NOW(), null, false, '2018-01-01' , 0, '2018-01-01 10:00:00', 
+            '2018-01-01 11:00:00', 1000);
             
 INSERT INTO treino_data(
             id, created, updated, completo, data, dia_semana, hora_inicio, 
             hora_termino, treino_id)
-    VALUES (1001, NOW(), null, false, '2018-01-05' , 0, '10:00:00', 
-            '11:00:00', 1000);
+    VALUES (1001, NOW(), null, false, '2018-01-05' , 0, '2018-01-05 10:00:00', 
+            '2018-01-05 11:00:00', 1000);
             
 INSERT INTO treino_data(
             id, created, updated, completo, data, dia_semana, hora_inicio, 
             hora_termino, treino_id)
-    VALUES (1002, NOW(), null, false, '2018-01-06' , 0, '10:00:00', 
-            '11:00:00', 1000);
+    VALUES (1002, NOW(), null, false, '2018-01-06' , 0, '2018-01-06 10:00:00', 
+            '2018-01-06 11:00:00', 1000);

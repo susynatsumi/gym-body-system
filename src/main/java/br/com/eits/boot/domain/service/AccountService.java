@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.eits.boot.application.configuration.settings.AppSettings;
+import br.com.eits.boot.application.security.RequestContext;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.IAccountMailRepository;
@@ -50,7 +51,7 @@ public class AccountService
 
 	@Autowired
 	private AppSettings appSettings;
-
+	
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
 	 *-------------------------------------------------------------------*/
@@ -153,5 +154,18 @@ public class AccountService
 		user.setSenha( this.passwordEncoder.encode( newPassword ) );
 		user = this.pessoaRepository.save( user );
 		this.accountMailRepository.sendPasswordResetNotice( user );
+	}
+	
+	public Pessoa getPessoaLogada(){
+		Pessoa pessoaLogada = RequestContext.currentUser().orElse(null); 
+		return pessoaLogada;
+	}
+	
+	/**
+	 * Faz delete da pessoa com o id informado
+	 * @param id
+	 */
+	public void deletePessoa( Long id ){
+		this.pessoaRepository.deleteById(id);
 	}
 }

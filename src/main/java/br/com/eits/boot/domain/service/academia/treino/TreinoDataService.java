@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.eits.boot.domain.entity.academia.treino.DiaSemana;
+import br.com.eits.boot.domain.entity.academia.treino.ExercicioTreinoData;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.account.Papel;
@@ -30,6 +31,9 @@ public class TreinoDataService {
 	
 	@Autowired
 	private ITreinoDataRepository treinoDataRepository;
+	
+	@Autowired
+	private ExercicioTreinoDataService exercicioTreinoDataService;
 	
 	// ------------------------------------
 	// -------------- MÉTODOS -------------
@@ -131,20 +135,28 @@ public class TreinoDataService {
 				.findFirst();
 			
 			if(diaSemanaAtual.isPresent()){
-				datasDoTreino.add(
-					new TreinoData(
-						dataAtual, // data treino
-						null,// hora inicio
-						null,// hora termino
-						false, // se está completo
-						treino, // treino
-						diaSemanaAtual.get() // dia da semana 
-					)
+
+				TreinoData treinoData = new TreinoData(
+					dataAtual, // data treino
+					null,// hora inicio
+					null,// hora termino
+					false, // se está completo
+					treino, // treino
+					diaSemanaAtual.get() // dia da semana 
 				);
+				
+				List<ExercicioTreinoData> novosExercicioTreinoData = 
+					exercicioTreinoDataService
+						.criaExercicioTreinoData(treinoData);
+				
+				treinoData.setExerciciosTreinoDatas(
+					novosExercicioTreinoData
+				);
+				
+				datasDoTreino.add(treinoData);
+				
 			}
-//			System.out.println(dataAtual);
-//			System.out.println(dataAtual.getDayOfWeek());
-//			System.out.println(datasDoTreino.size());
+			
 			dataAtual = dataAtual.plusDays(1);
 			
 		} while( !dataAtual.isAfter(treino.getDataFim()) );
