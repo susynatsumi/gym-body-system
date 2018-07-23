@@ -1,0 +1,48 @@
+<div class="filtro">
+  <div class="input-row">
+    <mat-form-field fxFlex>
+      <input matInput (keyup)="filtrar($event.target.value)" placeholder="Filtrar" class="filtro-texto">
+    </mat-form-field>
+  </div>
+</div>
+<mat-table [dataSource]="dadosTable" class="mat-elevation-z8">
+    <!-- Razao social Column -->
+  <ng-container matColumnDef="razaoSocial">
+    <mat-header-cell *matHeaderCellDef> Razão Social </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.razaoSocial}} </mat-cell>
+  </ng-container>
+
+  <!-- cidade Column -->
+  <ng-container matColumnDef="cidade">
+    <mat-header-cell *matHeaderCellDef> Cidade </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.cidade}} </mat-cell>
+  </ng-container>
+
+  <!-- telefone Column -->
+  <ng-container matColumnDef="telefone">
+    <mat-header-cell *matHeaderCellDef> Telefone </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.telefone}} </mat-cell>
+  </ng-container>
+
+  <!-- id Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="acoes">
+    <mat-header-cell *matHeaderCellDef>w</mat-header-cell>
+    <mat-cell *matCellDef="let element"> 
+      <button mat-button routerLink="/academias/{{element.id}}">
+        <mat-icon>edit</mat-icon>
+      </button>  
+      <button mat-button (click)="delete(element.id)">
+        <mat-icon>delete</mat-icon>
+      </button>  
+    </mat-cell>
+  </ng-container>
+
+    <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+    <mat-row *matRowDef="let academia; columns: colunas;"></mat-row>
+
+</mat-table>

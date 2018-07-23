@@ -64,7 +64,7 @@ public class AccountService
 	public Pessoa insertPessoa( Pessoa user)
 	{
 		user.setIsAtivo( true );
-		user.setSenha( this.passwordEncoder.encode( user.getPassword() ) );
+		user.setSenha( this.passwordEncoder.encode( (user.getPassword() == null? "" : user.getPassword() ) ) );
 
 		user = this.pessoaRepository.save( user );
 		this.accountMailRepository.sendNewUserAccount( user );

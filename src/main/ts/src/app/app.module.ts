@@ -16,6 +16,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { PessoasComponent } from './pages/pessoas/pessoas.component';
 import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.component';
+import { AcademiasComponent } from './pages/academias/academias.component';
+import { AcademiasFormComponent } from './pages/academias/academias-form/academias-form.component';
+
+import {NgxMaskModule} from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,8 @@ import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.com
     PessoaFormComponent,
     ToolbarPrincipalComponent,
     PessoasComponent,
+    AcademiasComponent,
+    AcademiasFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +38,8 @@ import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.com
     MaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [{
     provide: BROKER_CONFIGURATION,

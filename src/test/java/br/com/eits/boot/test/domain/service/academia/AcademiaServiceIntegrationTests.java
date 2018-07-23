@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
@@ -50,6 +51,7 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				.orElse(null);
 		
 		final Academia academia = new Academia(
+			null,
 			"razaoSocial", 
 			"nomeFantasia", 
 			"02.105.376/0001-96", 
@@ -102,6 +104,7 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				.orElse(null);
 		
 		final Academia academia = new Academia(
+				null,
 				"razaoSocial", 
 				null, 
 				"02.105.376/0001-96", 
@@ -132,6 +135,7 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				.orElse(null);
 		
 		final Academia academia = new Academia(
+				null,
 				null, 
 				"Nome Fantasia", 
 				"02.105.376/0001-96", 
@@ -162,6 +166,7 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				.orElse(null);
 		
 		final Academia academia = new Academia(
+				null,
 				"Teste", 
 				"Nome Fantasia", 
 				null, 
@@ -192,6 +197,7 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 				.orElse(null);
 		
 		final Academia academia = new Academia(
+				null,
 				"Teste", 
 				"Nome Fantasia", 
 				"43.576.756/0001-96", 
@@ -403,6 +409,22 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 
 		this.academiaService
 				.findAcdemiaById(100156160L);
+		
+	}
+
+
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/academias.sql"
+	})
+	public void listAcademiaMustPassReturn1(){
+
+		Page<Academia> academias = this.academiaService
+				.listAcademiaByFilters("bla Bla asfd", null);
+		
+		Assert.assertEquals(1L, academias.getTotalElements());
 		
 	}
 	

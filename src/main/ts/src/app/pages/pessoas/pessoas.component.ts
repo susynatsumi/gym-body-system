@@ -21,7 +21,7 @@ export class PessoasComponent implements OnInit {
 
   colunas: string[] = ['Nome', 'E-mail', 'Status', 'Id', 'Acoes'];
   dadosTable = new MatTableDataSource();
- pessoasTable:  Page<Pessoa>;
+  pessoasTable:  Page<Pessoa>;
 
   constructor(
     private router: Router,

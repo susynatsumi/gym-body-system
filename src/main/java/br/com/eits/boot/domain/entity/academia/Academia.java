@@ -92,6 +92,7 @@ public class Academia extends AbstractEntity{
 	}
 
 	public Academia(
+		Long id,
 		String razaoSocial, 
 		String nomeFantasia, 
 		String cnpj, 
@@ -102,7 +103,7 @@ public class Academia extends AbstractEntity{
 		String cidade,
 		Pessoa pessoaProprietario
 	) {
-		super();
+		super(id);
 		this.razaoSocial = razaoSocial;
 		this.nomeFantasia = nomeFantasia;
 		this.cnpj = cnpj;

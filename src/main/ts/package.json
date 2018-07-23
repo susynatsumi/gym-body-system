@@ -8,7 +8,8 @@
   },
   "private": true,
   "dependencies": {
-    "eits-ng-starter-2018-01": "^0.6.0"
+    "eits-ng-starter-2018-01": "^0.6.0",
+    "ngx-mask": "^6.0.1"
   },
   "devDependencies": {
     "eits-ng-starter-2018-01-dev": "^0.6.0"

@@ -48,8 +48,8 @@ export class PessoaFormComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       'nome': [this.pessoa.nome, Validators.compose([Validators.required, Validators.minLength(4)])],
       'email': [this.pessoa.email, Validators.compose([Validators.required, Validators.minLength(4)])],
-      'login': [this.pessoa.login, Validators.compose([Validators.required, Validators.minLength(4)])],
-      'senha': [this.pessoa.senha, Validators.compose([Validators.required, Validators.minLength(4)])],
+      'login': [this.pessoa.login],
+      'senha': [this.pessoa.senha],
       'genero': [this.pessoa.genero, Validators.required],
       'objetivo': [this.pessoa.objetivo],
       'dataNascimento': [this.pessoa.dataNascimento, Validators.required],

@@ -2,6 +2,8 @@ package br.com.eits.boot.domain.service.academia;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,12 +43,12 @@ public class AcademiaService {
 		
 		Assert.notNull(
 			academia,
-			MessageSourceHolder.translate("exercicio.service.null")
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.isNull(
 			academia.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.null")
+			MessageSourceHolder.translate("service.object.id.not.null")
 		);
 		
 		academia.setIsAtiva(true);
@@ -67,12 +69,12 @@ public class AcademiaService {
 		
 		Assert.notNull(
 			academia,
-			MessageSourceHolder.translate("exercicio.service.null")
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.notNull(
 			academia.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.not.null")
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		return this.academiaRepository.save(academia);
@@ -89,16 +91,44 @@ public class AcademiaService {
 	@Transactional( readOnly = true )
 	public Academia findAcdemiaById( Long id ){
 		
-		return this.academiaRepository
-				.findById(id)
-				.orElseThrow(() ->
-					new IllegalArgumentException(
-						MessageSourceHolder.translate(
-							"repository.notFoundById", id
-						)
-					)
-				);
+		final Academia acade = this.academiaRepository
+		.findById(id)
+		.orElseThrow(() ->
+			new IllegalArgumentException(
+				MessageSourceHolder.translate(
+					"repository.notFoundById", id
+				)
+			)
+		);
+		return acade;
+//		return this.academiaRepository
+//				.findById(id)
+//				.orElseThrow(() ->
+//					new IllegalArgumentException(
+//						MessageSourceHolder.translate(
+//							"repository.notFoundById", id
+//						)
+//					)
+//				);
 		
+	}
+	
+	/**
+	 * Listagem de academia por filtros
+	 * 
+	 * @param filters
+	 * @param pageable
+	 * @return
+	 */
+	@Transactional( readOnly = true )
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "')")
+	public Page<Academia> listAcademiaByFilters(String filters , PageRequest pageable){
+		return this.academiaRepository.listByFilters(filters, pageable);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "')")
+	public void deleteAcademia( Long id ){
+		this.academiaRepository.deleteById(id);
 	}
 	
 }
