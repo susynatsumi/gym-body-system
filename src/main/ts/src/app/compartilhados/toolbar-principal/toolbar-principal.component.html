@@ -12,12 +12,20 @@
 
     <span class="example-spacer"></span>
     
+    <button mat-button [matMenuTriggerFor]="menuAcademias" >Academias</button>
+    <mat-menu #menuAcademias="matMenu">
+      <button mat-menu-item routerLink="/academias">Consultar</button>
+      <button mat-menu-item routerLink="/academias/cadastrar">Cadastrar</button>
+    </mat-menu>
     <button mat-button [matMenuTriggerFor]="menuPessoas" >Pessoas</button>
     <mat-menu #menuPessoas="matMenu">
-      <button mat-menu-item routerLink="/pessoas">Listar</button>
+      <button mat-menu-item routerLink="/pessoas">Consultar</button>
       <button mat-menu-item routerLink="/pessoas/cadastrar">Cadastrar</button>
     </mat-menu>
-    <button mat-button>Services</button>
-    <button mat-button>Contact</button>
+    <button mat-button [matMenuTriggerFor]="menuTreino" >Treinos</button>
+    <mat-menu #menuTreino="matMenu">
+      <button mat-menu-item routerLink="/treinos">Consultar</button>
+      <button mat-menu-item routerLink="/treinos/cadastrar">Cadastrar</button>
+    </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>

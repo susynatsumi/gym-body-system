@@ -1,3 +1,4 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
 <div class="filtro">
   <div class="input-row">
     <mat-form-field fxFlex>
@@ -31,9 +32,9 @@
   </ng-container>
 
   <ng-container matColumnDef="acoes">
-    <mat-header-cell *matHeaderCellDef>w</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let element"> 
-      <button mat-button routerLink="/academias/{{element.id}}">
+      <button mat-button routerLink="/academias/editar/{{element.id}}">
         <mat-icon>edit</mat-icon>
       </button>  
       <button mat-button (click)="delete(element.id)">
@@ -43,6 +44,6 @@
   </ng-container>
 
     <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
-    <mat-row *matRowDef="let academia; columns: colunas;"></mat-row>
+    <mat-row routerLink="/academias/{{academia?.id}}" *matRowDef="let academia; columns: colunas;"></mat-row>
 
 </mat-table>

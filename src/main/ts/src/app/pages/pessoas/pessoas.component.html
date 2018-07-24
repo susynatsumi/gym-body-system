@@ -1,3 +1,4 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
 <div class="filtro">
   <button mat-button routerLinkActive="active" (click)="cadastrar()">
     Cadastrar
@@ -43,7 +44,7 @@
   <ng-container matColumnDef="Acoes">
       <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
       <mat-cell *matCellDef="let element"> 
-        <button mat-button routerLink="/pessoas/{{element.id}}">
+        <button mat-button routerLink="/pessoas/editar/{{element.id}}">
           <mat-icon>edit</mat-icon>
         </button>  
         <button mat-button (click)="delete(element.id)">
@@ -54,5 +55,5 @@
 
   <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
   <!-- <mat-row *matRowDef="let pessoa; columns: colunas;" /*(click)="editar(pessoa.id)"*/?></mat-row> -->
-  <mat-row *matRowDef="let pessoa; columns: colunas;"></mat-row>
+  <mat-row routerLink="/pessoas/{{pessoa?.id}}" *matRowDef="let pessoa; columns: colunas;"></mat-row>
 </mat-table>

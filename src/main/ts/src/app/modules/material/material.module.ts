@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 
 // material imports
-import { MatButtonModule, MatToolbarModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatTableModule, MatIconModule, MatMenuModule, MatCheckboxModule, MatStepperModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatTableModule, MatIconModule, MatMenuModule, MatCheckboxModule, MatStepperModule, MatCardModule} from '@angular/material';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 // fim material imports
+
+// MODULO PARA IMPORTACAO DOS MODULOS DO ANGULAR MATERIAL
 
 @NgModule({
   imports: [
@@ -19,7 +21,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatMenuModule,
     MatCheckboxModule,
     MatStepperModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatCardModule,
   ],
   exports: [
     MatButtonModule,
@@ -33,7 +36,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatMenuModule,
     MatCheckboxModule,
     MatStepperModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatCardModule,
   ],
 })
 export class MaterialModule { }

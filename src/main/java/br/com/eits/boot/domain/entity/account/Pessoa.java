@@ -93,7 +93,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	/**
 	 * objetivo da pessoa, pode ser um texto longo
 	 */
-	@Column(length = 255)
+	@Column(length = 500)
 	private String objetivo;
 
 	/**

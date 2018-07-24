@@ -8,10 +8,7 @@ import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
 
-
-export class State {
-  constructor(public name: string, public population: string, public flag: string) { }
-}
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-academias-form',
@@ -19,6 +16,10 @@ export class State {
   styleUrls: ['./academias-form.component.scss']
 })
 export class AcademiasFormComponent implements OnInit {
+
+  // ---------------------------------------------
+  // ---------------- ATRIBUTOS ------------------
+  // ---------------------------------------------
 
   public academia: Academia;
 
@@ -32,7 +33,12 @@ export class AcademiasFormComponent implements OnInit {
 
   public pessoas: Page<Pessoa>;
 
+  loading = false;
   parametroId: number;
+
+  // ---------------------------------------------
+  // ---------------- CONSTRUCTOR ----------------
+  // ---------------------------------------------
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,19 +51,33 @@ export class AcademiasFormComponent implements OnInit {
     this.academia = {};
     this.academia.isAtiva = true;
 
-
     this.route.params.subscribe(
       paramns => {
-        this.parametroId = paramns.id
+
+        this.parametroId = paramns.id;
 
         if(this.parametroId != null){
-          this.academiaService.findAcdemiaById(this.parametroId).subscribe(
-            (academia: Academia) => this.academia = academia
-          );
+
+          this.loading = true;
+
+          this.academiaService.findAcdemiaById(this.parametroId)
+            .finally( () => this.loading = false )
+            .subscribe(
+              (academia: Academia) => {
+                this.academia = academia
+              },(error: Error) => {
+                alert(error.message);
+                this.router.navigate(['academias/cadastrar']);
+              }
+            );
+
         }
       });
   }
 
+  /**
+   * On Init
+   */
   ngOnInit() {
 
     this.formStep1DadosAcademia = this.formBuilder.group({
@@ -87,7 +107,7 @@ export class AcademiasFormComponent implements OnInit {
       .pipe(
         startWith(''),
         map(pessoa => pessoa ? 
-            this.filterStates(pessoa) 
+            this.filterPessoas(pessoa) 
           : 
             this.pessoas.content.slice()
         )
@@ -96,6 +116,9 @@ export class AcademiasFormComponent implements OnInit {
 
   }
 
+  /**
+   * Salva os dados de uma academia de acordo com o formulário
+   */
   salvar(){
 
     if(this.parametroId == null ){
@@ -123,12 +146,18 @@ export class AcademiasFormComponent implements OnInit {
       }
   }
 
-
+  /**
+   * Lista pessoas para o campo proprietário
+   */
   listaPessoasAtivas(){
     return this.pessoaService.listByFilters('');
   }
 
-  filterStates(name: string) {
+  /**
+   * Filtra pessoas carregadas no autocomplete
+   * @param name 
+   */
+  filterPessoas(name: string) {
 
     return this.pessoas.content.filter(pessoa =>
         pessoa.nome.toLowerCase().indexOf(name.toLowerCase()) === 0);

@@ -20,6 +20,9 @@ import { AcademiasComponent } from './pages/academias/academias.component';
 import { AcademiasFormComponent } from './pages/academias/academias-form/academias-form.component';
 
 import {NgxMaskModule} from 'ngx-mask';
+import { LoadingModule } from 'ngx-loading';
+import { AcademiaDetalharComponent } from './pages/academias/academia-detalhar/academia-detalhar.component';
+import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pessoas-detalhar.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import {NgxMaskModule} from 'ngx-mask';
     PessoasComponent,
     AcademiasComponent,
     AcademiasFormComponent,
+    AcademiaDetalharComponent,
+    PessoasDetalharComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,8 @@ import {NgxMaskModule} from 'ngx-mask';
     FlexLayoutModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    LoadingModule
   ],
   providers: [{
     provide: BROKER_CONFIGURATION,
