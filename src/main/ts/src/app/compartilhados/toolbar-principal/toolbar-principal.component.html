@@ -17,11 +17,31 @@
       <button mat-menu-item routerLink="/academias">Consultar</button>
       <button mat-menu-item routerLink="/academias/cadastrar">Cadastrar</button>
     </mat-menu>
+
     <button mat-button [matMenuTriggerFor]="menuPessoas" >Pessoas</button>
     <mat-menu #menuPessoas="matMenu">
       <button mat-menu-item routerLink="/pessoas">Consultar</button>
       <button mat-menu-item routerLink="/pessoas/cadastrar">Cadastrar</button>
     </mat-menu>
+    
+    <button mat-button [matMenuTriggerFor]="menuGrupoMuscular">Grupos Musculares</button>
+    <mat-menu #menuGrupoMuscular="matMenu">
+      <button mat-menu-item routerLink="/grupos-musculares">Consultar</button>
+      <button mat-menu-item routerLink="/grupos-musculares/cadastrar">Cadastrar</button>
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="menuEquipamento">Equipamentos</button>
+    <mat-menu #menuEquipamento="matMenu">
+      <button mat-menu-item routerLink="/equipamentos">Consultar</button>
+      <button mat-menu-item routerLink="/equipamentos/cadastrar">Cadastrar</button>
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="menuExercicios" >Exercícios</button>
+    <mat-menu #menuExercicios="matMenu">
+      <button mat-menu-item routerLink="/exercicios">Consultar</button>
+      <button mat-menu-item routerLink="/exercicios/cadastrar">Cadastrar</button>
+    </mat-menu>
+    
     <button mat-button [matMenuTriggerFor]="menuTreino" >Treinos</button>
     <mat-menu #menuTreino="matMenu">
       <button mat-menu-item routerLink="/treinos">Consultar</button>

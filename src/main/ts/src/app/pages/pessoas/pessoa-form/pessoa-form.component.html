@@ -9,7 +9,7 @@
                 <mat-form-field fxFlex>
                     <input 
                         matInput 
-                        placeholder="Nome" 
+                        placeholder="Nome (Obrigatório)" 
                         formControlName="nome"
                         name="nome" 
                         [(ngModel)]="pessoa.nome"  />
@@ -18,20 +18,18 @@
             <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
                 <mat-form-field fxFlex>
                     <mat-select 
-                        placeholder="Gênero" 
+                        placeholder="Gênero (Obrigatório)" 
                         formControlName="genero"
                         name="genero" 
                         [(ngModel)]="pessoa.genero">
                         <mat-option *ngFor="let gen of generos" [value]="gen">{{gen}}</mat-option>
-                        <!-- <mat-option  [value]="gen">{{gen}}</mat-option> -->
-                        <!-- <mat-option  [value]="gen">Feminino</mat-option> -->
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field fxFlex>
                     <input 
                         matInput 
                         [matDatepicker]="picker" 
-                        placeholder="Data Nascimento:"  
+                        placeholder="Data de nascimento (Obrigatório)"  
                         formControlName="dataNascimento"
                         name="dataNascimento" 
                         [(ngModel)]="pessoa.dataNascimento">
@@ -54,7 +52,7 @@
                 <mat-form-field fxFlex >
                     <input 
                         matInput 
-                        placeholder="Email:"
+                        placeholder="Email (Obrigatório)"
                         formControlName="email"
                         name="email" 
                         [(ngModel)]="pessoa.email"/>
@@ -64,7 +62,7 @@
                 <mat-form-field fxFlex>
                     <input 
                         matInput 
-                        placeholder="Login:"
+                        placeholder="Login (Obrigatório para conceder acesso)"
                         formControlName="login"
                         autocomplete="off"
                         name="login" 
@@ -73,7 +71,7 @@
                 <mat-form-field fxFlex>
                     <input 
                         matInput 
-                        placeholder="Senha:"
+                        placeholder="Senha (Obrigatório para conceder acesso)"
                         formControlName="senha"
                         autocomplete="off"
                         name="senha" 
@@ -99,7 +97,7 @@
             <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
                 <mat-form-field fxFlex>
                     <mat-select 
-                        placeholder="Papel"
+                        placeholder="Papel (Obrigatório)"
                         formControlName="papel"
                         name="papel" 
                         [(ngModel)]="pessoa.papel">
@@ -135,7 +133,7 @@
                     <textarea 
                         rows="4"
                         matInput 
-                        placeholder="Objetivo"
+                        placeholder="Objetivo (Opcional)"
                         formControlName="objetivo"
                         name="objetivo" 
                         [(ngModel)]="pessoa.objetivo"></textarea>
@@ -150,14 +148,15 @@
                     mat-raised-button 
                     matStepperNext 
                     title="Salvar dados" 
+                    color="primary"
                     (click)="salvar()">Finalizar</button>
+                <button 
+                    mat-raised-button 
+                    title="Cancela operação e retorna para tela de consulta" 
+                    [routerLink]="['/pessoas']" 
+                    color="warn">Cancelar</button>
             </div>
         </form>
     </mat-step>
   </mat-vertical-stepper>
-  <button 
-    mat-raised-button 
-    title="Cancela operação e retorna para tela de consulta" 
-    [routerLink]="['/pessoas']" 
-    color="warn">Cancelar</button>
 </div>

@@ -9,7 +9,7 @@
               <mat-form-field fxFlex>
                   <input 
                       matInput 
-                      placeholder="Razão Social" 
+                      placeholder="Razão Social (Obrigatório)" 
                       formControlName="razaoSocial"
                       name="razaoSocial" 
                       [(ngModel)]="academia.razaoSocial"  />
@@ -17,7 +17,7 @@
               <mat-form-field fxFlex>
                 <input 
                     matInput 
-                    placeholder="Nome Fantasia" 
+                    placeholder="Nome Fantasia (Obrigatório)" 
                     formControlName="nomeFantasia"
                     name="nomeFantasia" 
                     [(ngModel)]="academia.nomeFantasia"  />
@@ -27,7 +27,7 @@
             <mat-form-field fxFlex>
               <input 
                 matInput
-                placeholder="CNPJ"
+                placeholder="CNPJ (Obrigatório)"
                 formControlName="cnpj"
                 name="cnpj"
                 id="cnpj"
@@ -38,7 +38,7 @@
             <mat-form-field fxFlex>
               <input 
                 matInput
-                placeholder="Telefone"
+                placeholder="Telefone (Obrigatório)"
                 formControlName="telefone"
                 name="telefone"
                 [dropSpecialCharacters]="true"
@@ -71,7 +71,7 @@
             <mat-form-field class="example-full-width" fxFlex>
               <input 
                 matInput 
-                placeholder="Proprietário" 
+                placeholder="Proprietário (Obrigatório)"
                 aria-label="pessoaProprietario" 
                 formControlName="pessoaProprietario"
                 [value]="academia?.pessoaProprietario?.nome"
@@ -103,7 +103,7 @@
           <mat-form-field fxFlex>
             <input 
               matInput
-              placeholder="Cidade"
+              placeholder="Cidade (Obrigatório)"
               formControlName="cidade"
               name="cidade"
               [(ngModel)]="academia.cidade"/>
@@ -111,7 +111,7 @@
           <mat-form-field fxFlex>
             <input 
               matInput
-              placeholder="CEP"
+              placeholder="CEP (Obrigatório)"
               formControlName="cep"
               name="cep"
               [dropSpecialCharacters]="true"
@@ -123,18 +123,30 @@
           <mat-form-field fxFlex>
             <input 
               matInput
-              placeholder="Endereço"
+              placeholder="Endereço (Obrigatório)"
               formControlName="endereco"
               name="endereco"
               [(ngModel)]="academia.endereco"/>
           </mat-form-field>
         </div>
         <div>
-          <button mat-raised-button matStepperPrevious title="Voltar para etapa anterior" >Anterior</button>
-          <button mat-raised-button matStepperNext title="Salvar dados" (click)="salvar()">Finalizar</button>
+          <button 
+            mat-raised-button 
+            matStepperPrevious 
+            title="Voltar para etapa anterior" >Anterior</button>
+          <button 
+            mat-raised-button 
+            matStepperNext 
+            color='primary'
+            title="Salvar dados" 
+            (click)="salvar()">Finalizar</button>
+          <button 
+            mat-raised-button 
+            title="Cancela operação e retorna para tela de consulta" 
+            [routerLink]="['/academias']"  
+            color="warn">Cancelar</button>
         </div>
       </form>
     </mat-step>
   </mat-vertical-stepper>
-  <button mat-raised-button title="Cancela operação e retorna para tela de consulta" [routerLink]="['/academias']"  color="warn">Cancelar</button>
 </div>

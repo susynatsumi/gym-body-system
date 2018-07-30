@@ -13,7 +13,7 @@ TRUNCATE "grupo_muscular" CASCADE;
 
 INSERT INTO grupo_muscular(
             id, created, updated, descricao, nome)
-    VALUES (1000, now(), null, 'Este grupo muscular teste teste teste ', 'Teste');
+    VALUES (1000, now(), null, 'Este grupo muscular teste teste teste ', 'Grupo Teste');
     
 INSERT INTO grupo_muscular(
             id, created, updated, descricao, nome)

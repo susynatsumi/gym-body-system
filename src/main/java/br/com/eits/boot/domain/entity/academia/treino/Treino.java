@@ -42,7 +42,7 @@ public class Treino extends AbstractEntity {
 	
 	// nome do treino
 	@NotEmpty
-	@Column( nullable = false, length = 50 )
+	@Column( nullable = false, length = 200 )
 	private String nome;
 	
 	// data de inicio do treino

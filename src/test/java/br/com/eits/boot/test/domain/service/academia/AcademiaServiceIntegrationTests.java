@@ -412,7 +412,45 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 		
 	}
 
+	/**
+	 * Teste filtro filtrando pelo campo Nome fantasia
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/academias.sql"
+	})
+	public void listAcademiaMustPassReturn2(){
 
+		Page<Academia> academias = this.academiaService
+				.listAcademiaByFilters("bl", null);
+		
+		Assert.assertEquals(2L, academias.getTotalElements());
+		
+	}
+	
+	/**
+	 * Filtrando pelo campo cidade
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/academias.sql"
+	})
+	public void listAcademiaMustPassReturn3(){
+
+		Page<Academia> academias = this.academiaService
+				.listAcademiaByFilters("Cidade", null);
+		
+		Assert.assertEquals(3L, academias.getTotalElements());
+		
+	}
+	
+	/**
+	 * Teste filtrando pelo id
+	 */
 	@Test
 	@WithUserDetails("admin@email.com")
 	@Sql({
@@ -420,14 +458,72 @@ public class AcademiaServiceIntegrationTests extends AbstractIntegrationTests{
 		"/dataset/academia/academias.sql"
 	})
 	public void listAcademiaMustPassReturn1(){
-
+		
 		Page<Academia> academias = this.academiaService
-				.listAcademiaByFilters("bla Bla asfd", null);
+				.listAcademiaByFilters("1000", null);
 		
 		Assert.assertEquals(1L, academias.getTotalElements());
 		
 	}
 	
-	//TODO fazer testes com filtros
+	/**
+	 * Listagem de todos os registros
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/academias.sql"
+	})
+	public void listAcademiaMustPassReturn4(){
+		
+		
+		Page<Academia> academias = this.academiaService
+				.listAcademiaByFilters("", null);
+		
+		Assert.assertEquals(4L, academias.getTotalElements());
+		
+	}
+	
+	// -------------------------------------
+	// -----------  DELETES ----------------
+	// -------------------------------------
+	
+	/**
+	 * Teste de remoção de academia com sucesso
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/academias.sql"
+	})
+	public void deleteAcademiaMustPass(){
+		
+		this.academiaService.deleteAcademia(1000L);
+		
+		final Academia academia = this.academiaRepository
+				.findById(1000L)
+				.orElse(null);
+		
+		Assert.assertNull(academia);
+		
+	}
+	
+	/**
+	 * Falha na remoção de academias com vinculo
+	 */
+	@Test( expected = DataIntegrityViolationException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinos.sql"
+	})
+	public void deleteAcademiaMustFail(){
+		
+		this.academiaService.deleteAcademia(1000L);
+		
+		
+	}
 	
 }

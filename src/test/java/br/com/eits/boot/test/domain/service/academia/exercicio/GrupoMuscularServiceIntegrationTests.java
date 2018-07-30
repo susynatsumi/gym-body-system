@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
@@ -205,7 +206,83 @@ public class GrupoMuscularServiceIntegrationTests extends AbstractIntegrationTes
 		this.grupoMuscularService.findGrupoMuscularById(100516551L);
 		
 	}
+
+	/**
+	 * Listagem de grupos musculares de acordo com o filtro de nome
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/grupoMuscular.sql"
+	})
+	public void listExercicioGrupoMuscularReturn2(){
+		
+		Page<GrupoMuscular> gruposMusculares = this.grupoMuscularService
+				.listByFilters("grupo", null);
+		
+		Assert.assertEquals(2, gruposMusculares.getTotalElements());
+		
+	}
 	
-	//TODO fazer testes com filtros
+	/**
+	 * Listagem de grupos musculares de acordo com o filtro de id
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/grupoMuscular.sql"
+	})
+	public void listExercicioGrupoMuscularReturn1(){
+		
+		Page<GrupoMuscular> gruposMusculares = this.grupoMuscularService
+				.listByFilters("1000", null);
+		
+		Assert.assertEquals(1, gruposMusculares.getTotalElements());
+		
+	}
+	
+	
+	// --------------------------------------------------
+	// -------------------- DELETES ---------------------
+	// --------------------------------------------------
+	
+	/**
+	 * Teste de remoção com sucesso
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/grupoMuscular.sql"
+	})
+	public void deleteGrupoMuscularMustPass(){
+
+		this.grupoMuscularService.deleteGrupoMuscular(1000L);
+		
+		GrupoMuscular grupoMuscular = this.grupoMuscularRepository
+				.findById(1000L)
+				.orElse(null);
+		
+		Assert.assertNull(grupoMuscular);
+		
+	}
+	
+	/**
+	 * Teste de remoção falha
+	 */
+	@Test( expected = DataIntegrityViolationException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/exercicioGrupoMuscular.sql"
+	})
+	public void deleteGrupoMuscularMustFail(){
+
+		this.grupoMuscularService.deleteGrupoMuscular(1000L);
+		
+	}
+	
 	
 }

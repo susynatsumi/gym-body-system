@@ -19,35 +19,47 @@
 <mat-table [dataSource]="dadosTable" class="mat-elevation-z8">
   <!-- Nome Column -->
   <ng-container matColumnDef="Nome">
-    <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.nome}} </mat-cell>
+    <mat-header-cell fxFlex="30%" *matHeaderCellDef> Nome </mat-header-cell>
+    <mat-cell fxFlex="30%" *matCellDef="let element"> {{element.nome}} </mat-cell>
   </ng-container>
 
   <!-- E-mail Column -->
   <ng-container matColumnDef="E-mail">
-    <mat-header-cell *matHeaderCellDef>E-mail</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+    <mat-header-cell fxFlex="22%" *matHeaderCellDef>E-mail</mat-header-cell>
+    <mat-cell fxFlex="22%" *matCellDef="let element"> {{element.email}} </mat-cell>
   </ng-container>
 
   <!-- Stats Column -->
   <ng-container matColumnDef="Status">
-    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.isAtivo == true ? 'Ativo' : 'Inativo'}} </mat-cell>
+    <mat-header-cell fxFlex="8%" *matHeaderCellDef> Status </mat-header-cell>
+    <mat-cell fxFlex="8%" *matCellDef="let element"> {{element.isAtivo == true ? 'Ativo' : 'Inativo'}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="Id">
-    <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    <mat-header-cell fxFlex="8%" *matHeaderCellDef> Código </mat-header-cell>
+    <mat-cell fxFlex="8%" *matCellDef="let element"> {{element.id}} </mat-cell>
   </ng-container>
 
 
   <ng-container matColumnDef="Acoes">
-      <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-      <mat-cell *matCellDef="let element"> 
-        <button mat-button routerLink="/pessoas/editar/{{element.id}}">
+      <mat-header-cell fxFlex="32%" *matHeaderCellDef></mat-header-cell>
+      <mat-cell fxFlex="32%" *matCellDef="let element"> 
+        <button 
+          mat-button 
+          routerLink="/pessoas/{{element.id}}"
+          title="Detalhar">
+          <mat-icon>description</mat-icon>
+        </button>   
+        <button 
+          mat-button 
+          routerLink="/pessoas/editar/{{element.id}}"
+          title="Editar">
           <mat-icon>edit</mat-icon>
         </button>  
-        <button mat-button (click)="delete(element.id)">
+        <button 
+          mat-button 
+          (click)="delete(element.id)"
+          title="Remover">
           <mat-icon>delete</mat-icon>
         </button>  
       </mat-cell>

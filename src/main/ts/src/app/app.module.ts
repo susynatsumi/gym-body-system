@@ -23,6 +23,20 @@ import {NgxMaskModule} from 'ngx-mask';
 import { LoadingModule } from 'ngx-loading';
 import { AcademiaDetalharComponent } from './pages/academias/academia-detalhar/academia-detalhar.component';
 import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pessoas-detalhar.component';
+import { TreinosComponent } from './pages/treinos/treinos.component';
+import { TreinosFormComponent } from './pages/treinos/treinos-form/treinos-form.component';
+import { GruposMuscularesComponent } from './pages/grupos-musculares/grupos-musculares.component';
+import { GrupoMuscularFormComponent } from './pages/grupos-musculares/grupo-muscular-form/grupo-muscular-form.component';
+import { GrupoMuscularDetalharComponent } from './pages/grupos-musculares/grupo-muscular-detalhar/grupo-muscular-detalhar.component';
+import { ExerciciosComponent } from './pages/exercicios/exercicios.component';
+import { ExerciciosFormComponent } from './pages/exercicios/exercicios-form/exercicios-form.component';
+import { ExerciciosDetalharComponent } from './pages/exercicios/exercicios-detalhar/exercicios-detalhar.component';
+import { EquipamentosComponent } from './pages/equipamentos/equipamentos.component';
+import { EquipamentosFormComponent } from './pages/equipamentos/equipamentos-form/equipamentos-form.component';
+import { EquipamentosDetalharComponent } from './pages/equipamentos/equipamentos-detalhar/equipamentos-detalhar.component';
+import { EquipamentoDialogComponent } from './pages/dialogs/equipamento-dialog/equipamento-dialog.component';
+import { HttpClientModule } from '../../node_modules/@angular/common/http';
+import { GrupoMuscularDialogComponent } from './pages/dialogs/grupo-muscular-dialog/grupo-muscular-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +48,19 @@ import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pesso
     AcademiasFormComponent,
     AcademiaDetalharComponent,
     PessoasDetalharComponent,
+    TreinosComponent,
+    TreinosFormComponent,
+    GruposMuscularesComponent,
+    GrupoMuscularFormComponent,
+    GrupoMuscularDetalharComponent,
+    ExerciciosComponent,
+    ExerciciosFormComponent,
+    ExerciciosDetalharComponent,
+    EquipamentosComponent,
+    EquipamentosFormComponent,
+    EquipamentosDetalharComponent,
+    EquipamentoDialogComponent,
+    GrupoMuscularDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +72,8 @@ import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pesso
     ReactiveFormsModule,
     FormsModule,
     NgxMaskModule.forRoot(),
-    LoadingModule
+    LoadingModule,
+    HttpClientModule,
   ],
   providers: [{
     provide: BROKER_CONFIGURATION,
@@ -54,6 +82,10 @@ import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pesso
       realTime: false
     }
   }],
+  entryComponents: [
+    EquipamentoDialogComponent,
+    GrupoMuscularDialogComponent
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

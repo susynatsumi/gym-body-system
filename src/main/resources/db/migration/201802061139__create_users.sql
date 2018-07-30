@@ -73,7 +73,7 @@ CREATE TABLE pessoa
   last_login timestamp without time zone,
   login character varying(255),
   nome character varying(50) NOT NULL,
-  objetivo character varying(255),
+  objetivo character varying(500),
   papel integer NOT NULL,
   password_reset_token character varying(255),
   password_reset_token_expiration timestamp without time zone,

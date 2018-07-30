@@ -1,0 +1,169 @@
+
+<div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+  <mat-vertical-stepper [linear]="false" #stepper>
+    <mat-step [stepControl]="formStep1Cadastro">
+
+    <!-- step um do form  -->
+
+    <form  fxLayout="column" class="example-form" [formGroup]="formStep1Cadastro">
+        <ng-template matStepLabel>Dados do exercício</ng-template>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field fxFlex>
+              <input 
+                  matInput 
+                  placeholder="Nome (Obrigatório)" 
+                  formControlName="nome"
+                  name="nome" 
+                  [(ngModel)]="exercicio.nome"  />
+          </mat-form-field>
+        </div>
+        <div   class="input-row" fxLayout="row"  fxLayout.lt-md="column"  fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field fxFlex>
+            <textarea 
+                matInput 
+                rows="4"
+                placeholder="Descrição (Obrigatório)" 
+                formControlName="descricao"
+                name="descricao" 
+                [(ngModel)]="exercicio.descricao" ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="input-row"  fxLayout="row" fxLayout.lt-md="column"  fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field fxFlex>
+            <input
+                matInput 
+                rows="4"
+                placeholder="Link Vídeo (Opcional)" 
+                formControlName="linkVideo"
+                name="linkVideo" 
+                [(ngModel)]="exercicio.linkVideo"/>
+        </mat-form-field>
+            <mat-form-field fxFlex >
+              <input matInput placeholder="" style="display: none">
+              <mat-checkbox 
+                  formControlName="isAtivo"    
+                  labelPosition='before'
+                  [(ngModel)]="exercicio.isAtivo">Ativo</mat-checkbox>
+          </mat-form-field>
+          <!-- [disabled]="parametroId == null" -->
+        </div>
+        <div>
+          <button 
+            mat-raised-button 
+            matStepperNext 
+            title="Ir para a próxima etapa">Próximo</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- fim step um do form -->
+
+    <mat-step [stepControl]="formStep2Equipamentos">
+
+      <!-- step dois do form  -->
+      <form  fxLayout="column" class="example-form" [formGroup]="formStep2Equipamentos">
+        <ng-template matStepLabel>Equipamento</ng-template>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <div fxFlex="55%">
+            <mat-form-field fxFlex="85%" class="example-full-width" >
+              <div> 
+                <input 
+                  matInput 
+                  placeholder="Equipamento (Obrigatório)" 
+                  aria-label="equipamento" 
+                  formControlName="equipamento"
+                  [value]="exercicio.equipamento?.descricao"
+                  [(ngModel)]="exercicio.equipamento"/>
+                  <!-- (ngModelChange)="exercicio.equipamento" -->
+              </div>
+            </mat-form-field>
+            <div fxFlex="15%">
+              <button 
+                mat-raised-button 
+                color="primary"
+                (click)="abrirDialog()">Buscar Equipamentos</button>
+            </div>
+        </div>
+        </div>
+        <div>
+          <button 
+            mat-raised-button 
+            matStepperPrevious 
+            title="Voltar para etapa anterior">Anterior</button>
+          <button 
+            mat-raised-button 
+            matStepperNext 
+            (click)="printar()"
+            title="Ir para a próxima etapa">Próximo</button>
+        </div>
+      </form>
+    </mat-step> 
+
+    <!-- fim step dois do form -->
+
+    <mat-step [stepControl]="formStep3GruposMusculares">
+
+      <!-- utilizado form array -->
+
+        <!-- step tres do form -->
+        <!-- diz qual eh o form group no form -->
+        <form [formGroup]="formStep3GruposMusculares">
+          <ng-template matStepLabel>Grupos Musculares</ng-template>
+
+          <mat-table [dataSource]="dadosTable">
+
+            <!-- Nome Column -->
+            <ng-container matColumnDef="nome">
+              <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  <input type="text" class="form-control" formControlName="grupoMuscular">
+                </mat-cell>
+            </ng-container>
+
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element?.id}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+            <mat-row *matRowDef="let grupoMuscular; columns: colunas;"></mat-row>
+
+          </mat-table>
+          <button 
+            type="button"
+            mat-raised-button 
+            color="primary"
+            (click)="abrirDialogGrupo()">Buscar Grupos Musculares</button>
+
+          <!-- <table formArrayName="gruposMusculares">
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+            </tr>
+            <tr *ngFor=" let grupoMuscular of formStep3GruposMusculares.get('gruposMusculares').controls; let idx= index"
+            [formGroupName]="idx">
+              <td> <input type="text" formControlName="id"/> </td>
+              <td> <input type="text" formControlName="nome"/> </td>
+            </tr>
+          </table> -->
+
+          <button 
+            (click)="add()"
+            type="button">Adicionar</button>
+          <!-- fecha div -->
+          <div>
+            <button 
+              mat-raised-button 
+              matStepperPrevious 
+              title="Voltar para etapa anterior">Anterior</button>
+            <button 
+              mat-raised-button 
+              matStepperNext 
+              (click)="printar()"
+              title="Ir para a próxima etapa">Próximo</button>
+          </div>
+        </form>
+      </mat-step> 
+  </mat-vertical-stepper>
+</div>

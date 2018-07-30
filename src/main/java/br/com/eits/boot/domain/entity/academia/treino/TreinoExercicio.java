@@ -60,7 +60,7 @@ public class TreinoExercicio extends AbstractEntity {
 	private Integer tempoMin;
 	
 	// observacoes sobre o exercicio do treino, caso for necessario
-	@Column( length = 150 )
+	@Column( length = 500 )
 	private String observacoes;
 	
 	// se o exercicio está ativo dentro do treino, se nao estiver

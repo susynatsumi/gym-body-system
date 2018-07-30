@@ -88,7 +88,7 @@ public class EquipamentoServiceIntegrationTests extends AbstractIntegrationTests
 
 		equipamento.setDescricao("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		
-		this.equipamentoService.update(equipamento);
+		this.equipamentoService.updateEquipamento(equipamento);
 		
 		equipamento = this.equipamentoRepository
 				.findById(1000L)
@@ -117,7 +117,7 @@ public class EquipamentoServiceIntegrationTests extends AbstractIntegrationTests
 
 		equipamento.setDescricao("");
 		
-		this.equipamentoService.update(equipamento);
+		this.equipamentoService.updateEquipamento(equipamento);
 		
 	}
 	

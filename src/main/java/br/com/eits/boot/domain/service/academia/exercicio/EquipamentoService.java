@@ -3,6 +3,7 @@ package br.com.eits.boot.domain.service.academia.exercicio;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class EquipamentoService {
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
-	public Equipamento update( Equipamento equipamento ) {
+	public Equipamento updateEquipamento( Equipamento equipamento ) {
 		
 		Assert.notNull( 
 			equipamento, 
@@ -106,10 +107,10 @@ public class EquipamentoService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public Page<Equipamento> listByEquipamentoFilters( 
+	public Page<Equipamento> listEquipamentoByFilters( 
 		String filtro,
 		Boolean isAtivo,
-		Pageable pageable 
+		PageRequest pageable 
 	){
 		return this.equipamentoRepository
 				.listByFilters(
@@ -117,6 +118,17 @@ public class EquipamentoService {
 					isAtivo, 
 					pageable
 				);
+	}
+	
+	/**
+	 * Faz a remoção de equipamentos pelo id
+	 * @param id
+	 */
+	public void deleteEquipamento( Long id ){
+		
+		this.equipamentoRepository
+			.deleteById(id);
+		
 	}
 	
 }

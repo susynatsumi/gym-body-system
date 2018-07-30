@@ -6,9 +6,19 @@ import { AcademiasFormComponent } from './pages/academias/academias-form/academi
 import { AcademiasComponent } from './pages/academias/academias.component';
 import { AcademiaDetalharComponent } from './pages/academias/academia-detalhar/academia-detalhar.component';
 import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pessoas-detalhar.component';
+import { GrupoMuscularFormComponent } from './pages/grupos-musculares/grupo-muscular-form/grupo-muscular-form.component';
+import { GruposMuscularesComponent } from './pages/grupos-musculares/grupos-musculares.component';
+import { GrupoMuscularDetalharComponent } from './pages/grupos-musculares/grupo-muscular-detalhar/grupo-muscular-detalhar.component';
+import { ExerciciosComponent } from './pages/exercicios/exercicios.component';
+import { ExerciciosFormComponent } from './pages/exercicios/exercicios-form/exercicios-form.component';
+import { ExerciciosDetalharComponent } from './pages/exercicios/exercicios-detalhar/exercicios-detalhar.component';
+import { EquipamentosComponent } from './pages/equipamentos/equipamentos.component';
+import { EquipamentosFormComponent } from './pages/equipamentos/equipamentos-form/equipamentos-form.component';
+import { EquipamentosDetalharComponent } from './pages/equipamentos/equipamentos-detalhar/equipamentos-detalhar.component';
 
 
 const routes: Routes = [
+  // pessoas
   {
     path: 'pessoas', 
     component: PessoasComponent,
@@ -30,6 +40,7 @@ const routes: Routes = [
     path: 'pessoas/:id',
     component: PessoasDetalharComponent
   },
+  // academias
   {
     path: 'academias',
     component: AcademiasComponent
@@ -45,6 +56,57 @@ const routes: Routes = [
   {
     path: 'academias/:id',
     component: AcademiaDetalharComponent
+  },
+  // grupos musculares
+  {
+    path: 'grupos-musculares',
+    component: GruposMuscularesComponent
+  },
+  {
+    path: 'grupos-musculares/cadastrar',
+    component: GrupoMuscularFormComponent
+  },
+  {
+    path: 'grupos-musculares/editar/:id',
+    component: GrupoMuscularFormComponent
+  },
+  {
+    path: 'grupos-musculares/:id',
+    component: GrupoMuscularDetalharComponent
+  },
+  // exercicios
+  {
+    path: 'exercicios',
+    component: ExerciciosComponent
+  },
+  {
+    path: 'exercicios/cadastrar',
+    component: ExerciciosFormComponent
+  },
+  {
+    path: 'exercicios/editar/:id',
+    component: ExerciciosFormComponent
+  },
+  {
+    path: 'exercicios/:id',
+    component: ExerciciosDetalharComponent
+  },
+  // equipamentos
+  {
+    path: 'equipamentos',
+    component: EquipamentosComponent
+  },
+  {
+    path: 'equipamentos/cadastrar',
+    component: EquipamentosFormComponent
+  },
+  {
+    path: 'equipamentos/editar/:id',
+    component: EquipamentosFormComponent
+  },
+  {
+    path: 'equipamentos/:id',
+    component: EquipamentosDetalharComponent
   }
 ];
 

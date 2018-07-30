@@ -2,6 +2,8 @@ package br.com.eits.boot.domain.service.academia.exercicio;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +82,7 @@ public class GrupoMuscularService {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
 	@Transactional( readOnly = true )
 	public GrupoMuscular findGrupoMuscularById(
 		long id
@@ -96,6 +99,29 @@ public class GrupoMuscularService {
 				);
 		
 	}
+
+	/**
+	 * Lista grupos musculares de acordo com o filtro 
+	 * 
+	 * @param filtros
+	 * @param pageRequest
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@Transactional( readOnly = true )
+	public Page<GrupoMuscular> listByFilters(String filtros, PageRequest pageRequest){
+		return this.grupoMuscularRepository.listByFilters(filtros, pageRequest);
+	}
 	
+	/**
+	 * 
+	 * Remove um grupo muscular de acordo com o id informado 
+	 * 
+	 * @param id
+	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	public void deleteGrupoMuscular( Long id ) {
+		this.grupoMuscularRepository.deleteById( id );
+	}
 	
 }

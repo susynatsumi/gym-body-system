@@ -36,7 +36,7 @@ public class GrupoMuscular extends AbstractEntity {
 	private String nome;
 	
 	// descricao do grupo muscular, texto longo
-	@Column( nullable = true, length = 255)
+	@Column( nullable = true, length = 500)
 	private String descricao;
 
 	// ----------------------------------

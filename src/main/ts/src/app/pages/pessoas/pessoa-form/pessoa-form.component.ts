@@ -100,7 +100,6 @@ export class PessoaFormComponent implements OnInit {
     this.papeis = PapelValues;
 
     if(this.pessoaLogada.papel != null && this.pessoaLogada.papel.toString() !=  'ADMINISTRATOR'  ){
-      console.log('if'+this.pessoaLogada.nome);
       this.papeis = this.papeis.filter(papel => papel != 'ADMINISTRATOR');
     }
     

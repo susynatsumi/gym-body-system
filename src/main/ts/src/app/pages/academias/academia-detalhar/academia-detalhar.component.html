@@ -7,11 +7,11 @@
   <mat-card-content>
     <div>
       <label>CNPJ:</label>
-      <label patterns="00.000.000/0000-00">{{academia?.cnpj}}</label>
+      <label>{{academia?.cnpj | mask: '00.000.000/0000-00' }}</label>
     </div>
     <div>
       <label>Telefone:</label>
-      <label patterns="(00)0000-0000?0">{{academia?.telefone}}</label>
+      <label>{{academia?.telefone | mask: '(00)0000-0000?0'}}</label>
     </div>
     <div>
       <label>Status:</label>
@@ -31,7 +31,7 @@
     </div>
     <div>
       <label>CEP:</label>
-      <label>{{academia?.cep}}</label>
+      <label>{{academia?.cep | mask: '00.000-000'}}</label>
     </div>
   </mat-card-content>
   <mat-card-actions>

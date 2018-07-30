@@ -1,0 +1,20 @@
+<div>
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+  <mat-vertical-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="formStep1DadosPessoas">
+      <form  fxLayout="column" class="example-form" [formGroup]="formStep1DadosPessoas">
+        <ng-template matStepLabel>Dados Pessoais</ng-template>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex>
+                <input 
+                    matInput 
+                    placeholder="Nome" 
+                    formControlName="nome"
+                    name="nome" 
+                    [(ngModel)]="pessoa.nome"  />
+            </mat-form-field>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>  

@@ -43,7 +43,7 @@ public class Exercicio extends AbstractEntity {
 	
 	// Descricao do exercícios, texto longo
 	@NotEmpty 
-	@Column(nullable = false , length = 255)
+	@Column(nullable = false , length = 500)
 	private String descricao;
 	
 	// Link do vídeo do youtube

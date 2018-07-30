@@ -89,7 +89,7 @@ export class AcademiasFormComponent implements OnInit {
     });
 
     this.formStep2Proprietario = this.formBuilder.group({
-      'pessoaProprietario': [this.academia.pessoaProprietario],
+      'pessoaProprietario': [this.academia.pessoaProprietario, Validators.required],
     });
 
     this.formStep3DadosEndereco = this.formBuilder.group({

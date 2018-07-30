@@ -28,3 +28,10 @@ INSERT INTO academia(
             nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
     VALUES (1002, NOW(), NULL, '66654321', 'Cidade sahhsahsa', '53.014.283/0001-97', 'Rua Abra cadabra, 15', false, 
             'Academia Abra Cadabra', 'Abra Cadabra', '56944548130', 1013);
+      
+         
+INSERT INTO academia(
+            id, created, updated, cep, cidade, cnpj, endereco, is_ativa, 
+            nome_fantasia, razao_social, telefone, pessoa_proprietario_id)
+    VALUES (1003, NOW(), NULL, '66654321', 'Cidadsdafe sahhsahsa', '53.014.283/0001-99', 'Rua Abra cadabra, 15', false, 
+            'Academia Abra Cadabra', 'Abra Cadabra', '56944548130', 1013);

@@ -1,0 +1,65 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+<div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+    <mat-vertical-stepper [linear]="true" #stepper>
+      <mat-step [stepControl]="formEquipamento">
+        <form  fxLayout="column" class="example-form" [formGroup]="formEquipamento">
+          <ng-template matStepLabel>Dados do equipamento</ng-template>
+          <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex>
+                <input 
+                    matInput 
+                    placeholder="Descrição (Obrigatório)" 
+                    formControlName="descricao"
+                    name="descricao" 
+                    [(ngModel)]="equipamento.descricao"  />
+            </mat-form-field>
+          </div>
+          <div class="input-row"  fxLayout="row" fxLayout.lt-md="column"  fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex >
+                <input matInput placeholder="" style="display: none">
+                <mat-checkbox 
+                    formControlName="isAtivo"    
+                    labelPosition='before'
+                    [disabled]="parametroId == null"
+                    [(ngModel)]="equipamento.isAtivo">Ativo</mat-checkbox>
+            </mat-form-field>
+          </div>
+          <div>
+            <button 
+              mat-raised-button 
+              matStepperNext 
+              title="Salvar dados">Próximo</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="formImagem">
+        <form  fxLayout="column" class="example-form" [formGroup]="formImagem">
+          <ng-template matStepLabel>Selecionar imagem</ng-template>
+          <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex>
+              <input matInput placeholder="" style="display: none">
+              <input type="file" name="file" id="file" (change)="onUpload($event)"/>
+            </mat-form-field>
+          </div>
+          <div>
+            <button 
+                mat-raised-button 
+                matStepperPrevious 
+                title="Voltar para etapa anterior" >Anterior</button>
+            <button 
+                mat-raised-button 
+                matStepperNext 
+                title="Salvar dados" 
+                color="primary"
+                (click)="salvar()">Finalizar</button>
+            <button 
+                mat-raised-button 
+                title="Cancela operação e retorna para tela de consulta" 
+                [routerLink]="['/equipamentos']" 
+                color="warn">Cancelar</button>
+        </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
