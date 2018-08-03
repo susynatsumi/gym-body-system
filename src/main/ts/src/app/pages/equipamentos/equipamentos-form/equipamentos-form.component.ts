@@ -17,16 +17,16 @@ export class EquipamentosFormComponent implements OnInit {
   // ----------   ATRIBUTOS ----------
   // ---------------------------------
 
+  novaFoto: File;
+  imageUrl: string = "/assets/imagens/imagem-default.png";
+
   equipamento: Equipamento;
 
   formEquipamento: FormGroup;
   formImagem: FormGroup;
 
   parametroId: number;
-
   loading = true;
-
-  imagemSelecionada = null;
 
   // ---------------------------------
   // ----------  CONSTRUCTOR   -------
@@ -37,7 +37,6 @@ export class EquipamentosFormComponent implements OnInit {
     private activedRoute: ActivatedRoute,
     private router: Router,
     private equipamentoService: EquipamentoService,
-    private changeDetector: ChangeDetectorRef
   ) { 
     this.equipamento = {};
     this.loading = true;
@@ -46,6 +45,13 @@ export class EquipamentosFormComponent implements OnInit {
 
   }
 
+  // --------------------------------------
+  // ---------------- METODOS -------------
+  // --------------------------------------
+
+  /**
+   * Busca os dados do equipamento por id
+   */
   carregaEquipamento(){
 
     this.activedRoute.params
@@ -63,20 +69,22 @@ export class EquipamentosFormComponent implements OnInit {
           .finally(()=> this.loading = false)
           .subscribe( (equipamento: Equipamento) => {
             this.equipamento = equipamento;
+
+            console.log(equipamento.imagem);
+
           },(error: Error)=>{
             alert(error.message);
           });
       });
   }
 
-  //-----------------------------------
-  //-------------- MÉTODOS ------------
-  //-----------------------------------
-
+  /**
+   * 
+   */
   ngOnInit() {
 
     this.formImagem = this.formBuilder.group({
-      imagem: [null, Validators.required]
+      imagemFileTransfer: [this.equipamento.imagemFileTransfer, Validators.required]
     });
 
     this.formEquipamento = this.formBuilder.group({
@@ -86,7 +94,53 @@ export class EquipamentosFormComponent implements OnInit {
     
   }
 
-  onUpload(event){
+  /**
+   * Remove o equipamento da tela
+   */
+  removerImagem(){
+    this.equipamento.imagem = null;
+    this.equipamento.imagemFileTransfer = null;
+    this.novaFoto = null;
+    this.imageUrl =  "/assets/imagens/imagem-default.png";
+  }
+
+  /**
+   * Seleciona a imagem e altera a apresentada no compenent img
+   * @param event 
+   */
+  setArquivo(event) {
+    
+    if (event.target.files[0]){
+      this.equipamento.imagem = null;
+      this.equipamento.imagemFileTransfer = event.target;
+
+      this.novaFoto = event.target.files.item(0);
+  
+      //Show image preview
+      var reader = new FileReader();
+      reader.onload = (event:any) => {
+        this.imageUrl = event.target.result;
+      }
+  
+      reader.readAsDataURL(this.novaFoto);
+
+    }
+   
+  }
+ /*  setArquivo(event: any){
+    this.loading = true;
+    if (event.target.files[0]){
+      this.imagemService.convertToByteArray(event.target)
+        .subscribe(imagem => {
+          this.loading = false;
+          // console.log(imagem);
+          this.equipamento.imagem = imagem;
+        });
+      // this.equipamento.imagemFileTransfer = event.target
+    }
+  } */
+
+  /* onUpload(event){
     const reader = new FileReader();
  
     if(event.target.files && event.target.files.length) {
@@ -95,7 +149,7 @@ export class EquipamentosFormComponent implements OnInit {
   
       reader.onload = () => {
         this.formImagem.patchValue({
-          imagem: reader.result
+          imagemFileTransfer: reader.result
        });
       
         // need to run CD since file load runs outside of zone
@@ -105,19 +159,20 @@ export class EquipamentosFormComponent implements OnInit {
 
     // console.log(this.formImagem.get('file').value);
 
-  }
+  } */
 
+  /**
+   * Salva os dados do equipamento
+   */
   salvar(){
 
-    console.log(this.equipamento.imagem);
-
-    // this.equipamento.imagem = this.formImagem.get('imagem').value;  
+    this.loading = true;
 
     this.enviar()
     .finally(()=> this.loading = false)
     .subscribe(
-      ()=>{
-        this.router.navigate(['equipamentos']);
+      (equipamento)=>{
+        this.router.navigate(['/equipamentos']);
       },
       (error: Error)=>{
         alert(error.message);
@@ -126,9 +181,10 @@ export class EquipamentosFormComponent implements OnInit {
 
   }
 
+  /**
+   * Envia os dados do equipamento para o servidor
+   */
   enviar(){
-
-    console.log(this.equipamento.imagem)
 
     if( this.parametroId == null ){
       return this.equipamentoService

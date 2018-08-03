@@ -1,6 +1,8 @@
 package br.com.eits.boot.domain.entity.academia.exercicio;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 
@@ -8,9 +10,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.io.IOUtils;
 import org.directwebremoting.annotations.DataTransferObject;
+import org.directwebremoting.io.FileTransfer;
 import org.hibernate.envers.Audited;
 import org.hibernate.type.BlobType;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -44,7 +49,13 @@ public class Equipamento extends AbstractEntity {
 	// imagem ilustrativa do exercicio
 	@Lob
 	@Column
-	private Byte[] imagem;
+	private byte[] imagem;
+	
+	@Transient
+	private FileTransfer imagemFileTransfer; 
+	
+//	jcr
+//	filetransfer
 	
 	// status, se está ativo ou não, se não estiver não pode ser usado em exercicios
 	@NotNull
@@ -81,7 +92,7 @@ public class Equipamento extends AbstractEntity {
 	 * @param imagem
 	 * @param isAtivo
 	 */
-	public Equipamento(String descricao, Byte[] imagem, Boolean isAtivo) {
+	public Equipamento(String descricao, byte[] imagem, Boolean isAtivo) {
 		super();
 		this.descricao = descricao;
 		this.imagem = imagem;

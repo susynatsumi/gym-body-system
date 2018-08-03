@@ -23,9 +23,17 @@ export class ExerciciosFormComponent implements OnInit {
 
   parametroId: number;
 
+  gruposTable: GrupoMuscular[];
+
   formStep1Cadastro: FormGroup;
   formStep2Equipamentos: FormGroup;
   formStep3GruposMusculares: FormGroup;
+
+  tiles = [
+    {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
+    {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
+    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,6 +42,7 @@ export class ExerciciosFormComponent implements OnInit {
   ) { 
 
     this.exercicio = {};
+    this.gruposTable = [];
 
   }
 
@@ -75,6 +84,8 @@ export class ExerciciosFormComponent implements OnInit {
         console.log('\n\n\n\n\n dados da minha table');
         console.log(dados);
       });
+
+    
 
     console.log(this.formStep3GruposMusculares);
 
@@ -130,9 +141,21 @@ export class ExerciciosFormComponent implements OnInit {
   }
 
   adicionarTableRow(grupoMuscular){
+
+    const existente = this.gruposTable.filter((grupo: GrupoMuscular)=> grupo.id == grupoMuscular.id);
+
+    if(existente != null && existente.length != 0){
+      return;
+    }
+
     let novo: FormGroup = this.criaItemFormGrupoMuscular(grupoMuscular);
+    
     this.gruposMusculares.push(novo);
-    console.log('\n\n\n\ novo nov '+novo);
+
+    this.gruposTable.push(grupoMuscular);
+
+    console.log(this.gruposTable);
+
     this.atualizarTable();
   }
 
@@ -143,7 +166,7 @@ export class ExerciciosFormComponent implements OnInit {
 
     this.printar();
 
-    this.dadosTable = new MatTableDataSource();
+    this.dadosTable = new MatTableDataSource(this.gruposTable);
 
   } 
 

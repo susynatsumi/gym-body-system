@@ -110,14 +110,22 @@
         <form [formGroup]="formStep3GruposMusculares">
           <ng-template matStepLabel>Grupos Musculares</ng-template>
 
+          <mat-grid-list cols="3" rowHeight="30px">
+            <mat-grid-tile
+                *ngFor="let tile of tiles"
+                [style.background]="tile.color">
+              {{tile.text}}
+            </mat-grid-tile>
+          </mat-grid-list>
+          
           <mat-table [dataSource]="dadosTable">
 
             <!-- Nome Column -->
             <ng-container matColumnDef="nome">
               <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                  <input type="text" class="form-control" formControlName="grupoMuscular">
-                </mat-cell>
+                {{ element?.nome }}
+              </mat-cell>
             </ng-container>
 
             <!-- Id Column -->
@@ -161,7 +169,13 @@
               mat-raised-button 
               matStepperNext 
               (click)="printar()"
-              title="Ir para a próxima etapa">Próximo</button>
+              color="primary"
+              title="Ir para a próxima etapa">Finalizar</button>
+            <button 
+              mat-raised-button 
+              title="Cancela operação e retorna para tela de consulta" 
+              [routerLink]="['/exercicios']"  
+              color="warn">Cancelar</button>
           </div>
         </form>
       </mat-step> 

@@ -4,12 +4,12 @@ import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import br.com.eits.boot.application.converter.ImagemConverter;
 import br.com.eits.boot.domain.entity.academia.exercicio.Equipamento;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.exercicio.IEquipamentoRepository;
@@ -28,11 +28,12 @@ public class EquipamentoService {
 	@Autowired
 	private IEquipamentoRepository equipamentoRepository;
 	
+	@Autowired
+	private ImagemConverter imageconverter;
 	
 	// -------------------------------------------
 	// -----------  MÉTODOS ----------------------
 	// -------------------------------------------
-	
 	
 	/**
 	 * Insere equipamento 
@@ -54,6 +55,13 @@ public class EquipamentoService {
 		);
 
 		equipamento.setIsAtivo(true);
+		
+		byte[] imagem = this.imageconverter
+			.fileTransferToByteArray(
+				equipamento.getImagemFileTransfer()
+			);
+
+		equipamento.setImagem(imagem);
 		
 		return this.equipamentoRepository.save( equipamento );
 		
@@ -77,10 +85,22 @@ public class EquipamentoService {
 			equipamento.getId(),
 			MessageSourceHolder.translate("service.object.id.not.null")
 		);
-
+		
+		byte[] imagem = this.imageconverter
+				.fileTransferToByteArray(
+					equipamento.getImagemFileTransfer()
+				);
+		
+		if(imagem != null){
+			equipamento.setImagem(imagem);
+		}
+		
 		return this.equipamentoRepository.save( equipamento );
 		
 	}
+	
+	
+	
 	
 	/**
 	 * Busca um equipamento por id 

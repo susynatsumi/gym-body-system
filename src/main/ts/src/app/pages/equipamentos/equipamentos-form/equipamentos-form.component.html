@@ -39,7 +39,30 @@
           <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
             <mat-form-field fxFlex>
               <input matInput placeholder="" style="display: none">
-              <input type="file" name="file" id="file" (change)="onUpload($event)"/>
+              <div>
+                <img 
+                  *ngIf="!novaFoto &&  equipamento && equipamento.imagem" 
+                  [src]="equipamento.imagem" 
+                  class="imagem-preview" />
+                  <!-- *ngIf="!equipamento || !equipamento.imagem" -->
+                  <img 
+                    *ngIf="novaFoto || !equipamento.imagem"
+                    [src]="imageUrl" 
+                    class="imagem-preview" />
+              </div>
+              <button type="button" mat-raised-button (click)="arquivoInput.click()" color="primary">
+                Selecionar imagem
+              </button>
+              <button type="button" mat-raised-button (click)="removerImagem()" color="accent">
+                Remover imagem
+              </button>
+              <input 
+                hidden
+                multiple="false" 
+                type="file" 
+                accept=".png, .gif, .jpg, .jpeg" 
+                #arquivoInput 
+                (change)="setArquivo($event)">
             </mat-form-field>
           </div>
           <div>

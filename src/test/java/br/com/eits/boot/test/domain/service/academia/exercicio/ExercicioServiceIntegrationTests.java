@@ -1,5 +1,8 @@
 package br.com.eits.boot.test.domain.service.academia.exercicio;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.validation.ValidationException;
 
 import org.junit.Assert;
@@ -12,6 +15,7 @@ import org.springframework.transaction.TransactionSystemException;
 
 import br.com.eits.boot.domain.entity.academia.exercicio.Equipamento;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
+import br.com.eits.boot.domain.entity.academia.exercicio.GrupoMuscular;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
 import br.com.eits.boot.domain.service.academia.exercicio.ExercicioService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
@@ -28,6 +32,16 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	// ------------------------------------------------------
 	// --------- INSERTS ------------------------------------
 	// ------------------------------------------------------
+	
+	/**
+	 * Faz mock de grupos musuclares
+	 * @return
+	 */
+	private List<GrupoMuscular> mockGruposMusculares(){
+		return Arrays.asList(
+			new GrupoMuscular("TESTE", "TESTEA")
+		);
+	}
 	
 	/**
 	 * Testa inserção com sucesso de um exercicio
@@ -51,6 +65,8 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 			equipamento
 		);
 		
+		exercicio.setGruposMusculares(mockGruposMusculares());
+		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);
 		
@@ -72,6 +88,8 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	public void insertExercicioMustFail(){
 		
 		Exercicio exercicio = new Exercicio();
+		
+	exercicio.setGruposMusculares(mockGruposMusculares());
 		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);
@@ -100,6 +118,8 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 			equipamento
 		);
 		
+		exercicio.setGruposMusculares(mockGruposMusculares());
+		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);
 	}
@@ -123,6 +143,8 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 			false, 
 			null
 		);
+		
+		exercicio.setGruposMusculares(mockGruposMusculares());
 		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);

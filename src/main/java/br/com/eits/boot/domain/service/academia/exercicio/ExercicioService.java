@@ -1,5 +1,7 @@
 package br.com.eits.boot.domain.service.academia.exercicio;
 
+import java.util.List;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
+import br.com.eits.boot.domain.entity.academia.exercicio.GrupoMuscular;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
@@ -25,6 +28,9 @@ public class ExercicioService {
 
 	@Autowired
 	private IExercicioRepository exercicioRepository;
+	
+	@Autowired
+	private ExercicioGrupoMuscularService exercicioGrupoMuscularService;
 	
 	// -------------------------------------------------
 	// -------------MÉTODOS ----------------------------
@@ -47,6 +53,18 @@ public class ExercicioService {
 		Assert.isNull(
 			exercicio.getId(),
 			MessageSourceHolder.translate("exercicio.service.id.null")
+		);
+		
+		Assert.notEmpty(
+			exercicio.getGruposMusculares(),
+			MessageSourceHolder.translate("exercicio.service.id.null")
+		);
+		
+		exercicio.setExercicioGrupoMusculares(
+			this.exercicioGrupoMuscularService
+				.criaExercicioGrupoMuscular(
+					exercicio
+				)
 		);
 		
 		exercicio.setIsAtivo(true);

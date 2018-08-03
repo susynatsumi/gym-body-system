@@ -2,7 +2,7 @@ Arguments:
   C:\Users\Eduardo\.node\node\node.exe C:\Users\Eduardo\.node\node\yarn\dist\bin\yarn.js install --mutex network
 
 PATH: 
-  C:\Users\Eduardo\.node\node;C:\Users\Eduardo\.node\node\yarn\dist\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Program Files\Git LFS;C:\Users\Eduardo\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Eduardo\AppData\Local\Microsoft\WindowsApps;C:\Users\Eduardo\AppData\Local\Yarn\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\Eduardo\AppData\Roaming\npm;C:\Users\Eduardo\AppData\Roaming\nvm;C:\Program Files\nodejs;
+  C:\Users\Eduardo\.node\node;C:\Users\Eduardo\.node\node\yarn\dist\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Program Files\Git LFS;C:\Users\Eduardo\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Microsoft VS Code\bin;C:\Users\Eduardo\AppData\Local\Microsoft\WindowsApps;C:\Users\Eduardo\AppData\Local\Yarn\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\Eduardo\AppData\Roaming\npm;C:\Users\Eduardo\AppData\Roaming\nvm;C:\Program Files\nodejs;
 
 Yarn version: 
   1.3.2
@@ -24,7 +24,9 @@ npm manifest:
     },
     "private": true,
     "dependencies": {
-      "eits-ng-starter-2018-01": "^0.6.0"
+      "eits-ng-starter-2018-01": "^0.6.0",
+      "ngx-loading": "^1.0.14",
+      "ngx-mask": "^6.0.1"
     },
     "devDependencies": {
       "eits-ng-starter-2018-01-dev": "^0.6.0"
@@ -66,21 +68,9 @@ Lockfile:
       minimist "^1.2.0"
       rxjs "^5.5.6"
   
-  "@angular/animations@^6.0.7":
-    version "6.0.7"
-    resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-6.0.7.tgz#af9fd317556f3bf425f77905eb6a7f3281dca12a"
-    dependencies:
-      tslib "^1.9.0"
-  
   "@angular/animations@~5.0.0":
     version "5.0.5"
     resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-5.0.5.tgz#8a008900a79cd9ecb0ee741534ec435cce9539a5"
-    dependencies:
-      tslib "^1.7.1"
-  
-  "@angular/cdk@^6.3.3":
-    version "6.3.3"
-    resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-6.3.3.tgz#22fb0d303ce6176427ba4c992756f258c3b5a388"
     dependencies:
       tslib "^1.7.1"
   
@@ -200,14 +190,6 @@ Lockfile:
     dependencies:
       tslib "^1.7.1"
   
-  "@angular/material@^6.3.3":
-    version "6.3.3"
-    resolved "https://registry.yarnpkg.com/@angular/material/-/material-6.3.3.tgz#4f74402ba6e4b80cf0426e62c1240244e6974069"
-    dependencies:
-      tslib "^1.7.1"
-    optionalDependencies:
-      parse5 "^5.0.0"
-  
   "@angular/material@~5.0.0-rc0":
     version "5.0.4"
     resolved "https://registry.yarnpkg.com/@angular/material/-/material-5.0.4.tgz#8efb2fb12023711dbdaac5dc7b588096b40b0f64"
@@ -236,6 +218,39 @@ Lockfile:
     version "1.0.0-rc.0"
     resolved "https://registry.yarnpkg.com/@covalent/core/-/core-1.0.0-rc.0.tgz#58e8fcdfdc409d04b8b3fd270c3e87777415403b"
     dependencies:
+      tslib "^1.7.1"
+  
+  "@covalent/core@^1.0.1":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/@covalent/core/-/core-1.0.1.tgz#25ffbfab75cb4f020e5785a58e3f564eef3b4073"
+    dependencies:
+      tslib "^1.7.1"
+  
+  "@covalent/dynamic-forms@^1.0.1":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/@covalent/dynamic-forms/-/dynamic-forms-1.0.1.tgz#d692f59746761ba48d24c5bd4acc5fdb2b5490ff"
+    dependencies:
+      "@covalent/core" "^1.0.1"
+      tslib "^1.7.1"
+  
+  "@covalent/highlight@^1.0.1":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/@covalent/highlight/-/highlight-1.0.1.tgz#abd0718a0837ec0ef9367f2de360fd7eb5d2f43a"
+    dependencies:
+      highlight.js "9.11.0"
+      tslib "^1.7.1"
+  
+  "@covalent/http@^1.0.1":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/@covalent/http/-/http-1.0.1.tgz#bdecf53d184a7194d7e176361a0e60361c4ff991"
+    dependencies:
+      tslib "^1.7.1"
+  
+  "@covalent/markdown@^1.0.1":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/@covalent/markdown/-/markdown-1.0.1.tgz#235e46ee537287678ae6bdf3af9351a4afbfd40f"
+    dependencies:
+      showdown "1.6.4"
       tslib "^1.7.1"
   
   "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
@@ -2516,6 +2531,10 @@ Lockfile:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
   
+  highlight.js@9.11.0:
+    version "9.11.0"
+    resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.11.0.tgz#47f98c7399918700db2caf230ded12cec41a84ae"
+  
   hmac-drbg@^1.0.0:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -3622,6 +3641,16 @@ Lockfile:
     version "4.2.0"
     resolved "https://registry.yarnpkg.com/ng2-dnd/-/ng2-dnd-4.2.0.tgz#85d7ac75199f39a3434b7c32b9ab006677b19b59"
   
+  ngx-loading@^1.0.14:
+    version "1.0.14"
+    resolved "https://registry.yarnpkg.com/ngx-loading/-/ngx-loading-1.0.14.tgz#19758c33ea3fa9bb96dca1f40ca19d4d86b8042c"
+  
+  ngx-mask@^6.0.1:
+    version "6.0.1"
+    resolved "https://registry.yarnpkg.com/ngx-mask/-/ngx-mask-6.0.1.tgz#b29bd111e5dd2d33eb1d4d008d88f28c0bafb248"
+    dependencies:
+      tslib "^1.9.0"
+  
   no-case@^2.2.0:
     version "2.3.2"
     resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
@@ -3699,30 +3728,6 @@ Lockfile:
   node-sass@^4.3.0:
     version "4.9.1"
     resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.9.1.tgz#5416ae7079d991f0e7002e62c8b0ba3fedc15c79"
-    dependencies:
-      async-foreach "^0.1.3"
-      chalk "^1.1.1"
-      cross-spawn "^3.0.0"
-      gaze "^1.0.0"
-      get-stdin "^4.0.1"
-      glob "^7.0.3"
-      in-publish "^2.0.0"
-      lodash.assign "^4.2.0"
-      lodash.clonedeep "^4.3.2"
-      lodash.mergewith "^4.6.0"
-      meow "^3.7.0"
-      mkdirp "^0.5.1"
-      nan "^2.10.0"
-      node-gyp "^3.3.1"
-      npmlog "^4.0.0"
-      request "2.87.0"
-      sass-graph "^2.2.4"
-      stdout-stream "^1.4.0"
-      "true-case-path" "^1.0.2"
-  
-  node-sass@^4.9.2:
-    version "4.9.2"
-    resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.9.2.tgz#5e63fe6bd0f2ae3ac9d6c14ede8620e2b8bdb437"
     dependencies:
       async-foreach "^0.1.3"
       chalk "^1.1.1"
@@ -4005,10 +4010,6 @@ Lockfile:
   parse-passwd@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/parse-passwd/-/parse-passwd-1.0.0.tgz#6d5b934a456993b23d37f40a382d6f1666a8e5c6"
-  
-  parse5@^5.0.0:
-    version "5.0.0"
-    resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.0.0.tgz#4d02710d44f3c3846197a11e205d4ef17842b81a"
   
   parseurl@~1.3.2:
     version "1.3.2"
@@ -4911,16 +4912,6 @@ Lockfile:
       neo-async "^2.5.0"
       pify "^3.0.0"
   
-  sass-loader@^7.0.3:
-    version "7.0.3"
-    resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-7.0.3.tgz#6ca10871a1cc7549f8143db5a9958242c4e4ca2a"
-    dependencies:
-      clone-deep "^2.0.1"
-      loader-utils "^1.0.1"
-      lodash.tail "^4.1.1"
-      neo-async "^2.5.0"
-      pify "^3.0.0"
-  
   sax@0.5.x:
     version "0.5.8"
     resolved "https://registry.yarnpkg.com/sax/-/sax-0.5.8.tgz#d472db228eb331c2506b0e8c15524adb939d12c1"
@@ -5072,6 +5063,12 @@ Lockfile:
   shebang-regex@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
+  
+  showdown@1.6.4:
+    version "1.6.4"
+    resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.6.4.tgz#056bbb654ecdb8d8643ae12d6d597893ccaf46c6"
+    dependencies:
+      yargs "^6.6.0"
   
   signal-exit@^3.0.0:
     version "3.0.2"
@@ -5406,13 +5403,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.13.2.tgz#74533384cf698c7104c7951150b49717adc2f3bb"
     dependencies:
       loader-utils "^1.0.2"
-  
-  style-loader@^0.21.0:
-    version "0.21.0"
-    resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.21.0.tgz#68c52e5eb2afc9ca92b6274be277ee59aea3a852"
-    dependencies:
-      loader-utils "^1.1.0"
-      schema-utils "^0.4.5"
   
   stylus-loader@^3.0.1:
     version "3.0.2"
