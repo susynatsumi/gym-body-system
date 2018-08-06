@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
@@ -71,9 +70,6 @@ public class Exercicio extends AbstractEntity {
 		targetEntity = ExercicioGrupoMuscular.class
 	)
 	private List<ExercicioGrupoMuscular> exercicioGrupoMusculares;
-	
-	@Transient
-	private List<GrupoMuscular> gruposMusculares;
 	
 	// ---------------------------------------
 	// ------------ CONSTRUCTORS -------------

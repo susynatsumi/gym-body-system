@@ -1,6 +1,5 @@
 package br.com.eits.boot.domain.entity.academia.exercicio;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
