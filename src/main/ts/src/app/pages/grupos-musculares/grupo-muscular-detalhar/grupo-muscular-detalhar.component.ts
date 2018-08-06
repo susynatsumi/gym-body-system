@@ -33,10 +33,13 @@ export class GrupoMuscularDetalharComponent implements OnInit {
     this.route.params
       .subscribe(
         (paramns)=>{
+          this.loading = true;
+          console.log(paramns.id);
           this.grupoMuscularService.findGrupoMuscularById(paramns.id)
             .finally(() => this.loading = false)
             .subscribe((grupoMuscular: GrupoMuscular) =>{
               this.grupoMuscular = grupoMuscular;
+              console.log(grupoMuscular.descricao);
             },(error: Error)=>{
               alert(error.message);
             });

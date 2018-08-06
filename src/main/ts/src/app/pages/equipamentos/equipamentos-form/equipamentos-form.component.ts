@@ -92,6 +92,12 @@ export class EquipamentosFormComponent implements OnInit {
       'isAtivo': [this.equipamento.isAtivo]
     });
     
+    if(this.parametroId == null){
+      this.formEquipamento.get('isAtivo').disable();
+    } else {
+      this.formEquipamento.get('isAtivo').enable();
+    }
+
   }
 
   /**
@@ -110,8 +116,9 @@ export class EquipamentosFormComponent implements OnInit {
    */
   setArquivo(event) {
     
+    this.removerImagem();
+
     if (event.target.files[0]){
-      this.equipamento.imagem = null;
       this.equipamento.imagemFileTransfer = event.target;
 
       this.novaFoto = event.target.files.item(0);
@@ -171,8 +178,8 @@ export class EquipamentosFormComponent implements OnInit {
     this.enviar()
     .finally(()=> this.loading = false)
     .subscribe(
-      (equipamento)=>{
-        this.router.navigate(['/equipamentos']);
+      ()=>{
+        this.router.navigate(['equipamentos']);
       },
       (error: Error)=>{
         alert(error.message);

@@ -10,15 +10,16 @@ import { Equipamento } from '../../../../generated/entities';
 })
 export class GrupoMuscularDialogComponent implements OnInit {
 
+  idsGruposSelecionados;
   
   constructor(
     public dialogRef: MatDialogRef<EquipamentoDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Equipamento,
   ) {
+    this.idsGruposSelecionados = data;
   }
 
   ngOnInit(){
-
   }
 
   /**

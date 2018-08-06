@@ -2,6 +2,7 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '../../../../node_modules/@angular/material';
 import { Page, Sort, PageRequest, Equipamento, SortDirection} from '../../../generated/entities';
 import { EquipamentoService } from '../../../generated/services';
+import { MensagemAlertaService } from '../../services/mensagem-alerta.service';
 
 @Component({
   selector: 'app-equipamentos',
@@ -31,9 +32,8 @@ export class EquipamentosComponent implements OnInit {
 
   constructor(
     private equipamentoService: EquipamentoService,
+    private messageService: MensagemAlertaService,
   ) { 
-    console.log(equipamentoService);
-    console.log(this.ocultarBotoes);
     /* this.sort =  {
       orders: [{
         property: 'descricao',
@@ -92,13 +92,10 @@ export class EquipamentosComponent implements OnInit {
    * @param id 
    */
   delete(id){
-    console.log(id);
-    console.log('chamdou delete');
     this.equipamentoService.deleteEquipamento(id).subscribe(()=>{
       this.removerLinhaTable(id);
-      console.log('remove');
     },(error: Error)=>{
-      alert('Ocorreu um erro ao deletar');
+      this.messageService.errorRemove(error.message);
     });
 
   }
@@ -109,8 +106,6 @@ export class EquipamentosComponent implements OnInit {
    */
   removerLinhaTable(id){
     
-    console.log('sdljsalkfjsalkçfjasklçjfajfjjklasjklsadklçfdsajlkçsfadjklfsajklçfas');
-
     const itemIndex = this.equipamentosTable.content
     .findIndex(
       equipamento => equipamento.id === id

@@ -106,6 +106,7 @@ public class ExceptionHandlerAspect
 	@AfterThrowing(pointcut = "within(@org.springframework.stereotype.Service *)", throwing = "exception")
 	public void handleException( JoinPoint joinPoint, org.springframework.dao.DataIntegrityViolationException exception )
 	{
+		
 		//Caso a exceção já tenha sido interceptada por outro Aspecto deve ser ignorada
 		if ( exception.getStackTrace()[0].toString().contains( "ExceptionHandlerAspect" ) || exception.getCause() == null )
 		{

@@ -15,6 +15,9 @@ import { ExerciciosDetalharComponent } from './pages/exercicios/exercicios-detal
 import { EquipamentosComponent } from './pages/equipamentos/equipamentos.component';
 import { EquipamentosFormComponent } from './pages/equipamentos/equipamentos-form/equipamentos-form.component';
 import { EquipamentosDetalharComponent } from './pages/equipamentos/equipamentos-detalhar/equipamentos-detalhar.component';
+import { TreinosComponent } from './pages/treinos/treinos.component';
+import { TreinosFormComponent } from './pages/treinos/treinos-form/treinos-form.component';
+import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/treinos-detalhar.component';
 
 
 const routes: Routes = [
@@ -107,6 +110,23 @@ const routes: Routes = [
   {
     path: 'equipamentos/:id',
     component: EquipamentosDetalharComponent
+  },
+  // treinos
+  {
+    path: 'treinos',
+    component: TreinosComponent
+  },
+  {
+    path: 'treinos/cadastrar',
+    component: TreinosFormComponent
+  },
+  {
+    path: 'treinos/editar/:id',
+    component: TreinosFormComponent
+  },
+  {
+    path: 'treinos/:id',
+    component: TreinosDetalharComponent
   }
 ];
 

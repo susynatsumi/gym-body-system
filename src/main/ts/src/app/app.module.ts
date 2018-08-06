@@ -19,7 +19,7 @@ import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.com
 import { AcademiasComponent } from './pages/academias/academias.component';
 import { AcademiasFormComponent } from './pages/academias/academias-form/academias-form.component';
 
-import {NgxMaskModule} from 'ngx-mask';
+import { NgxMaskModule } from 'ngx-mask';
 import { LoadingModule } from 'ngx-loading';
 import { AcademiaDetalharComponent } from './pages/academias/academia-detalhar/academia-detalhar.component';
 import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pessoas-detalhar.component';
@@ -37,6 +37,8 @@ import { EquipamentosDetalharComponent } from './pages/equipamentos/equipamentos
 import { EquipamentoDialogComponent } from './pages/dialogs/equipamento-dialog/equipamento-dialog.component';
 import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { GrupoMuscularDialogComponent } from './pages/dialogs/grupo-muscular-dialog/grupo-muscular-dialog.component';
+import { MensagemAlertaService } from './services/mensagem-alerta.service';
+import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/treinos-detalhar.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,7 @@ import { GrupoMuscularDialogComponent } from './pages/dialogs/grupo-muscular-dia
     EquipamentosDetalharComponent,
     EquipamentoDialogComponent,
     GrupoMuscularDialogComponent,
+    TreinosDetalharComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +84,9 @@ import { GrupoMuscularDialogComponent } from './pages/dialogs/grupo-muscular-dia
       path: '/broker',
       realTime: false
     }
-  }],
+  },
+  MensagemAlertaService,
+  ],
   entryComponents: [
     EquipamentoDialogComponent,
     GrupoMuscularDialogComponent

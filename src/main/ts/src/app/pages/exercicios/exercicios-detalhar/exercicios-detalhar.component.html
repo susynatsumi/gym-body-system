@@ -1,3 +1,54 @@
-<p>
-  exercicios-detalhar works!
-</p>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ exercicio?.nome }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <label>Descrição:</label>
+      <label> {{ exercicio?.descricao }} </label>
+    </div>
+    <div>
+      <label>Status:</label>
+      <label>{{exercicio?.isAtivo == true ? 'Ativo' : 'Inativo'}}</label>
+    </div>
+    <div>
+      <label>Link Vídeo:</label>
+      <label>{{ exercicio?.linkVideo }}</label>
+    </div>
+    <div>
+      <label>Equipamento:</label>
+      <label> {{ exercicio?.equipamento?.id }} - {{ exercicio?.equipamento?.descricao }} </label>
+    </div>
+    <div>
+      <mat-table class="mat-elevation-z8 table-detalhe" [dataSource]="dadosTable" fxFlex="75%">
+        <ng-container matColumnDef="nome">
+          <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element?.grupoMuscular?.nome }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element?.grupoMuscular?.id}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+        <mat-row *matRowDef="let grupoMuscular; columns: colunas;"></mat-row>
+      </mat-table> 
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <a 
+      mat-raised-button 
+      [routerLink]="['/exercicios']" 
+      color="warn" 
+      title="Voltar para a tela de consulta">Voltar</a>
+    <button 
+      mat-raised-button 
+      (click)="editar(exercicio?.id)"
+      color="primary" 
+      title="Editar dados">Editar</button>
+  </mat-card-actions>
+</mat-card>

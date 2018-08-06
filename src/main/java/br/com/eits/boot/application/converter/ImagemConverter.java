@@ -33,4 +33,14 @@ public class ImagemConverter {
 			
 	}
 	
+//	public FileTransfer byteArrayToFileTransfer(String fileName, String mimeType, byte[] byteArray) throws IOException{
+//		
+//		if( byteArray == null ){
+//			return null;
+//		}
+//		
+//		return new FileTransfer(fileName, mimeType, byteArray);
+//		
+//	}
+	
 }

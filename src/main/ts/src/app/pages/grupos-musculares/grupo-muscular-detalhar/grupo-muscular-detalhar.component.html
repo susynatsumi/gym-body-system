@@ -6,7 +6,8 @@
   <mat-card-content>
     <div>
       <label>Descrição:</label>
-      <label>{{grupoMuscular?.descricao  }}</label>
+      <label *ngIf="grupoMuscular && grupoMuscular.descricao" >{{ grupoMuscular?.descricao }}</label>
+      <label *ngIf="grupoMuscular && grupoMuscular.descricao == null" >Não informado</label>
     </div>
   </mat-card-content>
   <mat-card-actions>

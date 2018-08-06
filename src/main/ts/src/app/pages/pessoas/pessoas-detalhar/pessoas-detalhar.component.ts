@@ -27,6 +27,9 @@ export class PessoasDetalharComponent implements OnInit {
   ) {
     this.route.params.subscribe(
       paramns => {
+        
+        this.loading = true;
+
         this.parametroId = paramns.id;
 
         accountService.findPessoaById(this.parametroId)

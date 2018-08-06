@@ -45,6 +45,16 @@ table {
     display: block;
     margin-left: auto;
 }
+
+// tamanho da imagem - form
+.imagem-preview{
+    width: 292px; 
+    height: 240px;
+    border: 4px;
+    border-color: #CCC;
+    border-style: dashed;
+}
+
 /* 
 @import '~@angular/material/theming';
 @import '~@covalent/core/theming/all-theme';

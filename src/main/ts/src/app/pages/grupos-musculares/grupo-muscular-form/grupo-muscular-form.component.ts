@@ -29,6 +29,13 @@ export class GrupoMuscularFormComponent implements OnInit {
   // --------------CONTRUCTOR ------------
   // -------------------------------------
 
+  /**
+   * 
+   * @param formBuilder 
+   * @param grupoMuscularService 
+   * @param router 
+   * @param route 
+   */
   constructor(
     private formBuilder: FormBuilder,
     private grupoMuscularService: GrupoMuscularService,
@@ -65,6 +72,9 @@ export class GrupoMuscularFormComponent implements OnInit {
   // -------------- MÉTODOS  -------------
   // -------------------------------------
 
+  /**
+   * 
+   */
   ngOnInit() {
 
     this.formGrupoMusular = this.formBuilder.group({
@@ -74,6 +84,9 @@ export class GrupoMuscularFormComponent implements OnInit {
 
   }
 
+  /**
+   * Salva os dados no servidor
+   */
   salvar(){
     
     this.loading = true;
@@ -90,6 +103,9 @@ export class GrupoMuscularFormComponent implements OnInit {
    
   }
 
+  /**
+   * Envia os dados para o servidor
+   */
   enviar(){
 
     if(this.parametroId == null){

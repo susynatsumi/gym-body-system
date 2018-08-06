@@ -1,7 +1,7 @@
 
 <div>
   <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
-  <mat-vertical-stepper [linear]="false" #stepper>
+  <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step [stepControl]="formStep1Cadastro">
 
     <!-- step um do form  -->
@@ -93,7 +93,6 @@
           <button 
             mat-raised-button 
             matStepperNext 
-            (click)="printar()"
             title="Ir para a próxima etapa">Próximo</button>
         </div>
       </form>
@@ -109,58 +108,46 @@
         <!-- diz qual eh o form group no form -->
         <form [formGroup]="formStep3GruposMusculares">
           <ng-template matStepLabel>Grupos Musculares</ng-template>
-
-          <mat-grid-list cols="3" rowHeight="30px">
-            <mat-grid-tile
-                *ngFor="let tile of tiles"
-                [style.background]="tile.color">
-              {{tile.text}}
-            </mat-grid-tile>
-          </mat-grid-list>
-          
-          <mat-table [dataSource]="dadosTable">
-
-            <!-- Nome Column -->
-            <ng-container matColumnDef="nome">
-              <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element?.nome }}
-              </mat-cell>
-            </ng-container>
-
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-              <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element?.id}} </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
-            <mat-row *matRowDef="let grupoMuscular; columns: colunas;"></mat-row>
-
-          </mat-table>
-          <button 
-            type="button"
-            mat-raised-button 
-            color="primary"
-            (click)="abrirDialogGrupo()">Buscar Grupos Musculares</button>
-
-          <!-- <table formArrayName="gruposMusculares">
-            <tr>
-              <th>Código</th>
-              <th>Nome</th>
-            </tr>
-            <tr *ngFor=" let grupoMuscular of formStep3GruposMusculares.get('gruposMusculares').controls; let idx= index"
-            [formGroupName]="idx">
-              <td> <input type="text" formControlName="id"/> </td>
-              <td> <input type="text" formControlName="nome"/> </td>
-            </tr>
-          </table> -->
-
-          <button 
-            (click)="add()"
-            type="button">Adicionar</button>
-          <!-- fecha div -->
           <div>
+            <mat-table class="mat-elevation-z8" *ngIf="exercicio.exercicioGrupoMusculares.length != 0" [dataSource]="dadosTable" fxFlex="75%">
+              <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element?.grupoMuscular?.nome }}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element?.grupoMuscular?.id}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="acoes">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                  <button 
+                    mat-button 
+                    (click)="removerItem(element.id)"
+                    title="Detalhar">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>    
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+              <mat-row *matRowDef="let grupoMuscular; columns: colunas;"></mat-row>
+            </mat-table> 
+          </div>
+          <div class="botao-buscar-grupo">
+            <button 
+              type="button"
+              mat-raised-button 
+              color="primary"
+              (click)="abrirDialogGrupo()">Adicionar grupo muscular</button>
+          </div>
+
+          <div>
+            <hr>
             <button 
               mat-raised-button 
               matStepperPrevious 
@@ -168,12 +155,12 @@
             <button 
               mat-raised-button 
               matStepperNext 
-              (click)="printar()"
               color="primary"
-              title="Ir para a próxima etapa">Finalizar</button>
+              (click)="salvar()"
+              title="Salvar os dados">Finalizar</button>
             <button 
               mat-raised-button 
-              title="Cancela operação e retorna para tela de consulta" 
+              title="Cancela operação e retornar para tela de consulta" 
               [routerLink]="['/exercicios']"  
               color="warn">Cancelar</button>
           </div>

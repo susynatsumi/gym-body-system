@@ -17,6 +17,7 @@ export class GruposMuscularesComponent implements OnInit {
   @Output() respostaDialog = new EventEmitter();
 
   @Input() ocultarBotoes: Boolean = false;
+  @Input() codigosGruposMuscularesSelecionados: number[];
 
   colunas: string[] = ['nome', 'id', 'acoes'];
   dadosTable = new MatTableDataSource;
@@ -46,18 +47,33 @@ export class GruposMuscularesComponent implements OnInit {
    */
   listByfilters(filters: string){
     this.loading= true;
-    this.grupoMuscularService.listByFilters(filters)
+    this.grupoMuscularService.listByFilters(filters, this.getNotIN())
     .finally(() => this.loading = false )
       .subscribe(
         (gruposMusculares: Page<GrupoMuscular>) => {
           this.gruposMuscularesTable = gruposMusculares;
-          this.dadosTable = new MatTableDataSource(gruposMusculares.content)
+
+          this.dadosTable = new MatTableDataSource(gruposMusculares.content);
+
         }
       );
   }
 
   selecionar(element){
     this.respostaDialog.emit(element);
+  }
+
+  getNotIN(){
+
+    if(
+      this.codigosGruposMuscularesSelecionados != null 
+      && this.codigosGruposMuscularesSelecionados.length > 0 
+    ){
+      return this.codigosGruposMuscularesSelecionados;
+    }
+
+    return [-19999];
+
   }
 
 }
