@@ -9,14 +9,17 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
 
 import br.com.eits.boot.domain.entity.academia.exercicio.Equipamento;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
-import br.com.eits.boot.domain.entity.academia.exercicio.GrupoMuscular;
+import br.com.eits.boot.domain.entity.academia.exercicio.ExercicioGrupoMuscular;
+import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioGrupoMuscularRepository;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
+import br.com.eits.boot.domain.repository.academia.exercicio.IGrupoMuscularRepository;
 import br.com.eits.boot.domain.service.academia.exercicio.ExercicioService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
@@ -25,6 +28,12 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	
 	@Autowired
 	private ExercicioService exercicioService;
+	
+	@Autowired
+	private IGrupoMuscularRepository grupoMuscularRepository;
+	
+	@Autowired
+	private IExercicioGrupoMuscularRepository exercicioGrupoMuscularRepository;
 	
 	@Autowired
 	private IExercicioRepository exercicioRepository;
@@ -37,9 +46,11 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Faz mock de grupos musuclares
 	 * @return
 	 */
-	private List<GrupoMuscular> mockGruposMusculares(){
+	private List<ExercicioGrupoMuscular> mockExercicioGrupoMuscular(){
+		
 		return Arrays.asList(
-			new GrupoMuscular("TESTE", "TESTEA")
+			new ExercicioGrupoMuscular(null, this.grupoMuscularRepository.findById(1000L).orElse(null)),
+			new ExercicioGrupoMuscular(null, this.grupoMuscularRepository.findById(1001L).orElse(null))
 		);
 	}
 	
@@ -65,7 +76,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 			equipamento
 		);
 		
-		exercicio.setGruposMusculares(mockGruposMusculares());
+		exercicio.setExercicioGrupoMusculares(mockExercicioGrupoMuscular());
 		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);
@@ -73,6 +84,11 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 		Assert.assertNotNull(exercicio);
 		Assert.assertNotNull(exercicio.getId());
 		Assert.assertTrue(exercicio.getIsAtivo());
+		
+		Page<ExercicioGrupoMuscular> exercicioGrupoMuscular = this.exercicioGrupoMuscularRepository
+				.findByExercicio_id(exercicio.getId() , null );
+		
+		Assert.assertEquals(2L, exercicioGrupoMuscular.getTotalElements());
 		
 	}
 	
@@ -89,7 +105,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 		
 		Exercicio exercicio = new Exercicio();
 		
-	exercicio.setGruposMusculares(mockGruposMusculares());
+		exercicio.setExercicioGrupoMusculares(mockExercicioGrupoMuscular());
 		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);
@@ -118,7 +134,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 			equipamento
 		);
 		
-		exercicio.setGruposMusculares(mockGruposMusculares());
+		exercicio.setExercicioGrupoMusculares(mockExercicioGrupoMuscular());
 		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);
@@ -144,7 +160,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 			null
 		);
 		
-		exercicio.setGruposMusculares(mockGruposMusculares());
+		exercicio.setExercicioGrupoMusculares(mockExercicioGrupoMuscular());
 		
 		exercicio = this.exercicioService
 				.insertExercicio(exercicio);
@@ -161,7 +177,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/exercicio/exercicios.sql"
+		"/dataset/academia/exercicio/exercicioGrupoMuscular.sql"
 	})
 	public void updateExercicioMustPassMandatoryFieldNome(){
 		
@@ -189,7 +205,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/exercicio/exercicios.sql"
+		"/dataset/academia/exercicio/exercicioGrupoMuscular.sql"
 	})
 	public void updateExercicioMustPassMandatoryFieldEquipamento(){
 		
@@ -221,7 +237,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/exercicio/exercicios.sql"
+		"/dataset/academia/exercicio/exercicioGrupoMuscular.sql"
 	})
 	public void updateExercicioMustFailMandatoryFieldNome(){
 		
@@ -239,7 +255,7 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/exercicio/exercicios.sql"
+		"/dataset/academia/exercicio/exercicioGrupoMuscular.sql"
 	})
 	public void updateExercicioMustFailMandatoryFieldEquipamento(){
 		
@@ -292,5 +308,90 @@ public class ExercicioServiceIntegrationTests extends AbstractIntegrationTests{
 
 	}
 
-	//TODO fazer testes com filtros
+	/**
+	 * Valida filtro de busca
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/exercicios.sql"
+	})
+	public void findExercicioMustReturn2(){
+
+		Page<Exercicio> exercicios = exercicioService
+				.listExerciciosByFilters(
+					"Corrida", 
+					null,
+					null
+				);
+		
+		Assert.assertNotNull(exercicios);
+		Assert.assertEquals(2L, exercicios.getTotalElements());
+
+	}
+
+	/**
+	 * Teste de busca pelo filtro de status
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/exercicios.sql"
+	})
+	public void findExercicioMustReturn1(){
+
+		Page<Exercicio> exercicios = exercicioService
+				.listExerciciosByFilters(
+					null,
+					false,
+					null
+				);
+		
+		Assert.assertNotNull(exercicios);
+		Assert.assertEquals(1L, exercicios.getTotalElements());
+
+	}
+	
+	/**
+	 * Teste de remoção de exercicio com sucesso
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/exercicios.sql"
+	})
+	public void deleteExercicioMustPass() {
+		
+		this.exercicioService.deleteExercicio(1000L);
+
+		Exercicio exercicio = this.exercicioRepository
+				.findById(1000L)
+				.orElse(null);
+		
+
+		Assert.assertNull(exercicio);
+		
+	}
+	
+	/**
+	 * Teste de falha de remoção quando ouver um treino vinculado
+	 */
+	@Test( expected = DataIntegrityViolationException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoExercicios.sql"
+	})
+	public void deleteExercicioMustFail() {
+		
+		this.exercicioService.deleteExercicio(1000L);
+
+		
+	}
+	
+	
+	
 }

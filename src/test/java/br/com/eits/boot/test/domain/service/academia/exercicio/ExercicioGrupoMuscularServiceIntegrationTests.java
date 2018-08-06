@@ -291,6 +291,32 @@ public class ExercicioGrupoMuscularServiceIntegrationTests extends AbstractInteg
 
 	}
 	
+	
+	/**
+	 * Find com um id inexistente
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/exercicioGrupoMuscular.sql"
+	})
+	public void deleteExercicioGrupoMuscularMustPass(){
+
+		this.exercicioGrupoMuscularService.deleteById(1000L);
+		
+		ExercicioGrupoMuscular exercicioGrupoMuscular = this
+				.exercicioGrupoMuscularRepository
+				.findById(1000L)
+				.orElse(null);
+		
+		
+		Assert.assertNull(exercicioGrupoMuscular);
+		
+
+	}
+	
+	
 	//TODO fazer testes com filtros
 	
 }

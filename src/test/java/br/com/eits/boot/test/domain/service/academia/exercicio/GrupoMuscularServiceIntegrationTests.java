@@ -1,5 +1,8 @@
 package br.com.eits.boot.test.domain.service.academia.exercicio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.ValidationException;
 
 import org.junit.Assert;
@@ -27,6 +30,13 @@ public class GrupoMuscularServiceIntegrationTests extends AbstractIntegrationTes
 	// ------------------------------------------------------
 	// --------- INSERTS ------------------------------------
 	// ------------------------------------------------------
+	
+	public List<Long> mockNotInt(){
+		List<Long> ids = new ArrayList<Long>();
+		ids.add(-9999999L);
+		
+		return ids;
+	}
 	
 	/**
 	 * Inserção com sucesso de um grupo muscular
@@ -217,9 +227,9 @@ public class GrupoMuscularServiceIntegrationTests extends AbstractIntegrationTes
 		"/dataset/academia/exercicio/grupoMuscular.sql"
 	})
 	public void listExercicioGrupoMuscularReturn2(){
-		
+
 		Page<GrupoMuscular> gruposMusculares = this.grupoMuscularService
-				.listByFilters("grupo", null);
+				.listByFilters("grupo", mockNotInt() ,  null);
 		
 		Assert.assertEquals(2, gruposMusculares.getTotalElements());
 		
@@ -237,12 +247,32 @@ public class GrupoMuscularServiceIntegrationTests extends AbstractIntegrationTes
 	public void listExercicioGrupoMuscularReturn1(){
 		
 		Page<GrupoMuscular> gruposMusculares = this.grupoMuscularService
-				.listByFilters("1000", null);
+				.listByFilters("1000", mockNotInt(), null);
 		
 		Assert.assertEquals(1, gruposMusculares.getTotalElements());
 		
 	}
 	
+	/**
+	 * Listagem filtrando por um valor e utilizando o not in 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/exercicio/grupoMuscular.sql"
+	})
+	public void listExercicioGrupoMuscularNotInReturn2(){
+		
+		List<Long> notIn = mockNotInt();
+		notIn.add(1002L);
+		
+		Page<GrupoMuscular> gruposMusculares = this.grupoMuscularService
+				.listByFilters("", notIn , null);
+		
+		Assert.assertEquals(2, gruposMusculares.getTotalElements());
+		
+	}
 	
 	// --------------------------------------------------
 	// -------------------- DELETES ---------------------

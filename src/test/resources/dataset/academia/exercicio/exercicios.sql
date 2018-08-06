@@ -10,6 +10,7 @@ SET search_path TO public;
 
 TRUNCATE "equipamento" CASCADE;
 TRUNCATE "exercicio" CASCADE;
+TRUNCATE "grupo_muscular" CASCADE;
 
 INSERT INTO equipamento(
             id, created, updated, descricao, imagem, is_ativo)
@@ -40,7 +41,18 @@ VALUES (1001, NOW(), NULL, 'Corrida na esteira', true, null, 'Corrida abc',
 INSERT INTO exercicio(
     id, created, updated, descricao, is_ativo, link_video, nome, 
     equipamento_id)
-VALUES (1002, NOW(), NULL, 'sdfaklfdjalkjfdsajfa', true, null, 'Corrida abc', 
+VALUES (1002, NOW(), NULL, 'sdfaklfdjalkjfdsajfa', false, null, 'Corraida abc', 
     1001);
 
+
+INSERT INTO grupo_muscular(
+            id, created, updated, descricao, nome)
+    VALUES (1000, now(), null, 'Este grupo muscular teste teste teste ', 'Grupo Teste');
     
+INSERT INTO grupo_muscular(
+            id, created, updated, descricao, nome)
+    VALUES (1001, now(), null, 'Este grupo muscular teste teste teste ', 'Grupo superior');
+
+INSERT INTO grupo_muscular(
+            id, created, updated, descricao, nome)
+    VALUES (1002, now(), null, 'Este grupo muscular teste teste teste ', 'Costas');
