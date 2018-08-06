@@ -116,6 +116,7 @@ public class EquipamentoService {
 				.orElseThrow(() -> new IllegalArgumentException(
 					MessageSourceHolder.translate("repository.notFoundById", id)
 				));
+		
 	}
 	
 	/**

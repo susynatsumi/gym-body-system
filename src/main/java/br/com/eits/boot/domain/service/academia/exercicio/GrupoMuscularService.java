@@ -1,5 +1,7 @@
 package br.com.eits.boot.domain.service.academia.exercicio;
 
+import java.util.Collection;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -107,10 +109,26 @@ public class GrupoMuscularService {
 	 * @param pageRequest
 	 * @return
 	 */
+//	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+//	@Transactional( readOnly = true )
+//	public Page<GrupoMuscular> listByFilters(String filtros, PageRequest pageRequest){
+//		return this.grupoMuscularRepository.listByFilters(filtros, pageRequest);
+//	}
+//	
+	
+	/**
+	 * Lista grupos musculares de acordo com o filtro, removendo registros de ids passados como parametro 
+	 * 
+	 * @param filtros
+	 * @param pageRequest,
+	 * @param idsNotIn,
+	 * @return
+	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
 	@Transactional( readOnly = true )
-	public Page<GrupoMuscular> listByFilters(String filtros, PageRequest pageRequest){
-		return this.grupoMuscularRepository.listByFilters(filtros, pageRequest);
+	public Page<GrupoMuscular> listByFilters(String filtros, Collection<Long> idsNotIn, PageRequest pageRequest){
+
+		return this.grupoMuscularRepository.listByFilters(filtros, idsNotIn , pageRequest);
 	}
 	
 	/**

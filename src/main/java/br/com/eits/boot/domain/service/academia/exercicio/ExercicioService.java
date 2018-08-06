@@ -1,18 +1,15 @@
 package br.com.eits.boot.domain.service.academia.exercicio;
 
-import java.util.List;
-
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
-import br.com.eits.boot.domain.entity.academia.exercicio.GrupoMuscular;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
@@ -29,9 +26,6 @@ public class ExercicioService {
 	@Autowired
 	private IExercicioRepository exercicioRepository;
 	
-	@Autowired
-	private ExercicioGrupoMuscularService exercicioGrupoMuscularService;
-	
 	// -------------------------------------------------
 	// -------------MÉTODOS ----------------------------
 	// -------------------------------------------------
@@ -47,27 +41,25 @@ public class ExercicioService {
 		
 		Assert.notNull(
 			exercicio,
-			MessageSourceHolder.translate("exercicio.service.null")
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.isNull(
 			exercicio.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.null")
+			MessageSourceHolder.translate("service.object.id.null")
 		);
 		
 		Assert.notEmpty(
-			exercicio.getGruposMusculares(),
-			MessageSourceHolder.translate("exercicio.service.id.null")
-		);
-		
-		exercicio.setExercicioGrupoMusculares(
-			this.exercicioGrupoMuscularService
-				.criaExercicioGrupoMuscular(
-					exercicio
-				)
+			exercicio.getExercicioGrupoMusculares(),
+			MessageSourceHolder.translate("exercicio.service.grupo.muscular.is.empty")
 		);
 		
 		exercicio.setIsAtivo(true);
+		
+		exercicio.getExercicioGrupoMusculares()
+			.forEach(grupoMuscular -> {
+				grupoMuscular.setExercicio(exercicio);
+			});
 		
 		return this.exercicioRepository.save( exercicio );
 		
@@ -91,6 +83,16 @@ public class ExercicioService {
 			exercicio.getId(),
 			MessageSourceHolder.translate("exercicio.service.id.not.null")
 		);
+		
+		Assert.notEmpty(
+			exercicio.getExercicioGrupoMusculares(),
+			MessageSourceHolder.translate("exercicio.service.grupo.muscular.is.empty")
+		);
+			
+		exercicio.getExercicioGrupoMusculares()
+			.forEach(grupoMuscular -> {
+				grupoMuscular.setExercicio(exercicio);
+		});
 		
 		return this.exercicioRepository.save( exercicio );
 		
@@ -124,12 +126,20 @@ public class ExercicioService {
 	 * 
 	 */
 	@Transactional( readOnly = true )
-	public Page<Exercicio> listExercicioByFilters(
+	public Page<Exercicio> listExerciciosByFilters(
 		String filtros,
 		Boolean isAtivo,
-		Pageable pageable
+		PageRequest pageable
 	){
 		return this.exercicioRepository.listByFilters(filtros, isAtivo, pageable);
+	}
+	
+	/**
+	 * Faz delete de um exercicio de acordo com seu id
+	 * @param id
+	 */
+	public void deleteExercicio( Long id ){
+		this.exercicioRepository.deleteById(id);
 	}
 	
 }

@@ -1,8 +1,5 @@
 package br.com.eits.boot.domain.service.academia.exercicio;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.academia.exercicio.ExercicioGrupoMuscular;
-import br.com.eits.boot.domain.entity.academia.exercicio.GrupoMuscular;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioGrupoMuscularRepository;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
@@ -82,31 +77,6 @@ public class ExercicioGrupoMuscularService {
 	}
 	
 	/**
-	 * 
-	 * Cria exercicio grupo musuclar de acordo com os parametros
-	 * 
-	 * @param gruposMusculares
-	 * @param exercicio
-	 * @return
-	 */
-	@Transactional( readOnly = true )
-	public List<ExercicioGrupoMuscular> criaExercicioGrupoMuscular(
-		Exercicio exercicio
-	){
-		List<ExercicioGrupoMuscular> novosExerciciosGruposMusculares = 
-				new ArrayList<ExercicioGrupoMuscular>();
-		
-		exercicio.getGruposMusculares().forEach(grupo ->{
-			novosExerciciosGruposMusculares.add(
-				new ExercicioGrupoMuscular(exercicio, grupo)
-			);
-		});
-			
-		return novosExerciciosGruposMusculares;
-	}
-	
-	
-	/**
 	 * Realiza busca de um exercicio grupo muscular por id
 	 * 
 	 * @param id
@@ -126,6 +96,14 @@ public class ExercicioGrupoMuscularService {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * Remove da base um exercicio grupo muscular de acordo com seu id
+	 * 
+	 * @param id
+	 */
+	public void deleteById( long id ){
+		this.exercicioGrupoMuscularRepository.deleteById(id);
+	}
 	// verificar listagem por filtros 
 }

@@ -91,7 +91,7 @@ public class AcademiaService {
 	@Transactional( readOnly = true )
 	public Academia findAcdemiaById( Long id ){
 		
-		final Academia acade = this.academiaRepository
+		return this.academiaRepository
 		.findById(id)
 		.orElseThrow(() ->
 			new IllegalArgumentException(
@@ -100,7 +100,6 @@ public class AcademiaService {
 				)
 			)
 		);
-		return acade;
 //		return this.academiaRepository
 //				.findById(id)
 //				.orElseThrow(() ->
