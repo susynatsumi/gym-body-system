@@ -5,6 +5,15 @@ import { FlexLayoutModule  } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // fim angular imports
 
+// date time picker
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl } from 'ng-pick-datetime';
+
+// mask para campos
+import { NgxMaskModule } from 'ngx-mask';
+
+// loader
+import { LoadingModule } from 'ngx-loading';
+
 //outros imports
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,8 +28,7 @@ import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.com
 import { AcademiasComponent } from './pages/academias/academias.component';
 import { AcademiasFormComponent } from './pages/academias/academias-form/academias-form.component';
 
-import { NgxMaskModule } from 'ngx-mask';
-import { LoadingModule } from 'ngx-loading';
+
 import { AcademiaDetalharComponent } from './pages/academias/academia-detalhar/academia-detalhar.component';
 import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pessoas-detalhar.component';
 import { TreinosComponent } from './pages/treinos/treinos.component';
@@ -39,6 +47,33 @@ import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { GrupoMuscularDialogComponent } from './pages/dialogs/grupo-muscular-dialog/grupo-muscular-dialog.component';
 import { MensagemAlertaService } from './services/mensagem-alerta.service';
 import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/treinos-detalhar.component';
+import { PessoaDialogComponent } from './pages/dialogs/pessoa-dialog/pessoa-dialog.component';
+import { MAT_DATE_LOCALE } from '../../node_modules/@angular/material';
+// import { LabelsPadraoDatePicker } from './compartilhados/time-picker-label/timer-picker-label';
+
+/* 
+export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
+  upSecondLabel   = 'Adicionar um segundo',
+  downSecondLabel = 'Diminuir um segundo',
+  upMinuteLabel   = 'Adicionar um minuto',
+  downMinuteLabel = 'Diminuir um minuto',
+  upHourLabel     = 'Acicionar uma hora',
+  downHourLabel   = 'Diminuir uma hora',
+  prevMonthLabel  = 'Voltar um mês',
+  nextMonthLabel  = 'Próximo mês',
+  prevYearLabel   = 'Ano anterior',
+  nextYearLabel   = 'Próximo mês',
+  prevMultiYearLabel= 'Voltar 21 anos',
+  nextMultiYearLabel= 'Avançar 21 anos',
+  switchToMonthViewLabel= 'Alterar para visualizar meses',
+  switchToMultiYearViewLabel= 'Alterar para mes e ano',
+  cancelBtnLabel= 'Cancelar',
+  setBtnLabel= 'Selecionar',
+  rangeFromLabel= 'De',
+  rangeToLabel= 'Até',
+  hour12AMLabel= 'AM',
+  hour12PMLabel= 'PM'
+}; */
 
 @NgModule({
   declarations: [
@@ -64,6 +99,7 @@ import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/trein
     EquipamentoDialogComponent,
     GrupoMuscularDialogComponent,
     TreinosDetalharComponent,
+    PessoaDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +113,8 @@ import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/trein
     NgxMaskModule.forRoot(),
     LoadingModule,
     HttpClientModule,
+    OwlDateTimeModule, 
+    OwlNativeDateTimeModule,
   ],
   providers: [{
     provide: BROKER_CONFIGURATION,
@@ -86,10 +124,13 @@ import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/trein
     }
   },
   MensagemAlertaService,
+  {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
+  // {provide: OwlDateTimeIntl, useValue: LabelsPadraoDatePicker}
   ],
   entryComponents: [
     EquipamentoDialogComponent,
-    GrupoMuscularDialogComponent
+    GrupoMuscularDialogComponent,
+    PessoaDialogComponent
   ],
   bootstrap: [AppComponent],
 })

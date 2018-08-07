@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '../../../../node_modules/@angular/material';
 import { Pessoa, Page } from '../../../generated/entities';
 import { Router } from '../../../../node_modules/@angular/router';
@@ -24,6 +24,10 @@ export class PessoasComponent implements OnInit {
   // ---------------------------------------------
   // ----------------- ATRIBUTOS -----------------
   // ---------------------------------------------
+  // resposta para a dialog de pessoas
+  @Output() respostaDialog = new EventEmitter();
+  // oculta alguns botoes se estiver com valor true
+  @Input() ocultarBotoes: Boolean = false;
 
   colunas: string[] = ['Nome', 'E-mail', 'Status', 'Id', 'Acoes'];
   dadosTable = new MatTableDataSource();
@@ -110,6 +114,15 @@ export class PessoasComponent implements OnInit {
           this.dadosTable = new MatTableDataSource(pessoas.content)
         }
       );
+  }
+
+  /**
+   * Seleciona pessoa da dialog
+   * @param element 
+   */
+  selecionar(element){
+    console.log(element.nome);
+    this.respostaDialog.emit(element);
   }
 
 }

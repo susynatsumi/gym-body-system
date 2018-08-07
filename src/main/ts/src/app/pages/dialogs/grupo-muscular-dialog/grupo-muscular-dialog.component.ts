@@ -1,7 +1,7 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '../../../../../node_modules/@angular/material';
 import { EquipamentoDialogComponent } from '../equipamento-dialog/equipamento-dialog.component';
-import { Equipamento } from '../../../../generated/entities';
+import { Equipamento, GrupoMuscular } from '../../../../generated/entities';
 
 @Component({
   selector: 'app-grupo-muscular-dialog',
@@ -14,7 +14,7 @@ export class GrupoMuscularDialogComponent implements OnInit {
   
   constructor(
     public dialogRef: MatDialogRef<EquipamentoDialogComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Equipamento,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: GrupoMuscular,
   ) {
     this.idsGruposSelecionados = data;
   }

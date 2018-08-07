@@ -1,8 +1,8 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
 <div class="filtro">
-  <button mat-button routerLinkActive="active" (click)="cadastrar()">
+  <!-- <button mat-button routerLinkActive="active" (click)="cadastrar()">
     Cadastrar
-  </button>
+  </button> -->
   <div class="input-row">
     <mat-form-field fxFlex>
       <input matInput (keyup)="filtrar($event.target.value)" placeholder="Filtrar" class="filtro-texto">
@@ -46,26 +46,36 @@
       <mat-cell fxFlex="32%" *matCellDef="let element"> 
         <button 
           mat-button 
+          *ngIf="ocultarBotoes == false"
           routerLink="/pessoas/{{element.id}}"
           title="Detalhar">
           <mat-icon>description</mat-icon>
         </button>   
         <button 
           mat-button 
+          *ngIf="ocultarBotoes == false"
           routerLink="/pessoas/editar/{{element.id}}"
           title="Editar">
           <mat-icon>edit</mat-icon>
         </button>  
         <button 
           mat-button 
+          *ngIf="ocultarBotoes == false"
           (click)="delete(element.id)"
           title="Remover">
           <mat-icon>delete</mat-icon>
         </button>  
+        <button 
+          *ngIf="ocultarBotoes == true"
+          mat-button 
+          (click)="selecionar(element)"
+          title="Selecionar">
+          <mat-icon>touch_app</mat-icon>
+        </button> 
       </mat-cell>
     </ng-container>
 
   <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
   <!-- <mat-row *matRowDef="let pessoa; columns: colunas;" /*(click)="editar(pessoa.id)"*/?></mat-row> -->
-  <mat-row routerLink="/pessoas/{{pessoa?.id}}" *matRowDef="let pessoa; columns: colunas;"></mat-row>
+  <mat-row *matRowDef="let pessoa; columns: colunas;"></mat-row>
 </mat-table>

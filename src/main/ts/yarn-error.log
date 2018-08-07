@@ -220,39 +220,6 @@ Lockfile:
     dependencies:
       tslib "^1.7.1"
   
-  "@covalent/core@^1.0.1":
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/@covalent/core/-/core-1.0.1.tgz#25ffbfab75cb4f020e5785a58e3f564eef3b4073"
-    dependencies:
-      tslib "^1.7.1"
-  
-  "@covalent/dynamic-forms@^1.0.1":
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/@covalent/dynamic-forms/-/dynamic-forms-1.0.1.tgz#d692f59746761ba48d24c5bd4acc5fdb2b5490ff"
-    dependencies:
-      "@covalent/core" "^1.0.1"
-      tslib "^1.7.1"
-  
-  "@covalent/highlight@^1.0.1":
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/@covalent/highlight/-/highlight-1.0.1.tgz#abd0718a0837ec0ef9367f2de360fd7eb5d2f43a"
-    dependencies:
-      highlight.js "9.11.0"
-      tslib "^1.7.1"
-  
-  "@covalent/http@^1.0.1":
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/@covalent/http/-/http-1.0.1.tgz#bdecf53d184a7194d7e176361a0e60361c4ff991"
-    dependencies:
-      tslib "^1.7.1"
-  
-  "@covalent/markdown@^1.0.1":
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/@covalent/markdown/-/markdown-1.0.1.tgz#235e46ee537287678ae6bdf3af9351a4afbfd40f"
-    dependencies:
-      showdown "1.6.4"
-      tslib "^1.7.1"
-  
   "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
@@ -2530,10 +2497,6 @@ Lockfile:
   he@1.1.x:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
-  
-  highlight.js@9.11.0:
-    version "9.11.0"
-    resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.11.0.tgz#47f98c7399918700db2caf230ded12cec41a84ae"
   
   hmac-drbg@^1.0.0:
     version "1.0.1"
@@ -5063,12 +5026,6 @@ Lockfile:
   shebang-regex@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
-  
-  showdown@1.6.4:
-    version "1.6.4"
-    resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.6.4.tgz#056bbb654ecdb8d8643ae12d6d597893ccaf46c6"
-    dependencies:
-      yargs "^6.6.0"
   
   signal-exit@^3.0.0:
     version "3.0.2"
