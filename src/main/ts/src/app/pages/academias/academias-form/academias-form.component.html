@@ -1,152 +1,98 @@
-
 <div>
-  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
   <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step [stepControl]="formStep1DadosAcademia">
-        <form  fxLayout="column" class="example-form" [formGroup]="formStep1DadosAcademia">
-          <ng-template matStepLabel>Informe os dados da academia</ng-template>
-          <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-              <mat-form-field fxFlex>
-                  <input 
-                      matInput 
-                      placeholder="Razão Social (Obrigatório)" 
-                      formControlName="razaoSocial"
-                      name="razaoSocial" 
-                      [(ngModel)]="academia.razaoSocial"  />
-              </mat-form-field>
-              <mat-form-field fxFlex>
-                <input 
-                    matInput 
-                    placeholder="Nome Fantasia (Obrigatório)" 
-                    formControlName="nomeFantasia"
-                    name="nomeFantasia" 
-                    [(ngModel)]="academia.nomeFantasia"  />
-              </mat-form-field>
-          </div>
-          <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-            <mat-form-field fxFlex>
-              <input 
-                matInput
-                placeholder="CNPJ (Obrigatório)"
-                formControlName="cnpj"
-                name="cnpj"
-                id="cnpj"
-                [dropSpecialCharacters]="true" 
-                mask="00.000.000/0000-00"
-                [(ngModel)]="academia.cnpj" />
-            </mat-form-field>
-            <mat-form-field fxFlex>
-              <input 
-                matInput
-                placeholder="Telefone (Obrigatório)"
-                formControlName="telefone"
-                name="telefone"
-                [dropSpecialCharacters]="true"
-                mask="(00)0000-0000?0"
-                [(ngModel)]="academia.telefone"/>
-            </mat-form-field>
-          </div>
-          <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-            <mat-form-field fxFlex >
-              <input matInput placeholder="" style="display: none">
-              <mat-checkbox 
-                  formControlName="isAtiva"    
-                  labelPosition='before'
-                  [disabled]="parametroId == null"
-                  [(ngModel)]="academia.isAtiva">Ativo</mat-checkbox>
-            </mat-form-field>
-          </div>
-          <div>
-            <button 
-              mat-raised-button 
-              matStepperNext
-              title="Ir para a próxima etapa" >Próximo</button>
-          </div>
-        </form>
-    </mat-step> 
-    <mat-step [stepControl]="formStep2Proprietario">
-      <form  fxLayout="column" class="example-form" [formGroup]="formStep2Proprietario">
-        <ng-template matStepLabel>Proprietário</ng-template>
-        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-            <mat-form-field class="example-full-width" fxFlex>
-              <input 
-                matInput 
-                placeholder="Proprietário (Obrigatório)"
-                aria-label="pessoaProprietario" 
-                formControlName="pessoaProprietario"
-                [value]="academia?.pessoaProprietario?.nome"
-                [(ngModel)]="academia.pessoaProprietario"
-                [matAutocomplete]="auto" />
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let pessoa of filteredPessoas | async" [value]="pessoa" >
-                  <span>{{ pessoa.nome }}</span>
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-        </div>
-        <div>
-          <button 
-            mat-raised-button 
-            matStepperPrevious 
-            title="Voltar para etapa anterior">Anterior</button>
-          <button 
-            mat-raised-button 
-            matStepperNext 
-            title="Ir para a próxima etapa">Próximo</button>
-        </div>
-      </form>
-    </mat-step> 
-    <mat-step [stepControl]="formStep3DadosEndereco">
-      <form  fxLayout="column" class="example-form" [formGroup]="formStep3DadosEndereco">
-        <ng-template matStepLabel>Informações de endereço</ng-template>
+      <form fxLayout="column" class="example-form" [formGroup]="formStep1DadosAcademia">
+        <ng-template matStepLabel>Informe os dados da academia</ng-template>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <mat-form-field fxFlex>
-            <input 
-              matInput
-              placeholder="Cidade (Obrigatório)"
-              formControlName="cidade"
-              name="cidade"
-              [(ngModel)]="academia.cidade"/>
+            <input matInput placeholder="Razão Social (Obrigatório)" formControlName="razaoSocial" name="razaoSocial" [(ngModel)]="academia.razaoSocial"
+            />
           </mat-form-field>
           <mat-form-field fxFlex>
-            <input 
-              matInput
-              placeholder="CEP (Obrigatório)"
-              formControlName="cep"
-              name="cep"
-              [dropSpecialCharacters]="true"
-              mask="00.000-000"
-              [(ngModel)]="academia.cep"/>
-            </mat-form-field>
+            <input matInput placeholder="Nome Fantasia (Obrigatório)" formControlName="nomeFantasia" name="nomeFantasia" [(ngModel)]="academia.nomeFantasia"
+            />
+          </mat-form-field>
         </div>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <mat-form-field fxFlex>
-            <input 
-              matInput
-              placeholder="Endereço (Obrigatório)"
-              formControlName="endereco"
-              name="endereco"
-              [(ngModel)]="academia.endereco"/>
+            <input matInput placeholder="CNPJ (Obrigatório)" formControlName="cnpj" name="cnpj" id="cnpj" [dropSpecialCharacters]="true"
+              mask="00.000.000/0000-00" [(ngModel)]="academia.cnpj" />
+          </mat-form-field>
+          <mat-form-field fxFlex>
+            <input matInput placeholder="Telefone (Obrigatório)" formControlName="telefone" name="telefone" [dropSpecialCharacters]="true"
+              mask="(00)0000-0000?0" [(ngModel)]="academia.telefone" />
+          </mat-form-field>
+        </div>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field fxFlex>
+            <input matInput placeholder="" style="display: none">
+            <mat-checkbox formControlName="isAtiva" color="primary" labelPosition='before' [disabled]="parametroId == null" [(ngModel)]="academia.isAtiva">Ativo</mat-checkbox>
           </mat-form-field>
         </div>
         <div>
-          <button 
-            mat-raised-button 
-            matStepperPrevious 
-            title="Voltar para etapa anterior" >Anterior</button>
-          <button 
-            mat-raised-button 
-            matStepperNext 
-            color='primary'
-            title="Salvar dados" 
-            (click)="salvar()">Finalizar</button>
-          <button 
-            mat-raised-button 
-            title="Cancela operação e retorna para tela de consulta" 
-            [routerLink]="['/academias']"  
-            color="warn">Cancelar</button>
+          <button mat-raised-button matStepperNext title="Ir para a próxima etapa">Próximo</button>
         </div>
       </form>
     </mat-step>
-  </mat-vertical-stepper>
+    <mat-step [stepControl]="formStep2Proprietario">
+      <form fxLayout="column" class="example-form" [formGroup]="formStep2Proprietario">
+        <ng-template matStepLabel>Proprietário</ng-template>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+          <!-- <input #paisInput placeholder="Pesquise pelo país" (ngModelChange)="listPaisesByFilters($event);" [matAutocomplete]="auto"
+            matInput [(ngModel)]="entidade.pais.nome" [ngModelOptions]="{standalone: true}">
+          <button mat-icon-button class="tc-grey-700" type="button" (click)="entidade.pais = {}" *ngIf="entidade?.pais?.id">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let pais of paises" [value]="pais?.nome" (onSelectionChange)="setPais(pais, entidade)">
+            {{pais?.nome}}
+          </mat-option>
+        </mat-autocomplete> -->
+
+        <mat-form-field class="example-full-width" fxFlex>
+          <input matInput formControlName="pessoaProprietario" placeholder="Proprietário (Obrigatório)" (ngModelChange)="listPessoasByFilters($event);"  aria-label="pessoaProprietario"
+            [(ngModel)]="academia.pessoaProprietario.nome" [matAutocomplete]="auto" 
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="setProprietario(academia, pessoa)" *ngFor="let pessoa of pessoasList" [value]="pessoa?.nome">
+              <span>{{ pessoa?.nome }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+</div>
+<div>
+  <button mat-raised-button matStepperPrevious title="Voltar para etapa anterior">Anterior</button>
+  <button mat-raised-button matStepperNext title="Ir para a próxima etapa">Próximo</button>
+</div>
+</form>
+</mat-step>
+<mat-step [stepControl]="formStep3DadosEndereco">
+  <form fxLayout="column" class="example-form" [formGroup]="formStep3DadosEndereco">
+    <ng-template matStepLabel>Informações de endereço</ng-template>
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Cidade (Obrigatório)" formControlName="cidade" name="cidade" [(ngModel)]="academia.cidade" />
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input matInput placeholder="CEP (Obrigatório)" formControlName="cep" name="cep" [dropSpecialCharacters]="true" mask="00.000-000"
+          [(ngModel)]="academia.cep" />
+      </mat-form-field>
+    </div>
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Endereço (Obrigatório)" formControlName="endereco" name="endereco" [(ngModel)]="academia.endereco"
+        />
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button matStepperPrevious title="Voltar para etapa anterior">Anterior</button>
+      <button mat-raised-button matStepperNext color='primary' title="Salvar dados" (click)="salvar()">Finalizar</button>
+      <button mat-raised-button title="Cancela operação e retorna para tela de consulta" [routerLink]="['/academias']" color="warn">Cancelar</button>
+    </div>
+  </form>
+</mat-step>
+</mat-vertical-stepper>
 </div>

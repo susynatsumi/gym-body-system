@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators/map';
 import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
 
 import 'rxjs/add/operator/finally';
+import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
 
 @Component({
   selector: 'app-academias-form',
@@ -21,44 +22,60 @@ export class AcademiasFormComponent implements OnInit {
   // ---------------- ATRIBUTOS ------------------
   // ---------------------------------------------
 
+  // objeto populado no form
   public academia: Academia;
 
+  // form groups
   public formStep1DadosAcademia: FormGroup;
   public formStep2Proprietario: FormGroup;
   public formStep3DadosEndereco: FormGroup;
+  // fim form groups
 
-  public pessoaControl: FormControl;
+  // form control
+  // public pessoaControl: FormControl;
 
-  public filteredPessoas: Observable<any[]>;
+  // public filteredPessoas: Pessoa[];
+  public pessoasList: Pessoa[];
 
-  public pessoas: Page<Pessoa>;
+  // public pessoas: Page<Pessoa>;
 
+  // para apresentar ou não o loader
   loading = false;
+
+  // parametro passado em caso de edição
   parametroId: number;
 
   // ---------------------------------------------
   // ---------------- CONSTRUCTOR ----------------
   // ---------------------------------------------
 
+  /**
+   * Constroctor 
+   */
   constructor(
     private formBuilder: FormBuilder,
     private academiaService: AcademiaService,
     private pessoaService: AccountService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private mensagemAlertaService: MensagemAlertaService,
   ) { 
 
-    this.academia = {};
-    this.academia.isAtiva = true;
+    this.academia = {
+      pessoaProprietario: {
+        nome:''
+      },
+      isAtiva: true
+    };
 
     this.route.params.subscribe(
       paramns => {
 
-        this.parametroId = paramns.id;
-
-        if(this.parametroId != null){
+        if(paramns.id != null){
 
           this.loading = true;
+
+          this.parametroId = paramns.id;
 
           this.academiaService.findAcdemiaById(this.parametroId)
             .finally( () => this.loading = false )
@@ -66,11 +83,10 @@ export class AcademiasFormComponent implements OnInit {
               (academia: Academia) => {
                 this.academia = academia
               },(error: Error) => {
-                alert(error.message);
+                this.mensagemAlertaService.errorFind(error.message);
                 this.router.navigate(['academias/cadastrar']);
               }
             );
-
         }
       });
   }
@@ -98,21 +114,20 @@ export class AcademiasFormComponent implements OnInit {
       'cidade': [this.academia.cidade, Validators.compose([Validators.required, Validators.minLength(5)])],
     });
 
-    this.pessoaControl = new FormControl();
+    // this.pessoaControl = new FormControl();
 
-    this.listaPessoasAtivas().subscribe((pessoas: Page<Pessoa>) => {
-      this.pessoas = pessoas;
-
-      this.filteredPessoas = this.pessoaControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(pessoa => pessoa ? 
-            this.filterPessoas(pessoa) 
-          : 
-            this.pessoas.content.slice()
-        )
-      );
-    });
+    // this.listaPessoasAtivas().subscribe((pessoas: Page<Pessoa>) => {
+    //   this.pessoas = pessoas;
+      // this.filteredPessoas = this.pessoaControl.valueChanges
+      // .pipe(
+      //   startWith(''),
+      //   map(pessoa => pessoa ? 
+      //       this.filterPessoas(pessoa) 
+      //     : 
+      //       this.pessoas.content.slice()
+      //   )
+      //);
+    // });
 
   }
 
@@ -120,48 +135,62 @@ export class AcademiasFormComponent implements OnInit {
    * Salva os dados de uma academia de acordo com o formulário
    */
   salvar(){
+    
+    this.loading = true;
+
+    this.enviar().finally( ()=> this.loading = false )
+    .subscribe(
+      () =>{
+      },(error: Error)=>{
+        alert(error.message);
+      },() =>{
+        this.router.navigate(['/academias']);
+      }
+    );
+  }
+
+  /**
+   * Envia os dados para o servidor
+   */
+  enviar(){
 
     if(this.parametroId == null ){
-      this.academiaService.insertAcademia(this.academia)
-        .subscribe(
-          () =>{
+      return this.academiaService.insertAcademia(this.academia);
+    } else {
+      return this.academiaService.updateAcademia(this.academia);
+    }
 
-          },(error: Error)=>{
-            alert(error.message);
-          },() =>{
-            this.router.navigate(['/academias']);
-          }
-        ) ;
-      } else {
-        this.academiaService.updateAcademia(this.academia)
-        .subscribe(
-          () =>{
-
-          },(error: Error)=>{
-            alert(error.message);
-          },() =>{
-            this.router.navigate(['/academias']);
-          }
-        ) ;
-      }
   }
+
 
   /**
    * Lista pessoas para o campo proprietário
    */
-  listaPessoasAtivas(){
-    return this.pessoaService.listByFilters('');
-  }
+  // listaPessoasAtivas(){
+  //   return this.pessoaService.listByFilters('');
+  // }
 
   /**
    * Filtra pessoas carregadas no autocomplete
    * @param name 
    */
-  filterPessoas(name: string) {
+  // filterPessoas(name: string) {
 
-    return this.pessoas.content.filter(pessoa =>
-        pessoa.nome.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  //   return this.pessoas.content.filter(pessoa =>
+  //       pessoa.nome.toLowerCase().indexOf(name.toLowerCase()) === 0);
 
+  // }
+
+  setProprietario( academia: Academia, pessoa: Pessoa ){
+    if(pessoa){
+      academia.pessoaProprietario = pessoa;
+    }
+  }
+
+  listPessoasByFilters(filter: string){
+    this.pessoaService.listByFilters(filter).subscribe((pessoas: Page<Pessoa>) => {
+      this.pessoasList = pessoas.content;
+    });
   }
 
 

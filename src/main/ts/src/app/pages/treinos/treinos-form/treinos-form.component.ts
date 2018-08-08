@@ -3,6 +3,7 @@ import { Treino, Pessoa } from '../../../../generated/entities';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '../../../../../node_modules/@angular/forms';
 import { PessoaDialogComponent } from '../../dialogs/pessoa-dialog/pessoa-dialog.component';
 import { MatDialog } from '../../../../../node_modules/@angular/material';
+import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
 
 @Component({
   selector: 'app-treinos-form',
@@ -40,6 +41,7 @@ export class TreinosFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
+    public messageService: MensagemAlertaService,
   ) { 
     this.treino = {};
   }
@@ -67,6 +69,8 @@ export class TreinosFormComponent implements OnInit {
       'sabado': [],
       'domingo': [],
     });
+
+    this.formGroupStep3.controls['segunda'].setErrors({'invalido':true});
 
     this.formGroupStep4 = this.formBuilder.group({
       'treinoExercicios': []
@@ -121,8 +125,11 @@ export class TreinosFormComponent implements OnInit {
 
     if(this.treino.diasSemanaSelecionados.length == 0){
       this.formGroupStep3.controls['segunda'].setErrors({'invalido':true});
+      this.messageService.message("Selecione ao menos um dia da semana");
+    }else {
+      this.formGroupStep3.controls['segunda'].setErrors(null);
     }
-    console.log(this.treino.diasSemanaSelecionados.length);
+
   }
 
   salvar(){

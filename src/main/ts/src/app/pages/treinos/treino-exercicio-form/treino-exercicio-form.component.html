@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="formGroupTreinoExercicio" fxLayout="row" fxLayoutGap="20px">
+      <input 
+        matInput 
+        placeholder="Exercício (Obrigatório)" 
+        (ngModelChange)="listTreinosByFilters($event);"
+        [(ngModel)]="treinoExercicio.exercicio.nome"
+        formControlName="exercicio"
+        [matAutocomplete]="auto"/>
+      <mat-autocomplete #auto="matAutocomplete" >
+        <mat-option
+          (onSelectionChange)="setExercicio(treinoExercicio, exercicio)"
+          *ngFor="let exercicio of exerciciosAutoComplete"
+          [value]="exercicio?.nome">
+            <span> {{ exercicio?.nome }} </span>
+        </mat-option>
+      </mat-autocomplete>
+      <input matInput formControlName="tipoTreinoExercicio" placeholder="Tipo de Série (Obrigatório)" />
+      <input matInput mask="0?00" formControlName="repeticoes" placeholder="Repeticões (Obrigatório)" />
+    </form>
+  </mat-card-content>
+</mat-card>

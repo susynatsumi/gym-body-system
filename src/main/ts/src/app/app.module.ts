@@ -49,6 +49,7 @@ import { MensagemAlertaService } from './services/mensagem-alerta.service';
 import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/treinos-detalhar.component';
 import { PessoaDialogComponent } from './pages/dialogs/pessoa-dialog/pessoa-dialog.component';
 import { MAT_DATE_LOCALE } from '../../node_modules/@angular/material';
+import { TreinoExercicioFormComponent } from './pages/treinos/treino-exercicio-form/treino-exercicio-form.component';
 // import { LabelsPadraoDatePicker } from './compartilhados/time-picker-label/timer-picker-label';
 
 /* 
@@ -100,6 +101,7 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
     GrupoMuscularDialogComponent,
     TreinosDetalharComponent,
     PessoaDialogComponent,
+    TreinoExercicioFormComponent,
   ],
   imports: [
     BrowserModule,
