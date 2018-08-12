@@ -64,6 +64,7 @@ public class AccountService
 	public Pessoa insertPessoa( Pessoa user)
 	{
 		user.setIsAtivo( true );
+		user.setSenha (user.getLogin() );
 		user.setSenha( this.passwordEncoder.encode( (user.getPassword() == null? "" : user.getPassword() ) ) );
 
 		user = this.pessoaRepository.save( user );
@@ -94,11 +95,21 @@ public class AccountService
 	 * @param id
 	 * @return
 	 */
-	@Transactional(readOnly = true)
-	public Pessoa findPessoaById( long id )
-	{
-		return this.pessoaRepository.findById( id )
-				.orElseThrow( () -> new IllegalArgumentException( translate( "repository.notFoundById", id ) ) );
+	@Transactional( readOnly = true )
+	public Pessoa findPessoaById( long id ) {
+		
+		final Pessoa pessoaSession = this.getPessoaLogada();
+		
+		return this.pessoaRepository.findById( 
+			id , 
+			Papel.ADMINISTRATOR.equals(pessoaSession.getPapel())
+		)
+		.orElseThrow( 
+			() -> new IllegalArgumentException( 
+				translate( "repository.notFoundById", id ) 
+			) 
+		);
+		
 	}
 
 	/**
@@ -114,8 +125,13 @@ public class AccountService
 		Boolean isAtivo,
 		PageRequest pageRequest 
 	){
-
-		return this.pessoaRepository.listPessoaByFilters(filtro, isAtivo, pageRequest);
+		final Pessoa pessoaSession = this.getPessoaLogada();
+		return this.pessoaRepository.listPessoaByFilters(
+			filtro, 
+			isAtivo, 
+			pessoaSession.getPapel().equals(Papel.ADMINISTRATOR),// verifica se pode ou não listar administradores 
+			pageRequest
+		);
 	}
 	
 	/**

@@ -40,22 +40,25 @@ public class IPessoaRepositoryImpl implements UserDetailsService
 	 */
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername( String email ) throws UsernameNotFoundException
+	public UserDetails loadUserByUsername( String login ) throws UsernameNotFoundException
 	{
-		System.out.println("email: "+email);
 		try
 		{
 			final String hql = "FROM Pessoa pessoa "
-							+ "WHERE lower(pessoa.email) = lower(:email)";
+							+ "WHERE "
+							+ "		pessoa.login is not null "
+							+ "		AND pessoa.login = :login "
+							+ "		AND pessoa.isAtivo = true" // somente ativos podem logar
+							+ "		AND pessoa.papel <> 2 "; // alunos não podem logar no sistema
 			
 			final TypedQuery<Pessoa> query = this.entityManager.createQuery( hql, Pessoa.class );
-			query.setParameter( "email", email);
+			query.setParameter( "login", login);
 			
 			return query.getSingleResult();
 		}
 		catch (NoResultException e)
 		{
-			throw new UsernameNotFoundException("Este email '"+email+"' é inválido");
+			throw new UsernameNotFoundException("Este login: '"+login+"' é inválido");
 		}
 	}
 }

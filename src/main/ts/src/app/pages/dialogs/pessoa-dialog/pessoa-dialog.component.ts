@@ -1,5 +1,5 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '../../../../../node_modules/@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Pessoa } from '../../../../generated/entities';
 
 @Component({

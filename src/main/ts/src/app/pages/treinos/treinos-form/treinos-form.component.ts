@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Treino, Pessoa } from '../../../../generated/entities';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '../../../../../node_modules/@angular/forms';
+import { Treino, Pessoa, PessoaTreino, Page, TreinoExercicio } from '../../../../generated/entities';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { PessoaDialogComponent } from '../../dialogs/pessoa-dialog/pessoa-dialog.component';
-import { MatDialog } from '../../../../../node_modules/@angular/material';
+import { MatDialog } from '@angular/material';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
+import { AccountService, TreinoExercicioService } from '../../../../generated/services';
 
 @Component({
   selector: 'app-treinos-form',
@@ -17,7 +18,8 @@ export class TreinosFormComponent implements OnInit {
 
   // treino populado pela tela
   treino: Treino;
-  alunoSelecionado: Pessoa[];
+  pessoasTreino: PessoaTreino[];
+  alunoSelecionado: Pessoa;
 
   // steps do formulario
   //selecionar aluno
@@ -38,12 +40,35 @@ export class TreinosFormComponent implements OnInit {
   sabado: false;
   domingo: false;
 
+  // pessoas para preencher o auto complete
+  public pessoasList: Pessoa[];
+
+  loading = false;
+
+  /**
+   * 
+   * @param formBuilder 
+   * @param dialog 
+   * @param messageService 
+   */
   constructor(
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     public messageService: MensagemAlertaService,
+    private pessoasService: AccountService,
+    private treinoExercicioService: TreinoExercicioService
   ) { 
-    this.treino = {};
+    this.treino = {
+      treinoExercicios: [
+        {
+          isAtivo: true,
+          exercicio: {nome: ''}
+        }
+      ]
+    };
+    this.pessoasTreino = []
+    this.alunoSelecionado = {};
+
   }
 
   ngOnInit() {
@@ -59,6 +84,9 @@ export class TreinosFormComponent implements OnInit {
       'horaPrevistaInicio': [this.treino.horaPrevistaInicio, Validators.required],
       'horaPrevistaTermino': [this.treino.horaPrevistaTermino, Validators.required],
     });
+
+    this.formGrupoStep2.controls['dataInicio'].disable();
+    this.formGrupoStep2.controls['dataFim'].disable();
 
     this.formGroupStep3 = this.formBuilder.group({
       'segunda': [],
@@ -78,7 +106,7 @@ export class TreinosFormComponent implements OnInit {
 
   }
 
-  abrirDialog() {
+  /* abrirDialog() {
     const dialogRef = this.dialog.open(PessoaDialogComponent, {
       width: '80%',
       height: '90%',
@@ -95,7 +123,7 @@ export class TreinosFormComponent implements OnInit {
       });
 
     });
-  }
+  } */
 
   selecionarDiasSemana(){
 
@@ -135,6 +163,61 @@ export class TreinosFormComponent implements OnInit {
   salvar(){
     console.log('hora inicio '+ this.treino.horaPrevistaInicio);
     console.log('hora Fim '+ this.treino.horaPrevistaTermino);
+  }
+
+  listPessoasByFilters(filter: string){
+    this.pessoasService.listByFilters(filter).subscribe((pessoas: Page<Pessoa>) => {
+      this.pessoasList = pessoas.content;
+    });
+  }
+
+  /**
+   * Seleciona o aluno no auto complete
+   * @param pessoa 
+   */
+  setAluno(pessoa: Pessoa){
+    this.alunoSelecionado = pessoa;
+    console.log(this.alunoSelecionado.nome);
+  }
+
+  adicionarTreinoExercicio() {
+    this.treino.treinoExercicios
+      .push({
+        isAtivo: true,
+        exercicio: {nome:'' }
+      });
+  }
+
+  /**
+   * Remove um treino exercicio do array, ou inativa caso já esteja salvo
+   * @param idTreinoExercicio 
+   */
+  removerTreinoExercicio(treinoExercicioRemover: TreinoExercicio){
+    const itemIndex = this.treino
+      .treinoExercicios
+      .findIndex((treinoExercicio) => treinoExercicio.exercicio.id == treinoExercicioRemover.exercicio.id);
+      
+    if(treinoExercicioRemover.id){
+
+      this.loading = true;
+
+      this.treinoExercicioService
+      .inativarTreinoExercicio(treinoExercicioRemover.id)
+        .finally( () => this.loading = false )
+        .subscribe( (treinoExercicio: TreinoExercicio) => {
+
+        this.treino.treinoExercicios[itemIndex] = treinoExercicio;
+
+        this.messageService.message('Exercicio inativado com sucesso do treino deste aluno!<br>Este exercício não será mais realizado pelo aluno!');
+
+      }, (error: Error) => {
+        this.messageService.message(error.message);
+      }) ;
+        
+    } else {
+        this.treino.treinoExercicios.splice(itemIndex, 1);
+    }
+
   }
 
 }

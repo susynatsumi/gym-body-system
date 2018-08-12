@@ -1,17 +1,22 @@
 package br.com.eits.boot.application.security;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
+
+import br.com.eits.common.application.i18n.MessageSourceHolder;
 
 /**
  * 
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationFailureHandler implements org.springframework.security.web.authentication.AuthenticationFailureHandler
 {
+	
 	/*-------------------------------------------------------------------
 	 * 		 					BEHAVIORS
 	 *-------------------------------------------------------------------*/	
@@ -32,8 +38,13 @@ public class AuthenticationFailureHandler implements org.springframework.securit
 	{
 		if ( exception instanceof BadCredentialsException )
 		{
-			response.setContentType( "text/plain" );
-			response.sendError( HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage() );
+			String error = MessageSourceHolder.translate("login.autenticate.bad.credentials");
+			response.setContentType( MediaType.TEXT_PLAIN_VALUE );
+			response.setCharacterEncoding("UTF-8");
+			response.setStatus( HttpServletResponse.SC_UNAUTHORIZED);
+			response.getWriter().write(error);
+			System.out.println(error);
+//			response.sendError( HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage() );
 		}
 
 		if ( exception instanceof LockedException || exception instanceof DisabledException )

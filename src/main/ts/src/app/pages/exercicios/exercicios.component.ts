@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatTableDataSource } from '../../../../node_modules/@angular/material';
-import { Page, Equipamento, Exercicio } from '../../../generated/entities';
+import { MatTableDataSource } from '@angular/material';
+import { Page, Equipamento, Exercicio, PageRequest } from '../../../generated/entities';
 // import { Elementos } from '../../elementos/elementos';
 import { ExercicioService } from '../../../generated/services';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { MensagemAlertaService } from '../../services/mensagem-alerta.service';
+import { RemoveRowTableService } from '../../services/remove-row-table.service';
 
 @Component({
   selector: 'app-exercicios',
@@ -15,8 +16,6 @@ export class ExerciciosComponent implements OnInit {
 
   // tabela para apreentacao de dados
   dadosTable = new MatTableDataSource;
-  // exercicios carregados
-  exerciciosTable: Page<Exercicio>;
 
   // para apresentacao do loader
   loading = false;
@@ -26,6 +25,10 @@ export class ExerciciosComponent implements OnInit {
   // colunas da table
   colunas: string[] = ['nome', 'isAtivo', 'id', 'acoes'];
 
+
+  // para ordenar e limitar a busca
+  pageRequest: PageRequest;
+
   /**
    * Constructor
    * @param exercicioService 
@@ -33,14 +36,31 @@ export class ExerciciosComponent implements OnInit {
   constructor(
     private exercicioService: ExercicioService,
     private router: Router,
-    private mensagemService: MensagemAlertaService
+    private mensagemService: MensagemAlertaService,
+    private removerRowTable: RemoveRowTableService,
   ) {
+
+    this.pageRequest = {
+      page: 0,
+      size: 100,
+      sort: {
+        orders: [
+          {
+            direction: 'ASC',
+            nullHandlingHint: 'NATIVE',
+            property: 'nome'
+          }
+        ]
+      }
+    };
+
   }
 
   /**
    * 
    */
   ngOnInit() {
+    this.loading = true;
     this.listByFilters('');
   }
 
@@ -49,14 +69,14 @@ export class ExerciciosComponent implements OnInit {
    * @param filter 
    */
   listByFilters(filter: string){
-    
-    this.loading = true;
-
-    this.exercicioService.listExerciciosByFilters(filter)
+    this.exercicioService.listExerciciosByFilters(
+      filter,
+      null,
+      this.pageRequest
+    )
     .finally( () => this.loading = false )
     .subscribe( (exercicios: Page<Exercicio>) => {
-      this.exerciciosTable = exercicios;
-      this.dadosTable = new MatTableDataSource(this.exerciciosTable.content);
+      this.dadosTable.data = exercicios.content;
     });
     
   }
@@ -66,22 +86,22 @@ export class ExerciciosComponent implements OnInit {
    * @param id 
    */
   delete(id){
-    this.exercicioService.deleteExercicio(id).subscribe(()=>{
-      this.removerLinhaTable(id);
+
+    this.loading = true;
+
+    this.exercicioService.deleteExercicio(id)
+    .finally(()=> this.loading = false)
+    .subscribe(()=>{
+      this.dadosTable = this.removerRowTable
+        .removerLinhaTable(
+          id, 
+          this.dadosTable.data
+        );
+        this.mensagemService.messageBottom('Exercicio removido com sucesso!');
     },(error: Error)=>{
       this.mensagemService.errorRemove(error.message);
     });
 
-  }
-
-  /**
-   * Remove a linha da tabela em que foi solicitada a remoção
-   * @param id 
-   */
-  removerLinhaTable(id){
-    const itemIndex = this.exerciciosTable.content.findIndex(pessoa => pessoa.id === id);
-    this.exerciciosTable.content.splice(itemIndex, 1);
-    this.dadosTable = new MatTableDataSource(this.exerciciosTable.content);
   }
 
 }

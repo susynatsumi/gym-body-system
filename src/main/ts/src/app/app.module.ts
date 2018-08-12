@@ -43,13 +43,16 @@ import { EquipamentosComponent } from './pages/equipamentos/equipamentos.compone
 import { EquipamentosFormComponent } from './pages/equipamentos/equipamentos-form/equipamentos-form.component';
 import { EquipamentosDetalharComponent } from './pages/equipamentos/equipamentos-detalhar/equipamentos-detalhar.component';
 import { EquipamentoDialogComponent } from './pages/dialogs/equipamento-dialog/equipamento-dialog.component';
-import { HttpClientModule } from '../../node_modules/@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { GrupoMuscularDialogComponent } from './pages/dialogs/grupo-muscular-dialog/grupo-muscular-dialog.component';
 import { MensagemAlertaService } from './services/mensagem-alerta.service';
 import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/treinos-detalhar.component';
 import { PessoaDialogComponent } from './pages/dialogs/pessoa-dialog/pessoa-dialog.component';
-import { MAT_DATE_LOCALE } from '../../node_modules/@angular/material';
+import { MAT_DATE_LOCALE, MatPaginatorIntl } from '@angular/material';
 import { TreinoExercicioFormComponent } from './pages/treinos/treino-exercicio-form/treino-exercicio-form.component';
+import { getLabelsPaginatorIntl } from './compartilhados/labels-paginator';
+import { PaginatorDefaultComponent } from './compartilhados/paginator-default/paginator-default.component';
+import { RemoveRowTableService } from './services/remove-row-table.service';
 // import { LabelsPadraoDatePicker } from './compartilhados/time-picker-label/timer-picker-label';
 
 /* 
@@ -102,6 +105,7 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
     TreinosDetalharComponent,
     PessoaDialogComponent,
     TreinoExercicioFormComponent,
+    PaginatorDefaultComponent,
   ],
   imports: [
     BrowserModule,
@@ -126,7 +130,9 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
     }
   },
   MensagemAlertaService,
+  RemoveRowTableService,
   {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
+  { provide: MatPaginatorIntl, useValue: getLabelsPaginatorIntl() }
   // {provide: OwlDateTimeIntl, useValue: LabelsPadraoDatePicker}
   ],
   entryComponents: [

@@ -44,6 +44,11 @@ public class TreinoExercicio extends AbstractEntity {
 	@Column
 	private LocalDateTime dataInativacao;
 	
+	// quantidade de séries para execução do exercicio com o tio de carga
+	@NotNull
+	@Column( nullable = false)
+	private Integer series;
+	
 	// peso em quilogramas que sera utilizado pelo aluno no treino
 	@Min(value = 0)
 	@Column

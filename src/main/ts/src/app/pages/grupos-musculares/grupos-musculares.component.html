@@ -1,62 +1,60 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
-<div class="filtro">
-  <!-- <button mat-button routerLinkActive="active" (click)="cadastrar()">
-    Cadastrar
-  </button> -->
-  <div class="input-row">
+<div class="mat-elevation-z8">
+  <div class="filtro-tabela">
     <mat-form-field fxFlex>
-      <input matInput (keyup)="filtrar($event.target.value)" placeholder="Filtrar" class="filtro-texto">
+      <input matInput (keyup)="listByfilters($event.target.value)" placeholder="Filtrar" class="filtro-texto">
     </mat-form-field>
   </div>
+  <mat-table [dataSource]="dadosTable" class="mat-elevation-z8">
+    <!-- Nome Column -->
+    <ng-container matColumnDef="nome">
+      <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element?.nome}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element?.id}} </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="acoes">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button 
+          *ngIf="ocultarBotoes == false"
+          mat-button 
+          routerLink="/grupos-musculares/{{element.id}}"
+          title="Detalhar">
+          <mat-icon>description</mat-icon>
+        </button>    
+        <button 
+        *ngIf="ocultarBotoes == false"
+          mat-button 
+          routerLink="/grupos-musculares/editar/{{element.id}}"
+          title="Editar">
+          <mat-icon>edit</mat-icon>
+        </button>  
+        <button 
+          *ngIf="ocultarBotoes == false"
+          mat-button 
+          (click)="delete(element.id)"
+          title="Remover">
+          <mat-icon>delete</mat-icon>
+        </button> 
+        <button 
+          *ngIf="ocultarBotoes == true"
+          mat-button 
+          (click)="selecionar(element)"
+          title="Selecionar">
+          <mat-icon>touch_app</mat-icon>
+        </button>  
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+    <!-- <mat-row *matRowDef="let pessoa; columns: colunas;" /*(click)="editar(pessoa.id)"*/?></mat-row> -->
+    <mat-row *matRowDef="let grupoMuscular; columns: colunas;"></mat-row>
+  </mat-table>
+<app-paginator-default [dadosTable]="dadosTable"></app-paginator-default>
 </div>
-<mat-table [dataSource]="dadosTable" class="mat-elevation-z8">
-  <!-- Nome Column -->
-  <ng-container matColumnDef="nome">
-    <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element?.nome}} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef> Código </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element?.id}} </mat-cell>
-  </ng-container>
-
-
-  <ng-container matColumnDef="acoes">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      <button 
-        *ngIf="ocultarBotoes == false"
-        mat-button 
-        routerLink="/grupos-musculares/{{element.id}}"
-        title="Detalhar">
-        <mat-icon>description</mat-icon>
-      </button>    
-      <button 
-      *ngIf="ocultarBotoes == false"
-        mat-button 
-        routerLink="/grupos-musculares/editar/{{element.id}}"
-        title="Editar">
-        <mat-icon>edit</mat-icon>
-      </button>  
-      <button 
-        *ngIf="ocultarBotoes == false"
-        mat-button 
-        (click)="delete(element.id)"
-        title="Remover">
-        <mat-icon>delete</mat-icon>
-      </button> 
-      <button 
-        *ngIf="ocultarBotoes == true"
-        mat-button 
-        (click)="selecionar(element)"
-        title="Selecionar">
-        <mat-icon>touch_app</mat-icon>
-      </button>  
-    </mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
-  <!-- <mat-row *matRowDef="let pessoa; columns: colunas;" /*(click)="editar(pessoa.id)"*/?></mat-row> -->
-  <mat-row *matRowDef="let grupoMuscular; columns: colunas;"></mat-row>
-</mat-table>

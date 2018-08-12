@@ -5,22 +5,23 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:title="#{userLogin.userAuthentication}"></title>
+    <title th:title="#{userLogin.userAuthentication}">Gym Body System - Login</title>
     <link rel="stylesheet" href="/webjars/material-design-lite/material.min.css"/>
     <script type="text/javascript" src="/webjars/material-design-lite/material.min.js"></script>
     <script type="text/javascript" src="/webjars/jquery/dist/jquery.min.js"></script>
 </head>
-<body style="display: flex; height: 100vh; align-items: center; justify-content: center; background-color:#3f51b5;
+<body 
+	style="display: flex; height: 100vh; align-items: center; justify-content: center; background-color:#3f51b5;
 					 background-size:100%;">
 <div style="display: flex; flex-direction: column; width: 330px; height: 380px; padding: 60px; border-radius: 3px;"
      class="mdl-color--white mdl-shadow--2dp">
 
     <!--  <img height="100" th:src="@{/static/images/logo.png}" alt="eits it solutions" style="display: block; margin: 0 auto" /> -->
-    <h1 style="align-items:center; color:#3f51b5; display: block; margin: 0 auto; font-weight: bold;">Gym Body</h1>
+    <h3 style="align-items:center; color:#3f51b5; display: block; margin: 0 auto; font-weight: bold;">Gym Body System</h3>
     <form method="post" style="display: flex; flex-direction: column; margin-top:25%" id="form">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
-            <input autofocus id="email" type="text" name="email" class="mdl-textfield__input">
-            <label for="email" class="mdl-textfield__label">Email</label>
+            <input autofocus id="login" type="text" name="login" class="mdl-textfield__input">
+            <label for="login" class="mdl-textfield__label">Login</label>
         </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label login" style="width: 100%">
             <input id="senha" type="password" name="senha" class="mdl-textfield__input">
@@ -39,7 +40,7 @@
             type: "POST",
             url: '/authenticate',
             data: {
-                email: $('#email').val(),
+                login: $('#login').val(),
                 senha: $('#senha').val()
             },
             success: function () {
@@ -47,7 +48,7 @@
             },
             error: function (error) {
                 if (error.responseJSON) {
-                    $("#message-error").html(error.responseJSON.message);
+                    $("#message-error").html(error.responseJSON);
                 }
                 else {
                     $("#message-error").html(error.responseText);

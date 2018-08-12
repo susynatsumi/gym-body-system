@@ -4,8 +4,8 @@ import 'rxjs/add/operator/finally';
 import { Exercicio, ExercicioGrupoMuscular } from '../../../../generated/entities';
 import { ExercicioService } from '../../../../generated/services';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
-import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
-import { MatTableDataSource } from '../../../../../node_modules/@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-exercicios-detalhar',

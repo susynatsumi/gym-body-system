@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '../../../../../node_modules/@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Equipamento } from '../../../../generated/entities';
 import { EquipamentoService } from '../../../../generated/services';
 

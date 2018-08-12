@@ -5,25 +5,32 @@
       <form  fxLayout="column" class="example-form" [formGroup]="formGrupoStep1">
         <ng-template matStepLabel>Cadastro de treino - Selecionar aluno</ng-template>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-          <div fxFlex="55%">
-            <mat-form-field fxFlex="85%" class="example-full-width" >
-              <div> 
-                <input 
-                  matInput 
-                  placeholder="Aluno (Obrigatório)" 
-                  aria-label="alunoSelecionado" 
-                  formControlName="alunoSelecionado"
-                  [value]="alunoSelecionado?.nome"
-                  [(ngModel)]="alunoSelecionado"/>
-              </div>
-            </mat-form-field>
-            <div fxFlex="15%">
-              <button 
-                mat-raised-button 
-                color="primary"
-                (click)="abrirDialog()">Buscar Alunos</button>
-            </div>
-          </div>
+          <mat-form-field fxFlex>
+            <!-- <div>  -->
+              <input matInput formControlName="alunoSelecionado" placeholder="Aluno (Obrigatório)" (ngModelChange)="listPessoasByFilters($event);"  aria-label="pessoaProprietario"
+                [(ngModel)]="alunoSelecionado.nome" [matAutocomplete]="auto" 
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="setAluno(pessoa)" *ngFor="let pessoa of pessoasList" [value]="pessoa?.nome">
+                  <span>{{ pessoa?.nome }}</span>
+                </mat-option>
+              </mat-autocomplete>
+    
+              <!-- <input 
+                matInput 
+                placeholder="Aluno (Obrigatório)" 
+                aria-label="alunoSelecionado" 
+                formControlName="alunoSelecionado"
+                [value]="alunoSelecionado?.nome"
+                [(ngModel)]="alunoSelecionado"/>
+            </div> -->
+          </mat-form-field>
+          <!-- <div fxFlex="15%">
+            <button 
+              mat-raised-button 
+              color="primary"
+              (click)="abrirDialog()">Buscar Alunos</button>
+          </div> -->
         </div>
         <div>
           <button 
@@ -180,15 +187,14 @@
     <mat-step [stepControl]="formGroupStep4">
       <form  fxLayout="column" class="example-form" [formGroup]="formGroupStep4" >
         <ng-template matStepLabel>Exercicios do treino</ng-template>
-        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-         <app-treino-exercicio-form></app-treino-exercicio-form>
+        <div *ngFor=" let treinoExercicio of treino.treinoExercicios">
+          <app-treino-exercicio-form [treinoExercicio]="treinoExercicio" (apagarTreinoExercicio)="removerTreinoExercicio($event)"></app-treino-exercicio-form>
         </div>
         <div>
           <button 
             mat-raised-button 
-            matStepperNext 
-            (click)="selecionarDiasSemana()"
-            title="Ir para a próxima etapa">Próximo</button>
+            (click)="adicionarTreinoExercicio()"
+            title="Adicionar novo exercicio no treino">Adicionar Exercicio</button>
         </div>
       </form>
     </mat-step>

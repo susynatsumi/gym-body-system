@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '../../../../node_modules/@angular/material';
-import { Page, Academia } from '../../../generated/entities';
-import { Router } from '../../../../node_modules/@angular/router';
+import { MatTableDataSource } from '@angular/material';
+import { Page, Academia, PageRequest } from '../../../generated/entities';
+import { Router } from '@angular/router';
 import { AcademiaService } from '../../../generated/services';
 
 import 'rxjs/add/operator/finally';
+import { MensagemAlertaService } from '../../services/mensagem-alerta.service';
+import { RemoveRowTableService } from '../../services/remove-row-table.service';
 
 @Component({
   selector: 'app-academias',
@@ -16,27 +18,57 @@ export class AcademiasComponent implements OnInit {
   // ---------------------------------------------
   // ---------------- ATRIBUTOS ------------------
   // ---------------------------------------------
-
+  // colunas da tabela
   colunas: string[] = ['razaoSocial', 'cidade', 'telefone', 'id', 'acoes'];
+  // data source da table
   dadosTable = new MatTableDataSource();
   academiasTable:  Page<Academia>;
 
   loading = false;
 
+  pageRequest: PageRequest;
+
   // ---------------------------------------------
   // ---------------- CONSTRUCTOR ----------------
   // ---------------------------------------------
 
+  /**
+   * 
+   * @param academiaService 
+   * @param mensagemService 
+   * @param removeRow 
+   */
   constructor(
-    private router: Router,
-    private academiaService: AcademiaService
-  ) { }
+    private academiaService: AcademiaService,
+    private mensagemService: MensagemAlertaService, 
+    private removeRow: RemoveRowTableService
+  ) { 
+
+    this.pageRequest = {
+      page: 0,
+      size: 500,
+      sort: {
+        orders: [
+          {
+            direction: 'ASC',
+            nullHandlingHint: 'NATIVE',
+            property: 'razaoSocial'
+          }
+        ]
+      }
+    }
+
+  }
 
   // ---------------------------------------------
   // ---------------- MÉTODOS   ------------------
   // ---------------------------------------------
 
+  /**
+   * 
+   */
   ngOnInit() {
+    this.loading = true;
     this.listByfilters('');
   }
 
@@ -45,15 +77,14 @@ export class AcademiasComponent implements OnInit {
    * @param filters 
    */
   listByfilters(filters: string){
-    this.loading = true;
-    this.academiaService.listAcademiaByFilters(filters)
+    this.academiaService.listAcademiaByFilters(filters, this.pageRequest)
       .finally( () => this.loading = false )
       .subscribe(
         (academias: Page<Academia>) => {
-          this.academiasTable  = academias;
-          this.dadosTable = new MatTableDataSource(academias.content)
+          // this.academiasTable  = academias;
+          this.dadosTable.data = academias.content;
         },(error: Error)=>{
-          console.log('Error'+ error.message);
+          this.mensagemService.message(error.message);
         }
       );
   }
@@ -63,33 +94,26 @@ export class AcademiasComponent implements OnInit {
    * @param id 
    */
   delete(id){
+
+    this.loading = true;
+    
     this.academiaService.deleteAcademia(id)
+    .finally(()=> this.loading = false)
     .subscribe(()=>{
-      this.removerLinhaTable(id);
+      this.dadosTable = this.removeRow
+        .removerLinhaTable(
+          id, 
+          this.dadosTable.data
+      );
+
+      this.mensagemService.messageBottom('Academia removida com sucesso!');
+
     },(error: Error)=>{
-      alert('Ocorreu um erro ao deletar');
+
+      this.mensagemService.errorRemove(error.message);
+
     });
 
   }
-
-  /**
-   * Remove a linha da tabela 
-   * @param id 
-   */
-  removerLinhaTable(id){
-    const itemIndex = this.academiasTable.content.findIndex(academia => academia.id === id);
-    this.academiasTable.content.splice(itemIndex, 1);
-    this.dadosTable = new MatTableDataSource(this.academiasTable.content);
-  }
-
-  /**
-   * Filtra os dados já carregados na table
-   * @param filtro 
-   */
-  filtrar(filtro: string) {
-    console.log(filtro);
-    this.dadosTable.filter = filtro.trim().toLowerCase();
-  }
-
 
 }

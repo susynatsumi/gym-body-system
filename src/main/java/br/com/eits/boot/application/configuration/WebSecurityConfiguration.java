@@ -55,7 +55,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 					.authenticated()
 					.and()
 						.formLogin()
-							.usernameParameter( "email" )
+							.usernameParameter( "login" )
 							.passwordParameter( "senha" )
 							.loginPage( "/authentication" )
 							.loginProcessingUrl( "/authenticate" )

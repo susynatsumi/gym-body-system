@@ -435,6 +435,7 @@ CREATE TABLE treino_exercicio
   is_ativo boolean NOT NULL,
   observacoes character varying(500),
   repeticoes integer,
+  series integer NOT NULL,
   tempo_min integer,
   tipo_treino_exercicio integer NOT NULL,
   exercicio_id bigint NOT NULL,
@@ -457,6 +458,7 @@ WITH (
 ALTER TABLE treino_exercicio
   OWNER TO gym;
 
+
 -- Table: auditing.treino_exercicio_audited
 
 -- DROP TABLE auditing.treino_exercicio_audited;
@@ -469,8 +471,9 @@ CREATE TABLE auditing.treino_exercicio_audited
   carga integer,
   data_inativacao timestamp without time zone,
   is_ativo boolean,
-  observacoes character varying(150),
+  observacoes character varying(500),
   repeticoes integer,
+  series integer,
   tempo_min integer,
   tipo_treino_exercicio integer,
   exercicio_id bigint,

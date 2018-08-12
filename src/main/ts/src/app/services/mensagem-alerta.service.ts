@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '../../../node_modules/@angular/material';
-import { Component } from '../../../node_modules/@angular/compiler/src/core';
+import { MatSnackBar } from '../../../node_modules/@angular/material';
 
 @Injectable()
 export class MensagemAlertaService {
 
-  constructor(public snackBar: MatSnackBar) { }
-
-  // let mat: MatSnackBarConfig
+  constructor(private snackBar: MatSnackBar) { }
 
   public errorSave(mensagem: string){
     
     this.snackBar.open(
       'Não foi possível salvar, pois ocorreu o seguinte erro: '+mensagem, 
       '', 
-      {duration: 5000, verticalPosition: 'top' , horizontalPosition: 'center'}
+      {duration: 4000, verticalPosition: 'top' , horizontalPosition: 'center'}
     );
 
   }
@@ -24,7 +21,7 @@ export class MensagemAlertaService {
     this.snackBar.open(
       'O seguinte erro ocorreu ao carregar: '+mensagem, 
       '', 
-      {duration: 5000, verticalPosition: 'top' , horizontalPosition: 'center'}
+      {duration: 4000, verticalPosition: 'top' , horizontalPosition: 'center'}
     );
 
   }
@@ -44,7 +41,16 @@ export class MensagemAlertaService {
     this.snackBar.open(
       mensagem, 
       '', 
-      {duration: 5000, verticalPosition: 'top' , horizontalPosition: 'center'}
+      {duration: 4000, verticalPosition: 'top' , horizontalPosition: 'center'}
+    );
+
+  }
+
+  public messageBottom(mensagem: string){
+    this.snackBar.open(
+      mensagem, 
+      '', 
+      {duration: 3000, verticalPosition: 'bottom' , horizontalPosition: 'center'}
     );
 
   }

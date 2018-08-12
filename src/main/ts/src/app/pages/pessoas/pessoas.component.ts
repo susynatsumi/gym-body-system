@@ -1,10 +1,12 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { MatTableDataSource } from '../../../../node_modules/@angular/material';
-import { Pessoa, Page } from '../../../generated/entities';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Component, OnInit, Output, Input, EventEmitter, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatPaginator, PageEvent, MatPaginatorIntl } from '@angular/material';
+import { Pessoa, Page, PageRequest } from '../../../generated/entities';
+import { Router } from '@angular/router';
 import { AccountService } from '../../../generated/services';
 
 import 'rxjs/add/operator/finally';
+import { MensagemAlertaService } from '../../services/mensagem-alerta.service';
+import { RemoveRowTableService } from '../../services/remove-row-table.service';
 
 // const pessoas: Pessoa[] = [
 //   {nome: 'Teste', email: 'teste@email', isAtivo: true, id: 1},
@@ -29,27 +31,63 @@ export class PessoasComponent implements OnInit {
   // oculta alguns botoes se estiver com valor true
   @Input() ocultarBotoes: Boolean = false;
 
+  // colunas da table
   colunas: string[] = ['Nome', 'E-mail', 'Status', 'Id', 'Acoes'];
-  dadosTable = new MatTableDataSource();
-  pessoasTable:  Page<Pessoa>;
+  // datasource da table
+  dadosTable = new MatTableDataSource<Pessoa>();
+
+  // para apresentar ou não o loader
   loading = false;
 
+  // para ordenar e limitar a busca
+  pageRequest: PageRequest;
 
   // ---------------------------------------------
   // ----------------- CONSTRUCTOR ---------------
   // ---------------------------------------------
 
+  /**
+   * 
+   * @param router 
+   * @param pessoaService 
+   * @param mensagemAlertaService 
+   * @param removerRowService 
+   */
   constructor(
     private router: Router,
-    private pessoaService: AccountService
+    private pessoaService: AccountService,
+    private mensagemAlertaService: MensagemAlertaService,
+    private removerRowService: RemoveRowTableService
   ){
+
+    this.pageRequest = {
+      page: 0,
+      size: 100,
+      sort: {
+        orders: [{
+          property: 'nome',
+          direction: 'ASC',
+          nullHandlingHint: 'NATIVE'
+          },
+          {
+            property: 'isAtivo',
+            direction: 'DESC',
+            nullHandlingHint: 'NATIVE'
+          }
+        ]
+      }
+    };
   }
 
   // ---------------------------------------------
   // ----------------- MÉTODOS -------------------
   // ---------------------------------------------
 
+  /**
+   * 
+   */
   ngOnInit() {
+    this.loading= true;
     this.listByfilters('');
   }
 
@@ -61,43 +99,29 @@ export class PessoasComponent implements OnInit {
   }
 
   /**
-   * Redireciona para a tela de edição de pessoas
-   * @param id
-   */
-  editar(id){
-    this.router.navigate(["pessoas/", {id: id}])
-  }
-
-  /**
    * Remove pessoa
    * @param id 
    */
   delete(id){
-    this.pessoaService.deletePessoa(id).subscribe(()=>{
-      this.removerLinhaTable(id);
+    
+    this.loading = true;
+    
+    this.pessoaService.deletePessoa(id)
+    .finally( () => this.loading = false ) 
+    .subscribe(()=>{
+
+      this.dadosTable = this.removerRowService
+        .removerLinhaTable(id, this.dadosTable.data);
+
+        this.mensagemAlertaService
+          .messageBottom('Pessoa removida com sucesso!');
+
     },(error: Error)=>{
-      alert('Ocorreu um erro ao deletar');
+
+      this.mensagemAlertaService.errorRemove(error.message);
+
     });
 
-  }
-
-  /**
-   * Remove a linha da tabela em que foi solicitada a remoção
-   * @param id 
-   */
-  removerLinhaTable(id){
-    const itemIndex = this.pessoasTable.content.findIndex(pessoa => pessoa.id === id);
-    this.pessoasTable.content.splice(itemIndex, 1);
-    this.dadosTable = new MatTableDataSource(this.pessoasTable.content);
-  }
-
-  /**
-   * Filtra os dados já caregados na table
-   * @param filtro
-   */
-  filtrar(filtro: string) {
-    console.log(filtro);
-    this.dadosTable.filter = filtro.trim().toLowerCase();
   }
 
   /**
@@ -105,13 +129,12 @@ export class PessoasComponent implements OnInit {
    * @param filters 
    */
   listByfilters(filters: string){
-    this.loading= true;
-    this.pessoaService.listByFilters(filters)
+
+    this.pessoaService.listByFilters(filters, null ,this.pageRequest)
     .finally(() => this.loading = false )
       .subscribe(
         (pessoas: Page<Pessoa>) => {
-          this.pessoasTable  = pessoas;
-          this.dadosTable = new MatTableDataSource(pessoas.content)
+          this.dadosTable.data = pessoas.content;
         }
       );
   }
@@ -121,7 +144,6 @@ export class PessoasComponent implements OnInit {
    * @param element 
    */
   selecionar(element){
-    console.log(element.nome);
     this.respostaDialog.emit(element);
   }
 

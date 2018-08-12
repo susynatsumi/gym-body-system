@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Equipamento } from '../../../../generated/entities';
-import { FormGroup, FormBuilder, Validators } from '../../../../../node_modules/@angular/forms';
-import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EquipamentoService } from '../../../../generated/services';
 
 import 'rxjs/add/operator/finally';

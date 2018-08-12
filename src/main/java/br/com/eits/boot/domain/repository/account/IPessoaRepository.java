@@ -45,16 +45,40 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 			"	AND ( "+ 
 			"			:isAtivo IS NULL "+ 
 			"			OR pessoa.isAtivo = :isAtivo "+ 
+			"	) AND ( "+
+			"			( "+
+			"				:listarAdministrador = false "+
+			"				AND pessoa.papel <> 0 "+
+			"			) "+
+			"			OR ( "+
+			"				:listarAdministrador = true "+
+			"			) "+
 			"	) "
 	)
 	Page<Pessoa> listPessoaByFilters( 
 		@Param("filter") String filter,
-		@Param("isAtivo") Boolean isAtivo, 
+		@Param("isAtivo") Boolean isAtivo,
+		@Param("listarAdministrador") Boolean listarAdministrador,
 		Pageable pageable 
 	);
 	
 	@Query("FROM Pessoa pessoa WHERE pessoa.login IS NOT NULL AND lower(pessoa.login) = lower(:login)")
 	Optional<Pessoa> findByLogin( @Param("login") String login );
 
+	@Query("FROM Pessoa pessoa "
+		+ "	WHERE "
+		+ "		pessoa.id = :idPessoa "
+		+ "		AND ( "
+		+ "				( "
+		+ "					:listarAdministrador = false "
+		+ "					AND pessoa.papel <> 0 "
+		+ "				) OR ( "
+		+ "					:listarAdministrador = true	"
+		+ "				) "
+		+ "		) "
+	)
+	Optional<Pessoa> findById(@Param("idPessoa") Long id, @Param("listarAdministrador") Boolean listarAdministrador);
+	
+	
 	
 }

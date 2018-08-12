@@ -55,6 +55,11 @@ table {
     border-style: dashed;
 }
 
+.filtro-tabela {
+    min-height: 64px;
+    padding: 8px 24px 0;
+}
+
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
 /* 

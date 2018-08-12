@@ -1,8 +1,9 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { MatTableDataSource } from '../../../../node_modules/@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { Page, Sort, PageRequest, Equipamento, SortDirection} from '../../../generated/entities';
 import { EquipamentoService } from '../../../generated/services';
 import { MensagemAlertaService } from '../../services/mensagem-alerta.service';
+import { RemoveRowTableService } from '../../services/remove-row-table.service';
 
 @Component({
   selector: 'app-equipamentos',
@@ -16,52 +17,56 @@ export class EquipamentosComponent implements OnInit {
   // ----------------- ATRIBUTOS -----------------
   // ---------------------------------------------
 
+  // resposta para a dialog
   @Output() respostaDialog = new EventEmitter();
 
+  // para ocultar alguns botoes
   @Input() ocultarBotoes: Boolean = false;
 
-  sort: Sort;
+  // para ordenacao e limite na busca
   pageRequest: PageRequest;
-  sortDirection: SortDirection;
 
+  // colunas da table
   colunas: string[] = ['descricao', 'id', 'acoes'];
 
+  // dados da tabela
   dadosTable = new MatTableDataSource;
-  equipamentosTable:  Page<Equipamento>;
+
+  // para apresentar ou nao o loader na tela
   loading = false;
 
+  /**
+   * 
+   * @param equipamentoService 
+   * @param messageService 
+   * @param removerRow 
+   */
   constructor(
     private equipamentoService: EquipamentoService,
     private messageService: MensagemAlertaService,
+    private removerRow: RemoveRowTableService
   ) { 
-    /* this.sort =  {
-      orders: [{
-        property: 'descricao',
-        direction: 'ASC'
-      }]
-    };
-
-    console.log(this.sort);
-
     this.pageRequest = {
       page: 0,
       size: 100,
-      sort: this.sort
+      sort: {
+        orders: [
+          {
+            direction: 'ASC',
+            nullHandlingHint: 'NATIVE',
+            property: 'descricao'
+          }
+        ]
+      }
     };
- */
   }
 
-  ngOnInit() {
-    this.listByfilters('');
-  }
-
-   /**
-   * Filtra os dados já caregados na table
-   * @param filtro
+  /**
+   * Primeira ação
    */
-  filtrar(filtro: string) {
-    console.log(filtro);
-    this.dadosTable.filter = filtro.trim().toLowerCase();
+  ngOnInit() {
+    this.loading = true;
+    this.listByfilters('');
   }
 
   /**
@@ -70,19 +75,15 @@ export class EquipamentosComponent implements OnInit {
    */
   listByfilters(filters: string){
     
-    this.loading = true;
-
     this.equipamentoService.listEquipamentoByFilters(
-      filters
-      // , 
-      // null, 
-      // this.pageRequest
+      filters,
+      null, 
+      this.pageRequest
     )
     .finally(() => this.loading = false )
       .subscribe(
         (equipamentos: Page<Equipamento>) => {
-          this.equipamentosTable = equipamentos;
-          this.dadosTable = new MatTableDataSource(equipamentos.content)
+          this.dadosTable.data = equipamentos.content;
         }
       );
   }
@@ -92,33 +93,33 @@ export class EquipamentosComponent implements OnInit {
    * @param id 
    */
   delete(id){
-    this.equipamentoService.deleteEquipamento(id).subscribe(()=>{
-      this.removerLinhaTable(id);
+
+    this.loading = true;
+
+    this.equipamentoService.deleteEquipamento(id)
+    .finally(() => this.loading = false )
+    .subscribe(()=>{
+      this.dadosTable= this
+        .removerRow
+        .removerLinhaTable(
+          id, 
+          this.dadosTable.data
+        );
+
+        this.messageService.messageBottom('Equipamento removido com sucesso!');
+
     },(error: Error)=>{
+
       this.messageService.errorRemove(error.message);
+
     });
 
   }
 
   /**
-   * Remove a linha da tabela em que foi solicitada a remoção
-   * @param id 
+   * Seleciona um item na dialog
+   * @param element
    */
-  removerLinhaTable(id){
-    
-    const itemIndex = this.equipamentosTable.content
-    .findIndex(
-      equipamento => equipamento.id === id
-    );
-
-    this.equipamentosTable.content.splice(itemIndex, 1);
-
-    this.dadosTable = new MatTableDataSource(
-      this.equipamentosTable.content
-    );
-
-  }
-
   selecionar(element){
     this.respostaDialog.emit(element);
   }

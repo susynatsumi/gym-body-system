@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Exercicio, GrupoMuscular, Equipamento, ExercicioGrupoMuscular } from '../../../../generated/entities';
-import { FormGroup, FormBuilder, Validators } from '../../../../../node_modules/@angular/forms';
-import { MatDialog, MatTableDataSource } from '../../../../../node_modules/@angular/material';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { EquipamentoDialogComponent } from '../../dialogs/equipamento-dialog/equipamento-dialog.component';
 import { ExercicioService, ExercicioGrupoMuscularService } from '../../../../generated/services';
 import { GrupoMuscularDialogComponent } from '../../dialogs/grupo-muscular-dialog/grupo-muscular-dialog.component';
 
 import 'rxjs/add/operator/finally';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
-import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercicios-form',

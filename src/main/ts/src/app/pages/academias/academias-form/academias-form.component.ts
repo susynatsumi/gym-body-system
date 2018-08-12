@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '../../../../../node_modules/@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AcademiaService, AccountService } from '../../../../generated/services';
 import { Academia, Pessoa, Page } from '../../../../generated/entities';
 
-import {Observable} from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
-import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import 'rxjs/add/operator/finally';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
@@ -113,22 +110,7 @@ export class AcademiasFormComponent implements OnInit {
       'cep': [this.academia.cep, Validators.compose([Validators.required, Validators.minLength(8),  Validators.maxLength(8)])],
       'cidade': [this.academia.cidade, Validators.compose([Validators.required, Validators.minLength(5)])],
     });
-
-    // this.pessoaControl = new FormControl();
-
-    // this.listaPessoasAtivas().subscribe((pessoas: Page<Pessoa>) => {
-    //   this.pessoas = pessoas;
-      // this.filteredPessoas = this.pessoaControl.valueChanges
-      // .pipe(
-      //   startWith(''),
-      //   map(pessoa => pessoa ? 
-      //       this.filterPessoas(pessoa) 
-      //     : 
-      //       this.pessoas.content.slice()
-      //   )
-      //);
-    // });
-
+    
   }
 
   /**
@@ -161,25 +143,6 @@ export class AcademiasFormComponent implements OnInit {
     }
 
   }
-
-
-  /**
-   * Lista pessoas para o campo proprietário
-   */
-  // listaPessoasAtivas(){
-  //   return this.pessoaService.listByFilters('');
-  // }
-
-  /**
-   * Filtra pessoas carregadas no autocomplete
-   * @param name 
-   */
-  // filterPessoas(name: string) {
-
-  //   return this.pessoas.content.filter(pessoa =>
-  //       pessoa.nome.toLowerCase().indexOf(name.toLowerCase()) === 0);
-
-  // }
 
   setProprietario( academia: Academia, pessoa: Pessoa ){
     if(pessoa){

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/add/operator/finally';
 
 import { Equipamento } from '../../../../generated/entities';
-import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EquipamentoService } from '../../../../generated/services';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
 

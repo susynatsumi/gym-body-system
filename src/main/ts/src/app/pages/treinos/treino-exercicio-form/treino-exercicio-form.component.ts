@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '../../../../../node_modules/@angular/forms';
-import { TreinoExercicio, Treino, Page, Exercicio } from '../../../../generated/entities';
-import { TreinoExercicioService, ExercicioService } from '../../../../generated/services';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TreinoExercicio, Treino, Page, Exercicio, TipoTreinoExercicioValues } from '../../../../generated/entities';
+import { ExercicioService } from '../../../../generated/services';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
 
 @Component({
@@ -17,13 +17,17 @@ export class TreinoExercicioFormComponent implements OnInit {
   // -------------------------------------
 
   // objeto populado na tela
-  treinoExercicio: TreinoExercicio;
+  @Input() treinoExercicio: TreinoExercicio;
+
+  @Output() apagarTreinoExercicio = new EventEmitter();
 
   // form group para vaidação dos campos
   formGroupTreinoExercicio: FormGroup;
 
   // exercicios para popular o auto complete
   exerciciosAutoComplete: Treino[];
+
+  tiposTreinoExercicio: string[];
 
   /**
    * 
@@ -33,10 +37,15 @@ export class TreinoExercicioFormComponent implements OnInit {
     private exercicioService: ExercicioService,
     private mensagemAlertaService: MensagemAlertaService
   ) { 
+
     this.treinoExercicio = {
       exercicio: {nome: ''},
       isAtivo: true,
+      tipoTreinoExercicio: 'CARGA_REPETICOES',
     };
+
+    this.tiposTreinoExercicio = TipoTreinoExercicioValues;
+    
   }
 
   /**
@@ -45,8 +54,22 @@ export class TreinoExercicioFormComponent implements OnInit {
   ngOnInit() {
 
     this.formGroupTreinoExercicio = this.formBuilder.group({
-      'exercicio': [this.treinoExercicio.exercicio, Validators.required],
-      'tipoTreinoExercicio': [this.treinoExercicio.tipoTreinoExercicio, Validators.required],
+      'exercicio': [
+        this.treinoExercicio.exercicio, 
+        Validators.required
+      ],
+      'tipoTreinoExercicio': [
+        this.treinoExercicio.tipoTreinoExercicio, 
+        Validators.required
+      ],
+      'series': [
+        this.treinoExercicio.series, 
+        Validators.compose([
+          Validators.required, 
+          Validators.min(0), 
+          Validators.max(9) 
+        ])
+      ],
       'carga': [this.treinoExercicio.carga],
       'repeticoes': [this.treinoExercicio.repeticoes],
       'tempoMin': [this.treinoExercicio.tempoMin],
@@ -76,5 +99,20 @@ export class TreinoExercicioFormComponent implements OnInit {
     }
 
   }
+
+ /*  setTipoTreinoExercicio(treinoExercicio){
+    if( treinoExercicio ){
+      treinoExercicio.tipoTreinoExercicio = this.tiposTreinoExercicio;
+    }
+  } */
+
+  /**
+   * Remove da table ou inativa um exercicio do treino 
+   * @param element 
+   */
+  delete(element: TreinoExercicio){
+    this.apagarTreinoExercicio.emit(element);
+  }
+
 
 }
