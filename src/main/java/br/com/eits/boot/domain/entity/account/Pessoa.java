@@ -87,6 +87,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	/**
 	 * Data de nascimento da pessoa
 	 */
+	@NotNull
 	@Column(nullable = false)
 	private LocalDate dataNascimento;
 
@@ -113,7 +114,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
 	private Papel papel;
-
+	
 	/**
 	 * 
 	 */

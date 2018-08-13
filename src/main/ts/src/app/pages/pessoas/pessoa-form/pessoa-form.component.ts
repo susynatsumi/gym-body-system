@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { Pessoa, GeneroValues, PapelValues, Papel, PageRequest } from '../../../../generated/entities';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Pessoa, GeneroValues, PapelValues } from '../../../../generated/entities';
 import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
 import { AccountService } from '../../../../generated/services';
 
@@ -134,9 +134,14 @@ export class PessoaFormComponent implements OnInit {
    */
   salvar(){
 
+    console.log(this.pessoa.dataNascimento);
+    
+    this.loading = true;
+
     if(this.parametroId == null){
-      this.loading = false;
-      this.pessoaService.insertPessoa(this.pessoa).subscribe((pessoa: Pessoa) => {
+      this.pessoaService.insertPessoa(this.pessoa)
+      .finally( ()=> this.loading = false )
+      .subscribe((pessoa: Pessoa) => {
         this.mensagemAlerta.message('Dados salvos com sucesso!');
       },(error: Error)=>{
         this.mensagemAlerta.message(error.message);
@@ -148,7 +153,9 @@ export class PessoaFormComponent implements OnInit {
 
     } else {
 
-      this.pessoaService.updatePessoa(this.pessoa).subscribe(
+      this.pessoaService.updatePessoa(this.pessoa)
+      .finally( ()=> this.loading = false )
+      .subscribe(
         () => {
           this.mensagemAlerta.message('Dados atualizados com sucesso!');
         },

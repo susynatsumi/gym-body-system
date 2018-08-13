@@ -1,101 +1,125 @@
-<mat-card>
-  <mat-card-content>
-    <form [formGroup]="formGroupTreinoExercicio" fxLayout="column" fxLayoutGap="20px">
+<mat-expansion-panel 
+  [expanded]="itemAtual == indexDesteItem"
+  (opened)="setItemAtual(indexDesteItem)" >
 
-      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+  <!-- {{itemAtual}} itemAtual
+  {{indexDesteItem}} este item -->
+  <mat-expansion-panel-header>
+    <mat-panel-title *ngIf="treinoExercicio && treinoExercicio.exercicio && treinoExercicio.exercicio.nome">
+        Exercício: {{ treinoExercicio?.exercicio?.nome }}
+    </mat-panel-title>
+    <mat-panel-title  *ngIf="!treinoExercicio || !treinoExercicio.exercicio || !treinoExercicio.exercicio.nome">
+        Informe os dados do exercicio
+    </mat-panel-title>
+    <mat-panel-description>
+      Clique aqui para visualizar os dados do exercicio
+    </mat-panel-description>
+  </mat-expansion-panel-header>
 
-        <mat-form-field fxFlex>
-          <input 
-            matInput 
-            placeholder="Exercício (Obrigatório)" 
-            (ngModelChange)="listTreinosByFilters($event);"
-            [(ngModel)]="treinoExercicio.exercicio.nome"
-            formControlName="exercicio"
-            [matAutocomplete]="auto"/>
-          <mat-autocomplete #auto="matAutocomplete" >
-            <mat-option
-              (onSelectionChange)="setExercicio(treinoExercicio, exercicio)"
-              *ngFor="let exercicio of exerciciosAutoComplete"
-              [value]="exercicio?.nome">
-                <span> {{ exercicio?.nome }} </span>
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="formGroupTreinoExercicio" fxLayout="column" fxLayoutGap="20px">
 
-        <mat-form-field fxFlex>
-          <mat-select 
-            placeholder="Tipo de Exercício (Obrigatório)" 
-            formControlName="tipoTreinoExercicio"
-            name="tipoTreinoExercicio" 
-            (onSelectionChange)="setTipoTreinoExercicio(treinoExercicio, tipoTreinoExercicio)"
-            [(ngModel)]="treinoExercicio.tipoTreinoExercicio">
-            <mat-option *ngFor="let tipoTreinoExercicio of tiposTreinoExercicio" [value]="tipoTreinoExercicio">{{tipoTreinoExercicio}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
 
-
-      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-        
-        <mat-form-field fxFlex>
-          <input 
-            matInput 
-            mask="0" 
-            formControlName="series" 
-            [(ngModel)]="treinoExercicio.series"
-            placeholder="Séries (Obrigatório)" />
-        </mat-form-field>
-
-        <mat-form-field 
-          *ngIf="treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' "
-          fxFlex>
-          <input 
-            matInput 
-            mask="0?00" 
-            formControlName="carga" 
-            [(ngModel)]="treinoExercicio.carga"
-            placeholder="Carga (Obrigatório)" />
-        </mat-form-field>
-
-        <mat-form-field 
-          *ngIf="treinoExercicio.tipoTreinoExercicio && ( treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio == 'REPETICOES' )"
-          fxFlex>
-          <input 
-            matInput 
-            mask="0?00" 
-            formControlName="repeticoes" 
-            [(ngModel)]="treinoExercicio.repeticoes"
-            placeholder="Repeticões (Obrigatório)" />
-        </mat-form-field>
-
-        <mat-form-field 
-          *ngIf="treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'TEMPO'"
-          fxFlex>
-          <input 
-            matInput 
-            mask="0?00" 
-            formControlName="tempoMin" 
-            [(ngModel)]="treinoExercicio.tempoMin"
-            placeholder="Tempo em minutos (Obrigatório)" />
-        </mat-form-field> 
-
-      </div>
-
-
-      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-
-        <mat-form-field fxFlex>
-          <textarea 
-              rows="4"
+          <mat-form-field fxFlex>
+            <input 
               matInput 
-              placeholder="Observações de realização do exercício (Opcional)"
-              formControlName="observacoes"
-              name="observacoes" 
-              [(ngModel)]="treinoExercicio.observacoes"></textarea>
-        </mat-form-field>
-        
-      </div>
+              placeholder="Exercício (Obrigatório)" 
+              (ngModelChange)="listExerciciosByFilters($event);"
+              [(ngModel)]="treinoExercicio.exercicio.nome"
+              formControlName="exercicio"
+              [matAutocomplete]="auto"/>
+            <mat-autocomplete #auto="matAutocomplete" >
+              <mat-option
+                (onSelectionChange)="setExercicio(treinoExercicio, exercicio)"
+                *ngFor="let exercicio of exerciciosAutoComplete"
+                [value]="exercicio?.nome">
+                  <span> {{ exercicio?.nome }} </span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-    </form>
-  </mat-card-content>
-</mat-card>
+          <mat-form-field fxFlex>
+            <mat-select 
+            (selectionChange)="chageTipoTreinoExercicio($event.value)"
+              placeholder="Tipo de Exercício (Obrigatório)" 
+              formControlName="tipoTreinoExercicio"
+              name="tipoTreinoExercicio" 
+              [(ngModel)]="treinoExercicio.tipoTreinoExercicio">
+              <mat-option 
+                *ngFor="let tipoTreinoExercicio of tiposTreinoExercicio" 
+                [value]="tipoTreinoExercicio">{{tipoTreinoExercicio}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          
+          <mat-form-field fxFlex>
+            <input 
+              matInput 
+              mask="0" 
+              formControlName="series" 
+              [(ngModel)]="treinoExercicio.series"
+              placeholder="Séries (Obrigatório)" />
+          </mat-form-field>
+
+          <mat-form-field 
+            *ngIf="treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' "
+            fxFlex>
+            <input 
+              matInput 
+              mask="0?00" 
+              formControlName="carga" 
+              [(ngModel)]="treinoExercicio.carga"
+              placeholder="Carga (Obrigatório)" />
+          </mat-form-field>
+
+          <mat-form-field 
+            *ngIf="treinoExercicio.tipoTreinoExercicio && ( treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio == 'REPETICOES' )"
+            fxFlex>
+            <input 
+              matInput 
+              mask="0?00" 
+              formControlName="repeticoes" 
+              [(ngModel)]="treinoExercicio.repeticoes"
+              placeholder="Repeticões (Obrigatório)" />
+          </mat-form-field>
+
+          <mat-form-field 
+            *ngIf="treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'TEMPO'"
+            fxFlex>
+            <input 
+              matInput 
+              mask="0?00" 
+              formControlName="tempoMin" 
+              [(ngModel)]="treinoExercicio.tempoMin"
+              placeholder="Tempo em minutos (Obrigatório)" />
+          </mat-form-field> 
+
+        </div>
+
+
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+          <mat-form-field fxFlex>
+            <textarea 
+                rows="4"
+                matInput 
+                placeholder="Observações de realização do exercício (Opcional)"
+                formControlName="observacoes"
+                name="observacoes" 
+                [(ngModel)]="treinoExercicio.observacoes"></textarea>
+          </mat-form-field>
+          
+        </div>
+
+      </form>
+
+    </mat-card-content>
+
+  </mat-card>
+
+</mat-expansion-panel>

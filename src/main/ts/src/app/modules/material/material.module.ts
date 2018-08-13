@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 // material imports
-import { MatButtonModule, MatToolbarModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatTableModule, MatIconModule, MatMenuModule, MatCheckboxModule, MatStepperModule, MatCardModule, MatDialogModule, MatGridListModule, MatPaginatorModule} from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatInputModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatTableModule, MatIconModule, MatMenuModule, MatCheckboxModule, MatStepperModule, MatCardModule, MatDialogModule, MatGridListModule, MatPaginatorModule, MatExpansionModule} from '@angular/material';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 // import {MatDividerModule} from '@angular/material/divider';
@@ -28,7 +28,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDialogModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule
     // MatDividerModule,
   ],
   exports: [
@@ -48,7 +49,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDialogModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule
     // MatDividerModule,
   ],
 })
