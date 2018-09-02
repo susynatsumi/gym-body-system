@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import br.com.eits.boot.domain.entity.academia.treino.ExercicioTreinoData;
+import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.account.Papel;
@@ -36,49 +36,49 @@ public class ExercicioTreinoDataService {
 	/**
 	 * Insere um exercicio treino data na base de dados
 	 * 
-	 * @param exercicioTreinoData
+	 * @param exercicioRealizado
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
-	public ExercicioTreinoData insertExercicioTreinoData(
-		ExercicioTreinoData exercicioTreinoData
+	public ExercicioRealizado insertExercicioTreinoData(
+		ExercicioRealizado exercicioRealizado
 	){
 		
 		Assert.notNull(
-			exercicioTreinoData,
-			MessageSourceHolder.translate("exercicio.service.null")
+			exercicioRealizado,
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.isNull(
-			exercicioTreinoData.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.null")
+			exercicioRealizado.getId(),
+			MessageSourceHolder.translate("service.object.id.null")
 		);
 		
-		return this.exercicioTreinoDataRepository.save(exercicioTreinoData);
+		return this.exercicioTreinoDataRepository.save(exercicioRealizado);
 	}
 	
 	/**
 	 * Realiza update de um exercicio treino data 
 	 * 
-	 * @param exercicioTreinoData
+	 * @param exercicioRealizado
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
-	public ExercicioTreinoData updateExercicioTreinoData(
-		ExercicioTreinoData exercicioTreinoData 
+	public ExercicioRealizado updateExercicioTreinoData(
+		ExercicioRealizado exercicioRealizado 
 	){
 		
 		Assert.notNull(
-			exercicioTreinoData,
-			MessageSourceHolder.translate("exercicio.service.null")
+			exercicioRealizado,
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.notNull(
-			exercicioTreinoData.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.not.null")
+			exercicioRealizado.getId(),
+			MessageSourceHolder.translate("service.object.id.not.null")
 		);
 		
-		return this.exercicioTreinoDataRepository.save(exercicioTreinoData);
+		return this.exercicioTreinoDataRepository.save(exercicioRealizado);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class ExercicioTreinoDataService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public ExercicioTreinoData findExercicioTreinoDataById( Long id ){
+	public ExercicioRealizado findExercicioTreinoDataById( Long id ){
 		
 		return this.exercicioTreinoDataRepository
 				.findById(id)
@@ -108,7 +108,7 @@ public class ExercicioTreinoDataService {
 	 * @param treinoData
 	 * @return
 	 */
-	public List<ExercicioTreinoData> criaExercicioTreinoData( TreinoData treinoData ){
+	public List<ExercicioRealizado> criaExercicioTreinoData( TreinoData treinoData ){
 		
 		Assert.notNull(
 			treinoData, 
@@ -130,7 +130,7 @@ public class ExercicioTreinoDataService {
 		//cria para cada exercicio do treino um exercicio treino data
 		return treino.getTreinoExercicios().stream()
 			.map(treinoExercicio -> 
-				new ExercicioTreinoData(false, treinoData, treinoExercicio
+				new ExercicioRealizado(false, treinoData, treinoExercicio
 			)).collect(Collectors.toList());
 		
 	}

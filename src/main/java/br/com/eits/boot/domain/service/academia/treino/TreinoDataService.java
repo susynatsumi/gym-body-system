@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.eits.boot.domain.entity.academia.treino.DiaSemana;
-import br.com.eits.boot.domain.entity.academia.treino.ExercicioTreinoData;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.account.Papel;
@@ -32,8 +31,8 @@ public class TreinoDataService {
 	@Autowired
 	private ITreinoDataRepository treinoDataRepository;
 	
-	@Autowired
-	private ExercicioTreinoDataService exercicioTreinoDataService;
+//	@Autowired
+//	private ExercicioTreinoDataService exercicioTreinoDataService;
 	
 	// ------------------------------------
 	// -------------- MÉTODOS -------------
@@ -52,17 +51,13 @@ public class TreinoDataService {
 		
 		Assert.notNull(
 			treinoData,
-			MessageSourceHolder.translate("exercicio.service.null")
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.isNull(
 			treinoData.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.null")
+			MessageSourceHolder.translate("service.object.id.null")
 		);
-		
-		treinoData.setHoraInicio(null);
-		treinoData.setHoraTermino(null);
-		treinoData.setCompleto(false);
 		
 		return this.treinoDataRepository.save(treinoData);
 	}
@@ -119,7 +114,7 @@ public class TreinoDataService {
 	 * @param treino
 	 * @return
 	 */
-	public List<TreinoData> criaDatasTreino(Treino treino) {
+	public void criaDatasTreino(Treino treino) {
 			
 		LocalDate dataAtual = treino.getDataInicio();
 		final List<DiaSemana> diasSemana = treino.getDiasSemanaSelecionados();
@@ -145,14 +140,6 @@ public class TreinoDataService {
 					diaSemanaAtual.get() // dia da semana 
 				);
 				
-				List<ExercicioTreinoData> novosExercicioTreinoData = 
-					exercicioTreinoDataService
-						.criaExercicioTreinoData(treinoData);
-				
-				treinoData.setExerciciosTreinoDatas(
-					novosExercicioTreinoData
-				);
-				
 				datasDoTreino.add(treinoData);
 				
 			}
@@ -165,8 +152,11 @@ public class TreinoDataService {
 			datasDoTreino,
 			MessageSourceHolder.translate("service.treino.insert.dias.semana.empty")
 		);
+
+		datasDoTreino.forEach(treinoData ->{
+			this.insertTreinoData(treinoData);
+		});
 		
-		return datasDoTreino;
 		
 	}
 	

@@ -1,6 +1,7 @@
 package br.com.eits.boot.test.domain.service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import javax.validation.ValidationException;
 
@@ -69,7 +70,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 			"Testing user", 
 			"teste.emial@email.com", 
 			true, 
-			Papel.ALUNO, 
+			Arrays.asList(Papel.ALUNO), 
 			"user", 
 			LocalDate.of(1995, 5, 1),
 			Genero.MASCULINO
@@ -102,7 +103,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 			null, 
 			"teste.emial@email.com", 
 			true, 
-			Papel.ALUNO, 
+			Arrays.asList(Papel.ALUNO), 
 			"aluno" ,
 			LocalDate.of(1995, 5, 1),
 			Genero.FEMININO
@@ -126,7 +127,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 			"Teste", 
 			null, 
 			true, 
-			Papel.ALUNO, 
+			Arrays.asList(Papel.ALUNO), 
 			"aluno",
 			LocalDate.of(1995, 5, 1),
 			Genero.FEMININO
@@ -297,7 +298,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	public void updatetPessoaFailMandatoryFieldPapel(){
 		
 		Pessoa pessoa = this.pessoaRepository.findById(1011L).orElse(null);
-		pessoa.setPapel(null);
+		pessoa.setPapeis(null);
 		
 		accountService.updatePessoa(pessoa);
 

@@ -13,20 +13,14 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
 
-import br.com.eits.boot.domain.entity.academia.Academia;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.academia.treino.DiaSemana;
-import br.com.eits.boot.domain.entity.academia.treino.ExercicioTreinoData;
-import br.com.eits.boot.domain.entity.academia.treino.PessoaTreino;
 import br.com.eits.boot.domain.entity.academia.treino.TipoTreinoExercicio;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoExercicio;
-import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
-import br.com.eits.boot.domain.repository.academia.IAcademiaRepository;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
-import br.com.eits.boot.domain.repository.academia.treino.IExercicioTreinoDataRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoDataRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoRepository;
 import br.com.eits.boot.domain.repository.account.IPessoaRepository;
@@ -42,9 +36,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	private ITreinoRepository treinoRepository;
 	
 	@Autowired
-	private IAcademiaRepository academiaRepository;
-	
-	@Autowired
 	private IExercicioRepository exercicioRepository;
 	
 	@Autowired
@@ -52,9 +43,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	
 	@Autowired
 	private IPessoaRepository pessoaRepository;
-	
-	@Autowired
-	private IExercicioTreinoDataRepository exercicioTreinoDataRepository;
 	
 	// ------------------------------------------------------
 	// --------- INSERTS ------------------------------------
@@ -76,8 +64,8 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 		.orElse(null);
 		
 		return Arrays.asList(
-			new TreinoExercicio(10, 11, null, "Faça devagar", null,  exercicio1, TipoTreinoExercicio.CARGA_REPETICOES),
-			new TreinoExercicio(10, 11, null, "", null, exercicio2, TipoTreinoExercicio.CARGA_REPETICOES)
+			new TreinoExercicio(null, 1, 10, 11, null, "Faça devagar", null,  exercicio1, TipoTreinoExercicio.CARGA_REPETICOES),
+			new TreinoExercicio(null, 2, 10, 11, null, "", null, exercicio2, TipoTreinoExercicio.CARGA_REPETICOES)
 		);
 	}
 	
@@ -97,23 +85,23 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Cria pessoas para inserção no treino
 	 * @return
 	 */
-	private List<PessoaTreino> mockPersonalAluno(){
-		Pessoa pessoa1 = this.pessoaRepository
-				.findById(1013L)
-				.orElse(null);
+	private Pessoa findAluno(){
 		
-		Pessoa pessoa2 = this.pessoaRepository
+		return this.pessoaRepository
 				.findById(1011L)
 				.orElse(null);
 		
-		PessoaTreino pessoaTreino1 = new PessoaTreino(pessoa1, null, Papel.PERSONAL);
-		PessoaTreino pessoaTreino2 = new PessoaTreino(pessoa2, null, Papel.ALUNO);
 		
-		return Arrays.asList(
-			pessoaTreino1,
-			pessoaTreino2
-		);
-		
+	}
+	
+	/**
+	 * Cria pessoas para inserção no treino
+	 * @return
+	 */
+	private Pessoa findPersonal(){
+		return this.pessoaRepository
+				.findById(1013L)
+				.orElse(null);
 		
 	}
 	
@@ -121,27 +109,24 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Inserção de um treino com sucesso
 	 */
 	@Test
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
 	})
 	public void insertTreinoMustPass(){
 
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		Treino treino  = new Treino(
+			null,
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1), 
 			LocalDate.of(2018, 7, 1), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
-			mockTreinoExercicio(), 
-			mockDiasSemana(), 
-			academia,
-			mockPersonalAluno()
+			mockTreinoExercicio(),
+			findAluno(),
+			findPersonal(),
+			mockDiasSemana() 
 		);
 		
 		treino = this.treinoService
@@ -164,40 +149,30 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 		Assert.assertNotNull(datasTreino);
 		Assert.assertEquals(9, datasTreino.size());
 		
-		List<ExercicioTreinoData> exerciciosTreinoDatas = this.exercicioTreinoDataRepository
-				.listExercicioTreinoDataByTreinoId(treino.getId());
-		
-		Assert.assertNotNull(exerciciosTreinoDatas);
-		Assert.assertEquals(18, exerciciosTreinoDatas.size());
-		
-		
 	}
 	
 	/**
 	 * Deve ocorer erro se a data de fim não for posterior a data de inicio
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
 	})
 	public void insertTreinoMustFailMandatoryFieldsDataInicioAndDataFim(){
 
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		Treino treino  = new Treino(
+			null,
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 7, 1), 
 			LocalDate.of(2018, 7, 1), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(), 
-			mockDiasSemana(), 
-			academia,
-			mockPersonalAluno()
+			findAluno(),
+			findPersonal(),
+			mockDiasSemana() 
 		);
 		
 		treino = this.treinoService
@@ -209,27 +184,24 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Valida obrigatoriedade do campo data de inicio
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
 	})
 	public void insertTreinoMustFailMandatoryFieldsDataInicio(){
 
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		Treino treino  = new Treino(
+			null,
 			"Treino bla bla bla", 
 			null,// data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
-			mockTreinoExercicio(), 
-			mockDiasSemana(), 
-			academia,
-			mockPersonalAluno()
+			mockTreinoExercicio(),
+			findAluno(),
+			findPersonal(),
+			mockDiasSemana() 
 		);
 		
 		treino = this.treinoService
@@ -241,28 +213,83 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Valida obrigatoriedade do campo data de fim
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
 	})
 	public void insertTreinoMustFailMandatoryFieldsDataFim(){
 
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		Treino treino  = new Treino(
+			null,
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 7, 1),  // data inicio 
 			null,// data fim 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
-			mockTreinoExercicio(), 
-			mockDiasSemana(), 
-			academia,
-			mockPersonalAluno()
+			mockTreinoExercicio(),
+			findAluno(),
+			findPersonal(),
+			mockDiasSemana() 
 		);
+		
+		treino = this.treinoService
+				.insertTreino(treino);
+		
+	}
+	
+	/**
+	 * Valida obrigatoriedade de selecionar um aluno
+	 */
+	@Test( expected = IllegalArgumentException.class)
+	@WithUserDetails("admin")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinos.sql"
+	})
+	public void insertTreinoMustFailMandatoryFieldAluno(){
+
+		Treino treino  = new Treino(
+			null,
+			"Treino bla bla bla", 
+			LocalDate.of(2018, 7, 1),  // data inicio 
+			null,// data fim 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
+			mockTreinoExercicio(),
+			null,
+			findPersonal(),
+			mockDiasSemana() 
+		);
+		
+		treino = this.treinoService
+				.insertTreino(treino);
+		
+	}
+	
+	/**
+	 * Valida obrigatoriedade de selecionar um personal
+	 */
+	@Test( expected = IllegalArgumentException.class)
+	@WithUserDetails("admin")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinos.sql"
+	})
+	public void insertTreinoMustFailMandatoryFieldPersonal(){
+		
+		Treino treino  = new Treino(
+				null,
+				"Treino bla bla bla", 
+				LocalDate.of(2018, 7, 1),  // data inicio 
+				null,// data fim 
+				LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
+				LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
+				mockTreinoExercicio(),
+				findAluno(),
+				null,
+				mockDiasSemana() 
+				);
 		
 		treino = this.treinoService
 				.insertTreino(treino);
@@ -273,27 +300,24 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Verifica se a validação de quantidade de exericicios está ok
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
 	})
 	public void insertTreinoMustFailListExercicios(){
 
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		Treino treino  = new Treino(
+			null,
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1),  // data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			null, 
-			mockDiasSemana(), 
-			academia,
-			mockPersonalAluno()
+			findAluno(),
+			findPersonal(),
+			mockDiasSemana() 
 		);
 		
 		treino = this.treinoService
@@ -305,27 +329,24 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Verifica se a validação de quantidade de dias da semana está ok
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
 	})
 	public void insertTreinoMustFailListDiasSemana(){
 
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		Treino treino  = new Treino(
+			null,
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1),  // data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
-			null,
-			academia,
-			mockPersonalAluno()
+			findAluno(),
+			findPersonal(),
+			null
 		);
 		
 		treino = this.treinoService
@@ -338,27 +359,24 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Verifica se existe alguma data nos dias de semana selecionados
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
 	})
 	public void insertTreinoMustFailListDatasTreino(){
 
-		final Academia academia = this.academiaRepository
-				.findById(1001L)
-				.orElse(null);
-		
 		Treino treino  = new Treino(
+			null,
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 2),  // data inicio 
 			LocalDate.of(2018, 6, 3),  // data fim 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
-			mockDiasSemana(),
-			academia,
-			mockPersonalAluno()
+			findAluno(),
+			findPersonal(),
+			mockDiasSemana()
 		);
 		
 		treino = this.treinoService
@@ -376,7 +394,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Inserção de um treino com sucesso
 	 */
 	@Test
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -406,7 +424,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Não deve alterar data de incio do treino
 	 */
 	@Test
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -436,7 +454,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * O sistema não deverá alterar a data de fim do treino
 	 */
 	@Test
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -467,7 +485,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 *  O sistema não deverá alterar o nome para um texto invalido
 	 */
 	@Test( expected = TransactionSystemException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -486,6 +504,52 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 		
 	}
 	
+	/**
+	 *  O sistema não deverá alterar o aluno para null no treino
+	 */
+	@Test( expected = TransactionSystemException.class)
+	@WithUserDetails("admin")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinos.sql"
+	})
+	public void updateTreinoMustFailMandatoryFieldAlunoId(){
+		
+		Treino treino  = this.treinoRepository
+				.findById(1000L)
+				.orElse(null);
+		
+		Assert.assertNotNull(treino);
+		
+		treino.setAluno(null);
+		
+		this.treinoService.updateTreino(treino);
+		
+	}
+	
+	/**
+	 *  O sistema não deverá alterar para null o campo personal
+	 */
+	@Test( expected = TransactionSystemException.class)
+	@WithUserDetails("admin")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinos.sql"
+	})
+	public void updateTreinoMustFailMandatoryFieldPersonalId(){
+		
+		Treino treino  = this.treinoRepository
+				.findById(1000L)
+				.orElse(null);
+		
+		Assert.assertNotNull(treino);
+		
+		treino.setPersonal(null);
+		
+		this.treinoService.updateTreino(treino);
+		
+	}
+	
 	// ------------------------------------------------------
 	// --------- FINDS ------------------------------------
 	// ------------------------------------------------------
@@ -495,7 +559,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Deverá realizar o find by id com sucesso
 	 */
 	@Test
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -514,7 +578,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Deverá ocorrer erro por não existir um registro com o id informado
 	 */
 	@Test( expected = IllegalArgumentException.class )
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("admin")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -525,7 +589,5 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 				.findTreinoById(10116500L);
 		
 	}
-	
-	//TODO fazer testes com filtros
 	
 }

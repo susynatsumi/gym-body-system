@@ -49,7 +49,7 @@ public class IPessoaRepositoryImpl implements UserDetailsService
 							+ "		pessoa.login is not null "
 							+ "		AND pessoa.login = :login "
 							+ "		AND pessoa.isAtivo = true" // somente ativos podem logar
-							+ "		AND pessoa.papel <> 2 "; // alunos não podem logar no sistema
+							+ "		AND pessoa.papeis not in ( 2 ) "; // alunos não podem logar no sistema
 			
 			final TypedQuery<Pessoa> query = this.entityManager.createQuery( hql, Pessoa.class );
 			query.setParameter( "login", login);

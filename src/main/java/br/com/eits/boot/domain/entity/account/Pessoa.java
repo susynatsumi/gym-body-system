@@ -3,13 +3,17 @@ package br.com.eits.boot.domain.entity.account;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -47,9 +51,8 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	private static final long serialVersionUID = -4052986759552589018L;
 
 	/*-------------------------------------------------------------------
-	 *				 		     ATTRIBUTES
+	 *				 		     ATRIBUTOS
 	 *-------------------------------------------------------------------*/
-	// Basic
 	
 	/**
 	 * Nome da pessoa
@@ -111,25 +114,17 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	 * Papel do usuário, para indicar certos privilégios
 	 */
 	@NotNull
+	@ElementCollection(fetch = FetchType.EAGER, targetClass= Papel.class)
+	@CollectionTable
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
-	private Papel papel;
+	private List<Papel> papeis;
 	
 	/**
 	 * 
 	 */
 	private OffsetDateTime lastLogin;
 
-	/**
-	 *
-	 */
-	private String passwordResetToken;
-
-	/**
-	 *
-	 */
-	private OffsetDateTime passwordResetTokenExpiration;
-	
 	/*-------------------------------------------------------------------
 	 *							CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -165,7 +160,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 			String nome,
 			String email, 
 			Boolean isAtivo,
-			Papel papel, 
+			List<Papel> papeis, 
 			String senha, 
 			LocalDate dataNascimento ,
 			Genero genero
@@ -175,7 +170,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 		this.nome = nome;
 		this.isAtivo = isAtivo;
 		this.senha = senha;
-		this.papel = papel;
+		this.papeis = papeis;
 		this.dataNascimento = dataNascimento;
 		this.genero = genero;
 	}
@@ -183,23 +178,26 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	/*-------------------------------------------------------------------
 	 *							BEHAVIORS
 	 *-------------------------------------------------------------------*/
+	
 	/**
-	 * 
+	 * retorna as permissoes
 	 */
-	@Override
-	@Transient
 	public Set<GrantedAuthority> getAuthorities()
 	{
-		final Set<GrantedAuthority> authorities = new HashSet<>();
 
-		if ( this.papel == null )
+		if ( this.papeis == null || this.papeis.isEmpty())
 		{
 			return null;
 		}
 		
-		authorities.addAll( this.papel.getAuthorities() );
-
-		return authorities;
+		return this.papeis.stream()
+				.map( 
+					papel -> 
+						papel.getGrantedAuthority()
+				)
+					.collect(Collectors.toSet()
+		);
+		
 	}
 
 	/**
@@ -242,10 +240,8 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 		return this.isAtivo;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.springframework.security.core.userdetails.UserDetails#getPassword()
+	/**
+	 * 
 	 */
 	@Override
 	@Transient
@@ -254,10 +250,8 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 		return this.senha;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.springframework.security.core.userdetails.UserDetails#getUsername()
+	/**
+	 * 
 	 */
 	@Override
 	@Transient

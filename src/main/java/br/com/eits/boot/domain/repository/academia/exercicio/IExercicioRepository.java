@@ -29,7 +29,7 @@ public interface IExercicioRepository extends JpaRepository<Exercicio, Long>{
 		" FROM "
 		+ "	Exercicio exercicio "
 		+ "WHERE "
-		+ "	filter( :filtros, exercicio.id, exercicio.nome ) = TRUE "
+		+ "	filter( :filtros, exercicio.id, exercicio.nome, exercicio.equipamento.descricao ) = TRUE "
 		+ "	AND ( "
 		+ "		:isAtivo IS NULL "
 		+ " 	OR exercicio.isAtivo = :isAtivo "

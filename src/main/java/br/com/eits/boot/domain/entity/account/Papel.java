@@ -1,8 +1,5 @@
 package br.com.eits.boot.domain.entity.account;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.directwebremoting.annotations.DataTransferObject;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -33,9 +30,13 @@ public enum Papel implements GrantedAuthority
 		return this.name();
 	}
 
+	public GrantedAuthority getGrantedAuthority(){
+		return this;
+	}
+	
 	/**
 	 * @return
-	 */
+	 *//*
 	public Set<GrantedAuthority> getAuthorities()
 	{
 		final Set<GrantedAuthority> authorities = new HashSet<>();
@@ -50,5 +51,5 @@ public enum Papel implements GrantedAuthority
 		authorities.add( Papel.ALUNO );
 
 		return authorities;
-	}
+	}*/
 }

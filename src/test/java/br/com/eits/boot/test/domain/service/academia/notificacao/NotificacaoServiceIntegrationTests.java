@@ -12,8 +12,8 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
 
+import br.com.eits.boot.domain.entity.academia.notificacao.DestinatarioNotificacao;
 import br.com.eits.boot.domain.entity.academia.notificacao.Notificacao;
-import br.com.eits.boot.domain.entity.academia.notificacao.PessoaNotificacao;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.notificacao.INotificacaoRepository;
 import br.com.eits.boot.domain.repository.account.IPessoaRepository;
@@ -32,7 +32,7 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	@Autowired
 	private IPessoaRepository pessoaRepository;
 	
-	private List<PessoaNotificacao> mockPessoasNotificacoes(){
+	private List<DestinatarioNotificacao> mockDestinatarios(){
 		
 		Pessoa remetente = this.pessoaRepository
 				.findById(1011L)
@@ -43,8 +43,8 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 				.orElse(null);
 		
 		return Arrays.asList(
-				new PessoaNotificacao(remetente, null, false),
-				new PessoaNotificacao(destinatario, null, true)
+				new DestinatarioNotificacao(remetente, null),
+				new DestinatarioNotificacao(destinatario, null)
 		);
 		
 	}
@@ -67,8 +67,7 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 		Notificacao notificacao = new Notificacao(
 			"Titulo",
 			"asdfafasjlkfajslçkfa",
-			null, 
-			mockPessoasNotificacoes()
+			mockDestinatarios()
 		);
 		
 		notificacao = this.notificacaoService
@@ -93,8 +92,7 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 		Notificacao notificacao = new Notificacao(
 			"",
 			"asdfafasjlkfajslçkfa",
-			null, 
-			mockPessoasNotificacoes()
+			mockDestinatarios()
 		);
 		
 		notificacao = this.notificacaoService
@@ -116,8 +114,7 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 		Notificacao notificacao = new Notificacao(
 			"asdfasffasdfa",
 			"",
-			null, 
-			mockPessoasNotificacoes()
+			mockDestinatarios()
 		);
 		
 		notificacao = this.notificacaoService
@@ -136,50 +133,10 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertNotificacaoMustFailEmptyListDestinatarios(){
 		
-		Pessoa pessoa = this.pessoaRepository
-				.findById(1012L)
-				.orElse(null);
-		
-		List<PessoaNotificacao> remetente = Arrays.asList(
-				new PessoaNotificacao(pessoa, null, false)
-		);
-		
 		Notificacao notificacao = new Notificacao(
 			"asdfasffasdfa",
 			"",
-			null, 
-			remetente
-		);
-		
-		notificacao = this.notificacaoService
-			.insertNotificacao(notificacao);
-		
-	}
-	
-	/**
-	 * Verifica se a valiação de remetente está ok
-	 */
-	@Test( expected = IllegalArgumentException.class )
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/notificacoes.sql"
-	})
-	public void insertNotificacaoMustFailEmptyListRemetente(){
-		
-		Pessoa pessoa = this.pessoaRepository
-				.findById(1012L)
-				.orElse(null);
-		
-		List<PessoaNotificacao> destinatario = Arrays.asList(
-				new PessoaNotificacao(pessoa, null, true)
-		);
-		
-		Notificacao notificacao = new Notificacao(
-			"asdfasffasdfa",
-			"",
-			null, 
-			destinatario
+			null
 		);
 		
 		notificacao = this.notificacaoService
@@ -329,8 +286,5 @@ public class NotificacaoServiceIntegrationTests extends AbstractIntegrationTests
 			.findNotificacaoById(151615615L);
 		
 	}
-	
-	
-	//TODO fazer testes com filtros
 	
 }

@@ -18,7 +18,7 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import br.com.eits.boot.domain.entity.academia.Academia;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -75,31 +75,23 @@ public class Treino extends AbstractEntity {
 	)
 	private List<TreinoExercicio> treinoExercicios;
 
-	@OneToMany( 
-		cascade = CascadeType.ALL,
-		fetch = FetchType.LAZY,
-		mappedBy = "treino",
-		orphanRemoval = false,
-		targetEntity = TreinoData.class
-	)
-	private List<TreinoData> treinoDatas;
-	
-	@OneToMany( 
-		cascade = CascadeType.ALL,
-		fetch = FetchType.LAZY,
-		mappedBy = "treino",
-		orphanRemoval = false,
-		targetEntity = PessoaTreino.class
-	)
-	private List<PessoaTreino> pessoasTreino;
-	
+	// aluno do treino
+	@NotNull
 	@ManyToOne(
-		cascade = CascadeType.REFRESH,
 		fetch = FetchType.LAZY,
 		optional = false,
-		targetEntity = Academia.class
-	)
-	private Academia academia;
+		targetEntity = Pessoa.class
+	) 
+	private Pessoa aluno;
+	
+	// personal do treino
+	@NotNull
+	@ManyToOne(
+			fetch = FetchType.LAZY,
+			optional = false,
+			targetEntity = Pessoa.class
+			) 
+	private Pessoa personal;
 	
 	/**
 	 * Dias selecionados na tela
@@ -111,55 +103,53 @@ public class Treino extends AbstractEntity {
 	// -------------- CONSTRUTORES -----------------
 	// ---------------------------------------------
 	
-	/**
-	 * Constructor Default
-	 */
-	public Treino(){
-		super();
-	}
-	
-	/**
-	 * 
-	 * Constructor com Id 
-	 * 
-	 * @param id
-	 */
-	public Treino( Long id ){
-		super(id);
-	}
 
 	/**
-	 * 
-	 * Constructor com todos os campos
-	 * 
+	 * @param id
 	 * @param nome
 	 * @param dataInicio
 	 * @param dataFim
 	 * @param horaPrevistaInicio
 	 * @param horaPrevistaTermino
 	 * @param treinoExercicios
-	 * @param treinoDatas
+	 * @param aluno
+	 * @param personal
 	 * @param diasSemanaSelecionados
 	 */
-	public Treino(
+	public Treino(Long id, 
 		String nome, 
-		LocalDate dataInicio,
+		LocalDate dataInicio, 
 		LocalDate dataFim,
 		LocalDateTime horaPrevistaInicio, 
 		LocalDateTime horaPrevistaTermino,
 		List<TreinoExercicio> treinoExercicios, 
-		List<DiaSemana> diasSemanaSelecionados,
-		Academia academia,
-		List<PessoaTreino> pessoasTreino
+		Pessoa aluno, 
+		Pessoa personal,
+		List<DiaSemana> diasSemanaSelecionados
 	) {
-		super();
+		super(id);
 		this.nome = nome;
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
 		this.horaPrevistaInicio = horaPrevistaInicio;
 		this.horaPrevistaTermino = horaPrevistaTermino;
 		this.treinoExercicios = treinoExercicios;
+		this.aluno = aluno;
+		this.personal = personal;
 		this.diasSemanaSelecionados = diasSemanaSelecionados;
-		this.academia = academia;
-		this.pessoasTreino = pessoasTreino;
-	}}
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public Treino( Long id ) {
+		super( id );
+	}
+	
+	/**
+	 * Constructor default
+	 */
+	public Treino() {
+	}
+}

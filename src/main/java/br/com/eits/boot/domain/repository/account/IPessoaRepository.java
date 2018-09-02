@@ -25,7 +25,7 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 	/**
 	 *
 	 */
-	Optional<Pessoa> findByPasswordResetTokenAndPasswordResetTokenExpirationAfter( String token, OffsetDateTime time );
+//	Optional<Pessoa> findByPasswordResetTokenAndPasswordResetTokenExpirationAfter( String token, OffsetDateTime time );
 
 	/**
 	 *
@@ -48,7 +48,7 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 			"	) AND ( "+
 			"			( "+
 			"				:listarAdministrador = false "+
-			"				AND pessoa.papel <> 0 "+
+			"				AND pessoa.papeis not in ( 0 ) "+
 			"			) "+
 			"			OR ( "+
 			"				:listarAdministrador = true "+
@@ -71,7 +71,7 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 		+ "		AND ( "
 		+ "				( "
 		+ "					:listarAdministrador = false "
-		+ "					AND pessoa.papel <> 0 "
+		+ "					AND pessoa.papeis not in ( 0 ) "
 		+ "				) OR ( "
 		+ "					:listarAdministrador = true	"
 		+ "				) "

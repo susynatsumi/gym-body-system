@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -14,7 +13,6 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,23 +40,14 @@ public class Notificacao extends AbstractEntity {
 	@Column(nullable = false)
 	private String texto;
 	
-	// treino de referencia 
-	@ManyToOne(
-		fetch = FetchType.LAZY,
-		optional = true,
-		targetEntity = TreinoData.class
-	)
-	private TreinoData treinoData;
-	
-	
 	@OneToMany( 
 		cascade = CascadeType.ALL,
 		fetch = FetchType.LAZY,
 		mappedBy = "notificacao",
 		orphanRemoval = true,
-		targetEntity = PessoaNotificacao.class
+		targetEntity = DestinatarioNotificacao.class
 	)
-	private List<PessoaNotificacao> pessoasNotificacoes;
+	private List<DestinatarioNotificacao> destinatarioNotificacoes;
 	// ----------------------------------
 	// ------ CONSTRUTORES --------------
 	// ----------------------------------
@@ -84,20 +73,17 @@ public class Notificacao extends AbstractEntity {
 	 * 
 	 * @param titulo
 	 * @param texto
-	 * @param treinoData
 	 * 
 	 */
 	public Notificacao(
 		String titulo, 
 		String texto, 
-		TreinoData treinoData,
-		List<PessoaNotificacao> pessoasNotificacoes
+		List<DestinatarioNotificacao> destinatarioNotificacoes
 	) {
 		super();
 		this.titulo = titulo;
 		this.texto = texto;
-		this.treinoData = treinoData;
-		this.pessoasNotificacoes = pessoasNotificacoes;
+		this.destinatarioNotificacoes = destinatarioNotificacoes;
 	}
 	
 	

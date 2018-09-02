@@ -83,9 +83,9 @@ public class TreinoData extends AbstractEntity {
 		fetch = FetchType.LAZY,
 		mappedBy = "treinoData",
 		orphanRemoval = false, 
-		targetEntity = ExercicioTreinoData.class
+		targetEntity = ExercicioRealizado.class
 	)
-	private List<ExercicioTreinoData> exerciciosTreinoDatas;
+	private List<ExercicioRealizado> exerciciosTreinoDatas;
 	// --------------------------------
 	// ------------ CONSTRUCTORS ------
 	// --------------------------------

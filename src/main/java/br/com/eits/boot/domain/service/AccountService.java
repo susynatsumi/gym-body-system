@@ -2,9 +2,6 @@ package br.com.eits.boot.domain.service;
 
 import static br.com.eits.common.application.i18n.MessageSourceHolder.translate;
 
-import java.time.OffsetDateTime;
-import java.util.UUID;
-
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import br.com.eits.boot.application.configuration.settings.AppSettings;
 import br.com.eits.boot.application.security.RequestContext;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
@@ -49,9 +45,6 @@ public class AccountService
 	@Autowired
 	private IAccountMailRepository accountMailRepository;
 
-	@Autowired
-	private AppSettings appSettings;
-	
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
 	 *-------------------------------------------------------------------*/
@@ -101,8 +94,8 @@ public class AccountService
 		final Pessoa pessoaSession = this.getPessoaLogada();
 		
 		return this.pessoaRepository.findById( 
-			id , 
-			Papel.ADMINISTRATOR.equals(pessoaSession.getPapel())
+			id ,
+			pessoaSession.getPapeis().contains(Papel.ADMINISTRATOR)
 		)
 		.orElseThrow( 
 			() -> new IllegalArgumentException( 
@@ -129,7 +122,7 @@ public class AccountService
 		return this.pessoaRepository.listPessoaByFilters(
 			filtro, 
 			isAtivo, 
-			pessoaSession.getPapel().equals(Papel.ADMINISTRATOR),// verifica se pode ou não listar administradores 
+			pessoaSession.getPapeis().contains(Papel.ADMINISTRATOR),// verifica se pode ou não listar administradores 
 			pageRequest
 		);
 	}
@@ -144,34 +137,11 @@ public class AccountService
 	{
 		return this.pessoaRepository.listByFilters( filter, pageable );
 	}
-
-	/**
-	 *
-	 */
-	public void sendPasswordResetToken( String email )
-	{
-		Pessoa user = this.pessoaRepository.findByEmail( email )
-				.orElseThrow( () -> new IllegalArgumentException( translate( "userService.userNotFoundByEmail", email ) ) );
-		user.setPasswordResetToken( UUID.randomUUID().toString() );
-		user.setPasswordResetTokenExpiration( OffsetDateTime.now().plusHours( appSettings.getPasswordTokenExpirationHours() ) );
-		user = this.pessoaRepository.save( user );
-		this.accountMailRepository.sendPasswordReset( user );
-	}
-
-	/**
-	 *
-	 */
-	public void setUserPasswordByToken( String token, String newPassword )
-	{
-		Pessoa user = this.pessoaRepository.findByPasswordResetTokenAndPasswordResetTokenExpirationAfter( token, OffsetDateTime.now() )
-				.orElseThrow( () -> new IllegalArgumentException( translate( "userService.passwordResetTokenInvalid" ) ) );
-		user.setPasswordResetToken( null );
-		user.setPasswordResetTokenExpiration( null );
-		user.setSenha( this.passwordEncoder.encode( newPassword ) );
-		user = this.pessoaRepository.save( user );
-		this.accountMailRepository.sendPasswordResetNotice( user );
-	}
 	
+	/**
+	 * Retorna pessoa logada na web
+	 * @return
+	 */
 	public Pessoa getPessoaLogada(){
 		Pessoa pessoaLogada = RequestContext.currentUser().orElse(null); 
 		return pessoaLogada;

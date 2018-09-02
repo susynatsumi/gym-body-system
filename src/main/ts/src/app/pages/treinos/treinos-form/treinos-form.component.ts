@@ -3,7 +3,7 @@ import { Treino, Pessoa, PessoaTreino, Page, TreinoExercicio, Academia } from '.
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatStepper } from '@angular/material';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
-import { AccountService, TreinoExercicioService, TreinoService } from '../../../../generated/services';
+import { AccountService, TreinoExercicioService, TreinoService, AcademiaService } from '../../../../generated/services';
 import { Router } from '../../../../../node_modules/@angular/router';
 
 @Component({
@@ -70,7 +70,8 @@ export class TreinosFormComponent implements OnInit {
     private treinoExercicioService: TreinoExercicioService,
     private treinoService: TreinoService,
     private router: Router,
-    private pessoaLogadaSession: AccountService
+    private pessoaLogadaSession: AccountService,
+    private academiaSercice: AcademiaService
   ) { 
 
     this.pessoaLogadaSession.getPessoaLogada()
@@ -96,6 +97,11 @@ export class TreinosFormComponent implements OnInit {
     };
 
     this.alunoSelecionado = {};
+
+    this.academiaSercice.findAcdemiaById(6)
+    .subscribe(( academia: Academia ) =>{
+      this.academia = academia;
+    });
 
   }
 
@@ -338,12 +344,8 @@ export class TreinosFormComponent implements OnInit {
       return;
     }
 
-    console.log(this.treino.dataInicio);
-    console.log(this.treino.dataFim);
-    console.log(this.treino.horaPrevistaInicio);
-    console.log(this.treino.horaPrevistaTermino);
-    console.log(this.pessoaLogada.dataNascimento);
     this.loading = true;
+    this.treino.academia = this.academia;
 
     this.enviar()
       .finally( ()=> this.loading = false )

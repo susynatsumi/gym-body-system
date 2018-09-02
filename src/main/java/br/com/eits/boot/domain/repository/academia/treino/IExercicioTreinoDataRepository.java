@@ -6,17 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.com.eits.boot.domain.entity.academia.treino.ExercicioTreinoData;
+import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
 
-public interface IExercicioTreinoDataRepository extends JpaRepository<ExercicioTreinoData, Long>{
+public interface IExercicioTreinoDataRepository extends JpaRepository<ExercicioRealizado, Long>{
 
 
 	@Query(
 		  " FROM "
-		+ "		ExercicioTreinoData exercicioTreinoData "
+		+ "		ExercicioRealizado exercicioTreinoData "
 		+ "	WHERE "
 		+ "		exercicioTreinoData.treinoData.treino.id = :idTreino "
 	)
-	List<ExercicioTreinoData> listExercicioTreinoDataByTreinoId(@Param("idTreino") Long idTreino );
+	List<ExercicioRealizado> listExercicioTreinoDataByTreinoId(@Param("idTreino") Long idTreino );
 	
 }

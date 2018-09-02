@@ -10,7 +10,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
 
-import br.com.eits.boot.domain.entity.academia.treino.ExercicioTreinoData;
+import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoExercicio;
 import br.com.eits.boot.domain.repository.academia.treino.IExercicioTreinoDataRepository;
@@ -57,17 +57,17 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 				.findById(1000L)
 				.orElse(null);
 		
-		ExercicioTreinoData exercicioTreinoData = new ExercicioTreinoData(
+		ExercicioRealizado exercicioRealizado = new ExercicioRealizado(
 			true, 
 			treinoData, 
 			treinoExercicio
 		);
 		
-		exercicioTreinoData = this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioTreinoData);
+		exercicioRealizado = this.exercicioTreinoDataService
+				.insertExercicioTreinoData(exercicioRealizado);
 		
-		Assert.assertNotNull(exercicioTreinoData);
-		Assert.assertNotNull(exercicioTreinoData.getId());
+		Assert.assertNotNull(exercicioRealizado);
+		Assert.assertNotNull(exercicioRealizado.getId());
 		
 	}
 	
@@ -84,14 +84,14 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 		
 		final TreinoExercicio treinoExercicio = new TreinoExercicio(1000L);
 		
-		ExercicioTreinoData exercicioTreinoData = new ExercicioTreinoData(
+		ExercicioRealizado exercicioRealizado = new ExercicioRealizado(
 			true, 
 			null, // treino data 
 			treinoExercicio
 		);
 		
-		exercicioTreinoData = this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioTreinoData);
+		exercicioRealizado = this.exercicioTreinoDataService
+				.insertExercicioTreinoData(exercicioRealizado);
 		
 	}
 	
@@ -108,14 +108,14 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 		
 		final TreinoData treinoData = new TreinoData(1002L);
 		
-		ExercicioTreinoData exercicioTreinoData = new ExercicioTreinoData(
+		ExercicioRealizado exercicioRealizado = new ExercicioRealizado(
 			true, 
 			treinoData, 
 			null
 		);
 		
 		this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioTreinoData);
+				.insertExercicioTreinoData(exercicioRealizado);
 		
 	}
 	
@@ -130,14 +130,14 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 		
 		final TreinoData treinoData = new TreinoData(1000L);
 		
-		ExercicioTreinoData exercicioTreinoData = new ExercicioTreinoData(
+		ExercicioRealizado exercicioRealizado = new ExercicioRealizado(
 			true, 
 			treinoData, 
 			null
 		);
 		
 		this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioTreinoData);
+				.insertExercicioTreinoData(exercicioRealizado);
 		
 	}
 	
@@ -156,20 +156,20 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	})
 	public void updateExercicioTreinoDataMustPass(){
 
-		ExercicioTreinoData exercicioTreinoData = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		exercicioTreinoData.setCompleto(true);
+		exercicioRealizado.setCompleto(true);
 
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioTreinoData);
+		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
 		
-		exercicioTreinoData = this.exercicioTreinoDataRepository
+		exercicioRealizado = this.exercicioTreinoDataRepository
 			.findById(1000L)
 			.orElse(null);
 		
-		Assert.assertNotNull(exercicioTreinoData);
-		Assert.assertTrue(exercicioTreinoData.getCompleto());
+		Assert.assertNotNull(exercicioRealizado);
+		Assert.assertTrue(exercicioRealizado.getCompleto());
 		
 	}
 	
@@ -184,13 +184,13 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	})
 	public void updateExercicioTreinoDataMustFailForeignKeyTreinoData(){
 
-		ExercicioTreinoData exercicioTreinoData = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		exercicioTreinoData.setTreinoData(null);
+		exercicioRealizado.setTreinoData(null);
 
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioTreinoData);
+		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
 		
 	}
 	
@@ -205,13 +205,13 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	})
 	public void updateExercicioTreinoDataMustFailForeignKeyTreinoExercicio(){
 
-		ExercicioTreinoData exercicioTreinoData = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		exercicioTreinoData.setTreinoExercicio(null);
+		exercicioRealizado.setTreinoExercicio(null);
 
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioTreinoData);
+		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
 		
 	}
 	
@@ -231,13 +231,13 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 				.findById(1001L)
 				.orElse(null);
 		
-		ExercicioTreinoData exercicioTreinoData = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
 				.findById(1000L)
 				.orElse(null);
 
-		exercicioTreinoData.setTreinoExercicio(treinoExercicio);
+		exercicioRealizado.setTreinoExercicio(treinoExercicio);
 		
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioTreinoData);
+		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
 		
 	}
 	
@@ -256,12 +256,12 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	})
 	public void findExercicioTreinoDataMustPassById(){
 	
-		final ExercicioTreinoData exercicioTreinoData = this.exercicioTreinoDataService
+		final ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataService
 				.findExercicioTreinoDataById(1000L);
 
 		
-		Assert.assertNotNull(exercicioTreinoData);
-		Assert.assertNotNull(exercicioTreinoData.getId());
+		Assert.assertNotNull(exercicioRealizado);
+		Assert.assertNotNull(exercicioRealizado.getId());
 	
 		//TODO fazer testes com filtros
 	

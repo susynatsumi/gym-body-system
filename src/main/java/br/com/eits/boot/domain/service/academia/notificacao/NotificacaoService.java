@@ -44,31 +44,11 @@ public class NotificacaoService {
 		);
 		
 		Assert.notEmpty(
-			notificacao.getPessoasNotificacoes(),
+			notificacao.getDestinatarioNotificacoes(),
 			MessageSourceHolder.translate("service.notificacao.pessoas.empty")
 		);
 		
-		// se existe um remetente 
-		Assert.isTrue(
-			notificacao.getPessoasNotificacoes()
-				.stream()
-				.filter( notificacaoPessoa -> 
-					notificacaoPessoa.getIsDestinatario() == false
-				).findFirst().isPresent(),
-				MessageSourceHolder.translate("service.notificacao.pessoas.empty.send")
-		);
-		
-		// se existe um destinatario 
-		Assert.isTrue(
-				notificacao.getPessoasNotificacoes()
-				.stream()
-				.filter( notificacaoPessoa -> 
-				notificacaoPessoa.getIsDestinatario() == true
-						).findFirst().isPresent(),
-				MessageSourceHolder.translate("service.notificacao.pessoas.empty")
-				);
-		
-		notificacao.getPessoasNotificacoes()
+		notificacao.getDestinatarioNotificacoes()
 			.forEach(notificacaoPessoa ->{
 				notificacaoPessoa.setNotificacao(notificacao);
 			});

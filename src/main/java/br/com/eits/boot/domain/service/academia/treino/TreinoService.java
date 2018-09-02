@@ -62,11 +62,6 @@ public class TreinoService {
 			MessageSourceHolder.translate("service.treino.insert.dias.semana.empty")
 		);
 		
-		Assert.notEmpty(
-			treino.getPessoasTreino(),
-			MessageSourceHolder.translate("service.treino.insert.pessoas.empty")
-		);
-		
 		Assert.notNull(
 			treino.getDataInicio(),
 			MessageSourceHolder.translate("service.treino.insert.data.inicio.null")
@@ -87,16 +82,13 @@ public class TreinoService {
 			treinoExercico.setTreino(treino);
 		});
 		
-		treino.getPessoasTreino()
-		.forEach(
-			pessoaTreino ->{
-				pessoaTreino.setTreino(treino);
-			}
-		);
 		
-		treino.setTreinoDatas(this.treinoDataService.criaDatasTreino(treino));
+		treino.setDiasSemanaSelecionados( null );
+		Treino treinoInsert = this.treinoRepository.save(treino);
 		
-		return this.treinoRepository.save(treino);
+		treinoDataService.criaDatasTreino(treinoInsert);
+		
+		return treino;
 	}
 	
 	

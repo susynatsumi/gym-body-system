@@ -1,5 +1,8 @@
 package br.com.eits.boot.test.domain.entity.account;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,11 +32,14 @@ public class PessoaTests extends AbstractUnitTests
 	public void getAuthoritiesMustPass()
 	{
 		final Pessoa user = new Pessoa();
-		user.setPapel( Papel.ADMINISTRATOR );
+		
+		List<Papel> papeis = Arrays.asList(Papel.ADMINISTRATOR);
+
+		user.setPapeis(papeis);
 		
 		Assert.assertNotNull( user.getAuthorities() );
 		Assert.assertTrue( user.getAuthorities().contains( Papel.ADMINISTRATOR ) );
-		Assert.assertTrue( user.getAuthorities().contains( Papel.PERSONAL ) );
-		Assert.assertTrue( user.getAuthorities().contains( Papel.ALUNO ) );
+		Assert.assertFalse( user.getAuthorities().contains( Papel.PERSONAL ) );
+		Assert.assertFalse( user.getAuthorities().contains( Papel.ALUNO ) );
 	}
 }

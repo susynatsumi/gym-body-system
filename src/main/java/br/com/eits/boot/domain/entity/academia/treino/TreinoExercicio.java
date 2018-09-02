@@ -1,7 +1,5 @@
 package br.com.eits.boot.domain.entity.academia.treino;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -40,11 +38,8 @@ public class TreinoExercicio extends AbstractEntity {
 	// ------- ATRIBUTOS ---------------
 	// ---------------------------------
 	
-	// data de inativação, caso esteja inativo
-	@Column
-	private LocalDateTime dataInativacao;
-	
 	// quantidade de séries para execução do exercicio com o tio de carga
+	@Min( value = 1) 
 	@NotNull
 	@Column( nullable = false)
 	private Integer series;
@@ -68,12 +63,6 @@ public class TreinoExercicio extends AbstractEntity {
 	@Column( length = 500 )
 	private String observacoes;
 	
-	// se o exercicio está ativo dentro do treino, se nao estiver
-	// não deve ser apresentado
-	@NotNull
-	@Column( nullable = false )
-	private Boolean isAtivo;
-	
 	// treino ao qual o exercicio pertence
 	@NotNull
 	@ManyToOne( 
@@ -83,6 +72,7 @@ public class TreinoExercicio extends AbstractEntity {
 	)
 	private Treino treino;
 	
+	// tipo do exercicio do treino
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull
 	@Column(nullable = false )
@@ -118,35 +108,37 @@ public class TreinoExercicio extends AbstractEntity {
 	}
 
 	/**
-	 * 
-	 * Construtor com todos os fields
-	 * 
+	 * @param id
+	 * @param series
 	 * @param carga
 	 * @param repeticoes
 	 * @param tempoMin
 	 * @param observacoes
 	 * @param isAtivo
 	 * @param treino
+	 * @param tipoTreinoExercicio
 	 * @param exercicio
 	 */
 	public TreinoExercicio(
+		Long id, 
+		Integer series, 
 		Integer carga, 
 		Integer repeticoes,
 		Integer tempoMin, 
 		String observacoes, 
 		Treino treino,
 		Exercicio exercicio,
-		TipoTreinoExercicio tipoTreinoExercicio
+		TipoTreinoExercicio tipoTreinoExercicio 
 	) {
-		super();
+		super(id);
+		this.series = series;
 		this.carga = carga;
 		this.repeticoes = repeticoes;
 		this.tempoMin = tempoMin;
 		this.observacoes = observacoes;
-		this.isAtivo = true;
 		this.treino = treino;
-		this.exercicio = exercicio;
 		this.tipoTreinoExercicio = tipoTreinoExercicio;
+		this.exercicio = exercicio;
 	}
 	
 }

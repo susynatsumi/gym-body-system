@@ -56,7 +56,11 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findById(1002L)
 				.orElse(null);
 		
+		
+		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			3,
 			10, 
 			165, 
 			0, 
@@ -66,14 +70,11 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 			TipoTreinoExercicio.CARGA_REPETICOES
 		);
 		
-		treinoExercicio.setIsAtivo(false);
-		
 		treinoExercicio = this.treinoExercicioService
 				.insertTreinoExercicio(treinoExercicio);
 		
 		Assert.assertNotNull(treinoExercicio);
 		Assert.assertNotNull(treinoExercicio.getId());
-		Assert.assertTrue(treinoExercicio.getIsAtivo());
 	}
 	
 	/**
@@ -96,6 +97,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.orElse(null);
 		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			3,
 			10, 
 			165, 
 			0, 
@@ -126,6 +129,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.orElse(null);
 		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			3,
 			0, // carga
 			110, // repet
 			0, // tempo
@@ -154,6 +159,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 		final Treino treino = new Treino(1001L);
 		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			1,
 			10, // carga 
 			1, // repet
 			0, // tempo min
@@ -164,6 +171,39 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 		);
 		
 		treinoExercicio = this.treinoExercicioService
+				.insertTreinoExercicio(treinoExercicio);
+		
+	}
+	
+	/**
+	 * Valida insercacao de treino exercicio sem informar a quantidade de séries 
+	 * com valores inválidos
+	 */
+	@Test( expected = IllegalArgumentException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoExercicios.sql"
+	})
+	public void insertTreinoExercicioMustFailMandatoryFieldSeries(){
+
+		final Treino treino = this.treinoRepository
+				.findById(1001L)
+				.orElse(null);
+		
+		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			0,
+			10, // carga 
+			10, // repet
+			10, // tempo min
+			"asdfsfdaf", 
+			treino, 
+			null,
+			TipoTreinoExercicio.CARGA_REPETICOES
+		);
+		
+		this.treinoExercicioService
 				.insertTreinoExercicio(treinoExercicio);
 		
 	}
@@ -185,6 +225,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.orElse(null);
 		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			1,
 			10, // carga 
 			0, // repet
 			0, // tempo min
@@ -216,6 +258,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.orElse(null);
 		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			3,
 			0, // carga 
 			0, // repet
 			0, // tempo min
@@ -247,6 +291,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.orElse(null);
 		
 		TreinoExercicio treinoExercicio = new TreinoExercicio(
+			null,
+			1,
 			0, // carga 
 			0, // repets
 			0, // tempo min
@@ -298,36 +344,6 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 	}
 	
 	/**
-	 * Testa o metodo de inativacao de exercicio do treino
-	 */
-	@Test
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/treinoExercicios.sql"
-	})
-	public void updateTreinoExercicioMustPassInativar(){
-
-		TreinoExercicio treinoExercicio = this.treinoExercicioRepository
-				.findById(1000L)
-				.orElse(null);
-		
-		Assert.assertNotNull(treinoExercicio);
-		
-		this.treinoExercicioService.inativarTreinoExercicio(treinoExercicio.getId());
-		
-		treinoExercicio = this.treinoExercicioRepository
-				.findById(1000L)
-				.orElse(null);
-		
-		Assert.assertNotNull(treinoExercicio);
-		Assert.assertNotNull(treinoExercicio.getId());
-		Assert.assertNotNull(treinoExercicio.getDataInativacao());
-		Assert.assertFalse(treinoExercicio.getIsAtivo());
-		
-	}
-	
-	/**
 	 * Valida unique no update
 	 */
 	@Test( expected = DataIntegrityViolationException.class )
@@ -353,8 +369,8 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 		
 	}
 	
-	/**
-	 * Verifica se o sistema permite dar update em exercicios do treino inativos
+	/*
+	 * Valida update para o tipo carga repeticoes
 	 */
 	@Test( expected = IllegalArgumentException.class )
 	@WithUserDetails("admin@email.com")
@@ -362,7 +378,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinoExercicios.sql"
 	})
-	public void updateTreinoExercicioMustFailInativo(){
+	public void updateTreinoExercicioMustFailMandatoryFieldSeries(){
 
 		TreinoExercicio treinoExercicio = this.treinoExercicioRepository
 				.findById(1002L)
@@ -370,7 +386,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 		
 		Assert.assertNotNull(treinoExercicio);
 		
-		treinoExercicio.setCarga(0);
+		treinoExercicio.setSeries(0);
 		
 		this.treinoExercicioService.updateTreinoExercicio(treinoExercicio);
 		
@@ -386,7 +402,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 		"/dataset/academia/treino/treinoExercicios.sql"
 	})
 	public void updateTreinoExercicioMustFailMandatoryFieldCarga(){
-
+		
 		TreinoExercicio treinoExercicio = this.treinoExercicioRepository
 				.findById(1002L)
 				.orElse(null);
@@ -483,8 +499,5 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 				.findTreinoExercicioById(100056115L);
 		
 	}
-
-	
-	//TODO fazer testes com filtros
 	
 }

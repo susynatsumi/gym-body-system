@@ -1,7 +1,5 @@
 package br.com.eits.boot.domain.service.academia.treino;
 
-import java.time.LocalDateTime;
-
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,15 +42,13 @@ public class TreinoExercicioService {
 		
 		Assert.notNull(
 			treinoExercicio,
-			MessageSourceHolder.translate("exercicio.service.null")
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.isNull(
 			treinoExercicio.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.null")
+			MessageSourceHolder.translate("service.object.id.null")
 		);
-		
-		treinoExercicio.setIsAtivo(true);
 		
 		validaTipoExercicioTreino(treinoExercicio);
 		
@@ -72,33 +68,17 @@ public class TreinoExercicioService {
 		
 		Assert.notNull(
 			treinoExercicio,
-			MessageSourceHolder.translate("exercicio.service.null")
+			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.notNull(
 			treinoExercicio.getId(),
-			MessageSourceHolder.translate("exercicio.service.id.not.null")
+			MessageSourceHolder.translate("service.object.id.not.null")
 		);
 		
 		validaTipoExercicioTreino(treinoExercicio);
 		
 		return this.treinoExercicioRepository.save(treinoExercicio);
-	}
-	
-	public TreinoExercicio inativarTreinoExercicio( Long id ){
-		
-		TreinoExercicio treinoExercicio = this.findTreinoExercicioById(id);
-		
-		Assert.notNull(
-			treinoExercicio,
-			MessageSourceHolder.translate("service.treino.exercicio.nao.encontrado")
-		);
-		
-		treinoExercicio.setIsAtivo(false);
-		treinoExercicio.setDataInativacao(LocalDateTime.now());
-		
-		return this.treinoExercicioRepository.save(treinoExercicio);
-		
 	}
 	
 	
@@ -107,11 +87,6 @@ public class TreinoExercicioService {
 	 * @param treinoExercicio
 	 */
 	private void validaTipoExercicioTreino(TreinoExercicio treinoExercicio){
-		
-		Assert.isTrue(
-			treinoExercicio.getIsAtivo(),
-			MessageSourceHolder.translate("service.treino.exercicio.status.inativo")
-		);
 		
 		if(TipoTreinoExercicio.CARGA_REPETICOES.equals(treinoExercicio.getTipoTreinoExercicio())){
 			Assert.isTrue(
