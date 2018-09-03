@@ -1,6 +1,5 @@
 package br.com.eits.boot.domain.repository.account;
 
-import java.time.OffsetDateTime;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -48,7 +47,7 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 			"	) AND ( "+
 			"			( "+
 			"				:listarAdministrador = false "+
-			"				AND pessoa.papeis not in ( 0 ) "+
+			"				AND 0 not in elements( pessoa.papeis ) "+
 			"			) "+
 			"			OR ( "+
 			"				:listarAdministrador = true "+
@@ -71,7 +70,7 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 		+ "		AND ( "
 		+ "				( "
 		+ "					:listarAdministrador = false "
-		+ "					AND pessoa.papeis not in ( 0 ) "
+		+ "					AND 0 not in elements( pessoa.papeis ) "
 		+ "				) OR ( "
 		+ "					:listarAdministrador = true	"
 		+ "				) "

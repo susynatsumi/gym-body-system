@@ -1,5 +1,6 @@
 package br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -111,18 +112,17 @@ public class Perimetria extends AbstractEntity {
 	@NotNull
 	@Column(nullable = false)
 	private Double panturrilhaEsquerda;
-	
-	@NotNull
-	@OneToOne(
-//		cascade = CascadeType.ALL,
-		fetch = FetchType.EAGER,
-		mappedBy = "perimetria",
-		optional = false,
-		orphanRemoval = false,
-		targetEntity = AvaliacaoFisica.class
-	) 
-	@PrimaryKeyJoinColumn
-	private AvaliacaoFisica avaliacaoFisica;
+//	
+//	@OneToOne(
+//		cascade = CascadeType.MERGE,
+//		fetch = FetchType.LAZY,
+//		mappedBy = "perimetria",
+//		optional = false,
+//		orphanRemoval = false,
+//		targetEntity = AvaliacaoFisica.class
+//	) 
+//	@PrimaryKeyJoinColumn
+//	private AvaliacaoFisica avaliacaoFisica;
 
 	
 	// ---------------------------------------------------------
@@ -172,8 +172,9 @@ public class Perimetria extends AbstractEntity {
 			Double coxaDistalDireita,
 			Double coxaDistalEsquerda, 
 			Double panturrilhaDireita,
-			Double panturrilhaEsquerda, 
-			AvaliacaoFisica avaliacaoFisica
+			Double panturrilhaEsquerda
+//			, 
+//			AvaliacaoFisica avaliacaoFisica
 	) {
 		super( id );
 		this.pescoco = pescoco;
@@ -195,7 +196,7 @@ public class Perimetria extends AbstractEntity {
 		this.coxaDistalEsquerda = coxaDistalEsquerda;
 		this.panturrilhaDireita = panturrilhaDireita;
 		this.panturrilhaEsquerda = panturrilhaEsquerda;
-		this.avaliacaoFisica = avaliacaoFisica;
+//		this.avaliacaoFisica = avaliacaoFisica;
 	}
 
 	/**

@@ -19,7 +19,7 @@ spring:
 
 #JPA
   jpa:
-    hibernate.ddl-auto: validate
+    hibernate.ddl-auto: create
     show-sql: true
     open-in-view: false
     properties:
@@ -49,7 +49,7 @@ spring:
     host: expressodev.prognus.com.br
     port: 25
     username: no-reply
-    password: soAsx2gGX6Rbhk
+    password: 1sdklajfçklaçfjklsajajçklsajklçsa
     properties:
       mail.smtp.starttls.enable: false
       mail.smtp.starttls.required: false

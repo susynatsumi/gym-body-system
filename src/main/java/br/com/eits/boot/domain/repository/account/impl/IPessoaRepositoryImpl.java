@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 
 /**
@@ -39,25 +40,32 @@ public class IPessoaRepositoryImpl implements UserDetailsService
 	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
 	@Override
-	@Transactional
+	@Transactional( readOnly = true )
 	public UserDetails loadUserByUsername( String login ) throws UsernameNotFoundException
 	{
 		try
 		{
 			final String hql = "FROM Pessoa pessoa "
-							+ "WHERE "
-							+ "		pessoa.login is not null "
-							+ "		AND pessoa.login = :login "
-							+ "		AND pessoa.isAtivo = true" // somente ativos podem logar
-							+ "		AND pessoa.papeis not in ( 2 ) "; // alunos não podem logar no sistema
+					+ "WHERE "
+					+ "		pessoa.login is not null "
+					+ "		AND pessoa.login = :login "
+					+ "		AND pessoa.isAtivo = true " // somente ativos podem logar
+					+ "		AND ( "
+					+ "				exists( select 1 from pessoa.papeis papel where papel <> :papelAluno ) "
+					+ "		) "; // alunos não podem logar no sistema
+			
+//			1 in elements(pessoa.papeis) "
 			
 			final TypedQuery<Pessoa> query = this.entityManager.createQuery( hql, Pessoa.class );
-			query.setParameter( "login", login);
+			query.setParameter( "login", login );
+			query.setParameter( "papelAluno", Papel.ALUNO);
 			
-			return query.getSingleResult();
+			UserDetails u = query.getSingleResult();
+			return u;
 		}
 		catch (NoResultException e)
 		{
+			e.printStackTrace();
 			throw new UsernameNotFoundException("Este login: '"+login+"' é inválido");
 		}
 	}

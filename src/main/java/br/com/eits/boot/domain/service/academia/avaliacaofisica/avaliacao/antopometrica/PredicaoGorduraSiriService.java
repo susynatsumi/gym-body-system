@@ -25,7 +25,7 @@ public class PredicaoGorduraSiriService {
 	 * @param resposta
 	 * @return
 	 */
-	public PredicaoGorduraSiri insertResposta( PredicaoGorduraSiri predicaoGorduraSiri ){
+	public PredicaoGorduraSiri insertPredicaoGorduraSiri( PredicaoGorduraSiri predicaoGorduraSiri ){
 		
 		Assert.notNull(
 			predicaoGorduraSiri,
@@ -47,7 +47,7 @@ public class PredicaoGorduraSiriService {
 	 * @param resposta
 	 * @return
 	 */
-	public PredicaoGorduraSiri updateResposta( PredicaoGorduraSiri predicaoGorduraSiri ){
+	public PredicaoGorduraSiri updatePredicaoGorduraSiri( PredicaoGorduraSiri predicaoGorduraSiri ){
 		
 		Assert.notNull(
 			predicaoGorduraSiri,
@@ -70,7 +70,7 @@ public class PredicaoGorduraSiriService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public PredicaoGorduraSiri findRespostaById( long id ){
+	public PredicaoGorduraSiri findPredicaoGorduraSiriById( long id ){
 		return this.predicaoGorduraSiriRepository
 				.findById(id)
 				.orElseThrow(() ->

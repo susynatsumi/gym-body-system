@@ -1,13 +1,12 @@
 package br.com.eits.boot.test.domain.entity.account;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.entity.account.Papel;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.test.domain.AbstractUnitTests;
 
 /**
@@ -33,9 +32,7 @@ public class PessoaTests extends AbstractUnitTests
 	{
 		final Pessoa user = new Pessoa();
 		
-		List<Papel> papeis = Arrays.asList(Papel.ADMINISTRATOR);
-
-		user.setPapeis(papeis);
+		user.setPapeis(Collections.singleton(Papel.ADMINISTRATOR));
 		
 		Assert.assertNotNull( user.getAuthorities() );
 		Assert.assertTrue( user.getAuthorities().contains( Papel.ADMINISTRATOR ) );

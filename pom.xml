@@ -22,12 +22,12 @@
 		<java.version>1.8</java.version>
 		
 		<!-- Sonar Properties -->
-        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+<!--         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.language>java</sonar.language>
         <sonar.jacoco.itReportPath>target/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.sources>src/main/java/br/com/eits/boot</sonar.sources>
-        <sonar.tests>src/test</sonar.tests>
+        <sonar.tests>src/test</sonar.tests> -->
         
 		<!-- Others -->
 		<eits-java-common.version>5.0.0-SNAPSHOT</eits-java-common.version>
@@ -167,7 +167,7 @@
 			</plugin>
       		
       		<!-- Sonar/Jacoco Integration -->
-  			<plugin>
+  			<!-- <plugin>
             	<groupId>org.jacoco</groupId>
             	<artifactId>jacoco-maven-plugin</artifactId>
             	<version>0.7.9</version>
@@ -206,7 +206,7 @@
 	                    </configuration>
 	                </execution>
             	</executions>
-        	</plugin>
+        	</plugin> -->
 
 			<plugin>
 				<groupId>br.com.eits.codegen</groupId>
@@ -318,7 +318,7 @@
 		
 	</build>
 	
-	<reporting>
+	<!-- <reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -326,7 +326,7 @@
 				<version>${sonar.plugin.version}</version>
 			</plugin>
 		</plugins>
-	</reporting>
+	</reporting> -->
 
 	<!-- Dependencies -->	
 	<dependencies>

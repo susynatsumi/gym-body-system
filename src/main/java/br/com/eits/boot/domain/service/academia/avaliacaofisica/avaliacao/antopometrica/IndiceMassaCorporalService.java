@@ -25,7 +25,7 @@ public class IndiceMassaCorporalService {
 	 * @param resposta
 	 * @return
 	 */
-	public IndiceMassaCorporal insertResposta( IndiceMassaCorporal indiceMassaCorporal ){
+	public IndiceMassaCorporal insertIndiceMassaCorporal( IndiceMassaCorporal indiceMassaCorporal ){
 		
 		Assert.notNull(
 			indiceMassaCorporal,
@@ -47,20 +47,20 @@ public class IndiceMassaCorporalService {
 	 * @param resposta
 	 * @return
 	 */
-	public IndiceMassaCorporal updateResposta( IndiceMassaCorporal dobrasCutaneas ){
+	public IndiceMassaCorporal updateIndiceMassaCorporal( IndiceMassaCorporal indiceMassaCorporal ){
 		
 		Assert.notNull(
-			dobrasCutaneas,
+			indiceMassaCorporal,
 			MessageSourceHolder.translate("service.object.null")
 		);
 		
 		Assert.notNull(
-			dobrasCutaneas.getId(), 
+			indiceMassaCorporal.getId(), 
 			MessageSourceHolder.translate("service.object.id.not.null")
 		);
 			
 		
-		return this.indiceMassaCorporalRepository.save( dobrasCutaneas );
+		return this.indiceMassaCorporalRepository.save( indiceMassaCorporal );
 		
 	}
 	
@@ -70,7 +70,7 @@ public class IndiceMassaCorporalService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public IndiceMassaCorporal findRespostaById( long id ){
+	public IndiceMassaCorporal findIndiceMassaCorporalById( long id ){
 		return this.indiceMassaCorporalRepository
 				.findById(id)
 				.orElseThrow(() ->

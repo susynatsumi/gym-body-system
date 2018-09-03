@@ -8,7 +8,10 @@ import javax.persistence.Transient;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.AbstractEntityAvaliacaoAntropometrica;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometrica;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.DobrasCutaneas;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
 //import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @DataTransferObject
 @EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn
-public class ProtocoloGuedes extends AbstractEntityAvaliacaoAntropometrica {
+public class ProtocoloGuedes extends AvaliacaoAntropometrica implements IProtocoloAvaliacaoAntropometrica {
 
 	/**
 	 * 
@@ -39,6 +42,42 @@ public class ProtocoloGuedes extends AbstractEntityAvaliacaoAntropometrica {
 		// TODO verficar isso aqui como fazer
 		
 	}
+
+	
+	
+	// -----------------------------------------------
+	// ------------------- CONSTRUCTORS --------------
+	// -----------------------------------------------
+	
+	/**
+	 * @param id
+	 * @param dobrasCutaneas
+	 * @param indiceMassaCorporal
+	 * @param predicaoGorduraSiri
+	 */
+	public ProtocoloGuedes(
+		Long id, 
+		DobrasCutaneas dobrasCutaneas, 
+		IndiceMassaCorporal indiceMassaCorporal,
+		PredicaoGorduraSiri predicaoGorduraSiri
+	) {
+		super(id, dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri);
+	}
+
+	/**
+	 * @param id
+	 */
+	public ProtocoloGuedes(Long id) {
+		super(id);
+	}
+
+	/**
+	 * Constructor default
+	 */
+	public ProtocoloGuedes() {
+	}
+	
+	
 
 	
 }

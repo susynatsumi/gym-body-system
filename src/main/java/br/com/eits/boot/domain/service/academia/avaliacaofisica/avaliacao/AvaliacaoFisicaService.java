@@ -25,7 +25,7 @@ public class AvaliacaoFisicaService {
 	 * @param avaliacaoFisica
 	 * @return
 	 */
-	public AvaliacaoFisica insertResposta( AvaliacaoFisica avaliacaoFisica ){
+	public AvaliacaoFisica insertAvaliacaoFisica( AvaliacaoFisica avaliacaoFisica ){
 		
 		Assert.notNull(
 			avaliacaoFisica,
@@ -47,7 +47,7 @@ public class AvaliacaoFisicaService {
 	 * @param avaliacaoFisica
 	 * @return
 	 */
-	public AvaliacaoFisica updateResposta( AvaliacaoFisica avaliacaoFisica ){
+	public AvaliacaoFisica updateAvaliacaoFisica( AvaliacaoFisica avaliacaoFisica ){
 		
 		Assert.notNull(
 			avaliacaoFisica,
@@ -70,7 +70,7 @@ public class AvaliacaoFisicaService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public AvaliacaoFisica findRespostaById( long id ){
+	public AvaliacaoFisica findAvaliacaoFisicaById( long id ){
 		return this.iAvaliacaoFisicaRepository
 				.findById(id)
 				.orElseThrow(() ->

@@ -3,7 +3,6 @@ package br.com.eits.boot.domain.entity.account;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -115,10 +114,10 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	 */
 	@NotNull
 	@ElementCollection(fetch = FetchType.EAGER, targetClass= Papel.class)
+	@Enumerated(EnumType.ORDINAL)
 	@CollectionTable
 	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
-	private List<Papel> papeis;
+	private Set<Papel> papeis;
 	
 	/**
 	 * 
@@ -160,7 +159,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 			String nome,
 			String email, 
 			Boolean isAtivo,
-			List<Papel> papeis, 
+			Set<Papel> papeis, 
 			String senha, 
 			LocalDate dataNascimento ,
 			Genero genero

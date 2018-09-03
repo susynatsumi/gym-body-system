@@ -1,5 +1,6 @@
 package br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.anamnese;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -63,15 +64,15 @@ public class Resposta extends AbstractEntity {
 	private String observacao;
 
 	// referencia da avaliacao fisica
-	@OneToOne(
+//	@OneToOne(
 //		cascade = CascadeType.MERGE,
-		fetch = FetchType.EAGER,
-		mappedBy = "resposta",
-		optional = false,
-		orphanRemoval = false,
-		targetEntity = AvaliacaoFisica.class
-	) 
-	private AvaliacaoFisica avaliacaoFisica;
+//		fetch = FetchType.LAZY,
+//		mappedBy = "resposta",
+//		optional = false,
+//		orphanRemoval = false,
+//		targetEntity = AvaliacaoFisica.class
+//	) 
+//	private AvaliacaoFisica avaliacaoFisica;
 	
 	
 	// -----------------------------------
@@ -109,8 +110,8 @@ public class Resposta extends AbstractEntity {
 		String medicamento,
 		String cirurgia, 
 		String doencaFamiliar, 
-		String observacao, 
-		AvaliacaoFisica avaliacaoFisica
+		String observacao
+//		, AvaliacaoFisica avaliacaoFisica
 	) {
 		super(id);
 		this.objetivosAtividadeFisica = objetivosAtividadeFisica;
@@ -119,7 +120,7 @@ public class Resposta extends AbstractEntity {
 		this.cirurgia = cirurgia;
 		this.doencaFamiliar = doencaFamiliar;
 		this.observacao = observacao;
-		this.avaliacaoFisica = avaliacaoFisica;
+//		this.avaliacaoFisica = avaliacaoFisica;
 	}
 
 }

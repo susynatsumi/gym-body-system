@@ -9,9 +9,8 @@ SET default_with_oids = false;
 SET search_path TO public;
 
 TRUNCATE "pessoa" CASCADE;
+TRUNCATE "pessoa_papeis" CASCADE;
 
-
-  
 INSERT INTO pessoa(
     id, 
     created, 
@@ -35,7 +34,7 @@ VALUES (
 	0, 
 	true, 
     null, 
-    'admin', 
+    'admin@email.com', 
     'Administrador', 
     null, 
     '$2a$04$r0laAzBSKnwe7/7rC1KD7upN2l2gaGyQRS5BK1mh0G/uEJR3iBuaC'
@@ -86,19 +85,19 @@ VALUES (
 	0, 
 	true, 
     null, 
-    'User 012', 
-    'Administrador', 
+    'user@admin.com', 
+    'user teste', 
     null, 
     '$2a$04$r0laAzBSKnwe7/7rC1KD7upN2l2gaGyQRS5BK1mh0G/uEJR3iBuaC'
 );
   
-INSERT INTO pessoa_papeis(
-            pessoa_id, papeis)
-    VALUES (1012, 0);
-    
-INSERT INTO pessoa_papeis(
-            pessoa_id, papeis)
-    VALUES (1012, 1);
+--INSERT INTO pessoa_papeis(
+--            pessoa_id, papeis)
+--    VALUES (1012, 0);
+--    
+--INSERT INTO pessoa_papeis(
+--            pessoa_id, papeis)
+--    VALUES (1012, 1);
     
 INSERT INTO pessoa_papeis(
             pessoa_id, papeis)

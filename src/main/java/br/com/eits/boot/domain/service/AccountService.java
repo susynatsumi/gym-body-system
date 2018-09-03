@@ -15,7 +15,6 @@ import org.springframework.util.Assert;
 import br.com.eits.boot.application.security.RequestContext;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
-import br.com.eits.boot.domain.repository.IAccountMailRepository;
 import br.com.eits.boot.domain.repository.account.IPessoaRepository;
 
 /**
@@ -42,8 +41,8 @@ public class AccountService
 	@Autowired
 	private IPessoaRepository pessoaRepository;
 
-	@Autowired
-	private IAccountMailRepository accountMailRepository;
+//	@Autowired
+//	private IAccountMailRepository accountMailRepository;
 
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
@@ -61,7 +60,7 @@ public class AccountService
 		user.setSenha( this.passwordEncoder.encode( (user.getPassword() == null? "" : user.getPassword() ) ) );
 
 		user = this.pessoaRepository.save( user );
-		this.accountMailRepository.sendNewUserAccount( user );
+//		this.accountMailRepository.sendNewUserAccount( user );
 		return user;
 	}
 
@@ -95,7 +94,8 @@ public class AccountService
 		
 		return this.pessoaRepository.findById( 
 			id ,
-			pessoaSession.getPapeis().contains(Papel.ADMINISTRATOR)
+			pessoaSession != null 
+				&& pessoaSession.getPapeis().contains(Papel.ADMINISTRATOR)
 		)
 		.orElseThrow( 
 			() -> new IllegalArgumentException( 
@@ -122,7 +122,8 @@ public class AccountService
 		return this.pessoaRepository.listPessoaByFilters(
 			filtro, 
 			isAtivo, 
-			pessoaSession.getPapeis().contains(Papel.ADMINISTRATOR),// verifica se pode ou não listar administradores 
+			pessoaSession != null 
+				&& pessoaSession.getPapeis().contains(Papel.ADMINISTRATOR),// verifica se pode ou não listar administradores 
 			pageRequest
 		);
 	}

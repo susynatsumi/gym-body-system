@@ -1,10 +1,7 @@
 package br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -46,16 +43,16 @@ public class PredicaoGorduraSiri extends AbstractEntity{
 	private Double gordura; //medida final da gordura pelo resultado da divisão e porcentagem
 	
 	// referencia ao protocolo
-	@NotNull
-	@OneToOne(
-		cascade = CascadeType.MERGE,
-		fetch = FetchType.EAGER,
-		mappedBy = "predicaoGorduraSiri",
-		optional = false,
-		orphanRemoval = false,
-		targetEntity = AbstractEntityAvaliacaoAntropometrica.class
-	) 
-	private AbstractEntityAvaliacaoAntropometrica abstractEntityAvaliacaoAntropometrica;
+//	@NotNull
+//	@OneToOne(
+//		cascade = CascadeType.MERGE,
+//		fetch = FetchType.LAZY,
+//		mappedBy = "predicaoGorduraSiri",
+//		optional = false,
+//		orphanRemoval = false,
+//		targetEntity = AvaliacaoAntropometrica.class
+//	) 
+//	private AvaliacaoAntropometrica abstractEntityAvaliacaoAntropometrica;
 
 	/*-------------------------------------------------------------------
 	 *			MÉTODOS DE CÁLCULOS E DENSIDADE CORPORAL
@@ -74,13 +71,13 @@ public class PredicaoGorduraSiri extends AbstractEntity{
 	public PredicaoGorduraSiri(
 		Long id, 
 		Double densidadeCorporal, 
-		Double gordura,
-		AbstractEntityAvaliacaoAntropometrica abstractEntityAvaliacaoAntropometrica
+		Double gordura
+//		AvaliacaoAntropometrica abstractEntityAvaliacaoAntropometrica
 	) {
 		super(id);
 		this.densidadeCorporal = densidadeCorporal;
 		this.gordura = gordura;
-		this.abstractEntityAvaliacaoAntropometrica = abstractEntityAvaliacaoAntropometrica;
+//		this.abstractEntityAvaliacaoAntropometrica = abstractEntityAvaliacaoAntropometrica;
 	}
 	
 	/**

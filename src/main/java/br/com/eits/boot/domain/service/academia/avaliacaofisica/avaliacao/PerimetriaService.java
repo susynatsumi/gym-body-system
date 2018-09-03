@@ -26,7 +26,7 @@ public class PerimetriaService {
 	 * @param perimetria
 	 * @return
 	 */
-	public Perimetria insertResposta( Perimetria perimetria ){
+	public Perimetria insertPerimetria( Perimetria perimetria ){
 		
 		Assert.notNull(
 			perimetria,
@@ -48,7 +48,7 @@ public class PerimetriaService {
 	 * @param perimetria
 	 * @return
 	 */
-	public Perimetria updateResposta( Perimetria perimetria ){
+	public Perimetria updatePerimetria( Perimetria perimetria ){
 		
 		Assert.notNull(
 			perimetria,
@@ -71,7 +71,7 @@ public class PerimetriaService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public Perimetria findRespostaById( long id ){
+	public Perimetria findPerimetriaById( long id ){
 		return this.perimetriaRepository
 				.findById(id)
 				.orElseThrow(() ->

@@ -2,13 +2,11 @@ package br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopo
 
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -34,11 +32,13 @@ public class IndiceMassaCorporal extends AbstractEntity {
 	private static final long serialVersionUID = -2658777917083420385L;
 
 	// altura em metros da pessoa para calculo imc
+	@Min(0)
 	@NotNull
 	@Column( nullable = false )
 	private BigDecimal altura;
 	
 	// peso em kg pessoa para calculo imc
+	@Min(0)
 	@NotNull
 	@Column( nullable = false )
 	private BigDecimal peso;
@@ -46,13 +46,13 @@ public class IndiceMassaCorporal extends AbstractEntity {
 //	@NotNull
 //	@OneToOne(
 //		cascade = CascadeType.MERGE,
-//		fetch = FetchType.EAGER,
+//		fetch = FetchType.LAZY,
 //		mappedBy = "indiceMassaCorporal",
 //		optional = false,
 //		orphanRemoval = false,
-//		targetEntity = AbstractEntityAvaliacaoAntropometrica.class
+//		targetEntity = AvaliacaoAntropometrica.class
 //	)
-//	private AbstractEntityAvaliacaoAntropometrica abstractEntityAvaliacaoAntropometrica;
+//	private AvaliacaoAntropometrica abstractEntityAvaliacaoAntropometrica;
 	
 	
 	// ------------------------------------------------
@@ -82,6 +82,39 @@ public class IndiceMassaCorporal extends AbstractEntity {
 		
 		return peso.divide(alturaAoQuadrado, BigDecimal.ROUND_HALF_EVEN);
 		
+	}
+
+	// -------------------------------------------------------
+	// ------------------- CONSTRUCTORS ----------------------
+	// -------------------------------------------------------
+	
+	/**
+	 * @param id
+	 * @param altura
+	 * @param peso
+	 */
+	public IndiceMassaCorporal(
+		Long id, 
+		BigDecimal altura, 
+		BigDecimal peso
+	) {
+		super(id);
+		this.altura = altura;
+		this.peso = peso;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public IndiceMassaCorporal( Long id ) {
+		super(id);
+	}
+
+	/**
+	 * Constructor default
+	 */
+	public IndiceMassaCorporal() {
 	}
 	
 }

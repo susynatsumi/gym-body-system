@@ -1,7 +1,7 @@
 package br.com.eits.boot.test.domain.service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Collections;
 
 import javax.validation.ValidationException;
 
@@ -15,10 +15,10 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
 
-import br.com.eits.boot.domain.entity.account.Pessoa;
-import br.com.eits.boot.domain.repository.account.IPessoaRepository;
 import br.com.eits.boot.domain.entity.academia.pessoa.Genero;
 import br.com.eits.boot.domain.entity.account.Papel;
+import br.com.eits.boot.domain.entity.account.Pessoa;
+import br.com.eits.boot.domain.repository.account.IPessoaRepository;
 import br.com.eits.boot.domain.service.AccountService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
@@ -70,7 +70,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 			"Testing user", 
 			"teste.emial@email.com", 
 			true, 
-			Arrays.asList(Papel.ALUNO), 
+			Collections.singleton(Papel.ALUNO), 
 			"user", 
 			LocalDate.of(1995, 5, 1),
 			Genero.MASCULINO
@@ -103,7 +103,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 			null, 
 			"teste.emial@email.com", 
 			true, 
-			Arrays.asList(Papel.ALUNO), 
+			Collections.singleton(Papel.ALUNO), 
 			"aluno" ,
 			LocalDate.of(1995, 5, 1),
 			Genero.FEMININO
@@ -127,7 +127,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 			"Teste", 
 			null, 
 			true, 
-			Arrays.asList(Papel.ALUNO), 
+			Collections.singleton(Papel.ALUNO),  
 			"aluno",
 			LocalDate.of(1995, 5, 1),
 			Genero.FEMININO
@@ -317,12 +317,12 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void findUserByIdMustPass()
 	{
-		final Pessoa user = this.accountService.findPessoaById( 1011L );
+		final Pessoa user = this.accountService.findPessoaById( 1012L );
 	
 		Assert.assertNotNull( user );
 		Assert.assertNotNull( user.getId() );
 		Assert.assertNotNull( user.getCreated() );
-		Assert.assertEquals( "admin@email.com", user.getEmail() );
+		Assert.assertEquals( "teste012@admin.com", user.getEmail() );
 	}
 	
 	/**

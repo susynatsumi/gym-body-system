@@ -7,13 +7,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @Table
 @EqualsAndHashCode(callSuper=true)
 @DataTransferObject
-public abstract class AbstractEntityAvaliacaoAntropometrica extends AbstractEntity {
+public class AvaliacaoAntropometrica extends AbstractEntity {
 
 	/**
 	 * 
@@ -37,23 +35,23 @@ public abstract class AbstractEntityAvaliacaoAntropometrica extends AbstractEnti
 	 * Realiza o calculo da densidade corporal de acordo com o protocolo 
 	 * 
 	 */
-	@Transient
-	public abstract void equacaoHomem();
+//	@Transient
+//	public abstract void equacaoHomem();
 	
 	/**
 	 * Realiza o calculo da densidade corporal de acordo com o protocolo 
 	 * 
 	 */
-	@Transient
-	public abstract void equacaoMulher();
+//	@Transient
+//	public abstract void equacaoMulher();
 	
 	// medidas das dobras cutaneas
 	@NotNull
 	@OneToOne(
 		cascade = CascadeType.ALL,
-		fetch = FetchType.EAGER,
-//		optional = false,
-//		targetEntity = DobrasCutaneas.class,
+		fetch = FetchType.LAZY,
+		optional = false,
+		targetEntity = DobrasCutaneas.class,
 //		mappedBy = "abstractEntityAvaliacaoAntropometrica",
 		orphanRemoval = true
 	)
@@ -63,9 +61,9 @@ public abstract class AbstractEntityAvaliacaoAntropometrica extends AbstractEnti
 	@NotNull
 	@OneToOne(
 		cascade = CascadeType.ALL,
-		fetch = FetchType.EAGER,
-//		optional = true,
-//		targetEntity = IndiceMassaCorporal.class,
+		fetch = FetchType.LAZY,
+		optional = true,
+		targetEntity = IndiceMassaCorporal.class,
 //		mappedBy = "abstractEntityAvaliacaoAntropometrica",
 		orphanRemoval = true
 	)
@@ -75,24 +73,61 @@ public abstract class AbstractEntityAvaliacaoAntropometrica extends AbstractEnti
 	@NotNull
 	@OneToOne(
 		cascade = CascadeType.ALL,
-		fetch = FetchType.EAGER,
-//		optional = true,
-//		targetEntity = PredicaoGorduraSiri.class,
+		fetch = FetchType.LAZY,
+		optional = true,
+		targetEntity = PredicaoGorduraSiri.class,
 //		mappedBy = "abstractEntityAvaliacaoAntropometrica",
 		orphanRemoval = true
 	)
 	private PredicaoGorduraSiri predicaoGorduraSiri;
 //	
 //	// referencia da avaliacao fisica
-	@NotNull
-	@OneToOne(
+//	@NotNull
+//	@OneToOne(
 //		cascade = CascadeType.MERGE,
-		fetch = FetchType.EAGER
-//		optional = true,
-//		targetEntity = AvaliacaoFisica.class,
-//		mappedBy = "abstractEntityAvaliacaoAntropometrica",
-//		orphanRemoval = false
-	)
-	private AvaliacaoFisica avaliacaoFisica;
+//		fetch = FetchType.LAZY
+////		optional = true,
+////		targetEntity = AvaliacaoFisica.class,
+////		mappedBy = "abstractEntityAvaliacaoAntropometrica",
+////		orphanRemoval = false
+//	)
+//	private AvaliacaoFisica avaliacaoFisica;
+
+	// ------------------------------------------------
+	// ----------------- CONSTRUTORS ------------------
+	// ------------------------------------------------
+	
+
+	/**
+	 * @param id
+	 * @param dobrasCutaneas
+	 * @param indiceMassaCorporal
+	 * @param predicaoGorduraSiri
+	 */
+	public AvaliacaoAntropometrica(
+		Long id, 
+		DobrasCutaneas dobrasCutaneas,
+		IndiceMassaCorporal indiceMassaCorporal, 
+		PredicaoGorduraSiri predicaoGorduraSiri
+	) {
+		super(id);
+		this.dobrasCutaneas = dobrasCutaneas;
+		this.indiceMassaCorporal = indiceMassaCorporal;
+		this.predicaoGorduraSiri = predicaoGorduraSiri;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public AvaliacaoAntropometrica( Long id ) {
+		super(id);
+	}
+
+	/**
+	 * Constructor default
+	 */
+	public AvaliacaoAntropometrica() {
+	}
 	
 }

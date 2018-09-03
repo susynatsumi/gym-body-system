@@ -25,7 +25,7 @@ public class DobrasCutaneasService {
 	 * @param resposta
 	 * @return
 	 */
-	public DobrasCutaneas insertResposta( DobrasCutaneas dobrasCutaneas ){
+	public DobrasCutaneas insertDobraCutanea( DobrasCutaneas dobrasCutaneas ){
 		
 		Assert.notNull(
 			dobrasCutaneas,
@@ -47,7 +47,7 @@ public class DobrasCutaneasService {
 	 * @param resposta
 	 * @return
 	 */
-	public DobrasCutaneas updateResposta( DobrasCutaneas dobrasCutaneas ){
+	public DobrasCutaneas updateDobraCutanea( DobrasCutaneas dobrasCutaneas ){
 		
 		Assert.notNull(
 			dobrasCutaneas,
@@ -70,7 +70,7 @@ public class DobrasCutaneasService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public DobrasCutaneas findRespostaById( long id ){
+	public DobrasCutaneas findDobraCutaneaById( long id ){
 		return this.dobrasCutaneasRepository
 				.findById(id)
 				.orElseThrow(() ->
