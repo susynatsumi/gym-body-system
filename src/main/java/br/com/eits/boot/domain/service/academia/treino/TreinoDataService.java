@@ -32,7 +32,7 @@ public class TreinoDataService {
 	private ITreinoDataRepository treinoDataRepository;
 	
 //	@Autowired
-//	private ExercicioTreinoDataService exercicioTreinoDataService;
+//	private ExercicioRealizadoService exercicioTreinoDataService;
 	
 	// ------------------------------------
 	// -------------- MÉTODOS -------------

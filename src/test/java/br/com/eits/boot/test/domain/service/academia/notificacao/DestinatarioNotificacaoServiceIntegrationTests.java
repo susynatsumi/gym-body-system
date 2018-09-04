@@ -38,15 +38,15 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	// ------------------------------------------------------
 	
 	/**
-	 * Insere uma nova pessoa notificacao notificação
+	 * Insere uma nova destinatario notificacao
 	 */
 	@Test
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void insertPessoaNotificacaoMustPass(){
+	public void insertDestinatarioNotificacaoMustPass(){
 
 		final Pessoa pessoa = this.pessoaRepository
 				.findById(1014L)
@@ -56,16 +56,16 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 				.findById(1000L)
 				.orElse(null);
 		
-		DestinatarioNotificacao pessoaNotificacao = new DestinatarioNotificacao(
+		DestinatarioNotificacao DestinatarioNotificacao = new DestinatarioNotificacao(
 			pessoa, 
 			notificacao
 		);
 		
-		pessoaNotificacao = this.destinatarioNotificacaoService
-				.insertPessoaNotificacao(pessoaNotificacao);
+		DestinatarioNotificacao = this.destinatarioNotificacaoService
+				.insertDestinatarioNotificacao(DestinatarioNotificacao);
 		
-		Assert.assertNotNull(pessoaNotificacao);
-		Assert.assertNotNull(pessoaNotificacao.getId());
+		Assert.assertNotNull(DestinatarioNotificacao);
+		Assert.assertNotNull(DestinatarioNotificacao.getId());
 		
 	}
 	
@@ -76,21 +76,21 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void insertPessoaNotificacaoMustFailForeignKeyPessoa(){
+	public void insertDestinatarioNotificacaoMustFailForeignKeyPessoa(){
 		
 		final Notificacao notificacao = this.notificacaoRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		DestinatarioNotificacao pessoaNotificacao = new DestinatarioNotificacao(
+		DestinatarioNotificacao DestinatarioNotificacao = new DestinatarioNotificacao(
 			null, // pessoa 
 			notificacao
 		);
 		
-		pessoaNotificacao = this.destinatarioNotificacaoService
-				.insertPessoaNotificacao(pessoaNotificacao);
+		DestinatarioNotificacao = this.destinatarioNotificacaoService
+				.insertDestinatarioNotificacao(DestinatarioNotificacao);
 	}
 	
 	/**
@@ -100,21 +100,21 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void insertPessoaNotificacaoMustFailForeignKeyNotificacao(){
+	public void insertDestinatarioNotificacaoMustFailForeignKeyNotificacao(){
 		
 		final Pessoa pessoa = this.pessoaRepository
 				.findById(1014L)
 				.orElse(null);
 		
-		DestinatarioNotificacao pessoaNotificacao = new DestinatarioNotificacao(
+		DestinatarioNotificacao DestinatarioNotificacao = new DestinatarioNotificacao(
 			pessoa, 
 			null // notificacao
 		);
 		
-		pessoaNotificacao = this.destinatarioNotificacaoService
-				.insertPessoaNotificacao(pessoaNotificacao);		
+		DestinatarioNotificacao = this.destinatarioNotificacaoService
+				.insertDestinatarioNotificacao(DestinatarioNotificacao);		
 	}
 	
 	/**
@@ -124,9 +124,9 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void insertPessoaNotificacaoMustFailUniquePessoaNotificacao(){
+	public void insertDestinatarioNotificacaoMustFailUniqueDestinatarioNotificacao(){
 
 		final Pessoa pessoa = this.pessoaRepository
 				.findById(1011L)
@@ -136,13 +136,13 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 				.findById(1002L)
 				.orElse(null);
 		
-		DestinatarioNotificacao pessoaNotificacao = new DestinatarioNotificacao(
+		DestinatarioNotificacao DestinatarioNotificacao = new DestinatarioNotificacao(
 			pessoa, 
 			notificacao
 		);
 		
-		pessoaNotificacao = this.destinatarioNotificacaoService
-				.insertPessoaNotificacao(pessoaNotificacao);
+		DestinatarioNotificacao = this.destinatarioNotificacaoService
+				.insertDestinatarioNotificacao(DestinatarioNotificacao);
 		
 	}
 	
@@ -157,31 +157,31 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void updatePessoaNotificacaoMustPass(){
+	public void updateDestinatarioNotificacaoMustPass(){
 
 		Pessoa pessoa = this.pessoaRepository
 				.findById(1014L)
 				.orElse(null);
 		
-		DestinatarioNotificacao pessoaNotificacao = this.destinatarioNotificacaoRepository
+		DestinatarioNotificacao DestinatarioNotificacao = this.destinatarioNotificacaoRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		Assert.assertNotNull(pessoaNotificacao);
+		Assert.assertNotNull(DestinatarioNotificacao);
 		
-		pessoaNotificacao.setPessoa(pessoa);
+		DestinatarioNotificacao.setPessoa(pessoa);
 		
-		this.destinatarioNotificacaoService.updatePessoaNotificacao(pessoaNotificacao);
+		this.destinatarioNotificacaoService.updateDestinatarioNotificacao(DestinatarioNotificacao);
 		
-		pessoaNotificacao = this.destinatarioNotificacaoRepository
+		DestinatarioNotificacao = this.destinatarioNotificacaoRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		Assert.assertNotNull(pessoaNotificacao);
-		Assert.assertNotNull(pessoaNotificacao.getId());
-		Assert.assertEquals(pessoa.getId(), pessoaNotificacao.getPessoa().getId());
+		Assert.assertNotNull(DestinatarioNotificacao);
+		Assert.assertNotNull(DestinatarioNotificacao.getId());
+		Assert.assertEquals(pessoa.getId(), DestinatarioNotificacao.getPessoa().getId());
 		
 	}
 	
@@ -192,17 +192,17 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void updatePessoaNotificacaoMustFailForeignKeyPessoa(){
+	public void updateDestinatarioNotificacaoMustFailForeignKeyPessoa(){
 
-		DestinatarioNotificacao pessoaNotificacao = this.destinatarioNotificacaoRepository
+		DestinatarioNotificacao DestinatarioNotificacao = this.destinatarioNotificacaoRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		pessoaNotificacao.setPessoa(null);
+		DestinatarioNotificacao.setPessoa(null);
 		
-		this.destinatarioNotificacaoService.updatePessoaNotificacao(pessoaNotificacao);
+		this.destinatarioNotificacaoService.updateDestinatarioNotificacao(DestinatarioNotificacao);
 		
 	}
 	
@@ -213,17 +213,17 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void updatePessoaNotificacaoMustFailForeignKeyNotificacao(){
+	public void updateDestinatarioNotificacaoMustFailForeignKeyNotificacao(){
 		
-		DestinatarioNotificacao pessoaNotificacao = this.destinatarioNotificacaoRepository
+		DestinatarioNotificacao DestinatarioNotificacao = this.destinatarioNotificacaoRepository
 				.findById(1000L)
 				.orElse(null);
 		
-		pessoaNotificacao.setNotificacao(null);
+		DestinatarioNotificacao.setNotificacao(null);
 		
-		this.destinatarioNotificacaoService.updatePessoaNotificacao(pessoaNotificacao);
+		this.destinatarioNotificacaoService.updateDestinatarioNotificacao(DestinatarioNotificacao);
 		
 	}
 	
@@ -232,21 +232,21 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	// ------------------------------------------------------
 
 	/**
-	 * Busca de pessoa notificacao por id, que deve ser realizada com sucesso
+	 * Busca de destinatario notificacao por id, que deve ser realizada com sucesso
 	 */
 	@Test
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void findPessoaNotificacaoMustPassById(){
+	public void findDestinatarioNotificacaoMustPassById(){
 
-		final DestinatarioNotificacao pessoaNotificacao = this.destinatarioNotificacaoService
-				.findPessoaNotificacaoById((1000L));
+		final DestinatarioNotificacao DestinatarioNotificacao = this.destinatarioNotificacaoService
+				.findDestinatarioNotificacaoById((1000L));
 
-		Assert.assertNotNull(pessoaNotificacao);
-		Assert.assertNotNull(pessoaNotificacao.getId());
+		Assert.assertNotNull(DestinatarioNotificacao);
+		Assert.assertNotNull(DestinatarioNotificacao.getId());
 		
 	}
 	
@@ -257,12 +257,12 @@ public class DestinatarioNotificacaoServiceIntegrationTests extends AbstractInte
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/notificacao/pessoasNotificacoes.sql"
+		"/dataset/academia/notificacao/destinatariosNotificacoes.sql"
 	})
-	public void findPessoaNotificacaoMustFailById(){
+	public void findDestinatarioNotificacaoMustFailById(){
 		
 		this.destinatarioNotificacaoService
-				.findPessoaNotificacaoById((1006165160L));
+				.findDestinatarioNotificacaoById((1006165160L));
 
 		
 	}

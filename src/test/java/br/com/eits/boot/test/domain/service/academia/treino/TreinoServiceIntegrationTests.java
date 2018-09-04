@@ -109,7 +109,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Inserção de um treino com sucesso
 	 */
 	@Test
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -155,7 +155,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Deve ocorer erro se a data de fim não for posterior a data de inicio
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -184,7 +184,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Valida obrigatoriedade do campo data de inicio
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -213,7 +213,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Valida obrigatoriedade do campo data de fim
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -242,7 +242,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Valida obrigatoriedade de selecionar um aluno
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -271,7 +271,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Valida obrigatoriedade de selecionar um personal
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -300,7 +300,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Verifica se a validação de quantidade de exericicios está ok
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -329,7 +329,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Verifica se a validação de quantidade de dias da semana está ok
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -359,7 +359,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Verifica se existe alguma data nos dias de semana selecionados
 	 */
 	@Test( expected = IllegalArgumentException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -394,7 +394,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Inserção de um treino com sucesso
 	 */
 	@Test
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -424,7 +424,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Não deve alterar data de incio do treino
 	 */
 	@Test
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -454,7 +454,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * O sistema não deverá alterar a data de fim do treino
 	 */
 	@Test
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -485,7 +485,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 *  O sistema não deverá alterar o nome para um texto invalido
 	 */
 	@Test( expected = TransactionSystemException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -508,7 +508,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 *  O sistema não deverá alterar o aluno para null no treino
 	 */
 	@Test( expected = TransactionSystemException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -531,7 +531,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 *  O sistema não deverá alterar para null o campo personal
 	 */
 	@Test( expected = TransactionSystemException.class)
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -559,7 +559,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Deverá realizar o find by id com sucesso
 	 */
 	@Test
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"
@@ -578,7 +578,7 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 	 * Deverá ocorrer erro por não existir um registro com o id informado
 	 */
 	@Test( expected = IllegalArgumentException.class )
-	@WithUserDetails("admin")
+	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
 		"/dataset/academia/treino/treinos.sql"

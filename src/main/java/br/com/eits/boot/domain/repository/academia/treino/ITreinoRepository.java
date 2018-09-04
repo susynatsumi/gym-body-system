@@ -11,7 +11,9 @@ public interface ITreinoRepository extends JpaRepository<Treino, Long>{
 
 
 	@EntityGraph(attributePaths= {
-		"treinoExercicios"
+		"treinoExercicios",
+		"aluno",
+		"personal"
 	})
 	@Override
 	Optional<Treino> findById(Long id);

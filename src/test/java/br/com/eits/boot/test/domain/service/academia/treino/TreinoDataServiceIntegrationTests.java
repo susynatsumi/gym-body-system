@@ -57,7 +57,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 			LocalDate.of(2018, 7, 19),
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
 			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
-			true, 
+			false, 
 			treino,
 			DiaSemana.QUINTA
 		);
@@ -67,8 +67,8 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		Assert.assertNotNull(treinoData);
 		Assert.assertNotNull(treinoData.getId());
 		
-		Assert.assertNull(treinoData.getHoraInicio());
-		Assert.assertNull(treinoData.getHoraTermino());
+		Assert.assertNotNull(treinoData.getHoraInicio());
+		Assert.assertNotNull(treinoData.getHoraTermino());
 		
 		Assert.assertFalse(treinoData.getCompleto());
 		

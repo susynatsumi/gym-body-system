@@ -14,33 +14,33 @@ import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
 import br.com.eits.boot.domain.entity.academia.treino.Treino;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.account.Papel;
-import br.com.eits.boot.domain.repository.academia.treino.IExercicioTreinoDataRepository;
+import br.com.eits.boot.domain.repository.academia.treino.IExercicioRealizadoRepository;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
 
 @Service
 @RemoteProxy
 @Transactional
-public class ExercicioTreinoDataService {
+public class ExercicioRealizadoService {
 
 	// ------------------------------------
 	// ------------ ATRIBUTOS -------------
 	// ------------------------------------
 	
 	@Autowired
-	private IExercicioTreinoDataRepository exercicioTreinoDataRepository;
+	private IExercicioRealizadoRepository exercicioRealizadoRepository;
 	
 	// ------------------------------------
 	// -------------- MÉTODOS -------------
 	// ------------------------------------
 	
 	/**
-	 * Insere um exercicio treino data na base de dados
+	 * Insere um exercicio realizado na base de dados
 	 * 
 	 * @param exercicioRealizado
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
-	public ExercicioRealizado insertExercicioTreinoData(
+	public ExercicioRealizado insertExercicioRealizado(
 		ExercicioRealizado exercicioRealizado
 	){
 		
@@ -54,17 +54,17 @@ public class ExercicioTreinoDataService {
 			MessageSourceHolder.translate("service.object.id.null")
 		);
 		
-		return this.exercicioTreinoDataRepository.save(exercicioRealizado);
+		return this.exercicioRealizadoRepository.save(exercicioRealizado);
 	}
 	
 	/**
-	 * Realiza update de um exercicio treino data 
+	 * Realiza update de um exercicio realizado 
 	 * 
 	 * @param exercicioRealizado
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
-	public ExercicioRealizado updateExercicioTreinoData(
+	public ExercicioRealizado updateExercicioRealizado(
 		ExercicioRealizado exercicioRealizado 
 	){
 		
@@ -78,20 +78,20 @@ public class ExercicioTreinoDataService {
 			MessageSourceHolder.translate("service.object.id.not.null")
 		);
 		
-		return this.exercicioTreinoDataRepository.save(exercicioRealizado);
+		return this.exercicioRealizadoRepository.save(exercicioRealizado);
 	}
 	
 	/**
 	 * 
-	 * Busca exercicio treino data por id
+	 * Busca exercicio realizado por id
 	 * 
 	 * @param id
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public ExercicioRealizado findExercicioTreinoDataById( Long id ){
+	public ExercicioRealizado findExercicioRealizadoById( Long id ){
 		
-		return this.exercicioTreinoDataRepository
+		return this.exercicioRealizadoRepository
 				.findById(id)
 				.orElseThrow(() ->
 					new IllegalArgumentException(
@@ -104,11 +104,11 @@ public class ExercicioTreinoDataService {
 	}
 	
 	/**
-	 * Cria um exercicio treino data para todos os exercicio do treino
+	 * Cria um exercicio realizado para todos os exercicio do treino
 	 * @param treinoData
 	 * @return
 	 */
-	public List<ExercicioRealizado> criaExercicioTreinoData( TreinoData treinoData ){
+	public List<ExercicioRealizado> criaExercicioRealizado( TreinoData treinoData ){
 		
 		Assert.notNull(
 			treinoData, 
@@ -127,7 +127,7 @@ public class ExercicioTreinoDataService {
 			MessageSourceHolder.translate("service.object.null")
 		);
 		
-		//cria para cada exercicio do treino um exercicio treino data
+		//cria para cada exercicio do treino um exercicio realizado
 		return treino.getTreinoExercicios().stream()
 			.map(treinoExercicio -> 
 				new ExercicioRealizado(false, treinoData, treinoExercicio

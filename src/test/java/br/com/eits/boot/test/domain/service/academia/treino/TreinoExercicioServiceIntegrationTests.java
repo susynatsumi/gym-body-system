@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.TransactionSystemException;
 
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.academia.treino.TipoTreinoExercicio;
@@ -179,7 +180,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 	 * Valida insercacao de treino exercicio sem informar a quantidade de séries 
 	 * com valores inválidos
 	 */
-	@Test( expected = IllegalArgumentException.class )
+	@Test( expected = ValidationException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
@@ -372,7 +373,7 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 	/*
 	 * Valida update para o tipo carga repeticoes
 	 */
-	@Test( expected = IllegalArgumentException.class )
+	@Test( expected = TransactionSystemException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",

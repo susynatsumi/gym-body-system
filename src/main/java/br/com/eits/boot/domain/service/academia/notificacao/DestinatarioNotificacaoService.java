@@ -31,7 +31,7 @@ public class DestinatarioNotificacaoService {
 	 * @param destinatarioNotificacao
 	 * @return
 	 */
-	public DestinatarioNotificacao insertPessoaNotificacao( 
+	public DestinatarioNotificacao insertDestinatarioNotificacao( 
 		DestinatarioNotificacao destinatarioNotificacao 
 	){
 		Assert.notNull(
@@ -53,7 +53,7 @@ public class DestinatarioNotificacaoService {
 	 * @param destinatarioNotificacao
 	 * @return
 	 */
-	public DestinatarioNotificacao updatePessoaNotificacao( 
+	public DestinatarioNotificacao updateDestinatarioNotificacao( 
 		DestinatarioNotificacao destinatarioNotificacao 
 	){
 		
@@ -78,7 +78,7 @@ public class DestinatarioNotificacaoService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public DestinatarioNotificacao findPessoaNotificacaoById( Long id ){
+	public DestinatarioNotificacao findDestinatarioNotificacaoById( Long id ){
 		return this.destinatarioNotificacaoRepository
 				.findById(id)
 				.orElseThrow(() ->

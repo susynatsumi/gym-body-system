@@ -8,8 +8,8 @@ SET default_with_oids = false;
 
 SET search_path TO public;
 
-TRUNCATE "notificacao" CASCADE;
 TRUNCATE "destinatario_notificacao" CASCADE;
+TRUNCATE "notificacao" CASCADE;
             
 INSERT INTO notificacao(
             id, created, updated, texto, titulo)
@@ -23,3 +23,15 @@ INSERT INTO notificacao(
 INSERT INTO notificacao(
             id, created, updated, texto, titulo)
     VALUES (1002, NOW(), null, 'Notificacao de teste blaasdf bla bla', 'Teste 1');
+    
+    
+-- -------------------------------------------------------------------------------------
+
+INSERT INTO destinatario_notificacao(
+            id, created, updated, notificacao_id, pessoa_id)
+    VALUES (1000, NOW(), null, 1002, 1012);
+
+INSERT INTO destinatario_notificacao(
+            id, created, updated, notificacao_id, pessoa_id)
+    VALUES (1001, NOW(), null, 1002, 1011);
+

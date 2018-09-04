@@ -83,10 +83,10 @@ public class TreinoService {
 		});
 		
 		
-		treino.setDiasSemanaSelecionados( null );
 		Treino treinoInsert = this.treinoRepository.save(treino);
 		
 		treinoDataService.criaDatasTreino(treinoInsert);
+		treino.setDiasSemanaSelecionados( null );
 		
 		return treino;
 	}

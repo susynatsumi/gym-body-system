@@ -13,20 +13,20 @@ import org.springframework.transaction.TransactionSystemException;
 import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoExercicio;
-import br.com.eits.boot.domain.repository.academia.treino.IExercicioTreinoDataRepository;
+import br.com.eits.boot.domain.repository.academia.treino.IExercicioRealizadoRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoDataRepository;
 import br.com.eits.boot.domain.repository.academia.treino.ITreinoExercicioRepository;
-import br.com.eits.boot.domain.service.academia.treino.ExercicioTreinoDataService;
+import br.com.eits.boot.domain.service.academia.treino.ExercicioRealizadoService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
-public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrationTests{
+public class ExercicioRealizadoSerciceIntegrationTests extends AbstractIntegrationTests{
 
 	
 	@Autowired
-	private IExercicioTreinoDataRepository exercicioTreinoDataRepository;
+	private IExercicioRealizadoRepository exercicioRealizadoRepository;
 	
 	@Autowired
-	private ExercicioTreinoDataService exercicioTreinoDataService;
+	private ExercicioRealizadoService exercicioRealizadoService;
 	
 	@Autowired
 	private ITreinoDataRepository treinoDataRepository;
@@ -45,9 +45,9 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void insertExercicioTreinoDataMustPass(){
+	public void insertExercicioRealizadoMustPass(){
 		
 		final TreinoData treinoData = this.treinoDataRepository
 				.findById(1002L)
@@ -63,8 +63,8 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 			treinoExercicio
 		);
 		
-		exercicioRealizado = this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioRealizado);
+		exercicioRealizado = this.exercicioRealizadoService
+				.insertExercicioRealizado(exercicioRealizado);
 		
 		Assert.assertNotNull(exercicioRealizado);
 		Assert.assertNotNull(exercicioRealizado.getId());
@@ -78,9 +78,9 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void insertExercicioTreinoDataMustFailForeignKeyTreinoData(){
+	public void insertExercicioRealizadoMustFailForeignKeyTreinoData(){
 		
 		final TreinoExercicio treinoExercicio = new TreinoExercicio(1000L);
 		
@@ -90,8 +90,8 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 			treinoExercicio
 		);
 		
-		exercicioRealizado = this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioRealizado);
+		exercicioRealizado = this.exercicioRealizadoService
+				.insertExercicioRealizado(exercicioRealizado);
 		
 	}
 	
@@ -102,9 +102,9 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void insertExercicioTreinoDataMustFailForeignKeyTreinoExercicio(){
+	public void insertExercicioRealizadoMustFailForeignKeyTreinoExercicio(){
 		
 		final TreinoData treinoData = new TreinoData(1002L);
 		
@@ -114,8 +114,8 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 			null
 		);
 		
-		this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioRealizado);
+		this.exercicioRealizadoService
+				.insertExercicioRealizado(exercicioRealizado);
 		
 	}
 	
@@ -124,9 +124,9 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void insertExercicioTreinoDataMustFailUniqueTreinoDataIdTreinoExercicioId(){
+	public void insertExercicioRealizadoMustFailUniqueTreinoDataIdTreinoExercicioId(){
 		
 		final TreinoData treinoData = new TreinoData(1000L);
 		
@@ -136,8 +136,8 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 			null
 		);
 		
-		this.exercicioTreinoDataService
-				.insertExercicioTreinoData(exercicioRealizado);
+		this.exercicioRealizadoService
+				.insertExercicioRealizado(exercicioRealizado);
 		
 	}
 	
@@ -152,19 +152,19 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void updateExercicioTreinoDataMustPass(){
+	public void updateExercicioRealizadoMustPass(){
 
-		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioRealizadoRepository
 				.findById(1000L)
 				.orElse(null);
 		
 		exercicioRealizado.setCompleto(true);
 
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
+		exercicioRealizadoService.updateExercicioRealizado(exercicioRealizado);
 		
-		exercicioRealizado = this.exercicioTreinoDataRepository
+		exercicioRealizado = this.exercicioRealizadoRepository
 			.findById(1000L)
 			.orElse(null);
 		
@@ -180,17 +180,17 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void updateExercicioTreinoDataMustFailForeignKeyTreinoData(){
+	public void updateExercicioRealizadoMustFailForeignKeyTreinoData(){
 
-		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioRealizadoRepository
 				.findById(1000L)
 				.orElse(null);
 		
 		exercicioRealizado.setTreinoData(null);
 
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
+		exercicioRealizadoService.updateExercicioRealizado(exercicioRealizado);
 		
 	}
 	
@@ -201,17 +201,17 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void updateExercicioTreinoDataMustFailForeignKeyTreinoExercicio(){
+	public void updateExercicioRealizadoMustFailForeignKeyTreinoExercicio(){
 
-		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioRealizadoRepository
 				.findById(1000L)
 				.orElse(null);
 		
 		exercicioRealizado.setTreinoExercicio(null);
 
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
+		exercicioRealizadoService.updateExercicioRealizado(exercicioRealizado);
 		
 	}
 	
@@ -222,22 +222,22 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void updateExercicioTreinoDataMustFailUniqueTreinoDataTreinoExercicio(){
+	public void updateExercicioRealizadoMustFailUniqueTreinoDataTreinoExercicio(){
 
 		
 		final TreinoExercicio treinoExercicio = this.treinoExercicioRepository
 				.findById(1001L)
 				.orElse(null);
 		
-		ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataRepository
+		ExercicioRealizado exercicioRealizado = this.exercicioRealizadoRepository
 				.findById(1000L)
 				.orElse(null);
 
 		exercicioRealizado.setTreinoExercicio(treinoExercicio);
 		
-		exercicioTreinoDataService.updateExercicioTreinoData(exercicioRealizado);
+		exercicioRealizadoService.updateExercicioRealizado(exercicioRealizado);
 		
 	}
 	
@@ -252,18 +252,16 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void findExercicioTreinoDataMustPassById(){
+	public void findExercicioRealizadoMustPassById(){
 	
-		final ExercicioRealizado exercicioRealizado = this.exercicioTreinoDataService
-				.findExercicioTreinoDataById(1000L);
+		final ExercicioRealizado exercicioRealizado = this.exercicioRealizadoService
+				.findExercicioRealizadoById(1000L);
 
 		
 		Assert.assertNotNull(exercicioRealizado);
 		Assert.assertNotNull(exercicioRealizado.getId());
-	
-		//TODO fazer testes com filtros
 	
 	}
 	
@@ -274,15 +272,13 @@ public class ExercicioTreinoDataSerciceIntegrationTests extends AbstractIntegrat
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/exercicioTreinoData.sql"
+		"/dataset/academia/treino/exerciciosRealizados.sql"
 	})
-	public void findExercicioTreinoDataMustFailById(){
+	public void findExercicioRealizadoMustFailById(){
 	
-		this.exercicioTreinoDataService
-				.findExercicioTreinoDataById(100165160L);
+		this.exercicioRealizadoService
+				.findExercicioRealizadoById(100165160L);
 	}
-
-	//TODO fazer testes com filtros
 	
 }
 	

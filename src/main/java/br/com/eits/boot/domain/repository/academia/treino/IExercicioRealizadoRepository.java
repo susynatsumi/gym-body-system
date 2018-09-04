@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
 
-public interface IExercicioTreinoDataRepository extends JpaRepository<ExercicioRealizado, Long>{
+public interface IExercicioRealizadoRepository extends JpaRepository<ExercicioRealizado, Long>{
 
 
 	@Query(
