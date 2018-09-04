@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Treino, Pessoa, PessoaTreino, Page, TreinoExercicio, Academia } from '../../../../generated/entities';
+import { Treino, Pessoa, Page, TreinoExercicio } from '../../../../generated/entities';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatStepper } from '@angular/material';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
-import { AccountService, TreinoExercicioService, TreinoService, AcademiaService } from '../../../../generated/services';
+import { AccountService, TreinoExercicioService, TreinoService } from '../../../../generated/services';
 import { Router } from '../../../../../node_modules/@angular/router';
 
 @Component({
@@ -53,8 +53,6 @@ export class TreinosFormComponent implements OnInit {
 
   pessoaLogada: Pessoa;
 
-  private academia: Academia;
-
   /**
    * 
    * @param formBuilder 
@@ -70,8 +68,7 @@ export class TreinosFormComponent implements OnInit {
     private treinoExercicioService: TreinoExercicioService,
     private treinoService: TreinoService,
     private router: Router,
-    private pessoaLogadaSession: AccountService,
-    private academiaSercice: AcademiaService
+    private pessoaLogadaSession: AccountService
   ) { 
 
     this.pessoaLogadaSession.getPessoaLogada()
@@ -85,11 +82,9 @@ export class TreinosFormComponent implements OnInit {
       treinoExercicios: [
         {
           tipoTreinoExercicio: 'CARGA_REPETICOES',
-          isAtivo: true,
           exercicio: {nome: ''}
         }
       ],
-      pessoasTreino: [],
       dataFim: null, 
       dataInicio: null,
       horaPrevistaInicio: null, 
@@ -97,11 +92,6 @@ export class TreinosFormComponent implements OnInit {
     };
 
     this.alunoSelecionado = {};
-
-    this.academiaSercice.findAcdemiaById(6)
-    .subscribe(( academia: Academia ) =>{
-      this.academia = academia;
-    });
 
   }
 
@@ -217,7 +207,6 @@ export class TreinosFormComponent implements OnInit {
    */
   setAluno(pessoa: Pessoa){
     this.alunoSelecionado = pessoa;
-    console.log(this.alunoSelecionado.nome);
   }
 
   // adicionarTreinoExercicio() {
@@ -238,22 +227,7 @@ export class TreinosFormComponent implements OnInit {
       .findIndex((treinoExercicio) => treinoExercicio.exercicio.id == treinoExercicioRemover.exercicio.id);
       
     if(treinoExercicioRemover.id){
-
-      this.loading = true;
-
-      this.treinoExercicioService
-      .inativarTreinoExercicio(treinoExercicioRemover.id)
-        .finally( () => this.loading = false )
-        .subscribe( (treinoExercicio: TreinoExercicio) => {
-
-        this.treino.treinoExercicios[itemIndex] = treinoExercicio;
-
-        this.messageService.message('Exercicio inativado com sucesso do treino deste aluno!<br>Este exercício não será mais realizado pelo aluno!');
-
-      }, (error: Error) => {
-        this.messageService.message(error.message);
-      }) ;
-        
+      this.messageService.message("Não é possível remover um exercício de um treino");
     } else {
         this.treino.treinoExercicios.splice(itemIndex, 1);
         this.itemAtual = this.itemAtual - 1;
@@ -307,7 +281,6 @@ export class TreinosFormComponent implements OnInit {
         nome: ''
       },
       tipoTreinoExercicio: 'CARGA_REPETICOES',
-      isAtivo: true,
       treino: this.treino
     };
     
@@ -345,7 +318,6 @@ export class TreinosFormComponent implements OnInit {
     }
 
     this.loading = true;
-    this.treino.academia = this.academia;
 
     this.enviar()
       .finally( ()=> this.loading = false )
@@ -361,22 +333,12 @@ export class TreinosFormComponent implements OnInit {
   private enviar(){
 
     if(this.parametroId == null){
-      let pessoaTreinoPersonal: PessoaTreino = {
-        papel: 'PERSONAL',
-        pessoa: this.pessoaLogada,
-        treino: this.treino,
-      }
 
-      let pessoaTreinoAluno: PessoaTreino = {
-        papel: 'ALUNO',
-        pessoa: this.alunoSelecionado,
-        treino: this.treino
-      }
-
-      this.treino.pessoasTreino.push(pessoaTreinoPersonal);
-      this.treino.pessoasTreino.push(pessoaTreinoAluno);
+      this.treino.personal = this.pessoaLogada;
+      this.treino.aluno = this.alunoSelecionado;
 
       return this.treinoService.insertTreino(this.treino);
+
     }
 
     return this.treinoService.updateTreino(this.treino);

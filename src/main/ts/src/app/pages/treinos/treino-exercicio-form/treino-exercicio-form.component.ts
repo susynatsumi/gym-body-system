@@ -115,6 +115,7 @@ export class TreinoExercicioFormComponent implements OnInit, OnChanges {
    * Altera os campos obrigatórios de acordo com o tipo treino exercicio selecionado
    * @param tipoSelecionado 
    */
+  // change***
   chageTipoTreinoExercicio(tipoSelecionado){
 
     this.formGroupTreinoExercicio.get('carga').clearValidators();

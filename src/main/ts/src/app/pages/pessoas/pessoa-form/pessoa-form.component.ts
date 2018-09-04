@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Pessoa, GeneroValues, PapelValues } from '../../../../generated/entities';
+import { Pessoa, GeneroValues, PapelValues, Papel } from '../../../../generated/entities';
 import { ActivatedRoute, Router } from '../../../../../node_modules/@angular/router';
 import { AccountService } from '../../../../generated/services';
 
 import 'rxjs/add/operator/finally';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
+import { UsuarioSessaoService } from '../../../services/usuario-sessao-service';
 
 @Component({
   selector: 'pessoa-form',
@@ -53,10 +54,11 @@ export class PessoaFormComponent implements OnInit {
     private pessoaService: AccountService,
     private route: ActivatedRoute,
     private router: Router,
-    private mensagemAlerta: MensagemAlertaService
+    private mensagemAlerta: MensagemAlertaService,
+    private usuarioSessaoService: UsuarioSessaoService
   ) {
 
-    this.pessoaLogada = JSON.parse(localStorage.getItem('usuarioLogado'));
+    this.pessoaLogada = this.usuarioSessaoService.usuarioLogado;
     this.pessoa = {};
 
     this.route.params.subscribe(
@@ -108,7 +110,7 @@ export class PessoaFormComponent implements OnInit {
     });
 
     this.formStep3Permissoes = this.formBuilder.group({
-      'papel': [this.pessoa.papel, Validators.required],
+      'papeis': [this.pessoa.papeis, Validators.required],
       'isAtivo': this.pessoa.isAtivo
     });
 
@@ -123,10 +125,10 @@ export class PessoaFormComponent implements OnInit {
     this.generos = GeneroValues;
     this.papeis = PapelValues;
 
-    if(this.pessoaLogada.papel != null && this.pessoaLogada.papel.toString() !=  'ADMINISTRATOR'  ){
-      this.papeis = this.papeis.filter(papel => papel != 'ADMINISTRATOR');
+    if( !this.usuarioSessaoService.isAdministrador ){
+      this.papeis = this.papeis.filter(papel => papel.toString() !== 'ADMINISTRATOR');
     }
-    
+
   }
 
   /**

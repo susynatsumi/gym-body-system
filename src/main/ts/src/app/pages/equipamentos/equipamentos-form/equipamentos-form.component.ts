@@ -174,7 +174,7 @@ export class EquipamentosFormComponent implements OnInit {
   salvar(){
 
     this.loading = true;
-
+    this.equipamento.imagem = null;
     this.enviar()
     .finally(()=> this.loading = false)
     .subscribe(

@@ -25,11 +25,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { PessoasComponent } from './pages/pessoas/pessoas.component';
 import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.component';
-import { AcademiasComponent } from './pages/academias/academias.component';
-import { AcademiasFormComponent } from './pages/academias/academias-form/academias-form.component';
 
-
-import { AcademiaDetalharComponent } from './pages/academias/academia-detalhar/academia-detalhar.component';
 import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pessoas-detalhar.component';
 import { TreinosComponent } from './pages/treinos/treinos.component';
 import { TreinosFormComponent } from './pages/treinos/treinos-form/treinos-form.component';
@@ -53,6 +49,7 @@ import { TreinoExercicioFormComponent } from './pages/treinos/treino-exercicio-f
 import { getLabelsPaginatorIntl } from './compartilhados/labels-paginator';
 import { PaginatorDefaultComponent } from './compartilhados/paginator-default/paginator-default.component';
 import { RemoveRowTableService } from './services/remove-row-table.service';
+import { UsuarioSessaoService } from './services/usuario-sessao-service';
 // import { LabelsPadraoDatePicker } from './compartilhados/time-picker-label/timer-picker-label';
 
 /* 
@@ -85,9 +82,6 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
     PessoaFormComponent,
     ToolbarPrincipalComponent,
     PessoasComponent,
-    AcademiasComponent,
-    AcademiasFormComponent,
-    AcademiaDetalharComponent,
     PessoasDetalharComponent,
     TreinosComponent,
     TreinosFormComponent,
@@ -131,6 +125,7 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
   },
   MensagemAlertaService,
   RemoveRowTableService,
+  UsuarioSessaoService,
   {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
   { provide: MatPaginatorIntl, useValue: getLabelsPaginatorIntl() }
   // {provide: OwlDateTimeIntl, useValue: LabelsPadraoDatePicker}

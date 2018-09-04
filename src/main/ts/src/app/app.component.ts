@@ -10,18 +10,4 @@ import { Pessoa } from '../generated/entities';
 export class AppComponent {
   title = 'app';
 
-  constructor(
-    private pessoaService: AccountService
-  ){
-    
-    pessoaService.getPessoaLogada().subscribe((usuario: Pessoa)=>{
-      if(usuario != null){
-        console.log('Logado '+usuario.nome);
-        console.log('Papel '+usuario.papel);
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-      }
-    });
-
-  }
-
 }

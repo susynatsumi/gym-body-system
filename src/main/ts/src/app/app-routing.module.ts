@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PessoasComponent } from './pages/pessoas/pessoas.component';
 import { PessoaFormComponent } from './pages/pessoas/pessoa-form/pessoa-form.component';
-import { AcademiasFormComponent } from './pages/academias/academias-form/academias-form.component';
-import { AcademiasComponent } from './pages/academias/academias.component';
-import { AcademiaDetalharComponent } from './pages/academias/academia-detalhar/academia-detalhar.component';
 import { PessoasDetalharComponent } from './pages/pessoas/pessoas-detalhar/pessoas-detalhar.component';
 import { GrupoMuscularFormComponent } from './pages/grupos-musculares/grupo-muscular-form/grupo-muscular-form.component';
 import { GruposMuscularesComponent } from './pages/grupos-musculares/grupos-musculares.component';
@@ -42,23 +39,6 @@ const routes: Routes = [
   {
     path: 'pessoas/:id',
     component: PessoasDetalharComponent
-  },
-  // academias
-  {
-    path: 'academias',
-    component: AcademiasComponent
-  },
-  {
-    path: 'academias/cadastrar',
-    component: AcademiasFormComponent
-  },
-  {
-    path: 'academias/editar/:id',
-    component: AcademiasFormComponent
-  },
-  {
-    path: 'academias/:id',
-    component: AcademiaDetalharComponent
   },
   // grupos musculares
   {

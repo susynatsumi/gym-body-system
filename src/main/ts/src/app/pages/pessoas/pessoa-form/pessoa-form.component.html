@@ -102,9 +102,9 @@
                 <mat-form-field fxFlex>
                     <mat-select 
                         placeholder="Papel (Obrigatório)"
-                        formControlName="papel"
-                        name="papel" 
-                        [(ngModel)]="pessoa.papel">
+                        formControlName="papeis"
+                        name="papeis" 
+                        [(ngModel)]="pessoa.papeis" multiple>
                             <mat-option *ngFor="let papel of papeis" [value]="papel">{{papel}}</mat-option>
                     </mat-select>
                 </mat-form-field>
