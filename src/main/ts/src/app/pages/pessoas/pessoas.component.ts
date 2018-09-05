@@ -130,7 +130,7 @@ export class PessoasComponent implements OnInit {
    */
   listByfilters(filters: string){
 
-    this.pessoaService.listByFilters(filters, null ,this.pageRequest)
+    this.pessoaService.listByFilters(filters, null , false, this.pageRequest)
     .finally(() => this.loading = false )
       .subscribe(
         (pessoas: Page<Pessoa>) => {

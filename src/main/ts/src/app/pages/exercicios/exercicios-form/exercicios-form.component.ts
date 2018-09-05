@@ -75,8 +75,6 @@ export class ExerciciosFormComponent implements OnInit {
       (paramns)=>{
 
         this.parametroId = paramns.id;
-        console.log('ABC');
-        console.log(this.parametroId);
 
         if(this.parametroId != null){
 
@@ -86,9 +84,7 @@ export class ExerciciosFormComponent implements OnInit {
             .finally(()=> this.loading = false)
             .subscribe( (exercicio: Exercicio) => {
               this.exercicio = exercicio;
-              console.log('Tamanho lista: '+this.exercicio.exercicioGrupoMusculares.length);
               this.dadosTable = new MatTableDataSource(exercicio.exercicioGrupoMusculares);
-              console.log(exercicio.equipamento.imagem);
             }, (error: Error) =>{
               this.mensagemService.errorFind(error.message);
             }

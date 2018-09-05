@@ -1,3 +1,56 @@
-<p>
-  treinos works!
-</p>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+<div class="mat-elevation-z8">
+  <div class="filtro-tabela">
+    <mat-form-field fxFlex>
+      <input matInput (keyup)="listByFilters($event.target.value)" placeholder="Filtrar" class="filtro-texto">
+    </mat-form-field>
+  </div>
+  <mat-table [dataSource]="dadosTable" class="mat-elevation-z8">
+    <!-- nome Column -->
+    <ng-container matColumnDef="nome">
+      <mat-header-cell fxFlex="38%" *matHeaderCellDef> Nome Treino </mat-header-cell>
+      <mat-cell fxFlex="38%" *matCellDef="let element"> {{element?.nome}} </mat-cell>
+    </ng-container>
+
+    <!-- nome aluno column -->
+    <ng-container matColumnDef="aluno">
+      <mat-header-cell fxFlex="22%" *matHeaderCellDef> Aluno </mat-header-cell>
+      <mat-cell fxFlex="22%" *matCellDef="let element"> {{ element?.aluno.nome }} </mat-cell>
+    </ng-container>
+
+    <!-- codigo column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell fxFlex="8%" *matHeaderCellDef> Código </mat-header-cell>
+      <mat-cell fxFlex="8%" *matCellDef="let element"> {{element?.id}} </mat-cell>
+    </ng-container>
+
+    <!-- botoes column -->
+    <ng-container matColumnDef="acoes">
+        <mat-header-cell fxFlex="32%" *matHeaderCellDef></mat-header-cell>
+        <mat-cell fxFlex="32%" *matCellDef="let element"> 
+          <button 
+            mat-button 
+            routerLink="/treinos/{{element.id}}"
+            title="Detalhar">
+            <mat-icon>description</mat-icon>
+          </button>  
+          <button 
+            mat-button 
+            routerLink="/treinos/editar/{{element.id}}"
+            title="Editar dados">
+            <mat-icon>edit</mat-icon>
+          </button>  
+          <button 
+            mat-button 
+            (click)="delete(element.id)"
+            title="Remover">
+            <mat-icon>delete</mat-icon>
+          </button> 
+        </mat-cell>
+      </ng-container>
+
+    <mat-header-row *matHeaderRowDef="colunas"></mat-header-row>
+    <mat-row  *matRowDef="let treino; columns: colunas;"></mat-row>
+  </mat-table>
+  <app-paginator-default [dadosTable]="dadosTable"></app-paginator-default>
+</div>

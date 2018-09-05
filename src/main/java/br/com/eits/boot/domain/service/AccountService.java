@@ -109,6 +109,7 @@ public class AccountService
 	 * 
 	 * @param filtro
 	 * @param isAtivo
+	 * @param somenteAlunos
 	 * @param pageRequest
 	 * @return
 	 */
@@ -116,12 +117,14 @@ public class AccountService
 	public Page<Pessoa> listByFilters(
 		String filtro,
 		Boolean isAtivo,
+		Boolean somenteAlunos,
 		PageRequest pageRequest 
 	){
 		final Pessoa pessoaSession = this.getPessoaLogada();
 		return this.pessoaRepository.listPessoaByFilters(
 			filtro, 
 			isAtivo, 
+			somenteAlunos,
 			pessoaSession != null 
 				&& pessoaSession.getPapeis().contains(Papel.ADMINISTRATOR),// verifica se pode ou não listar administradores 
 			pageRequest

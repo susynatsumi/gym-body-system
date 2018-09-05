@@ -1,5 +1,6 @@
 package br.com.eits.boot.domain.entity.academia.treino;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -66,6 +67,7 @@ public class TreinoExercicio extends AbstractEntity {
 	// treino ao qual o exercicio pertence
 	@NotNull
 	@ManyToOne( 
+		cascade = CascadeType.MERGE,
 		fetch = FetchType.LAZY,
 		optional = false,
 		targetEntity = Treino.class
@@ -81,6 +83,7 @@ public class TreinoExercicio extends AbstractEntity {
 	// exercicio do treino
 	@NotNull
 	@ManyToOne(
+		cascade = CascadeType.MERGE,
 		fetch = FetchType.LAZY,
 		optional = false,
 		targetEntity = Exercicio.class

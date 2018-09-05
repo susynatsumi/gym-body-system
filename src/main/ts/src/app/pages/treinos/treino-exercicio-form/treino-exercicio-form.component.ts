@@ -56,7 +56,7 @@ export class TreinoExercicioFormComponent implements OnInit, OnChanges {
    * 
    */
   ngOnInit() {
-
+    console.log(this.treinoExercicio);
   }
 
   /**
@@ -118,18 +118,22 @@ export class TreinoExercicioFormComponent implements OnInit, OnChanges {
   // change***
   chageTipoTreinoExercicio(tipoSelecionado){
 
-    this.formGroupTreinoExercicio.get('carga').clearValidators();
-    this.formGroupTreinoExercicio.get('repeticoes').clearValidators();
-    this.formGroupTreinoExercicio.get('tempoMin').clearValidators();
+    this.formGroupTreinoExercicio.controls['carga'].clearValidators();
+    this.formGroupTreinoExercicio.controls['repeticoes'].clearValidators();
+    this.formGroupTreinoExercicio.controls['tempoMin'].clearValidators();
 
     if(tipoSelecionado === 'CARGA_REPETICOES'){
-      this.formGroupTreinoExercicio.get('carga').setValidators([Validators.required]);
-      this.formGroupTreinoExercicio.get('repeticoes').setValidators([Validators.required]);
+      this.formGroupTreinoExercicio.controls['carga'].setValidators([Validators.required]);
+      this.formGroupTreinoExercicio.controls['repeticoes'].setValidators([Validators.required]);
     } else if(tipoSelecionado === 'REPETICOES' ){
-      this.formGroupTreinoExercicio.get('repeticoes').setValidators([Validators.required]);
+      this.formGroupTreinoExercicio.controls['repeticoes'].setValidators([Validators.required]);
     } else {
-      this.formGroupTreinoExercicio.get('tempoMin').setValidators([Validators.required]);
+      this.formGroupTreinoExercicio.controls['tempoMin'].setValidators([Validators.required]);
     }
+
+    console.log(this.formGroupTreinoExercicio.controls);
+    console.log(this.formGroupTreinoExercicio.invalid);
+    console.log(this.formGroupTreinoExercicio.touched);
 
   }
 

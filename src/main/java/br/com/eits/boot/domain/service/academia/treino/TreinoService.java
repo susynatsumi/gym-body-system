@@ -2,6 +2,8 @@ package br.com.eits.boot.domain.service.academia.treino;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,6 +138,27 @@ public class TreinoService {
 					)
 				);
 		
+	}
+	
+	/**
+	 * 
+	 * Lista treinos de acordo com os filtros, nome do treino e nome do aluno e id do treino 
+	 * 
+	 * @param filters
+	 * @param pageRequest
+	 * @return
+	 */
+	@Transactional( readOnly = true )
+	public Page<Treino> listTreinosByFilters(String filters, PageRequest pageRequest){
+		return this.treinoRepository.listTreinosByFilters(filters, pageRequest);
+	}
+	
+	/**
+	 * Remove um treino por id
+	 * @param id
+	 */
+	public void deleteTreino( long id ){
+		this.treinoRepository.deleteById(id);
 	}
 	
 }

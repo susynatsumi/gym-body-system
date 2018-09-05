@@ -52,11 +52,18 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 			"			OR ( "+
 			"				:listarAdministrador = true "+
 			"			) "+
-			"	) "
+			"	) AND ( "
+			+ "		:somenteAlunos = false	"
+			+ "		OR ( "
+			+ "			:somenteAlunos = true "
+			+ "			AND 2 in elements( pessoa.papeis )"
+			+ "		) "
+			+ "	) "
 	)
 	Page<Pessoa> listPessoaByFilters( 
 		@Param("filter") String filter,
 		@Param("isAtivo") Boolean isAtivo,
+		@Param("somenteAlunos") Boolean somenteAlunos,
 		@Param("listarAdministrador") Boolean listarAdministrador,
 		Pageable pageable 
 	);
@@ -77,7 +84,6 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 		+ "		) "
 	)
 	Optional<Pessoa> findById(@Param("idPessoa") Long id, @Param("listarAdministrador") Boolean listarAdministrador);
-	
 	
 	
 }

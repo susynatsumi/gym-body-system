@@ -214,9 +214,8 @@
     <mat-step [stepControl]="formGroupStep4">
       <form  fxLayout="column" class="example-form" [formGroup]="formGroupStep4" >
         <ng-template matStepLabel>Exercicios do treino</ng-template>
-        <mat-accordion class="example-headers-align">
-          <div formArrayName="treinoExercicios" *ngFor="let treinoExercicio of formGroupStep4.get('treinoExercicios').controls; let i=index;">
-            <!-- {{i}} -->
+        <!-- <mat-accordion class="example-headers-align">
+          <div formArrayName="treinoExercicios" *ngFor="let treinoExercicio of formGroupStep4.controls.treinoExercicios.controls; let i=index;">
             <app-treino-exercicio-form 
               [indexDesteItem]="i"
               [itemAtual]="itemAtual"
@@ -225,13 +224,14 @@
               (treinoExercicioAtual)="setItemAtual($event)" 
               (apagarTreinoExercicio)="removerTreinoExercicio($event)"></app-treino-exercicio-form>
           </div>
-        </mat-accordion>
+        </mat-accordion> -->
         <!-- <div *ngFor=" let treinoExercicio of treino.treinoExercicios">
         </div> -->
         <div class="botao-adicionar">
           <button 
             mat-raised-button 
             color='primary'
+            type="button"
             matStepperNext
             (click)="addNewTreinoExercicioFormArray()"
             title="Adicionar novo exercicio no treino">Adicionar Exercicio</button>
@@ -239,18 +239,21 @@
         <div>
           <button 
               mat-raised-button 
-              matStepperPrevious 
+              matStepperPrevious
+              type="button" 
               title="Voltar para etapa anterior">Anterior</button>
           <button 
               mat-raised-button 
               matStepperNext 
               color='primary'
               (click)="salvar()"
+              type="button"
               title="Ir para a próxima etapa">Finalizar</button>
           <button 
               mat-raised-button 
               title="Cancela operação e retornar para tela de consulta" 
               [routerLink]="['/treinos']"  
+              type="button"
               color="warn">Cancelar</button>
         </div>
       </form>

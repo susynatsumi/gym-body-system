@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Treino, Pessoa, Page, TreinoExercicio } from '../../../../generated/entities';
+import { Treino, Pessoa, Page, TreinoExercicio, PageRequest } from '../../../../generated/entities';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatStepper } from '@angular/material';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
 import { AccountService, TreinoExercicioService, TreinoService } from '../../../../generated/services';
-import { Router } from '../../../../../node_modules/@angular/router';
+import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-treinos-form',
@@ -53,6 +53,8 @@ export class TreinosFormComponent implements OnInit {
 
   pessoaLogada: Pessoa;
 
+  pageRequest: PageRequest;
+
   /**
    * 
    * @param formBuilder 
@@ -68,15 +70,14 @@ export class TreinosFormComponent implements OnInit {
     private treinoExercicioService: TreinoExercicioService,
     private treinoService: TreinoService,
     private router: Router,
+    private activedRoute: ActivatedRoute,
     private pessoaLogadaSession: AccountService
   ) { 
 
     this.pessoaLogadaSession.getPessoaLogada()
       .subscribe((pessoa: Pessoa)=>{
         this.pessoaLogada = pessoa;
-      });
-
-    
+    });
 
     this.treino = {
       treinoExercicios: [
@@ -90,8 +91,50 @@ export class TreinosFormComponent implements OnInit {
       horaPrevistaInicio: null, 
       horaPrevistaTermino: null,
     };
-
     this.alunoSelecionado = {};
+
+    this.inicializaTreino();
+
+    this.pageRequest = {
+      page: 0,
+      size: 100,
+      sort: {
+        orders: [
+          {
+            direction: 'ASC',
+            nullHandlingHint: 'NATIVE',
+            property: 'nome'
+          }
+        ]
+      }
+    };
+
+  }
+
+  inicializaTreino(){
+
+    this.activedRoute.params
+    .subscribe(
+      (paramns)=>{
+
+        this.parametroId = paramns.id;
+
+        if(this.parametroId != null){
+
+          this.loading = true;
+
+          this.treinoService.findTreinoById(this.parametroId)
+            .finally(()=> this.loading = false)
+            .subscribe((treino: Treino)=>{
+              this.treino = treino;
+              this.alunoSelecionado = treino.aluno;
+            });
+
+        }
+
+      }
+
+    );
 
   }
 
@@ -132,25 +175,6 @@ export class TreinosFormComponent implements OnInit {
     });
 
   }
-
-  /* abrirDialog() {
-    const dialogRef = this.dialog.open(PessoaDialogComponent, {
-      width: '80%',
-      height: '90%',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe((pessoaSelecionada:Pessoa) => {
-      this.formGrupoStep1.setValue({
-        'alunoSelecionado': pessoaSelecionada,
-      },
-      {
-        emitEvent: true, 
-        onlySelf: false
-      });
-
-    });
-  } */
 
   /**
    * Percorre a lista de check box e adiciona os selecionados na lista
@@ -196,7 +220,8 @@ export class TreinosFormComponent implements OnInit {
    * @param filter 
    */
   listPessoasByFilters(filter: string){
-    this.pessoasService.listByFilters(filter).subscribe((pessoas: Page<Pessoa>) => {
+    this.pessoasService.listByFilters(filter, true, true, this.pageRequest)
+    .subscribe((pessoas: Page<Pessoa>) => {
       this.pessoasList = pessoas.content;
     });
   }
@@ -240,9 +265,9 @@ export class TreinosFormComponent implements OnInit {
    */
   addNewTreinoExercicioFormArray(){
 
-    this.formArrayTreinoExercicio.controls.forEach( (group: FormGroup)=>{
-      group.updateValueAndValidity();
-    });
+    // this.formArrayTreinoExercicio.controls.forEach( (group: FormGroup)=>{
+      // group.updateValueAndValidity();
+    // });
 
     if(this.formArrayTreinoExercicio.invalid ){
       this.messageService.message('Preencha os campos obrigatórios!');
@@ -284,7 +309,7 @@ export class TreinosFormComponent implements OnInit {
       treino: this.treino
     };
     
-    this.treino.treinoExercicios.push(treinoExercicio);
+    // this.treino.treinoExercicios.push(treinoExercicio);
 
     return this.formBuilder.group({
       'exercicio': [
@@ -312,6 +337,7 @@ export class TreinosFormComponent implements OnInit {
    * Salva os dados no servidor
    */
   salvar(){
+
     if(this.formGroupStep4.invalid){
       this.messageService.message('Preencha todos os campos obrigatórios');
       return;
