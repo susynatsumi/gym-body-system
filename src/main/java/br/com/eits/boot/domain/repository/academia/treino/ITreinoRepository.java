@@ -15,7 +15,7 @@ public interface ITreinoRepository extends JpaRepository<Treino, Long>{
 
 
 	@EntityGraph(attributePaths= {
-		"treinoExercicios",
+		"treinoExercicios.exercicio",
 		"aluno",
 		"personal"
 	})

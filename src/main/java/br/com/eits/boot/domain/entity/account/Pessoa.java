@@ -256,7 +256,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	@Transient
 	public String getUsername()
 	{
-		return this.email;
+		return this.login;
 	}
 	
 	/*-------------------------------------------------------------------

@@ -27,7 +27,10 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Audited
 @Data
-@EqualsAndHashCode( callSuper = true )
+@EqualsAndHashCode( 
+	callSuper = true,
+	exclude = {"treinoExercicios"}
+)
 @DataTransferObject
 public class Treino extends AbstractEntity {
 	

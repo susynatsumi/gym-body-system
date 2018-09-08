@@ -22,7 +22,10 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Audited
 @Data
-@EqualsAndHashCode( callSuper = true )
+@EqualsAndHashCode( 
+	callSuper = true,
+	exclude = "exercicioGrupoMusculares"
+)
 @DataTransferObject
 public class Exercicio extends AbstractEntity {
 	

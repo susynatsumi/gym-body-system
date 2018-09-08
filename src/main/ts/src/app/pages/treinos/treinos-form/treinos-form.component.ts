@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Treino, Pessoa, Page, TreinoExercicio, PageRequest } from '../../../../generated/entities';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatStepper } from '@angular/material';
@@ -7,6 +7,7 @@ import { AccountService, TreinoExercicioService, TreinoService } from '../../../
 import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-treinos-form',
   templateUrl: './treinos-form.component.html',
   styleUrls: ['./treinos-form.component.scss']
@@ -181,6 +182,10 @@ export class TreinosFormComponent implements OnInit {
    */
   selecionarDiasSemana(stepper: MatStepper){
 
+    if(this.parametroId == null){
+      return;
+    }
+
     this.formGroupStep3.controls['segunda'].setErrors({'invalido':true});
     this.treino.diasSemanaSelecionados = [];
 
@@ -309,7 +314,7 @@ export class TreinosFormComponent implements OnInit {
       treino: this.treino
     };
     
-    // this.treino.treinoExercicios.push(treinoExercicio);
+    this.treino.treinoExercicios.push(treinoExercicio);
 
     return this.formBuilder.group({
       'exercicio': [
@@ -323,11 +328,12 @@ export class TreinosFormComponent implements OnInit {
       'series': [
         treinoExercicio.series, 
         Validators.compose([
-          Validators.required
+          Validators.required,
+          Validators.min(1)
         ])
       ],
-      'carga': [treinoExercicio.carga, Validators.required],
-      'repeticoes': [treinoExercicio.repeticoes, Validators.required],
+      'carga': [treinoExercicio.carga, Validators.compose([Validators.required, Validators.min(1)])],
+      'repeticoes': [treinoExercicio.repeticoes, Validators.compose([Validators.required, Validators.min(1)])],
       'tempoMin': [treinoExercicio.tempoMin],
       'observacoes': [treinoExercicio.observacoes]
     });
@@ -347,10 +353,12 @@ export class TreinosFormComponent implements OnInit {
 
     this.enviar()
       .finally( ()=> this.loading = false )
-      .subscribe((treino: Treino)=>{
+      .subscribe(()=>{
         this.messageService.messageBottom('Treino salvo com sucesso!');
         this.router.navigate(['treinos']);
-    });
+      }, (erro: Error)=>{
+        this.messageService.errorSave(erro.message);
+      });
   }
 
   /**

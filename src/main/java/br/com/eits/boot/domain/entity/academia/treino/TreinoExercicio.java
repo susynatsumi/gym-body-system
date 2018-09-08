@@ -83,7 +83,7 @@ public class TreinoExercicio extends AbstractEntity {
 	// exercicio do treino
 	@NotNull
 	@ManyToOne(
-		cascade = CascadeType.MERGE,
+//		cascade = CascadeType.MERGE,
 		fetch = FetchType.LAZY,
 		optional = false,
 		targetEntity = Exercicio.class

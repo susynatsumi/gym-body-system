@@ -27,7 +27,7 @@
               matInput 
               placeholder="Exercício (Obrigatório)" 
               (ngModelChange)="listExerciciosByFilters($event);"
-              [(ngModel)]="treinoExercicio.exercicio.nome"
+              [ngModel]="treinoExercicio?.exercicio?.nome"
               formControlName="exercicio"
               [matAutocomplete]="auto"/>
             <mat-autocomplete #auto="matAutocomplete" >
@@ -46,7 +46,8 @@
               placeholder="Tipo de Exercício (Obrigatório)" 
               formControlName="tipoTreinoExercicio"
               name="tipoTreinoExercicio" 
-              [(ngModel)]="treinoExercicio.tipoTreinoExercicio">
+              (ngModelChange)="treinoExercicio.tipoTreinoExercicio=$event"
+              [ngModel]="treinoExercicio?.tipoTreinoExercicio">
               <mat-option 
                 *ngFor="let tipoTreinoExercicio of tiposTreinoExercicio" 
                 [value]="tipoTreinoExercicio">{{tipoTreinoExercicio}}</mat-option>
@@ -62,40 +63,44 @@
               matInput 
               mask="0" 
               formControlName="series" 
-              [(ngModel)]="treinoExercicio.series"
+              (ngModelChange)="treinoExercicio.series=$event"
+              [ngModel]="treinoExercicio?.series"
               placeholder="Séries (Obrigatório)" />
           </mat-form-field>
 
           <mat-form-field 
-            *ngIf="treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' "
+            *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' "
             fxFlex>
             <input 
               matInput 
               mask="0?00" 
               formControlName="carga" 
-              [(ngModel)]="treinoExercicio.carga"
+              (ngModelChange)="treinoExercicio.carga=$event"
+              [ngModel]="treinoExercicio?.carga"
               placeholder="Carga (Obrigatório)" />
           </mat-form-field>
 
           <mat-form-field 
-            *ngIf="treinoExercicio.tipoTreinoExercicio && ( treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio == 'REPETICOES' )"
+            *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && ( treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio == 'REPETICOES' )"
             fxFlex>
             <input 
               matInput 
               mask="0?00" 
               formControlName="repeticoes" 
-              [(ngModel)]="treinoExercicio.repeticoes"
+              (ngModelChange)="treinoExercicio.repeticoes=$event"
+              [ngModel]="treinoExercicio?.repeticoes"
               placeholder="Repeticões (Obrigatório)" />
           </mat-form-field>
 
           <mat-form-field 
-            *ngIf="treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'TEMPO'"
+            *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'TEMPO'"
             fxFlex>
             <input 
               matInput 
               mask="0?00" 
               formControlName="tempoMin" 
-              [(ngModel)]="treinoExercicio.tempoMin"
+              (ngModelChange)="treinoExercicio.tempoMin=$event"
+              [ngModel]="treinoExercicio?.tempoMin"
               placeholder="Tempo em minutos (Obrigatório)" />
           </mat-form-field> 
 
@@ -111,7 +116,8 @@
                 placeholder="Observações de realização do exercício (Opcional)"
                 formControlName="observacoes"
                 name="observacoes" 
-                [(ngModel)]="treinoExercicio.observacoes"></textarea>
+                (ngModelChange)="treinoExercicio.observacoes=$event"
+                [ngModel]="treinoExercicio?.observacoes"></textarea>
           </mat-form-field>
           
         </div>

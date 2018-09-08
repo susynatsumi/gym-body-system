@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TreinoExercicio, Treino, Page, Exercicio, TipoTreinoExercicioValues, TipoTreinoExercicio } from '../../../../generated/entities';
 import { ExercicioService } from '../../../../generated/services';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
 
 @Component({
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-treino-exercicio-form',
   templateUrl: './treino-exercicio-form.component.html',
   styleUrls: ['./treino-exercicio-form.component.scss']
@@ -50,6 +51,11 @@ export class TreinoExercicioFormComponent implements OnInit, OnChanges {
 
     this.tiposTreinoExercicio = TipoTreinoExercicioValues;
     
+    this.treinoExercicio = {
+      exercicio: {
+        nome: ''
+      }
+    };
   }
 
   /**
@@ -64,7 +70,11 @@ export class TreinoExercicioFormComponent implements OnInit, OnChanges {
    * @param changes 
    */
   ngOnChanges(changes: SimpleChanges) {
-    this.itemAtual = changes.itemAtual.currentValue;
+
+    if(changes && changes.itemAtual){
+      this.itemAtual = changes.itemAtual.currentValue;
+    }
+
   }
 
   /**

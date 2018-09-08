@@ -128,7 +128,7 @@ public class TreinoService {
 	@Transactional( readOnly = true )
 	public Treino findTreinoById( Long id ){
 		
-		return this.treinoRepository
+		final Treino treino = this.treinoRepository
 				.findById(id)
 				.orElseThrow(() ->
 					new IllegalArgumentException(
@@ -137,6 +137,8 @@ public class TreinoService {
 						)
 					)
 				);
+		
+		return treino;
 		
 	}
 	
@@ -150,7 +152,8 @@ public class TreinoService {
 	 */
 	@Transactional( readOnly = true )
 	public Page<Treino> listTreinosByFilters(String filters, PageRequest pageRequest){
-		return this.treinoRepository.listTreinosByFilters(filters, pageRequest);
+		Page<Treino> treinos = this.treinoRepository.listTreinosByFilters(filters, pageRequest);
+		return treinos;
 	}
 	
 	/**

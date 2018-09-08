@@ -156,7 +156,7 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="formGroupStep3">
+    <mat-step [stepControl]="formGroupStep3" *ngIf="parametroId == null">
       <form  fxLayout="column" class="example-form" [formGroup]="formGroupStep3" >
         <ng-template matStepLabel>Selecionar dias da semana</ng-template>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
@@ -214,8 +214,9 @@
     <mat-step [stepControl]="formGroupStep4">
       <form  fxLayout="column" class="example-form" [formGroup]="formGroupStep4" >
         <ng-template matStepLabel>Exercicios do treino</ng-template>
-        <!-- <mat-accordion class="example-headers-align">
-          <div formArrayName="treinoExercicios" *ngFor="let treinoExercicio of formGroupStep4.controls.treinoExercicios.controls; let i=index;">
+        <mat-accordion class="example-headers-align">
+          <div formArrayName="treinoExercicios" *ngFor="let treinoExercicio of formGroupStep4.get('treinoExercicios').controls; let i=index;">
+            <!-- {{i}} -->
             <app-treino-exercicio-form 
               [indexDesteItem]="i"
               [itemAtual]="itemAtual"
@@ -224,7 +225,7 @@
               (treinoExercicioAtual)="setItemAtual($event)" 
               (apagarTreinoExercicio)="removerTreinoExercicio($event)"></app-treino-exercicio-form>
           </div>
-        </mat-accordion> -->
+        </mat-accordion>
         <!-- <div *ngFor=" let treinoExercicio of treino.treinoExercicios">
         </div> -->
         <div class="botao-adicionar">
