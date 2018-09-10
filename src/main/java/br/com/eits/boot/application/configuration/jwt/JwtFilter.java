@@ -46,15 +46,18 @@ public class JwtFilter// {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
+		System.out.println("entrou no filter hahahahahahah");
 		try {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-			String jwt = resolveToken(httpServletRequest);
-			if (jwt != null) {
-				Authentication authentication = this.tokenProvider.getAuthentication(jwt);
+			String jwtToken = resolveToken(httpServletRequest);
+			if (jwtToken != null) {
+				Authentication authentication = this.tokenProvider.getAuthentication(jwtToken);
 				if (authentication != null) {
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}
 			}
+			System.out.println("entrou no filter \n\n"+jwtToken);
+			
 			filterChain.doFilter(servletRequest, servletResponse);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,6 +67,7 @@ public class JwtFilter// {
 
 	private static String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+		System.out.println(bearerToken);
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring(7, bearerToken.length());
 		}

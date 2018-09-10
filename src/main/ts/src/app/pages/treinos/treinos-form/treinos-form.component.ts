@@ -113,7 +113,7 @@ export class TreinosFormComponent implements OnInit {
   }
 
   inicializaTreino(){
-
+    this.parametroId = null;
     this.activedRoute.params
     .subscribe(
       (paramns)=>{
@@ -182,7 +182,9 @@ export class TreinosFormComponent implements OnInit {
    */
   selecionarDiasSemana(stepper: MatStepper){
 
-    if(this.parametroId == null){
+    console.log(this.parametroId);
+
+    if( this.parametroId === null ){
       return;
     }
 
@@ -314,7 +316,7 @@ export class TreinosFormComponent implements OnInit {
       treino: this.treino
     };
     
-    this.treino.treinoExercicios.push(treinoExercicio);
+    // this.treino.treinoExercicios.push(treinoExercicio);
 
     return this.formBuilder.group({
       'exercicio': [

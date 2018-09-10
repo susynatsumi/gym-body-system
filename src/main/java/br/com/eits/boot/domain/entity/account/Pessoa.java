@@ -124,6 +124,8 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	 */
 	private OffsetDateTime lastLogin;
 
+	@Transient
+	private String tokenJwt;
 	/*-------------------------------------------------------------------
 	 *							CONSTRUCTORS
 	 *-------------------------------------------------------------------*/

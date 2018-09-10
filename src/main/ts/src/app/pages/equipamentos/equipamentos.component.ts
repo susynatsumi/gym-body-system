@@ -4,6 +4,7 @@ import { Page, Sort, PageRequest, Equipamento, SortDirection} from '../../../gen
 import { EquipamentoService } from '../../../generated/services';
 import { MensagemAlertaService } from '../../services/mensagem-alerta.service';
 import { RemoveRowTableService } from '../../services/remove-row-table.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-equipamentos',
@@ -74,7 +75,7 @@ export class EquipamentosComponent implements OnInit {
    * @param filters 
    */
   listByfilters(filters: string){
-    
+    console.log(filters);
     this.equipamentoService.listEquipamentoByFilters(
       filters,
       null, 

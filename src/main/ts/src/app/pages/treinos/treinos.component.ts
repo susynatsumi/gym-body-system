@@ -5,6 +5,8 @@ import { TreinoService } from '../../../generated/services';
 import { MensagemAlertaService } from '../../services/mensagem-alerta.service';
 import { RemoveRowTableService } from '../../services/remove-row-table.service';
 
+import { } from 'rxjs'
+
 @Component({
   selector: 'app-treinos',
   templateUrl: './treinos.component.html',

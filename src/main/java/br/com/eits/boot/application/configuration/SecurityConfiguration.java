@@ -11,14 +11,16 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import br.com.eits.boot.application.configuration.jwt.JwtConfigurer;
 import br.com.eits.boot.application.configuration.jwt.TokenProvider;
 import br.com.eits.boot.application.security.AuthenticationFailureHandler;
 import br.com.eits.boot.application.security.AuthenticationSuccessHandler;
 
-@EnableWebSecurity
-public class Config {
+//@EnableWebSecurity
+public class SecurityConfiguration {
 	
 	@Order(1)
 	@Configuration
@@ -31,7 +33,7 @@ public class Config {
 		 * Constructor
 		 * @param tokenProvide
 		 */
-		@Autowired
+//		@Autowired
 		public RestSecurityConfiguration(TokenProvider tokenProvide) {
 			this.tokenProvider = tokenProvide;
 		}
@@ -64,12 +66,12 @@ public class Config {
 				.csrf()
 					.disable()
 				.cors()
-			.and()
-				.antMatcher("/api/**").authorizeRequests()
+//			.and().authorizeRequests()
 					.and()
 						.sessionManagement()
 							.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 					.and()
+//						.antMatcher("/api/**")
 						.authorizeRequests()
 							.antMatchers("/api-login").permitAll()
 					.and()
@@ -77,6 +79,20 @@ public class Config {
 			
 		}
 		
+		/**
+		 * configura o cors da api
+		 * @return
+		 */
+	    @Bean
+	    public WebMvcConfigurer corsConfigurer() {
+	        return new WebMvcConfigurer() {
+	            @Override
+	            public void addCorsMappings(CorsRegistry registry) {
+	                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*")
+	                        .allowedHeaders("*");
+	            }
+	        };
+	    }
 		
 		/**
 		 * Override this method to configure {@link WebSecurity}. For example, if you wish to
@@ -102,86 +118,89 @@ public class Config {
 	}
 	
 	
-//	/**
-//	 * 
-//	 * @author rodrigo
-//	 */
-//	@Configuration
+	/**
+	 * 
+	 * @author rodrigo
+	 */
+	@Order(0)
+	@Configuration
 //	@EnableGlobalMethodSecurity(prePostEnabled = true)
-//	public class static WebSecurityConfiguration extends WebSecurityConfigurerAdapter
-//	{
-//		/*-------------------------------------------------------------------
-//		 * 		 					ATTRIBUTES
-//		 *-------------------------------------------------------------------*/
-//		/**
-//		 * 
-//		 */
-//		private final AuthenticationFailureHandler authenticationFailureHandler;
-//		/**
-//		 * 
-//		 */
-//		private final AuthenticationSuccessHandler authenticationSuccessHandler;
-//	
-//		@Autowired
-//		public WebSecurityConfiguration( AuthenticationFailureHandler authenticationFailureHandler, AuthenticationSuccessHandler authenticationSuccessHandler )
-//		{
-//			this.authenticationFailureHandler = authenticationFailureHandler;
-//			this.authenticationSuccessHandler = authenticationSuccessHandler;
-//		}
-//	
-//		/*-------------------------------------------------------------------
-//		 * 		 					 OVERRIDES
-//		 *-------------------------------------------------------------------*/
-//		/**
-//		 * 
-//		 */
-//		@Override
-//		protected void configure( HttpSecurity httpSecurity ) throws Exception
-//		{
-//			httpSecurity.csrf().disable();
-//			httpSecurity.headers().frameOptions().disable();
-//			
-//			httpSecurity
-//				.authorizeRequests()
-//					.anyRequest()
-//						.authenticated()
-//						.and()
-//							.formLogin()
-//								.usernameParameter( "login" )
-//								.passwordParameter( "senha" )
-//								.loginPage( "/authentication" )
-//								.loginProcessingUrl( "/authenticate" )
-//								.failureHandler( this.authenticationFailureHandler )
-//								.successHandler( this.authenticationSuccessHandler )
-//							.permitAll()
-//						.and()
-//							.logout()
-//								.logoutUrl( "/logout" )
-//						.and().
-//							headers()
-//								.defaultsDisabled()
-//								.contentTypeOptions();
-//		}
-//		
-//		/**
-//		 * Override this method to configure {@link WebSecurity}. For example, if you wish to
-//		 * ignore certain requests.
-//		 */
-//		@Override
-//		public void configure( WebSecurity web ) throws Exception 
-//		{
-//			web.ignoring()
-//				.antMatchers( 
-//					"/**/favicon.ico", 
-//					"/static/**", 
-//					"/modules/**", 
-//					"/broker/**/*.js", 
-//					"/bundles/**", 
-//					"/webjars/**", 
-//					"/api/**",
-//					"/api-login"
-//				);
-//		}
-//	}
+	public static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+		
+		/*-------------------------------------------------------------------
+		 * 		 					ATTRIBUTES
+		 *-------------------------------------------------------------------*/
+		/**
+		 * 
+		 */
+		private final AuthenticationFailureHandler authenticationFailureHandler;
+		/**
+		 * 
+		 */
+		private final AuthenticationSuccessHandler authenticationSuccessHandler;
 	
+		@Autowired
+		public WebSecurityConfiguration( AuthenticationFailureHandler authenticationFailureHandler, AuthenticationSuccessHandler authenticationSuccessHandler )
+		{
+			this.authenticationFailureHandler = authenticationFailureHandler;
+			this.authenticationSuccessHandler = authenticationSuccessHandler;
+		}
+	
+		/*-------------------------------------------------------------------
+		 * 		 					 OVERRIDES
+		 *-------------------------------------------------------------------*/
+		/**
+		 * 
+		 */
+		@Override
+		protected void configure( HttpSecurity httpSecurity ) throws Exception
+		{
+			httpSecurity.csrf().disable();
+			httpSecurity.headers().frameOptions().disable();
+			
+			httpSecurity
+				.authorizeRequests()
+					.anyRequest()
+						.authenticated()
+						.and()
+							.formLogin()
+								.usernameParameter( "login" )
+								.passwordParameter( "senha" )
+								.loginPage( "/authentication" )
+								.loginProcessingUrl( "/authenticate" )
+								.failureHandler( this.authenticationFailureHandler )
+								.successHandler( this.authenticationSuccessHandler )
+							.permitAll()
+						.and()
+							.logout()
+								.logoutUrl( "/logout" )
+						.and().
+							headers()
+								.defaultsDisabled()
+								.contentTypeOptions();
+		}
+		
+		/**
+		 * Override this method to configure {@link WebSecurity}. For example, if you wish to
+		 * ignore certain requests.
+		 */
+		@Override
+		public void configure( WebSecurity web ) throws Exception 
+		{
+			web.ignoring()
+				.antMatchers( 
+					"/**/favicon.ico", 
+					"/static/**", 
+					"/modules/**", 
+					"/broker/**/*.js", 
+					"/bundles/**", 
+					"/webjars/**", 
+					"/api/**",
+					"/api-login"
+				);
+		}
+		
+	}
+	
+
 }
