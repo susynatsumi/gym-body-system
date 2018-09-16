@@ -16,6 +16,7 @@ import br.com.eits.boot.application.security.RequestContext;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.account.IPessoaRepository;
+import br.com.eits.common.application.i18n.MessageSourceHolder;
 
 /**
  * @author rodrigo@eits.com.br
@@ -158,4 +159,23 @@ public class AccountService
 	public void deletePessoa( Long id ){
 		this.pessoaRepository.deleteById(id);
 	}
+	
+	/**
+	 * 
+	 * Busca uma pessoa de acordo com o token jwt 
+	 * 
+	 * @param tokenJwt
+	 * @return
+	 */
+	public Pessoa findPessoaByToken(String tokenJwt){
+		return this.pessoaRepository.findByTokenJwt(tokenJwt)
+		.orElseThrow(()->
+			new IllegalArgumentException(
+				MessageSourceHolder.translate(
+					"userService.token.invalido"
+				)
+			)
+		);
+	}
+	
 }

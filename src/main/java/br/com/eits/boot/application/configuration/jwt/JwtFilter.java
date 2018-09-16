@@ -7,8 +7,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -25,20 +27,22 @@ import io.jsonwebtoken.io.IOException;
  * solicitação HTTP, que precisa ser autenticada, fluirá através desse filtro
  * 
  */
+@Component
 public class JwtFilter// { 
 	extends GenericFilterBean {
 
 	public final static String AUTHORIZATION_HEADER = "Authorization";
 
-	private final TokenProvider tokenProvider;
+	@Autowired
+	private TokenProvider tokenProvider;
 
 	/**
 	 * 
 	 * @param tokenProvider
 	 */
-	public JwtFilter(TokenProvider tokenProvider) {
-		this.tokenProvider = tokenProvider;
-	}
+//	public JwtFilter(TokenProvider tokenProvider) {
+//		this.tokenProvider = tokenProvider;
+//	}
 
 	/**
 	 * Faz o filtro de todas as requisições, verificando o header do token
@@ -46,7 +50,8 @@ public class JwtFilter// {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		System.out.println("entrou no filter hahahahahahah");
+		
+		System.out.println("JwtFilter.doFilter()");
 		try {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 			String jwtToken = resolveToken(httpServletRequest);
@@ -56,7 +61,7 @@ public class JwtFilter// {
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}
 			}
-			System.out.println("entrou no filter \n\n"+jwtToken);
+			System.out.println("entrou no filter, validou token "+jwtToken);
 			
 			filterChain.doFilter(servletRequest, servletResponse);
 		} catch (Exception e) {

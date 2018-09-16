@@ -23,7 +23,16 @@ public class TokenProvider {
 	private final long tokenValidityInMilliseconds;
 
 	private final UserDetailsService userService;
+	
+	private Key key;
 
+	private Key getKey(){
+		if(key == null){
+			key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+		}
+		return key;
+	}
+	
 	/**
 	 * 
 	 * @param config
@@ -47,14 +56,12 @@ public class TokenProvider {
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + this.tokenValidityInMilliseconds);
 
-		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-		
 		return Jwts.builder().setId(UUID.randomUUID().toString())
 				.setSubject(username)
 				// setIssuedAt recebe a data atual
 				.setIssuedAt(now)
 //				.signWith(alg, base64EncodedSecretKey)
-				.signWith(key)
+				.signWith(getKey())
 				// recebe a chave e o algoritmo
 //				.signWith(SignatureAlgorithm.HS512, this.secretKey)
 				// data de validade do token
@@ -73,7 +80,7 @@ public class TokenProvider {
 	 * @return
 	 */
 	public Authentication getAuthentication(String token) {
-		String username = Jwts.parser().setSigningKey(this.secretKey).parseClaimsJws(token).getBody().getSubject();
+		String username = Jwts.parser().setSigningKey(getKey()).parseClaimsJws(token).getBody().getSubject();
 		UserDetails userDetails = this.userService.loadUserByUsername(username);
 
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());

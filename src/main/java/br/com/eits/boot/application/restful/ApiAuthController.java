@@ -10,29 +10,30 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.eits.boot.application.configuration.jwt.JwtTokenProvider;
-import br.com.eits.boot.application.security.JwtAuthenticationManager;
-import br.com.eits.boot.domain.entity.account.Papel;
+import br.com.eits.boot.application.configuration.jwt.TokenProvider;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.service.AccountService;
+import br.com.eits.common.application.i18n.MessageSourceHolder;
 
 @RestController
 public class ApiAuthController {
 
 	@Autowired
-	private JwtTokenProvider tokenProvider;
+	private TokenProvider tokenProvider;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	@Autowired
-	private JwtAuthenticationManager jwtAuthenticationManager;
+//	@Autowired
+//	private JwtAuthenticationManager jwtAuthenticationManager;
 	
 	@Autowired
 	private AccountService accountService;
@@ -71,16 +72,25 @@ public class ApiAuthController {
 			
 			Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
 			// seta pessoa autenticada na sessão
-			jwtAuthenticationManager.setAuthentication(authentication);
+//			jwtAuthenticationManager.setAuthentication(authentication);
 			
-			String token = tokenProvider.createToken(pessoa.getUsername(), java.util.Arrays.asList(Papel.ADMINISTRATOR));
+			String token = tokenProvider.createToken(pessoa.getUsername());
+			
+			Pessoa pessoaLogada = (Pessoa) authentication.getPrincipal();
+			
+			Assert.notNull(pessoaLogada, MessageSourceHolder.translate("login.autenticate.bad.credentials"));
+			
+			pessoaLogada.setTokenJwt(token);
+			
+			accountService.updatePessoa(pessoaLogada);
+			
 			System.out.println(token);
 			
 			return new ResponseEntity<String>(token, HttpStatus.OK);
 			
 		} catch (AuthenticationException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
@@ -90,22 +100,24 @@ public class ApiAuthController {
 	 * @return
 	 */
 	@GetMapping(
-		value="/api/pessoa-logada",
+		value="/api/pessoa-token",
+		consumes= MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Pessoa> getPessoaLogada(){
+	public ResponseEntity<Pessoa> getPessoaByToken(@RequestParam("token") String token){
 		System.out.println("Obtem pessoa logada");
 		
+		System.out.println("Token requerido "+ token);
 //		Pessoa pessoaLogada = this.accountService.findPessoaById(1L);
-		Pessoa pessoaLogada = this.accountService.getPessoaLogada();
+		Pessoa pessoaLogada = this.accountService.findPessoaByToken(token);
 		if(pessoaLogada != null){
 			System.out.println("Obtem pessoa logada"+ pessoaLogada.getNome());
 			
-			return new ResponseEntity<>(pessoaLogada, HttpStatus.OK);
+			return new ResponseEntity<Pessoa>(pessoaLogada, HttpStatus.OK);
 		} 
 		System.out.println("Obtem pessoa logada não encontrada");
 		
-		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 	}
 	

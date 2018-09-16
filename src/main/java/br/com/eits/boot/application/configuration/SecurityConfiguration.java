@@ -10,32 +10,33 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import br.com.eits.boot.application.configuration.jwt.JwtConfigurer;
-import br.com.eits.boot.application.configuration.jwt.TokenProvider;
+import br.com.eits.boot.application.configuration.jwt.JwtFilter;
 import br.com.eits.boot.application.security.AuthenticationFailureHandler;
 import br.com.eits.boot.application.security.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 public class SecurityConfiguration {
 	
-	@Order(1)
+	@Order(-1)
 	@Configuration
 	public static class RestSecurityConfiguration// { 
 		extends WebSecurityConfigurerAdapter {
 
-		private final TokenProvider tokenProvider;
-		
+//		private final TokenProvider tokenProvider;
+		@Autowired
+		private JwtFilter jwtFilter;
 		/**
 		 * Constructor
 		 * @param tokenProvide
 		 */
 //		@Autowired
-		public RestSecurityConfiguration(TokenProvider tokenProvide) {
-			this.tokenProvider = tokenProvide;
-		}
+//		public RestSecurityConfiguration(TokenProvider tokenProvide) {
+//			this.tokenProvider = tokenProvide;
+//		}
 
 		@Bean
 		@Override
@@ -60,8 +61,48 @@ public class SecurityConfiguration {
 		 */
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			
+
 			http
+			.csrf()
+				.disable()
+			.cors()
+//		.and().authorizeRequests()
+				.and()
+					.sessionManagement()
+						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+					.antMatcher("/api/**").authorizeRequests()
+				.and()
+					.authorizeRequests()
+						.antMatchers("/api-login").permitAll()
+//				.and()
+//					.apply(new JwtConfigurer(this.tokenProvider))
+				.and().addFilterBefore( jwtFilter, UsernamePasswordAuthenticationFilter.class);
+			
+/*		quase deu certo	 http.csrf().disable().cors()
+	        .and()
+		      .sessionManagement()
+		        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	        .and()
+	        	.requestMatchers()
+	        	.antMatchers("/api/**")
+//		        .antMatchers("/api-login").permitAll()
+		    .and()
+		        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+		        .authorizeRequests().anyRequest().authenticated();*/
+			
+//			http.csrf().disable().cors().and().requestMatchers().and()
+//			.antMatcher("/api/**").authorizeRequests()
+//			.antMatchers("/api-login").permitAll()
+//			.and()
+//            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//            .authorizeRequests().anyRequest().authenticated();
+				
+		}
+		
+		
+		/*
+		 * http
 				.csrf()
 					.disable()
 				.cors()
@@ -70,13 +111,15 @@ public class SecurityConfiguration {
 						.sessionManagement()
 							.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 					.and()
-						.antMatcher("/api/**")
+						.antMatcher("/api/**").authorizeRequests()
+					.and()
 						.authorizeRequests()
 							.antMatchers("/api-login").permitAll()
-					.and()
-						.apply(new JwtConfigurer(this.tokenProvider));
+//					.and()
+//						.apply(new JwtConfigurer(this.tokenProvider))
+					.and().addFilterBefore( new JwtFilter(this.tokenProvider), UsernamePasswordAuthenticationFilter.class);
 			
-		}
+		 */
 		
 		/**
 		 * configura o cors da api
@@ -109,7 +152,8 @@ public class SecurityConfiguration {
 //					"/bundles/**", 
 //					"/webjars/**",
 //					"/authentication",
-//					"/authenticate"
+//					"/authenticate",
+//					"/api-login"
 //				);
 //		}
 		
@@ -160,24 +204,23 @@ public class SecurityConfiguration {
 			httpSecurity
 				.authorizeRequests()
 				.antMatchers("/api/**").permitAll()
-					.anyRequest()
-						.authenticated()
-						.and()
-							.formLogin()
-								.usernameParameter( "login" )
-								.passwordParameter( "senha" )
-								.loginPage( "/authentication" )
-								.loginProcessingUrl( "/authenticate" )
-								.failureHandler( this.authenticationFailureHandler )
-								.successHandler( this.authenticationSuccessHandler )
-							.permitAll()
-						.and()
-							.logout()
-								.logoutUrl( "/logout" )
-						.and().
-							headers()
-								.defaultsDisabled()
-								.contentTypeOptions();
+				.antMatchers("/api-login").permitAll()
+			.and()
+					.formLogin()
+							.usernameParameter( "login" )
+							.passwordParameter( "senha" )
+							.loginPage( "/authentication" )
+							.loginProcessingUrl( "/authenticate" )
+							.failureHandler( this.authenticationFailureHandler )
+							.successHandler( this.authenticationSuccessHandler )
+						.permitAll()
+					.and()
+						.logout()
+							.logoutUrl( "/logout" )
+					.and().
+						headers()
+							.defaultsDisabled()
+							.contentTypeOptions();
 		}
 		
 		/**
@@ -194,7 +237,7 @@ public class SecurityConfiguration {
 					"/modules/**", 
 					"/broker/**/*.js", 
 					"/bundles/**", 
-					"/webjars/**", 
+					"/webjars/**",
 					"/api/**",
 					"/api-login"
 				);

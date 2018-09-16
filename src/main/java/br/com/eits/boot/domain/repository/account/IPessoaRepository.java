@@ -84,6 +84,8 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 		+ "		) "
 	)
 	Optional<Pessoa> findById(@Param("idPessoa") Long id, @Param("listarAdministrador") Boolean listarAdministrador);
+
+	Optional<Pessoa> findByTokenJwt(String tokenJwt);
 	
 	
 }
