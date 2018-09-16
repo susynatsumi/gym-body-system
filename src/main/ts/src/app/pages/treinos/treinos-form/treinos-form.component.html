@@ -1,22 +1,21 @@
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading> 
+<ngx-loading [show]="loading"></ngx-loading>
 <div>
-  <mat-vertical-stepper [linear]="true" #stepper>
+  <mat-horizontal-stepper [linear]="false" #stepper>
     <mat-step [stepControl]="formGrupoStep1">
-      <form  fxLayout="column" class="example-form" [formGroup]="formGrupoStep1">
+      <form fxLayout="column" class="example-form" [formGroup]="formGrupoStep1">
         <ng-template matStepLabel>Cadastro de treino - Selecionar aluno</ng-template>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <mat-form-field fxFlex>
             <!-- <div>  -->
-              <input matInput formControlName="alunoSelecionado" placeholder="Aluno (Obrigatório)" (ngModelChange)="listPessoasByFilters($event);"  aria-label="pessoaProprietario"
-                [(ngModel)]="alunoSelecionado.nome" [matAutocomplete]="auto" 
-              />
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option (onSelectionChange)="setAluno(pessoa)" *ngFor="let pessoa of pessoasList" [value]="pessoa?.nome">
-                  <span>{{ pessoa?.nome }}</span>
-                </mat-option>
-              </mat-autocomplete>
-    
-              <!-- <input 
+            <input matInput formControlName="alunoSelecionado" placeholder="Aluno (Obrigatório)" (ngModelChange)="listPessoasByFilters($event);"
+              aria-label="pessoaProprietario" [(ngModel)]="alunoSelecionado.nome" [matAutocomplete]="auto" />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="setAluno(pessoa)" *ngFor="let pessoa of pessoasList" [value]="pessoa?.nome">
+                <span>{{ pessoa?.nome }}</span>
+              </mat-option>
+            </mat-autocomplete>
+
+            <!-- <input 
                 matInput 
                 placeholder="Aluno (Obrigatório)" 
                 aria-label="alunoSelecionado" 
@@ -33,39 +32,26 @@
           </div> -->
         </div>
         <div>
-          <button 
-            mat-raised-button 
-            matStepperNext 
-            title="Ir para a próxima etapa">Próximo</button>
+          <button mat-raised-button matStepperNext title="Ir para a próxima etapa">Próximo</button>
         </div>
       </form>
     </mat-step>
     <mat-step [stepControl]="formGrupoStep2">
-      <form  fxLayout="column" class="example-form" [formGroup]="formGrupoStep2">
+      <form fxLayout="column" class="example-form" [formGroup]="formGrupoStep2">
         <ng-template matStepLabel>Cadastro de treino</ng-template>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <mat-form-field fxFlex>
-            <input 
-              matInput 
-              placeholder="Nome Para o treino (Obrigatório)" 
-              formControlName="nome"
-              name="nome" 
-              [(ngModel)]="treino.nome"  />
+            <input matInput placeholder="Nome Para o treino (Obrigatório)" formControlName="nome" name="nome"
+              [(ngModel)]="treino.nome" />
           </mat-form-field>
         </div>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <mat-form-field fxFlex>
-            
-            <input 
-              matInput 
-              [min]="minDate"
-              [matDatepicker]="picker" 
-              placeholder="Data de início do treino (Obrigatório)"  
-              formControlName="dataInicio"
-              name="dataInicio" 
-              [(ngModel)]="treino.dataInicio"/>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker disabled="false"></mat-datepicker>
+
+            <input matInput [min]="minDate" [matDatepicker]="picker" placeholder="Data de início do treino (Obrigatório)"
+              formControlName="dataInicio" name="dataInicio" [(ngModel)]="treino.dataInicio" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
 
             <!-- <input 
                 matInput 
@@ -80,16 +66,10 @@
           </mat-form-field>
           <mat-form-field fxFlex>
 
-            <input 
-              matInput 
-              [min]="minDate"
-              [matDatepicker]="pickerFim" 
-              placeholder="Data de término do treino (Obrigatório)"  
-              formControlName="dataFim"
-              name="dataFim" 
-              [(ngModel)]="treino.dataFim"/>
-          <mat-datepicker-toggle matSuffix [for]="pickerFim"></mat-datepicker-toggle>
-          <mat-datepicker #pickerFim disabled="false"></mat-datepicker>
+            <input matInput [min]="minDate" [matDatepicker]="pickerFim" placeholder="Data de término do treino (Obrigatório)"
+              formControlName="dataFim" name="dataFim" [(ngModel)]="treino.dataFim" />
+            <mat-datepicker-toggle matSuffix [for]="pickerFim"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFim disabled="false"></mat-datepicker>
 
             <!-- <input 
               matInput 
@@ -114,15 +94,10 @@
                 mask="00:00"
                 [dropSpecialCharacters]="false"
                 [(ngModel)]="treino.horaPrevistaInicio"> -->
-                <input  
-                  matInput 
-                  placeholder="Hora prevista de início (Obrigatório)"  
-                  formControlName="horaPrevistaInicio"
-                  name="horaPrevistaInicio" 
-                  [owlDateTimeTrigger]="horaInicio" 
-                  [(ngModel)]="treino.horaPrevistaInicio"
-                  [owlDateTime]="horaInicio">
-                <owl-date-time [pickerType]="'timer'" #horaInicio></owl-date-time>
+            <input matInput placeholder="Hora prevista de início (Obrigatório)" formControlName="horaPrevistaInicio"
+              name="horaPrevistaInicio" [owlDateTimeTrigger]="horaInicio" [(ngModel)]="treino.horaPrevistaInicio"
+              [owlDateTime]="horaInicio">
+            <owl-date-time [pickerType]="'timer'" #horaInicio></owl-date-time>
           </mat-form-field>
           <mat-form-field fxFlex>
             <!-- <input 
@@ -133,131 +108,156 @@
               mask="00:00"
               [dropSpecialCharacters]="false"
               [(ngModel)]="treino.horaPrevistaTermino"> -->
-            <input  
-              matInput 
-              placeholder="Hora prevista de término (Obrigatório)"  
-              formControlName="horaPrevistaTermino"
-              name="horaPrevistaTermino" 
-              [owlDateTimeTrigger]="horaFim" 
-              [(ngModel)]="treino.horaPrevistaTermino"
+            <input matInput placeholder="Hora prevista de término (Obrigatório)" formControlName="horaPrevistaTermino"
+              name="horaPrevistaTermino" [owlDateTimeTrigger]="horaFim" [(ngModel)]="treino.horaPrevistaTermino"
               [owlDateTime]="horaFim">
             <owl-date-time [pickerType]="'timer'" #horaFim></owl-date-time>
           </mat-form-field>
         </div>
         <div>
-          <button 
-              mat-raised-button 
-              matStepperPrevious 
-              title="Voltar para etapa anterior">Anterior</button>
-          <button 
-              mat-raised-button 
-              matStepperNext 
-              title="Ir para a próxima etapa">Próximo</button>
+          <button mat-raised-button matStepperPrevious title="Voltar para etapa anterior">Anterior</button>
+          <button mat-raised-button matStepperNext title="Ir para a próxima etapa">Próximo</button>
         </div>
       </form>
     </mat-step>
     <mat-step [stepControl]="formGroupStep3" *ngIf="parametroId == null">
-      <form  fxLayout="column" class="example-form" [formGroup]="formGroupStep3" >
+      <form fxLayout="column" class="example-form" [formGroup]="formGroupStep3">
         <ng-template matStepLabel>Selecionar dias da semana</ng-template>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <div fxLayout="column" fxFlex="55%">
-              <mat-checkbox 
-                labelPosition='after'
-                formControlName="segunda"
-                color='primary'
-                [(ngModel)]="segunda">Segunda-Feira</mat-checkbox>
-              <mat-checkbox 
-                labelPosition='after'
-                formControlName="terca"
-                color='primary'
-                [(ngModel)]="terca">Terça-Feira</mat-checkbox>
-              <mat-checkbox 
-                labelPosition='after'
-                formControlName="quarta"
-                color='primary'
-                [(ngModel)]="quarta">Quarta-Feira</mat-checkbox>
-              <mat-checkbox 
-                labelPosition='after'
-                formControlName="quinta"
-                color='primary'
-                [(ngModel)]="quinta">Quinta-Feira</mat-checkbox>
-              <mat-checkbox 
-                labelPosition='after'
-                formControlName="sexta"
-                color='primary'
-                [(ngModel)]="sexta">Sexta-Feira</mat-checkbox>
-              <mat-checkbox 
-                labelPosition='after'
-                formControlName="sabado"
-                color='primary'
-                [(ngModel)]="sabado">Sábado</mat-checkbox>
-              <mat-checkbox 
-                labelPosition='after'
-                formControlName="domingo"
-                color='primary'
-                [(ngModel)]="domingo">Domingo</mat-checkbox>
+            <mat-checkbox labelPosition='after' formControlName="segunda" color='primary' [(ngModel)]="segunda">Segunda-Feira</mat-checkbox>
+            <mat-checkbox labelPosition='after' formControlName="terca" color='primary' [(ngModel)]="terca">Terça-Feira</mat-checkbox>
+            <mat-checkbox labelPosition='after' formControlName="quarta" color='primary' [(ngModel)]="quarta">Quarta-Feira</mat-checkbox>
+            <mat-checkbox labelPosition='after' formControlName="quinta" color='primary' [(ngModel)]="quinta">Quinta-Feira</mat-checkbox>
+            <mat-checkbox labelPosition='after' formControlName="sexta" color='primary' [(ngModel)]="sexta">Sexta-Feira</mat-checkbox>
+            <mat-checkbox labelPosition='after' formControlName="sabado" color='primary' [(ngModel)]="sabado">Sábado</mat-checkbox>
+            <mat-checkbox labelPosition='after' formControlName="domingo" color='primary' [(ngModel)]="domingo">Domingo</mat-checkbox>
           </div>
         </div>
         <div>
-          <button 
-            mat-raised-button 
-            matStepperPrevious 
-            title="Voltar para etapa anterior">Anterior</button>
-          <button 
-            mat-raised-button 
-            (click)="selecionarDiasSemana(stepper)"
-            title="Ir para a próxima etapa">Próximo</button>
+          <button mat-raised-button matStepperPrevious title="Voltar para etapa anterior">Anterior</button>
+          <button mat-raised-button (click)="selecionarDiasSemana(stepper)" title="Ir para a próxima etapa">Próximo</button>
         </div>
       </form>
     </mat-step>
 
     <mat-step [stepControl]="formGroupStep4">
-      <form  fxLayout="column" class="example-form" [formGroup]="formGroupStep4" >
+      <form fxLayout="column" class="example-form" [formGroup]="formGroupStep4">
         <ng-template matStepLabel>Exercicios do treino</ng-template>
         <mat-accordion class="example-headers-align">
           <div formArrayName="treinoExercicios" *ngFor="let treinoExercicio of formGroupStep4.get('treinoExercicios').controls; let i=index;">
-            <!-- {{i}} -->
-            <app-treino-exercicio-form 
-              [indexDesteItem]="i"
-              [itemAtual]="itemAtual"
-              [formGroupTreinoExercicio]="treinoExercicio" 
-              [treinoExercicio]="treino.treinoExercicios[i]"
-              (treinoExercicioAtual)="setItemAtual($event)" 
-              (apagarTreinoExercicio)="removerTreinoExercicio($event)"></app-treino-exercicio-form>
+
+            <mat-expansion-panel [expanded]="itemAtual == i" (opened)="setItemAtual(i)">
+
+              <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="treinoExercicio && treinoExercicio.exercicio && treinoExercicio.exercicio.nome">
+                  Exercício: {{ treinoExercicio?.exercicio?.nome }}
+                </mat-panel-title>
+                <mat-panel-title *ngIf="!treinoExercicio || !treinoExercicio.exercicio || !treinoExercicio.exercicio.nome">
+                  Informe os dados do exercicio
+                </mat-panel-title>
+                <mat-panel-description>
+                  Clique aqui para visualizar os dados do exercicio
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-card>
+                <mat-card-content>
+                  <form [formGroup]="treinoExercicio" fxLayout="column" fxLayoutGap="20px">
+
+                    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+                      <mat-form-field fxFlex>
+                        <input matInput placeholder="Exercício (Obrigatório)" (ngModelChange)="listExerciciosByFilters($event);"
+                          [ngModel]="treinoExercicio?.exercicio?.nome" formControlName="exercicio" [matAutocomplete]="auto" />
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option (onSelectionChange)="setExercicio(i, exercicio)" *ngFor="let exercicio of exerciciosAutoComplete"
+                            [value]="exercicio?.nome">
+                            <span> {{ exercicio?.nome }} </span>
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex>
+                        <mat-select 
+                        (selectionChange)="changeTipoTreinoExercicio(treinoExercicio, i, $event.value)"
+                          placeholder="Tipo de Exercício (Obrigatório)" 
+                          formControlName="tipoTreinoExercicio"
+                          name="tipoTreinoExercicio" 
+                          (ngModelChange)="treinoExercicio.tipoTreinoExercicio=$event"
+                          [ngModel]="treinoExercicio?.tipoTreinoExercicio">
+                          <mat-option 
+                            *ngFor="let tipoTreinoExercicio of tiposTreinoExercicio" 
+                            [value]="tipoTreinoExercicio">{{tipoTreinoExercicio}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+
+                    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+                      <mat-form-field fxFlex>
+                        <input matInput formControlName="series" (ngModelChange)="treino.treinoExercicios[i].series=$event"
+                          [ngModel]="treinoExercicio?.series" placeholder="Séries (Obrigatório)" />
+                      </mat-form-field>
+
+                      <mat-form-field *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' "
+                        fxFlex>
+                        <input matInput formControlName="carga" (ngModelChange)="treino.treinoExercicios[i].carga=$event"
+                          [ngModel]="treinoExercicio?.carga" placeholder="Carga (Obrigatório)" />
+                      </mat-form-field>
+
+                      <mat-form-field *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && ( treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio == 'REPETICOES' )"
+                        fxFlex>
+                        <input matInput  formControlName="repeticoes" (ngModelChange)="treino.treinoExercicios[i].repeticoes=$event"
+                          [ngModel]="treinoExercicio?.repeticoes" placeholder="Repeticões (Obrigatório)" />
+                      </mat-form-field>
+
+                      <mat-form-field *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'TEMPO'"
+                        fxFlex>
+                        <input matInput  formControlName="tempoMin" (ngModelChange)="treino.treinoExercicios[i].tempoMin=$event"
+                          [ngModel]="treinoExercicio?.tempoMin" placeholder="Tempo em minutos (Obrigatório)" />
+                      </mat-form-field>
+
+                    </div>
+
+
+                    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+                      <mat-form-field fxFlex>
+                        <textarea rows="4" matInput placeholder="Observações de realização do exercício (Opcional)"
+                          formControlName="observacoes" name="observacoes" (ngModelChange)="treino.treinoExercicios[i].observacoes=$event"
+                          [ngModel]="treinoExercicio?.observacoes"></textarea>
+                      </mat-form-field>
+
+                    </div>
+
+                  </form>
+
+                </mat-card-content>
+
+              </mat-card>
+
+            </mat-expansion-panel>
+
+            <!-- <app-treino-exercicio-form [indexDesteItem]="i" [itemAtual]="itemAtual" [formGroupTreinoExercicio]="treinoExercicio"
+              [treinoExercicio]="treino.treinoExercicios[i]" (treinoExercicioAtual)="setItemAtual($event)"
+              (apagarTreinoExercicio)="removerTreinoExercicio($event)"></app-treino-exercicio-form> -->
           </div>
         </mat-accordion>
         <!-- <div *ngFor=" let treinoExercicio of treino.treinoExercicios">
         </div> -->
         <div class="botao-adicionar">
-          <button 
-            mat-raised-button 
-            color='primary'
-            type="button"
-            matStepperNext
-            (click)="addNewTreinoExercicioFormArray()"
+          <button mat-raised-button color='primary' type="button" matStepperNext (click)="addNewTreinoExercicioFormArray()"
             title="Adicionar novo exercicio no treino">Adicionar Exercicio</button>
         </div>
         <div>
-          <button 
-              mat-raised-button 
-              matStepperPrevious
-              type="button" 
-              title="Voltar para etapa anterior">Anterior</button>
-          <button 
-              mat-raised-button 
-              matStepperNext 
-              color='primary'
-              (click)="salvar()"
-              type="button"
-              title="Ir para a próxima etapa">Finalizar</button>
-          <button 
-              mat-raised-button 
-              title="Cancela operação e retornar para tela de consulta" 
-              [routerLink]="['/treinos']"  
-              type="button"
-              color="warn">Cancelar</button>
+          <button mat-raised-button matStepperPrevious type="button" title="Voltar para etapa anterior">Anterior</button>
+          <button mat-raised-button matStepperNext color='primary' (click)="salvar()" type="button" title="Ir para a próxima etapa">Finalizar</button>
+          <button mat-raised-button title="Cancela operação e retornar para tela de consulta" [routerLink]="['/treinos']"
+            type="button" color="warn">Cancelar</button>
         </div>
       </form>
     </mat-step>
-  </mat-vertical-stepper>
-</div>  
+  </mat-horizontal-stepper>
+</div>

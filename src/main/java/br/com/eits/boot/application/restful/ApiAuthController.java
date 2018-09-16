@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.eits.boot.application.configuration.jwt.TokenProvider;
+import br.com.eits.boot.application.configuration.jwt.JwtTokenProvider;
 import br.com.eits.boot.application.security.JwtAuthenticationManager;
+import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.service.AccountService;
 
@@ -25,7 +26,7 @@ import br.com.eits.boot.domain.service.AccountService;
 public class ApiAuthController {
 
 	@Autowired
-	private TokenProvider tokenProvider;
+	private JwtTokenProvider tokenProvider;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -72,7 +73,7 @@ public class ApiAuthController {
 			// seta pessoa autenticada na sessão
 			jwtAuthenticationManager.setAuthentication(authentication);
 			
-			String token = tokenProvider.createToken(pessoa.getUsername());
+			String token = tokenProvider.createToken(pessoa.getUsername(), java.util.Arrays.asList(Papel.ADMINISTRATOR));
 			System.out.println(token);
 			
 			return new ResponseEntity<String>(token, HttpStatus.OK);

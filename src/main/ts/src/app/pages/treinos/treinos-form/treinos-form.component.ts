@@ -1,18 +1,21 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Treino, Pessoa, Page, TreinoExercicio, PageRequest } from '../../../../generated/entities';
+import { Treino, Pessoa, Page, TreinoExercicio, PageRequest, Exercicio, TipoTreinoExercicioValues, TipoTreinoExercicio } from '../../../../generated/entities';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatStepper } from '@angular/material';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
-import { AccountService, TreinoExercicioService, TreinoService } from '../../../../generated/services';
+import { AccountService, TreinoExercicioService, TreinoService, ExercicioService } from '../../../../generated/services';
 import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app-treinos-form',
   templateUrl: './treinos-form.component.html',
   styleUrls: ['./treinos-form.component.scss']
 })
 export class TreinosFormComponent implements OnInit {
+
+  // ---------------------------------------------------
+  // -------------------- ATRIBUTOS --------------------
+  // ---------------------------------------------------
 
   // data atual para data minima para selecionar
   public minDate = new Date();
@@ -56,42 +59,53 @@ export class TreinosFormComponent implements OnInit {
 
   pageRequest: PageRequest;
 
+  // exercicios para popular o auto complete
+  exerciciosAutoComplete: Treino[];
+
+  // tipos de treino exercicio para o select
+  tiposTreinoExercicio: string[];
+
+  // ----------------------------------------------
+  // --------------------- CONSTRUCTOR ------------
+  // ----------------------------------------------
+
   /**
    * 
    * @param formBuilder 
-   * @param dialog 
    * @param messageService 
    * @param pessoasService 
-   * @param treinoExercicioService 
+   * @param treinoService 
+   * @param router 
+   * @param activedRoute 
+   * @param pessoaLogadaSession 
+   * @param exercicioService 
    */
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MensagemAlertaService,
     private pessoasService: AccountService,
-    private treinoExercicioService: TreinoExercicioService,
     private treinoService: TreinoService,
     private router: Router,
     private activedRoute: ActivatedRoute,
-    private pessoaLogadaSession: AccountService
-  ) { 
-
-    this.pessoaLogadaSession.getPessoaLogada()
-      .subscribe((pessoa: Pessoa)=>{
-        this.pessoaLogada = pessoa;
-    });
+    private pessoaLogadaSession: AccountService,
+    private exercicioService: ExercicioService,
+  ) {
 
     this.treino = {
-      treinoExercicios: [
-        {
-          tipoTreinoExercicio: 'CARGA_REPETICOES',
-          exercicio: {nome: ''}
-        }
-      ],
-      dataFim: null, 
+      treinoExercicios: [],
+      dataFim: null,
       dataInicio: null,
-      horaPrevistaInicio: null, 
+      horaPrevistaInicio: null,
       horaPrevistaTermino: null,
     };
+
+    this.tiposTreinoExercicio = TipoTreinoExercicioValues;
+
+    this.pessoaLogadaSession.getPessoaLogada()
+    .subscribe((pessoa: Pessoa) => {
+      this.pessoaLogada = pessoa;
+    });
+
     this.alunoSelecionado = {};
 
     this.inicializaTreino();
@@ -112,30 +126,35 @@ export class TreinosFormComponent implements OnInit {
 
   }
 
-  inicializaTreino(){
+  // -----------------------------------------
+  // ----------------- MÉTODOS ---------------
+  // -----------------------------------------
+
+  inicializaTreino() {
     this.parametroId = null;
     this.activedRoute.params
-    .subscribe(
-      (paramns)=>{
+      .subscribe(
+        (paramns) => {
 
-        this.parametroId = paramns.id;
+          this.parametroId = paramns.id;
 
-        if(this.parametroId != null){
+          if (this.parametroId != null) {
 
-          this.loading = true;
+            this.loading = true;
 
-          this.treinoService.findTreinoById(this.parametroId)
-            .finally(()=> this.loading = false)
-            .subscribe((treino: Treino)=>{
-              this.treino = treino;
-              this.alunoSelecionado = treino.aluno;
-            });
+            this.treinoService.findTreinoById(this.parametroId)
+              .finally(() => this.loading = false)
+              .subscribe((treino: Treino) => {
+                this.treino = treino;
+                this.alunoSelecionado = treino.aluno;
+                this.carregaTreinoExercicioFormGroup(treino);
+              });
+
+          }
 
         }
 
-      }
-
-    );
+      );
 
   }
 
@@ -177,92 +196,158 @@ export class TreinosFormComponent implements OnInit {
 
   }
 
-  /**
-   * Percorre a lista de check box e adiciona os selecionados na lista
-   */
-  selecionarDiasSemana(stepper: MatStepper){
-
-    console.log(this.parametroId);
-
-    if( this.parametroId === null ){
-      return;
-    }
-
-    this.formGroupStep3.controls['segunda'].setErrors({'invalido':true});
-    this.treino.diasSemanaSelecionados = [];
-
-    if( this.segunda ){
-      this.treino.diasSemanaSelecionados.push('SEGUNDA');
-    }
-    if( this.terca ){
-      this.treino.diasSemanaSelecionados.push('TERCA');
-    }
-    if( this.quarta ){
-      this.treino.diasSemanaSelecionados.push('QUARTA');
-    }
-    if( this.quinta ){
-      this.treino.diasSemanaSelecionados.push('QUINTA');
-    }
-    if( this.sexta ){
-      this.treino.diasSemanaSelecionados.push('SEXTA');
-    }
-    if( this.sabado ){
-      this.treino.diasSemanaSelecionados.push('SABADO');
-    }
-    if( this.domingo ){
-      this.treino.diasSemanaSelecionados.push('DOMINGO');
-    }
-
-    if(this.treino.diasSemanaSelecionados.length == 0){
-      this.messageService.message("Selecione ao menos um dia da semana");
-    }else {
-      this.formGroupStep3.controls['segunda'].setErrors(null);
-      stepper.next();
-    }
-
-  }
+  // ------------------------------------------------------------------
+  // -------------------------- MÉTODOS STEP 2 ------------------------
+  // ------------------------------------------------------------------
 
   /**
    * Faz a listagem de pessoa de acordo com o texto digitado no autocomplete
    * @param filter 
    */
-  listPessoasByFilters(filter: string){
+  listPessoasByFilters(filter: string) {
     this.pessoasService.listByFilters(filter, true, true, this.pageRequest)
-    .subscribe((pessoas: Page<Pessoa>) => {
-      this.pessoasList = pessoas.content;
-    });
+      .subscribe((pessoas: Page<Pessoa>) => {
+        this.pessoasList = pessoas.content;
+      });
   }
 
   /**
    * Seleciona o aluno no auto complete
    * @param pessoa 
    */
-  setAluno(pessoa: Pessoa){
+  setAluno(pessoa: Pessoa) {
     this.alunoSelecionado = pessoa;
   }
 
-  // adicionarTreinoExercicio() {
-  //   this.treino.treinoExercicios
-  //     .push({
-  //       isAtivo: true,
-  //       exercicio: {nome:'' }
-  //     });
-  // }
+  // -------------------------------------------------------------------
+  // -------------------------- MÉTODOS STEP 3 -------------------------
+  // -------------------------------------------------------------------
+
+  /**
+   * Percorre a lista de check box e adiciona os selecionados na lista
+   */
+  selecionarDiasSemana(stepper: MatStepper) {
+
+    if (this.parametroId === null) {
+      return;
+    }
+
+    this.formGroupStep3.controls['segunda'].setErrors({ 'invalido': true });
+    this.treino.diasSemanaSelecionados = [];
+
+    if (this.segunda) {
+      this.treino.diasSemanaSelecionados.push('SEGUNDA');
+    }
+    if (this.terca) {
+      this.treino.diasSemanaSelecionados.push('TERCA');
+    }
+    if (this.quarta) {
+      this.treino.diasSemanaSelecionados.push('QUARTA');
+    }
+    if (this.quinta) {
+      this.treino.diasSemanaSelecionados.push('QUINTA');
+    }
+    if (this.sexta) {
+      this.treino.diasSemanaSelecionados.push('SEXTA');
+    }
+    if (this.sabado) {
+      this.treino.diasSemanaSelecionados.push('SABADO');
+    }
+    if (this.domingo) {
+      this.treino.diasSemanaSelecionados.push('DOMINGO');
+    }
+
+    if (this.treino.diasSemanaSelecionados.length == 0) {
+      this.messageService.message("Selecione ao menos um dia da semana");
+    } else {
+      this.formGroupStep3.controls['segunda'].setErrors(null);
+      stepper.next();
+    }
+
+  }
+
+
+  // // ------------------------------------------------------
+  // // ---------- MÉTODOS STEP 4, FORM TREINO EXERCICIO -----
+  // // ------------------------------------------------------
+
+
+ /**
+   * Busca os exercicios para o autocomplete
+   * @param filtro 
+   */
+  listExerciciosByFilters( filtro: string ){
+
+    this.exercicioService.listExerciciosByFilters(filtro)
+      .subscribe((exercicios: Page<Exercicio>) =>{
+        this.exerciciosAutoComplete = exercicios.content;
+      }, (error: Error)=>{
+        this.messageService.errorFind(error.message);
+      });
+  }
+
+ /**
+   * Seta o exercicio do autocomplete
+   * @param treinoExercicio 
+   * @param exercicio 
+   */
+  setExercicio(indice, exercicio: Exercicio){
+
+    console.log(indice);
+
+    if(indice != null){
+
+      this.treino.treinoExercicios[indice].exercicio = exercicio;
+      console.log(this.treino.treinoExercicios[indice].exercicio);
+    }
+
+  }
+
+  /**
+   * Altera os campos obrigatórios de acordo com o tipo treino exercicio selecionado
+   * 
+   * @param formGroup 
+   * @param indice 
+   * @param tipoSelecionado 
+   */
+  changeTipoTreinoExercicio(formGroup: FormGroup,  indice, tipoSelecionado: TipoTreinoExercicio) {
+
+    formGroup.get('carga').clearValidators();
+    formGroup.get('carga').updateValueAndValidity({emitEvent:false, onlySelf:true});
+
+    formGroup.get('repeticoes').clearValidators();
+    formGroup.get('repeticoes').updateValueAndValidity({emitEvent:false, onlySelf:true});
+
+    formGroup.get('tempoMin').clearValidators();
+    formGroup.get('tempoMin').updateValueAndValidity({emitEvent:false, onlySelf:true});
+
+    if (tipoSelecionado === 'CARGA_REPETICOES') {
+      formGroup.get('carga').setValidators([Validators.required]);
+      formGroup.get('repeticoes').setValidators([Validators.required]);
+    } else if (tipoSelecionado === 'REPETICOES') {
+      formGroup.get('repeticoes').setValidators([Validators.required]);
+    } else {
+      formGroup.get('tempoMin').setValidators([Validators.required]);
+    }
+
+    this.treino.treinoExercicios[indice].tipoTreinoExercicio = tipoSelecionado;
+
+  }
 
   /**
    * Remove um treino exercicio do array, ou inativa caso já esteja salvo
    * @param idTreinoExercicio 
    */
-  removerTreinoExercicio(treinoExercicioRemover: TreinoExercicio){
+  removerTreinoExercicio(treinoExercicioRemover: TreinoExercicio) {
     const itemIndex = this.treino
       .treinoExercicios
       .findIndex((treinoExercicio) => treinoExercicio.exercicio.id == treinoExercicioRemover.exercicio.id);
-      
-    if(treinoExercicioRemover.id){
+
+    if (treinoExercicioRemover.id) {
       this.messageService.message("Não é possível remover um exercício de um treino");
     } else {
-        this.treino.treinoExercicios.splice(itemIndex, 1);
-        this.itemAtual = this.itemAtual - 1;
+      this.treino.treinoExercicios.splice(itemIndex, 1);
+      this.itemAtual = this.itemAtual - 1;
     }
 
   }
@@ -270,19 +355,16 @@ export class TreinosFormComponent implements OnInit {
   /**
    * Adiciona novo item no form array
    */
-  addNewTreinoExercicioFormArray(){
+  addNewTreinoExercicioFormArray() {
 
-    // this.formArrayTreinoExercicio.controls.forEach( (group: FormGroup)=>{
-      // group.updateValueAndValidity();
-    // });
-
-    if(this.formArrayTreinoExercicio.invalid ){
+    if (this.formArrayTreinoExercicio.invalid) {
       this.messageService.message('Preencha os campos obrigatórios!');
       return;
     }
 
-    this.itemAtual = this.itemAtual + 1;
     this.formArrayTreinoExercicio.push(this.newTreinoExercicioFormGroup());
+
+    this.itemAtual = this.itemAtual + 1;
 
   }
 
@@ -290,45 +372,46 @@ export class TreinosFormComponent implements OnInit {
    * Para atualizar o item atual do expansion panel, expandindo somente ele
    * @param itemAtual 
    */
-  setItemAtual(itemAtual:number){
-    if(itemAtual != null){
+  setItemAtual(itemAtual: number) {
+
+    if (itemAtual) {
       this.itemAtual = itemAtual;
     }
+    
   }
 
   /**
    * Get form Array
    */
-  get formArrayTreinoExercicio(){
+  get formArrayTreinoExercicio() : FormArray {
     return this.formGroupStep4.get('treinoExercicios') as FormArray;
   }
 
   /**
    * Cria novo form group para treino exericicio
    */
-  newTreinoExercicioFormGroup(){
+  newTreinoExercicioFormGroup() {
 
     let treinoExercicio: TreinoExercicio = {
       exercicio: {
         nome: ''
       },
-      tipoTreinoExercicio: 'CARGA_REPETICOES',
-      treino: this.treino
+      tipoTreinoExercicio: 'CARGA_REPETICOES'
     };
-    
-    // this.treino.treinoExercicios.push(treinoExercicio);
+
+    this.treino.treinoExercicios.push(treinoExercicio);
 
     return this.formBuilder.group({
       'exercicio': [
-        treinoExercicio.exercicio, 
+        {},
         Validators.required
       ],
       'tipoTreinoExercicio': [
-        treinoExercicio.tipoTreinoExercicio, 
+        treinoExercicio.tipoTreinoExercicio,
         Validators.required
       ],
       'series': [
-        treinoExercicio.series, 
+        treinoExercicio.series,
         Validators.compose([
           Validators.required,
           Validators.min(1)
@@ -342,23 +425,94 @@ export class TreinosFormComponent implements OnInit {
   }
 
   /**
+   * Insere treino exercicios em um form array
+   */
+  carregaTreinoExercicioFormGroup(treino: Treino) {
+
+    treino.treinoExercicios.forEach((treinoExercicio: TreinoExercicio)=>{
+      
+      console.log(treinoExercicio);
+
+      let form: FormGroup = this.formBuilder.group({
+        'exercicio': [
+          treinoExercicio.exercicio,
+          Validators.required
+        ],
+        'tipoTreinoExercicio': [
+          treinoExercicio.tipoTreinoExercicio,
+          Validators.required
+        ],
+        'series': [
+          treinoExercicio.series,
+          Validators.compose([
+            Validators.required,
+            Validators.min(1)
+          ])
+        ],
+        'carga': [
+          treinoExercicio.carga, 
+          ( 
+            treinoExercicio.tipoTreinoExercicio === 'CARGA_REPETICOES'
+              ? 
+                Validators.compose([Validators.required, Validators.min(1)]) 
+              : 
+                null  
+          ) 
+        ],
+        'repeticoes': [treinoExercicio.repeticoes,
+          ( 
+            treinoExercicio.tipoTreinoExercicio === 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio === 'REPETICOES'
+              ? 
+                Validators.compose([Validators.required, Validators.min(1)]) 
+              : 
+                null  
+          ) 
+        ],
+          'tempoMin': [treinoExercicio.tempoMin, 
+            ( 
+              treinoExercicio.tipoTreinoExercicio === 'TEMPO'
+                ? 
+                  Validators.compose([Validators.required, Validators.min(1)]) 
+                : 
+                  null  
+            ) 
+        ],
+        'observacoes': [treinoExercicio.observacoes]
+      });
+    
+      this.formArrayTreinoExercicio.push(form);
+
+    });
+    
+  }
+
+  // -----------------------------------------------------------
+  // ------------------- SALVAR --------------------------------
+  // -----------------------------------------------------------
+
+   /**
    * Salva os dados no servidor
    */
-  salvar(){
+  salvar() {
 
-    if(this.formGroupStep4.invalid){
+    if (this.formGroupStep4.invalid) {
       this.messageService.message('Preencha todos os campos obrigatórios');
       return;
     }
 
     this.loading = true;
 
+    // this.treino.treinoExercicios = this.formArrayTreinoExercicio.value;
+
+    // console.log(this.formArrayTreinoExercicio.value);
+    // console.log(this.treino.treinoExercicios);
+
     this.enviar()
-      .finally( ()=> this.loading = false )
-      .subscribe(()=>{
+      .finally(() => this.loading = false)
+      .subscribe(() => {
         this.messageService.messageBottom('Treino salvo com sucesso!');
         this.router.navigate(['treinos']);
-      }, (erro: Error)=>{
+      }, (erro: Error) => {
         this.messageService.errorSave(erro.message);
       });
   }
@@ -366,9 +520,9 @@ export class TreinosFormComponent implements OnInit {
   /**
    * Envia os dados para o servidor
    */
-  private enviar(){
+  private enviar() {
 
-    if(this.parametroId == null){
+    if (this.parametroId == null) {
 
       this.treino.personal = this.pessoaLogada;
       this.treino.aluno = this.alunoSelecionado;

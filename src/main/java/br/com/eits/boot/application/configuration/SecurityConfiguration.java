@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,7 +18,7 @@ import br.com.eits.boot.application.configuration.jwt.TokenProvider;
 import br.com.eits.boot.application.security.AuthenticationFailureHandler;
 import br.com.eits.boot.application.security.AuthenticationSuccessHandler;
 
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfiguration {
 	
 	@Order(1)
@@ -71,7 +70,7 @@ public class SecurityConfiguration {
 						.sessionManagement()
 							.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 					.and()
-//						.antMatcher("/api/**")
+						.antMatcher("/api/**")
 						.authorizeRequests()
 							.antMatchers("/api-login").permitAll()
 					.and()
@@ -160,6 +159,7 @@ public class SecurityConfiguration {
 			
 			httpSecurity
 				.authorizeRequests()
+				.antMatchers("/api/**").permitAll()
 					.anyRequest()
 						.authenticated()
 						.and()

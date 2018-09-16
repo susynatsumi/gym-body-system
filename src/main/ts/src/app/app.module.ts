@@ -12,7 +12,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE, OwlDa
 import { NgxMaskModule } from 'ngx-mask';
 
 // loader
-import { LoadingModule } from 'ngx-loading';
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 
 //outros imports
 import { AppRoutingModule } from './app-routing.module';
@@ -111,7 +111,12 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
     ReactiveFormsModule,
     FormsModule,
     NgxMaskModule.forRoot(),
-    LoadingModule,
+    LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.circleSwish,
+      backdropBackgroundColour: 'rgba(0, 0, 0, 0.8)',
+      backdropBorderRadius: '1px',
+      fullScreenBackdrop: true
+    }),
     HttpClientModule,
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,

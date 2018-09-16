@@ -136,8 +136,6 @@ export class PessoaFormComponent implements OnInit {
    */
   salvar(){
 
-    console.log(this.pessoa.dataNascimento);
-    
     this.loading = true;
 
     if(this.parametroId == null){

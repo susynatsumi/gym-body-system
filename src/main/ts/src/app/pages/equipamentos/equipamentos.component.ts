@@ -75,7 +75,7 @@ export class EquipamentosComponent implements OnInit {
    * @param filters 
    */
   listByfilters(filters: string){
-    console.log(filters);
+    // console.log(filters);
     this.equipamentoService.listEquipamentoByFilters(
       filters,
       null, 
