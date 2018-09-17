@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
@@ -129,6 +130,9 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	 */
 	@Column( nullable = true , length = 500 )
 	private String tokenJwt;
+	
+	@Transient
+	private String senhaAntiga;
 	/*-------------------------------------------------------------------
 	 *							CONSTRUCTORS
 	 *-------------------------------------------------------------------*/

@@ -1,5 +1,8 @@
 package br.com.eits.boot.application.configuration.jwt;
 
+import java.util.Enumeration;
+import java.util.List;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -52,8 +55,10 @@ public class JwtFilter// {
 			throws IOException, ServletException {
 		
 		System.out.println("JwtFilter.doFilter()");
+		
 		try {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+			System.out.println("requisição para url: "+httpServletRequest.getRequestURI());
 			String jwtToken = resolveToken(httpServletRequest);
 			if (jwtToken != null) {
 				Authentication authentication = this.tokenProvider.getAuthentication(jwtToken);

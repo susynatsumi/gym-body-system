@@ -1,7 +1,6 @@
 package br.com.eits.boot.application.configuration.jwt;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,8 +16,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class TokenProvider {
-
-	private final String secretKey;
+//	usando o padrão novo, com o Key
+//	private final String secretKey;
 
 	private final long tokenValidityInMilliseconds;
 
@@ -39,7 +38,7 @@ public class TokenProvider {
 	 * @param userService
 	 */
 	public TokenProvider(AppConfig config, UserDetailsService userService) {
-		this.secretKey = Base64.getEncoder().encodeToString(config.getSecret().getBytes());
+//		this.secretKey = Base64.getEncoder().encodeToString(config.getSecret().getBytes());
 		this.tokenValidityInMilliseconds = 1000 * config.getTokenValidityInSeconds();
 		this.userService = userService;
 	}

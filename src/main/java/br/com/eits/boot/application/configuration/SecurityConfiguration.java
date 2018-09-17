@@ -55,8 +55,7 @@ public class SecurityConfiguration {
 		 * Todos os outros pontos de extremidade serão protegidos 
 		 * e exigirão um token JWT válido. 
 		 * 
-		 * No final, a JWTConfigurerclasse auxiliar injeta a JWTFilterna 
-		 * cadeia de filtros do Spring Security.
+		 * O jwt filter será adicionado validando somente quando a url conter /api/**
 		 * 
 		 */
 		@Override
@@ -79,7 +78,7 @@ public class SecurityConfiguration {
 //					.apply(new JwtConfigurer(this.tokenProvider))
 				.and().addFilterBefore( jwtFilter, UsernamePasswordAuthenticationFilter.class);
 			
-/*		quase deu certo	 http.csrf().disable().cors()
+/*	 	http.csrf().disable().cors()
 	        .and()
 		      .sessionManagement()
 		        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -214,7 +214,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 		
 		final Long id = 1011L;
 		
-		accountService.alterarSenha(id, "sdajfjlçadfjsakjfksafoaspjioapjriojaiorjqiojrioqjw");
+		accountService.alterarSenha(id, "sdajfjlçadfjsakjfksafoaspjioapjriojaiorjqiojrioqjw", "testeteste");
 		
 		Pessoa pessoa = this.pessoaRepository.findById(id).orElse(null);
 

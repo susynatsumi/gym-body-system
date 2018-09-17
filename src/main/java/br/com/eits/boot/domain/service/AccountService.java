@@ -75,9 +75,23 @@ public class AccountService
 	}
 	
 	
-	public void alterarSenha(Long idPessoa, String novaSenha) {
+	/**
+	 * 
+	 * Altera senha do usuário
+	 * 
+	 * @param idPessoa id da pessoa que deseja alterar a senha
+	 * @param novaSenha string descriptografada
+	 * @param senhaAntiga senha descriptografada
+	 */
+	public void alterarSenha(long idPessoa, String novaSenha, String senhaAntiga) {
 		
 		Pessoa pessoa = this.findPessoaById(idPessoa);
+		
+		Assert.isTrue(
+			this.passwordEncoder.matches(senhaAntiga, pessoa.getSenha()),
+			MessageSourceHolder.translate("userService.alterar.senha.nao.confere")
+		);
+		
 		pessoa.setSenha( this.passwordEncoder.encode( novaSenha ) );
 		
 		this.pessoaRepository.save(pessoa);
