@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -158,6 +160,26 @@ public class TreinoDataService {
 		});
 		
 		
+	}
+
+	
+	public Page<TreinoData> listTreinoDataByFilters(
+		LocalDate dataInicio ,
+		Long idAluno,
+		PageRequest pageRequest
+	){
+		
+		Assert.notNull(
+			dataInicio, 
+			MessageSourceHolder.translate("service.treino.data.informe.data.inicio")
+		);
+		
+		Assert.notNull(
+			idAluno,
+			MessageSourceHolder.translate("service.treino.data.informe.codigo.aluno")
+		);
+		
+		return this.treinoDataRepository.listByFilters(dataInicio, idAluno, pageRequest);
 	}
 	
 }

@@ -78,7 +78,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	/**
 	 * senha, poderá ser null da mesma forma que o login 
 	 */
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //	@NotBlank
 	@Column(length = 100)
 	private String senha;
@@ -183,6 +183,38 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 		this.genero = genero;
 	}
 	
+	public Pessoa( 
+			Long id,
+			String nome,
+			String email, 
+			String login,
+			String senha,
+			Boolean isAtivo,
+			Set<Papel> papeis, 
+			LocalDate dataNascimento ,
+			Genero genero,
+			String objetivo,
+			OffsetDateTime lastLogin,
+			OffsetDateTime created,
+			OffsetDateTime updated,
+			String tokenJwt
+	){
+		super( id );
+		this.email = email;
+		this.nome = nome;
+		this.login = login;
+		this.isAtivo = isAtivo;
+		this.senha = senha;
+		this.papeis = papeis;
+		this.dataNascimento = dataNascimento;
+		this.genero = genero;
+		this.objetivo = objetivo;
+		this.lastLogin = lastLogin;
+		this.created = created;
+		this.updated = updated;
+		this.tokenJwt = tokenJwt;
+	}
+	
 	/*-------------------------------------------------------------------
 	 *							BEHAVIORS
 	 *-------------------------------------------------------------------*/
@@ -190,6 +222,7 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	/**
 	 * retorna as permissoes
 	 */
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	public Set<GrantedAuthority> getAuthorities()
 	{
 

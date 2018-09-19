@@ -66,6 +66,7 @@ public class PessoaRestController {
 	 * @param pessoa
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	@PutMapping(
 		value = "",
 		consumes = MediaType.APPLICATION_JSON_VALUE, 

@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -78,6 +80,7 @@ public class TreinoData extends AbstractEntity {
 	@Column(nullable = false, updatable = false)
 	private DiaSemana diaSemana;
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@OneToMany(
 		cascade = CascadeType.ALL,
 		fetch = FetchType.LAZY,

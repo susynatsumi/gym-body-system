@@ -52,12 +52,13 @@ public class ApiAuthController {
 	 * @return status ok e o token na response caso ocorra com sucesso, 
 	 * 	UNAUTHORIZED caso os dados de login não sejam validos
 	 */
+	@SuppressWarnings("rawtypes")
 	@PostMapping(
 		value = "/api-login", 
 		consumes = MediaType.APPLICATION_JSON_VALUE, 
-		produces = MediaType.TEXT_PLAIN_VALUE
+		produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<String> loginApi(
+	public ResponseEntity loginApi(
 		@RequestBody Pessoa pessoa, 
 		HttpServletResponse httpServletResponse
 	) {
@@ -82,11 +83,11 @@ public class ApiAuthController {
 			
 			pessoaLogada.setTokenJwt(token);
 			
-			accountService.updatePessoa(pessoaLogada);
+			pessoaLogada = accountService.updatePessoa(pessoaLogada);
 			
 			System.out.println(token);
 			
-			return new ResponseEntity<String>(token, HttpStatus.OK);
+			return new ResponseEntity<Pessoa>(pessoaLogada, HttpStatus.OK);
 			
 		} catch (AuthenticationException e) {
 			e.printStackTrace();

@@ -14,9 +14,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.domain.entity.AbstractEntity;
@@ -68,7 +71,7 @@ public class Treino extends AbstractEntity {
 	@Column( nullable = false)
 	private LocalDateTime horaPrevistaTermino;
 	
-	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@OneToMany(
 		cascade = CascadeType.ALL,
 		fetch = FetchType.LAZY,
@@ -78,6 +81,7 @@ public class Treino extends AbstractEntity {
 	)
 	private List<TreinoExercicio> treinoExercicios;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	// aluno do treino
 	@NotNull
 	@ManyToOne(
@@ -88,6 +92,7 @@ public class Treino extends AbstractEntity {
 	private Pessoa aluno;
 	
 	// personal do treino
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@NotNull
 	@ManyToOne(
 			fetch = FetchType.LAZY,
@@ -99,6 +104,7 @@ public class Treino extends AbstractEntity {
 	/**
 	 * Dias selecionados na tela
 	 */
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@Transient
 	private List<DiaSemana> diasSemanaSelecionados;
 	
