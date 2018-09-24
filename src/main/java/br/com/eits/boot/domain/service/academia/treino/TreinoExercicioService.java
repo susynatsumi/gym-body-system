@@ -2,6 +2,8 @@ package br.com.eits.boot.domain.service.academia.treino;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -132,6 +134,18 @@ public class TreinoExercicioService {
 					)
 				);
 		
+	}
+	
+	/**
+	 * 
+	 * Realiza a busca de todos os exercícios de um treino 
+	 * 
+	 * @param idTreino
+	 * @return
+	 */
+	@Transactional( readOnly = true )
+	public Page<TreinoExercicio> findTreinoExercicioByTreinoId( Long idTreino, PageRequest pageRequest){
+		return this.treinoExercicioRepository.findByTreino_id(idTreino, pageRequest);
 	}
 	
 }

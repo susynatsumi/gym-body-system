@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
@@ -498,6 +499,24 @@ public class TreinoExercicioServiceIntegrationTests extends AbstractIntegrationT
 
 		this.treinoExercicioService
 				.findTreinoExercicioById(100056115L);
+		
+	}
+	
+	@Test
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoExercicios.sql"
+	})
+	public void findTreinoExercicioMustPassByTreinoId() {
+		
+		
+		Page<TreinoExercicio> treinoExercicios = this.treinoExercicioService 
+					.findTreinoExercicioByTreinoId(1000L, null);
+		
+		Assert.assertNotNull(treinoExercicios);
+		Assert.assertTrue( treinoExercicios.getTotalElements() == 3L);
+		
 		
 	}
 	

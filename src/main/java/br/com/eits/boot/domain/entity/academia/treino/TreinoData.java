@@ -88,7 +88,7 @@ public class TreinoData extends AbstractEntity {
 		orphanRemoval = false, 
 		targetEntity = ExercicioRealizado.class
 	)
-	private List<ExercicioRealizado> exerciciosTreinoDatas;
+	private List<ExercicioRealizado> exerciciosRealizados;
 	// --------------------------------
 	// ------------ CONSTRUCTORS ------
 	// --------------------------------

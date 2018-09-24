@@ -85,3 +85,9 @@ INSERT INTO treino_exercicio(
             tempo_min, tipo_treino_exercicio, exercicio_id, treino_id)
     VALUES (1002, now(), null, 10, null, 30, 3, 
             10, 0, 1002, 1000);
+
+INSERT INTO treino_exercicio(
+            id, created, updated, carga, observacoes, repeticoes, series, 
+            tempo_min, tipo_treino_exercicio, exercicio_id, treino_id)
+    VALUES (1003, now(), null, 10, null, 30, 3, 
+            10, 0, 1002, 1002);

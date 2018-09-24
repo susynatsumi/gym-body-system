@@ -3,9 +3,8 @@ app:
   external-url: http://localhost:8080
   mail-from: noreply@boot
   password-token-expiration-hours: 2
-  secret: abadjosadfas5616%dasfajjsadsapppislkllasdfasfasfsafsafdasjasiudfhafhua
-  token-validity-in-seconds: 3600
 #  secret e token validity = jwt 
+  token-validity-in-seconds: 3600
   
 
 #GENERAL

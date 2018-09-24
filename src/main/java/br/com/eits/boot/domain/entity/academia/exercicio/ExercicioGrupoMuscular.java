@@ -5,6 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
@@ -32,6 +33,7 @@ public class ExercicioGrupoMuscular extends AbstractEntity {
 	// ------- ATRIBUTOS --------
 	// --------------------------
 	
+	@NotNull
 	@ManyToOne( 
 		fetch = FetchType.EAGER,
 		optional = false,
@@ -39,6 +41,7 @@ public class ExercicioGrupoMuscular extends AbstractEntity {
 	)
 	private Exercicio exercicio;
 	
+	@NotNull
 	@ManyToOne(
 	    fetch = FetchType.EAGER,
 	    optional = false,

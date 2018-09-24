@@ -46,7 +46,8 @@ public class TreinoDataRestController {
 				PageRequest.of(0, 10, sort)
 			);
 			
-			return new ResponseEntity<Page<TreinoData>>(treinosData, HttpStatus.OK);
+			return ResponseEntity.ok().body(treinosData);
+//			return new ResponseEntity<Page<TreinoData>>(treinosData, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			
