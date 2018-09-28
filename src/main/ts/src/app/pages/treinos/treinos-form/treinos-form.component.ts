@@ -3,8 +3,10 @@ import { Treino, Pessoa, Page, TreinoExercicio, PageRequest, Exercicio, TipoTrei
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatStepper } from '@angular/material';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
-import { AccountService, TreinoExercicioService, TreinoService, ExercicioService } from '../../../../generated/services';
+import { AccountService, TreinoService, ExercicioService } from '../../../../generated/services';
 import { Router, ActivatedRoute } from '../../../../../node_modules/@angular/router';
+
+import 'rxjs/operator/finally';
 
 @Component({
   selector: 'app-treinos-form',
@@ -50,7 +52,7 @@ export class TreinosFormComponent implements OnInit {
   loading = false;
 
   // item atual do expansion panel
-  itemAtual = 0;
+  itemAtual = -1;
 
   // parametro que define se está em edicao ou nao
   parametroId: number = null;
@@ -91,6 +93,8 @@ export class TreinosFormComponent implements OnInit {
     private exercicioService: ExercicioService,
   ) {
 
+    this.parametroId = null;
+
     this.treino = {
       treinoExercicios: [],
       dataFim: null,
@@ -107,8 +111,6 @@ export class TreinosFormComponent implements OnInit {
     });
 
     this.alunoSelecionado = {};
-
-    this.inicializaTreino();
 
     this.pageRequest = {
       page: 0,
@@ -129,34 +131,6 @@ export class TreinosFormComponent implements OnInit {
   // -----------------------------------------
   // ----------------- MÉTODOS ---------------
   // -----------------------------------------
-
-  inicializaTreino() {
-    this.parametroId = null;
-    this.activedRoute.params
-      .subscribe(
-        (paramns) => {
-
-          this.parametroId = paramns.id;
-
-          if (this.parametroId != null) {
-
-            this.loading = true;
-
-            this.treinoService.findTreinoById(this.parametroId)
-              .finally(() => this.loading = false)
-              .subscribe((treino: Treino) => {
-                this.treino = treino;
-                this.alunoSelecionado = treino.aluno;
-                this.carregaTreinoExercicioFormGroup(treino);
-              });
-
-          }
-
-        }
-
-      );
-
-  }
 
   /**
    * Inicializa os itens do form
@@ -188,11 +162,49 @@ export class TreinosFormComponent implements OnInit {
       'domingo': [],
     });
 
+    // inicio um form array vazio, para ou popular no modo edição
+    // ou para criar um item posteriormente caso esteja no modo de criação
     this.formGroupStep4 = this.formBuilder.group({
-      'treinoExercicios': this.formBuilder.array([
-        this.newTreinoExercicioFormGroup()
-      ])
+      'treinoExercicios': this.formBuilder.array([])
     });
+
+    this.inicializaTreino();
+
+  }
+
+  /**
+   * carrega um treino para o form caso esteja no modo de edição
+   * caso contrário cria um novo form grup e adiciona ao form array, para cadastro
+   */
+  inicializaTreino() {
+    
+    this.activedRoute.params
+      .subscribe(
+        (paramns) => {
+
+          this.parametroId = paramns.id;
+
+          if (this.parametroId != null) {
+
+            this.loading = true;
+            this.itemAtual = 0;
+
+            this.treinoService.findTreinoById(this.parametroId)
+              .finally(() => this.loading = false)
+              .subscribe((treino: Treino) => {
+                this.carregaTreinoExercicioFormGroup(treino);
+                this.treino = treino;
+                this.alunoSelecionado = treino.aluno;
+              });
+
+          } else {
+            this.addNewTreinoExercicioFormArray();
+            console.log(this.formGroupStep4);
+          }
+
+        }
+
+      );
 
   }
 
@@ -380,9 +392,6 @@ export class TreinosFormComponent implements OnInit {
     
   }
 
-  /**
-   * Get form Array
-   */
   get formArrayTreinoExercicio() : FormArray {
     return this.formGroupStep4.get('treinoExercicios') as FormArray;
   }
@@ -391,6 +400,8 @@ export class TreinosFormComponent implements OnInit {
    * Cria novo form group para treino exericicio
    */
   newTreinoExercicioFormGroup() {
+
+    console.log('Novo treino exercicio');
 
     let treinoExercicio: TreinoExercicio = {
       exercicio: {
@@ -422,6 +433,7 @@ export class TreinosFormComponent implements OnInit {
       'tempoMin': [treinoExercicio.tempoMin],
       'observacoes': [treinoExercicio.observacoes]
     });
+
   }
 
   /**
@@ -429,27 +441,29 @@ export class TreinosFormComponent implements OnInit {
    */
   carregaTreinoExercicioFormGroup(treino: Treino) {
 
+    let controles = <FormArray> this.formGroupStep4.controls.treinoExercicios;
+  
     treino.treinoExercicios.forEach((treinoExercicio: TreinoExercicio)=>{
       
       console.log(treinoExercicio);
 
       let form: FormGroup = this.formBuilder.group({
-        'exercicio': [
+        exercicio: [
           treinoExercicio.exercicio,
           Validators.required
         ],
-        'tipoTreinoExercicio': [
+        tipoTreinoExercicio: [
           treinoExercicio.tipoTreinoExercicio,
           Validators.required
         ],
-        'series': [
+        series: [
           treinoExercicio.series,
           Validators.compose([
             Validators.required,
             Validators.min(1)
           ])
         ],
-        'carga': [
+        carga: [
           treinoExercicio.carga, 
           ( 
             treinoExercicio.tipoTreinoExercicio === 'CARGA_REPETICOES'
@@ -459,7 +473,7 @@ export class TreinosFormComponent implements OnInit {
                 null  
           ) 
         ],
-        'repeticoes': [treinoExercicio.repeticoes,
+        repeticoes : [treinoExercicio.repeticoes,
           ( 
             treinoExercicio.tipoTreinoExercicio === 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio === 'REPETICOES'
               ? 
@@ -468,7 +482,7 @@ export class TreinosFormComponent implements OnInit {
                 null  
           ) 
         ],
-          'tempoMin': [treinoExercicio.tempoMin, 
+        tempoMin: [treinoExercicio.tempoMin, 
             ( 
               treinoExercicio.tipoTreinoExercicio === 'TEMPO'
                 ? 
@@ -477,13 +491,17 @@ export class TreinosFormComponent implements OnInit {
                   null  
             ) 
         ],
-        'observacoes': [treinoExercicio.observacoes]
+        observacoes: [treinoExercicio.observacoes]
       });
     
-      this.formArrayTreinoExercicio.push(form);
+      console.log(form);
+
+      controles.push(form);
 
     });
     
+    console.log(this.formGroupStep4.controls.treinoExercicios);
+
   }
 
   // -----------------------------------------------------------
@@ -501,6 +519,8 @@ export class TreinosFormComponent implements OnInit {
     }
 
     this.loading = true;
+
+    console.log(this.treino);
 
     // this.treino.treinoExercicios = this.formArrayTreinoExercicio.value;
 
