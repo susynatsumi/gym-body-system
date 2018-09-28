@@ -204,6 +204,7 @@ public class SecurityConfiguration {
 				.authorizeRequests()
 				.antMatchers("/api/**").permitAll()
 				.antMatchers("/api-login").permitAll()
+				.anyRequest().authenticated()
 			.and()
 					.formLogin()
 							.usernameParameter( "login" )
