@@ -287,7 +287,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		Assert.assertNotNull(treinoData);
 		Assert.assertNotNull(treinoData.getId());
 
-		Assert.assertTrue(treinoData.getCompleto());
+		Assert.assertFalse(treinoData.getCompleto());
 	}
 	
 	/**
@@ -370,6 +370,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 			.listTreinoDataByFilters(
 				LocalDate.of(2018, 9, 1), 
 				1011L, 
+				null,
 				null
 		);
 		
@@ -392,7 +393,8 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		this.treinoDataService
 			.listTreinoDataByFilters(
 				LocalDate.of(2018, 9, 1), 
-				null, 
+				null,
+				null,
 				null
 		);
 		
@@ -413,6 +415,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 				.listTreinoDataByFilters(
 					null,
 					Long.valueOf(1001), 
+					null,
 					null
 				);
 		

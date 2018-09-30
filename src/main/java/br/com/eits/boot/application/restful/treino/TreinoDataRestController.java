@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,14 @@ public class TreinoDataRestController {
 	@Autowired
 	private TreinoDataService treinoDataService;
 	
+	/**
+	 * 
+	 * retonra uma lista de treinos dos proximos dias
+	 * 
+	 * @param dataInicio
+	 * @param idAluno
+	 * @return
+	 */
 	@GetMapping(
 		value = "/data-inicio/{dataInicio}/aluno/{idAluno}",
 		produces = MediaType.APPLICATION_JSON_VALUE
@@ -43,6 +53,7 @@ public class TreinoDataRestController {
 			Page<TreinoData> treinosData = this.treinoDataService.listTreinoDataByFilters(
 				dataInicio, 
 				idAluno, 
+				false,// somente completo
 				PageRequest.of(0, 10, sort)
 			);
 			
@@ -60,5 +71,32 @@ public class TreinoDataRestController {
 		
 	}
 	
+	/**
+	 * 
+	 * Salva o treino realizado no dia 
+	 * 
+	 * @param treinoData
+	 * @return
+	 */
+	@PostMapping(
+		value = {"/", ""}
+	)
+	public ResponseEntity<TreinoData> salvarTreinoDoDia(
+		@RequestBody TreinoData treinoData
+	){
+		
+		try{
+			
+			treinoData =  this.treinoDataService.updateTreinoData(treinoData);
+			
+			return new ResponseEntity<TreinoData>(treinoData,HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>( HttpStatus.NOT_FOUND );
+		}
+		
+		
+	}
 	
 }

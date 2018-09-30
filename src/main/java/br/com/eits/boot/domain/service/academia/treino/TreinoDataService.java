@@ -61,6 +61,8 @@ public class TreinoDataService {
 			MessageSourceHolder.translate("service.object.id.null")
 		);
 		
+		treinoData.setCompleto(false);
+		
 		return this.treinoDataRepository.save(treinoData);
 	}
 	
@@ -85,8 +87,21 @@ public class TreinoDataService {
 			MessageSourceHolder.translate("exercicio.service.id.not.null")
 		);
 		
+		Assert.notNull(
+			treinoData.getExerciciosRealizados(),
+			MessageSourceHolder.translate("service.exercicio.realizado.exercicios.empty")
+		);
+		
+		treinoData.setCompleto(treinoData.completouTreinoDoDia());
+		
+		treinoData.getExerciciosRealizados().forEach(
+		exercicio ->{
+			exercicio.setTreinoData(treinoData);
+		});
+		
 		return this.treinoDataRepository.save(treinoData);
 	}
+	
 	
 	/**
 	 * 
@@ -166,6 +181,7 @@ public class TreinoDataService {
 	public Page<TreinoData> listTreinoDataByFilters(
 		LocalDate dataInicio ,
 		Long idAluno,
+		Boolean somenteCompletos,
 		PageRequest pageRequest
 	){
 		
@@ -179,7 +195,7 @@ public class TreinoDataService {
 			MessageSourceHolder.translate("service.treino.data.informe.codigo.aluno")
 		);
 		
-		return this.treinoDataRepository.listByFilters(dataInicio, idAluno, pageRequest);
+		return this.treinoDataRepository.listByFilters(dataInicio, idAluno, somenteCompletos ,pageRequest);
 	}
 	
 }

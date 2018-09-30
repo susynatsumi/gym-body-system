@@ -115,6 +115,16 @@ public class TreinoService {
 			MessageSourceHolder.translate("exercicio.service.id.not.null")
 		);
 		
+		Assert.notEmpty(
+			treino.getTreinoExercicios(),
+			MessageSourceHolder.translate("service.treino.insert.exercicios.empty")
+		);
+		
+		treino.getTreinoExercicios()
+		.forEach(treinoExercico ->{
+			treinoExercico.setTreino(treino);
+		});
+		
 		return this.treinoRepository.save(treino);
 	}
 	

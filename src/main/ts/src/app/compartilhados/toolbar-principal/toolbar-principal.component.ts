@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'toolbar-principal',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToolbarPrincipalComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   ngOnInit() {
+  }
+
+  logout(){
+    console.log('logout');
+    this.http.get('/logout');
   }
 
 }

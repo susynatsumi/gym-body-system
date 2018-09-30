@@ -60,6 +60,9 @@ public class TreinoData extends AbstractEntity {
 	@Column( nullable = true)
 	private LocalDateTime horaTermino;
 	
+	@Column
+	private LocalDateTime tempoGasto;
+	
 	// indica se o treino foi completo ou não
 	@NotNull
 	@Column( nullable = false )
@@ -68,7 +71,7 @@ public class TreinoData extends AbstractEntity {
 	// referencia do treino
 	@NotNull
 	@ManyToOne(
-		fetch = FetchType.LAZY,
+		fetch = FetchType.EAGER,
 		targetEntity = Treino.class,
 		optional = false
 	)
@@ -89,6 +92,22 @@ public class TreinoData extends AbstractEntity {
 		targetEntity = ExercicioRealizado.class
 	)
 	private List<ExercicioRealizado> exerciciosRealizados;
+	
+	/**
+	 * Retorna true se todos os exercicios estiverem marcados como completo
+	 * 
+	 * @return
+	 */
+	public boolean completouTreinoDoDia(){
+		
+		return !this.exerciciosRealizados
+				.stream()
+				.anyMatch(
+					exercicioRealizado-> !exercicioRealizado.getCompleto()
+				);
+		
+	}
+	
 	// --------------------------------
 	// ------------ CONSTRUCTORS ------
 	// --------------------------------
