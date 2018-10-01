@@ -20,6 +20,7 @@ import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopom
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.ProtocoloPollock;
+import br.com.eits.boot.domain.entity.academia.pessoa.Genero;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.avaliacaofisica.avaliacao.IAvaliacaoFisicaRepository;
 import br.com.eits.boot.domain.repository.account.IPessoaRepository;
@@ -406,6 +407,69 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		
 		this.avaliacaoFisicaService
 			.findAvaliacaoFisicaById(151615615L);
+		
+	}
+	
+	
+	// ----------------------------------------------------
+	// ----------------- calculo da avaliação física ------
+	// ----------------------------------------------------
+	
+	@Test()
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+	})
+	public void calculaAvaliacaoMulherMustPass(){
+
+		final AvaliacaoFisica avaliacaoFisica = mockAvaliacaoFisicaFeminino();
+		
+		final ProtocoloPollock pollock = (ProtocoloPollock) avaliacaoFisica.getAvaliacaoAntropometrica();
+		
+		System.out.println(pollock.realizaCalculoPercentualGordura());
+		
+	}
+	
+	private AvaliacaoFisica mockAvaliacaoFisicaFeminino(){
+		
+		final Pessoa pessoa = new Pessoa();
+		pessoa.setGenero(Genero.FEMININO);
+//		final int ano = LocalDate.now().getYear() - 51;
+		pessoa.setDataNascimento(LocalDate.of(1967, 9, 20));
+		
+		final DobrasCutaneas dobrasCutaneas = new DobrasCutaneas(
+			0L, 
+			15d//tricipal
+			,0d// bicital
+			,21d //subescapular
+			, 9d // peitoral
+			,9d// toraxica
+			,15d// axilarMedia
+			,15d// supraIliaca
+			,19d// abdominal
+			,25d// coxa
+			, null //panturrilha
+		);
+		
+		final ProtocoloPollock protocoloPollock = new ProtocoloPollock(
+			null, 
+			dobrasCutaneas, 
+			null,
+			null
+		);
+		
+		final AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica(
+			null, 
+			LocalDate.now(), 
+			pessoa, 
+			null, 
+			null, 
+			protocoloPollock
+		);
+		
+		protocoloPollock.setAvaliacaoFisica(avaliacaoFisica);
+		
+		return avaliacaoFisica;
 		
 	}
 	

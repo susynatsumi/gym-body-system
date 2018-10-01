@@ -1,17 +1,20 @@
 package br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,21 +32,6 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = -1136316925680643949L;
-
-	// TODO verificar esses metodos 
-	/**
-	 * Realiza o calculo da densidade corporal de acordo com o protocolo 
-	 * 
-	 */
-//	@Transient
-//	public abstract void equacaoHomem();
-	
-	/**
-	 * Realiza o calculo da densidade corporal de acordo com o protocolo 
-	 * 
-	 */
-//	@Transient
-//	public abstract void equacaoMulher();
 	
 	// medidas das dobras cutaneas
 	@NotNull
@@ -82,17 +70,17 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 	private PredicaoGorduraSiri predicaoGorduraSiri;
 //	
 //	// referencia da avaliacao fisica
-//	@NotNull
-//	@OneToOne(
-//		cascade = CascadeType.MERGE,
-//		fetch = FetchType.LAZY
-////		optional = true,
-////		targetEntity = AvaliacaoFisica.class,
-////		mappedBy = "abstractEntityAvaliacaoAntropometrica",
-////		orphanRemoval = false
-//	)
-//	private AvaliacaoFisica avaliacaoFisica;
+//	@NotNull	
+	@OneToOne(fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+	private AvaliacaoFisica avaliacaoFisica;
 
+	/**
+	 * Resultado do cálculo de gordura
+	 */
+	@Column
+	private Double densidadeCorporal;
+	
 	// ------------------------------------------------
 	// ----------------- CONSTRUTORS ------------------
 	// ------------------------------------------------

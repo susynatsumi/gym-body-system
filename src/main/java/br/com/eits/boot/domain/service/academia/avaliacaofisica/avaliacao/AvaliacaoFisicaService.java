@@ -37,6 +37,13 @@ public class AvaliacaoFisicaService {
 			MessageSourceHolder.translate("service.object.id.null")
 		);
 		
+		Assert.isNull(
+			avaliacaoFisica.getAvaliacaoAntropometrica(),
+			MessageSourceHolder.translate("service.object.null")
+		);
+		
+		avaliacaoFisica.getAvaliacaoAntropometrica().setAvaliacaoFisica(avaliacaoFisica);
+		
 		return this.iAvaliacaoFisicaRepository.save( avaliacaoFisica );
 		
 	}

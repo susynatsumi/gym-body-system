@@ -2,8 +2,10 @@ package br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos;
 
 public interface IProtocoloAvaliacaoAntropometrica {
 
-	void equacaoHomem();
+	Double equacaoHomem();
 	
-	void equacaoMulher();
+	Double equacaoMulher();
+	
+	Double realizaCalculoPercentualGordura();
 	
 }

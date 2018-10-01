@@ -1,14 +1,21 @@
 package br.com.eits.boot.application.restful;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.eits.boot.domain.entity.account.Pessoa;
@@ -85,6 +92,78 @@ public class PessoaRestController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED);
 		}
 		
+	}
+	
+	/**
+	 * 
+	 * Realiza busca de alunos ativos por nome
+	 *  
+	 * @param nome
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity findAlunosByNome(String nome){
+
+		try {
+			
+			final Sort sort = Sort.by(Direction.ASC, "pessoa.nome");
+			
+			final PageRequest pageRequest = PageRequest.of(0, 30, sort);
+			
+			final Page<Pessoa> alunos = this.pessoaService
+					.listByFilters(
+						nome, 
+						true, 
+						true, 
+						pageRequest
+					);
+			
+			return new ResponseEntity<Page<Pessoa>>(alunos, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			new ResponseEntity<String>(e.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 
+	 * Realiza busca de alunos ativos por nome
+	 *  
+	 * @param nome
+	 * @return
+	 */
+	@GetMapping(
+		value = "/{filter}/filters",
+		produces= MediaType.APPLICATION_JSON_VALUE
+	)
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity findPessoasByFilters(@PathVariable String filter){
+
+		try {
+			
+			final Sort sort = Sort.by(Direction.ASC, "nome");
+			
+			final PageRequest pageRequest = PageRequest.of(0, 30, sort);
+			
+			final Page<Pessoa> alunos = this.pessoaService
+					.listByFilters(
+						filter, 
+						true, 
+						false, 
+						pageRequest
+					);
+			
+			return new ResponseEntity<Page<Pessoa>>(alunos, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			new ResponseEntity<String>(e.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+		}
+		
+		return null;
 	}
 	
 }
