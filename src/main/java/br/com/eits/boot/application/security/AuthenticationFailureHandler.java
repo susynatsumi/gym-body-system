@@ -1,13 +1,11 @@
 package br.com.eits.boot.application.security;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;

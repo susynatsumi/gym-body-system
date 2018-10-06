@@ -1,12 +1,9 @@
 package br.com.eits.boot.domain.entity.account;
 
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.Period;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,7 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.apache.poi.ss.formula.functions.Days360;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
@@ -32,7 +28,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.eits.boot.domain.entity.academia.pessoa.Genero;
-import br.com.eits.common.application.dwr.converter.LocalDateTimeConverter;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

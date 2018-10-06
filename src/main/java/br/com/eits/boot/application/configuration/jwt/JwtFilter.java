@@ -1,23 +1,18 @@
 package br.com.eits.boot.application.configuration.jwt;
 
-import java.util.Enumeration;
-import java.util.List;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
-
-import io.jsonwebtoken.io.IOException;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * referencias
@@ -31,8 +26,8 @@ import io.jsonwebtoken.io.IOException;
  * 
  */
 @Component
-public class JwtFilter// { 
-	extends GenericFilterBean {
+public class JwtFilter// {
+		extends OncePerRequestFilter  {
 
 	public final static String AUTHORIZATION_HEADER = "Authorization";
 
@@ -43,37 +38,47 @@ public class JwtFilter// {
 	 * 
 	 * @param tokenProvider
 	 */
-//	public JwtFilter(TokenProvider tokenProvider) {
-//		this.tokenProvider = tokenProvider;
-//	}
+	// public JwtFilter(TokenProvider tokenProvider) {
+	// this.tokenProvider = tokenProvider;
+	// }
 
 	/**
 	 * Faz o filtro de todas as requisições, verificando o header do token
 	 */
-	@Override
+	/*@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		
+
 		System.out.println("JwtFilter.doFilter()");
-		
+
 		try {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-			System.out.println("requisição para url: "+httpServletRequest.getRequestURI());
+			System.out.println("requisição para uri: " + httpServletRequest.getRequestURI());
 			String jwtToken = resolveToken(httpServletRequest);
 			if (jwtToken != null) {
-				Authentication authentication = this.tokenProvider.getAuthentication(jwtToken);
+
+				SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+				SecurityContextHolder.setContext(ctx);
+				
+				UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) this.tokenProvider
+						.getAuthentication(jwtToken);
+
 				if (authentication != null) {
+
+					authentication.setDetails(
+							new WebAuthenticationDetailsSource().buildDetails((HttpServletRequest) servletRequest));
+					
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}
 			}
-			System.out.println("entrou no filter, validou token "+jwtToken);
-			
+			System.out.println("entrou no filter, validou token " + jwtToken);
+
 			filterChain.doFilter(servletRequest, servletResponse);
 		} catch (Exception e) {
 			e.printStackTrace();
 			((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
-	}
+	}*/
 
 	private static String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
@@ -82,5 +87,48 @@ public class JwtFilter// {
 			return bearerToken.substring(7, bearerToken.length());
 		}
 		return null;
+	}
+	
+	/**
+	 * Digo que meu filter deve tratar apenas requisições para a api
+	 */
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return !path.startsWith("/api/");
+    }
+
+	@Override
+	protected void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain)
+			throws ServletException, java.io.IOException {
+		System.out.println("JwtFilter.doFilter()");
+
+		try {
+			HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+			System.out.println("requisição para uri: " + httpServletRequest.getRequestURI());
+			String jwtToken = resolveToken(httpServletRequest);
+			if (jwtToken != null) {
+
+				SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+				SecurityContextHolder.setContext(ctx);
+				
+				UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) this.tokenProvider
+						.getAuthentication(jwtToken);
+
+				if (authentication != null) {
+
+					authentication.setDetails(
+							new WebAuthenticationDetailsSource().buildDetails((HttpServletRequest) servletRequest));
+					
+					SecurityContextHolder.getContext().setAuthentication(authentication);
+				}
+			}
+			System.out.println("entrou no filter, validou token " + jwtToken);
+
+			filterChain.doFilter(servletRequest, servletResponse);
+		} catch (Exception e) {
+			e.printStackTrace();
+			((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		}
 	}
 }

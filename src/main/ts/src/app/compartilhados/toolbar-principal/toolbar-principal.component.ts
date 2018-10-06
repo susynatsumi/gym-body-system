@@ -15,9 +15,9 @@ export class ToolbarPrincipalComponent implements OnInit {
   ngOnInit() {
   }
 
-  logout(){
-    console.log('logout');
-    this.http.get('/logout');
-  }
+  // logout(){
+  //   console.log('logout');
+  //   this.http.get('/logout');
+  // }
 
 }

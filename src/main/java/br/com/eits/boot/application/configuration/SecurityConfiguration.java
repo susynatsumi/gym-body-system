@@ -5,15 +5,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import br.com.eits.boot.application.configuration.jwt.JwtAuthenticationEntryPoint;
 import br.com.eits.boot.application.configuration.jwt.JwtFilter;
 import br.com.eits.boot.application.security.AuthenticationFailureHandler;
 import br.com.eits.boot.application.security.AuthenticationSuccessHandler;
@@ -21,8 +22,9 @@ import br.com.eits.boot.application.security.AuthenticationSuccessHandler;
 @EnableWebSecurity
 public class SecurityConfiguration {
 	
-	@Order(-1)
+	@Order(2)
 	@Configuration
+//	@EnableGlobalMethodSecurity(prePostEnabled = false)
 	public static class RestSecurityConfiguration// { 
 		extends WebSecurityConfigurerAdapter {
 
@@ -38,6 +40,9 @@ public class SecurityConfiguration {
 //			this.tokenProvider = tokenProvide;
 //		}
 
+	    @Autowired
+	    private JwtAuthenticationEntryPoint unauthorizedHandler;
+		
 		@Bean
 		@Override
 		public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -64,19 +69,31 @@ public class SecurityConfiguration {
 			http
 			.csrf()
 				.disable()
+			
+			// para tratar os erros
+			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+			// ativo o cors para o jwt
 			.cors()
-//		.and().authorizeRequests()
-				.and()
-					.sessionManagement()
-						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-					.antMatcher("/api/**").authorizeRequests()
-				.and()
+		.and()
+//		.authorizeRequests()
+//				.and()
+//					.sessionManagement()
+//						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//				.and()
+//					.antMatcher("/api/**").authorizeRequests()
+//				.and()
+		// permito request em todas as urls, trato para filtrar requests da api no meu filter
 					.authorizeRequests()
-						.antMatchers("/api-login").permitAll()
+					.antMatchers("/**").permitAll()
+//					.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//						.antMatchers("/api-login").permitAll()
+//						.antMatchers("/authenticate").permitAll()
+//						.antMatchers("/authentication").permitAll()
 //				.and()
 //					.apply(new JwtConfigurer(this.tokenProvider))
-				.and().addFilterBefore( jwtFilter, UsernamePasswordAuthenticationFilter.class);
+					// adiciono o filter responsavel pelo controle de sessão e token
+				.and().addFilterBefore( jwtFilter, UsernamePasswordAuthenticationFilter.class)
+			;
 			
 /*	 	http.csrf().disable().cors()
 	        .and()
@@ -152,8 +169,10 @@ public class SecurityConfiguration {
 //					"/webjars/**",
 //					"/authentication",
 //					"/authenticate",
+//					"/logout",
 //					"/api-login"
 //				);
+//			
 //		}
 		
 		
@@ -166,7 +185,7 @@ public class SecurityConfiguration {
 	 */
 	@Order(0)
 	@Configuration
-//	@EnableGlobalMethodSecurity(prePostEnabled = true)
+	@EnableGlobalMethodSecurity(prePostEnabled = true)
 	public static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		/*-------------------------------------------------------------------
@@ -202,8 +221,9 @@ public class SecurityConfiguration {
 			
 			httpSecurity
 				.authorizeRequests()
-				.antMatchers("/api/**").permitAll()
-				.antMatchers("/api-login").permitAll()
+//				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//				.antMatchers("/api/**").permitAll()
+//				.antMatchers("/api-login").permitAll()
 				.anyRequest().authenticated()
 			.and()
 					.formLogin()
