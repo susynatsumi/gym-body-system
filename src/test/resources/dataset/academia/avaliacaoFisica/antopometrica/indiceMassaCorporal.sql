@@ -11,13 +11,13 @@ SET search_path TO public;
 TRUNCATE "indice_massa_corporal" CASCADE;
 
 INSERT INTO indice_massa_corporal(
-            id, created, updated, altura, peso)
-    VALUES (1000, now(), null, 1.16, 30);
+            id, created, updated, altura, peso, resultado)
+    VALUES (1000, now(), null, 1.16, 30, 20);
     
 INSERT INTO indice_massa_corporal(
-            id, created, updated, altura, peso)
-    VALUES (1001, now(), null, 1.89, 85);
+            id, created, updated, altura, peso, resultado)
+    VALUES (1001, now(), null, 1.89, 85, 20);
     
 INSERT INTO indice_massa_corporal(
-            id, created, updated, altura, peso)
-    VALUES (1002, now(), null, 1.90, 80);
+            id, created, updated, altura, peso, resultado)
+    VALUES (1002, now(), null, 1.90, 80, 20);

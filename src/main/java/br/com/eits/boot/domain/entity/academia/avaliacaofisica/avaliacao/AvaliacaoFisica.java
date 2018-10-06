@@ -29,7 +29,7 @@ import lombok.EqualsAndHashCode;
 })
 @Audited
 @DataTransferObject
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "avaliacaoAntropometrica")
 public class AvaliacaoFisica extends AbstractEntity {
 
 	/**

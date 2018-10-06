@@ -84,3 +84,10 @@ INSERT INTO treino_data(
             hora_termino, treino_id)
     VALUES (1002, '2018-01-02', null, false, '2018-09-01', 1, '2018-09-03 22:00:00', 
             '2018-09-03 23:00:00', 1000);
+
+
+INSERT INTO treino_exercicio(
+            id, created, updated, carga, observacoes, repeticoes, series, 
+            tempo_min, tipo_treino_exercicio, exercicio_id, treino_id)
+    VALUES (1000, now(), null, 10, null, 30, 3, 
+            10, 0, 1000, 1000);

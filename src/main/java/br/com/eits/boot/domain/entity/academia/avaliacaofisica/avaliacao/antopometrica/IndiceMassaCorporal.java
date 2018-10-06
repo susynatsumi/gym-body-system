@@ -43,6 +43,12 @@ public class IndiceMassaCorporal extends AbstractEntity {
 	@Column( nullable = false )
 	private BigDecimal peso;
 	
+	// imc calculado
+	@Min(0)
+	@NotNull
+	@Column
+	private BigDecimal resultado;
+	
 //	@NotNull
 //	@OneToOne(
 //		cascade = CascadeType.MERGE,
@@ -96,11 +102,13 @@ public class IndiceMassaCorporal extends AbstractEntity {
 	public IndiceMassaCorporal(
 		Long id, 
 		BigDecimal altura, 
-		BigDecimal peso
+		BigDecimal peso,
+		BigDecimal resultado
 	) {
 		super(id);
 		this.altura = altura;
 		this.peso = peso;
+		this.resultado = resultado;
 	}
 	
 	/**

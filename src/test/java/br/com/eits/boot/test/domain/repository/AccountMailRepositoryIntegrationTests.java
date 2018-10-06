@@ -1,14 +1,9 @@
 package br.com.eits.boot.test.domain.repository;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.eits.boot.domain.entity.account.Pessoa;
-import br.com.eits.boot.domain.repository.IAccountMailRepository;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
 /**
@@ -25,8 +20,8 @@ public class AccountMailRepositoryIntegrationTests extends AbstractIntegrationTe
 	/**
      * 
      */
-	@Autowired
-	private IAccountMailRepository accountMailRepository;
+//	@Autowired
+//	private IAccountMailRepository accountMailRepository;
 
 	/*-------------------------------------------------------------------
 	 *                           TESTS

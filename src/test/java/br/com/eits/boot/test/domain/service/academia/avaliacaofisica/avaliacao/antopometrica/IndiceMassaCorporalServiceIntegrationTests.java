@@ -43,7 +43,8 @@ public class IndiceMassaCorporalServiceIntegrationTests extends AbstractIntegrat
 		IndiceMassaCorporal indiceMassaCorporal = new IndiceMassaCorporal(
 			null, 
 			BigDecimal.valueOf(1.90d), 
-			BigDecimal.valueOf(100)
+			BigDecimal.valueOf(100),
+			BigDecimal.valueOf(20)
 		);
 		
 		indiceMassaCorporal = this.indiceMassaCorporalService

@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.envers.Audited;
 
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
@@ -24,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Audited
 @Table
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=true, exclude = "avaliacaoFisica")
 @DataTransferObject
 public class AvaliacaoAntropometrica extends AbstractEntity {
 
@@ -70,14 +72,17 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 	private PredicaoGorduraSiri predicaoGorduraSiri;
 //	
 //	// referencia da avaliacao fisica
+//	@LazyToOne foi necessario para não carregar a avaliacao fisica e fazer um loop infinito
 //	@NotNull	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
+	@LazyToOne(LazyToOneOption.NO_PROXY)
 	private AvaliacaoFisica avaliacaoFisica;
 
 	/**
 	 * Resultado do cálculo de gordura
 	 */
+	@NotNull
 	@Column
 	private Double densidadeCorporal;
 	
@@ -96,12 +101,14 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 		Long id, 
 		DobrasCutaneas dobrasCutaneas,
 		IndiceMassaCorporal indiceMassaCorporal, 
-		PredicaoGorduraSiri predicaoGorduraSiri
+		PredicaoGorduraSiri predicaoGorduraSiri,
+		Double densidadeCorporal
 	) {
 		super(id);
 		this.dobrasCutaneas = dobrasCutaneas;
 		this.indiceMassaCorporal = indiceMassaCorporal;
 		this.predicaoGorduraSiri = predicaoGorduraSiri;
+		this.densidadeCorporal = densidadeCorporal;
 	}
 	
 	/**

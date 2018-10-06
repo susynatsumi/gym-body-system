@@ -1,18 +1,11 @@
 package br.com.eits.boot.test.domain.repository;
 
-import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
-import org.directwebremoting.io.FileTransfer;
-import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import br.com.eits.boot.domain.repository.IAccountReportRepository;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
-import br.com.eits.common.infrastructure.file.MimeType;
-import br.com.eits.common.infrastructure.report.ReportFormat;
 
 /**
  * 
@@ -28,8 +21,8 @@ public class AccountReportRepositoryIntegrationTests extends AbstractIntegration
 	/**
      * 
      */
-	@Autowired
-	private IAccountReportRepository accountReportRepository;
+//	@Autowired
+//	private IAccountReportRepository accountReportRepository;
 
 	/*-------------------------------------------------------------------
 	 *                           TESTS

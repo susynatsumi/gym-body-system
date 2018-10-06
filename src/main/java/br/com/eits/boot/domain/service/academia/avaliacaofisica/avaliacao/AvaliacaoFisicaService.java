@@ -37,7 +37,7 @@ public class AvaliacaoFisicaService {
 			MessageSourceHolder.translate("service.object.id.null")
 		);
 		
-		Assert.isNull(
+		Assert.notNull(
 			avaliacaoFisica.getAvaliacaoAntropometrica(),
 			MessageSourceHolder.translate("service.object.null")
 		);

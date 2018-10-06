@@ -1,11 +1,14 @@
 package br.com.eits.boot.test.domain.service.academia.exercicio;
 
+import javax.validation.ValidationException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.TransactionSystemException;
 
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.academia.exercicio.ExercicioGrupoMuscular;
@@ -63,7 +66,7 @@ public class ExercicioGrupoMuscularServiceIntegrationTests extends AbstractInteg
 	/**
 	 * Teste insert de grupo muscular para exerciios com dados inválidos
 	 */
-	@Test( expected = DataIntegrityViolationException.class )
+	@Test( expected = ValidationException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
@@ -180,7 +183,7 @@ public class ExercicioGrupoMuscularServiceIntegrationTests extends AbstractInteg
 	/**
 	 * Update setando o grupo muscular para null, deve ocorrer erro 
 	 */
-	@Test( expected = DataIntegrityViolationException.class)
+	@Test( expected = TransactionSystemException.class)
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
@@ -205,7 +208,7 @@ public class ExercicioGrupoMuscularServiceIntegrationTests extends AbstractInteg
 	/**
 	 * Update setando exercicio para null, deve ocorrer erro
 	 */
-	@Test( expected = DataIntegrityViolationException.class )
+	@Test( expected = TransactionSystemException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",

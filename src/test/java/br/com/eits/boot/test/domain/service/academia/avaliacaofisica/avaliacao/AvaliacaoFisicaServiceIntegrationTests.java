@@ -126,7 +126,8 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		IndiceMassaCorporal indiceMassaCorporal = new IndiceMassaCorporal(
 			null, 
 			BigDecimal.valueOf(1.90d), 
-			BigDecimal.valueOf(100)
+			BigDecimal.valueOf(100),
+			BigDecimal.valueOf(20)
 		);
 		
 		PredicaoGorduraSiri predicaoGorduraSiri = new PredicaoGorduraSiri(
@@ -138,11 +139,11 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		
 		return new ProtocoloPollock(
 			null, 
-			dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri);
+			dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri, 20d);
 	}
 	
 	
-	/**
+	/**s
 	 * Insere uma nova avaliacao Física
 	 */
 	@Test
@@ -179,7 +180,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 	/**
 	 * Falha na inserção de uma avaliacao fisica sem os atributos obrigatorios
 	 */
-	@Test( expected = ValidationException.class )
+	@Test( expected = IllegalArgumentException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
@@ -210,7 +211,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			findAluno(), 
 			mockPerimetria(), 
 			mockResposta(), 
-			null
+			mockProtocolo()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -234,6 +235,30 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			null, 
 			mockPerimetria(), 
 			mockResposta(), 
+			mockProtocolo()
+		);
+		
+		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		
+	}
+	
+	/**
+	 * Falha na inserção de uma avaliacao fisica avaliacao antropometrica
+	 */
+	@Test( expected = IllegalArgumentException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
+	})
+	public void insertAvaliacaoFisicaMustFailMandatoryFieldAvaliacaoAntropometricaId(){
+		
+		AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica(
+			null, 
+			LocalDate.now(), // data 
+			findAluno(), 
+			mockPerimetria(), 
+			mockResposta(),
 			null
 		);
 		
@@ -258,7 +283,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			findAluno(), 
 			null, 
 			mockResposta(), 
-			null
+			mockProtocolo()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -282,7 +307,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			findAluno(), 
 			mockPerimetria(), 
 			null, 
-			null
+			mockProtocolo()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -430,6 +455,10 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		
 	}
 	
+	/**
+	 * Faz mock de uma avaliacao fisica para calculo da densidade corporal feminina
+	 * @return
+	 */
 	private AvaliacaoFisica mockAvaliacaoFisicaFeminino(){
 		
 		final Pessoa pessoa = new Pessoa();
@@ -455,7 +484,8 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			null, 
 			dobrasCutaneas, 
 			null,
-			null
+			null,
+			10d
 		);
 		
 		final AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica(

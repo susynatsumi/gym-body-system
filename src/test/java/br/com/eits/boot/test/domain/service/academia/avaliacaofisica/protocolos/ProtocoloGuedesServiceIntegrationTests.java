@@ -2,12 +2,9 @@ package br.com.eits.boot.test.domain.service.academia.avaliacaofisica.protocolos
 
 import java.math.BigDecimal;
 
-import javax.validation.ValidationException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -15,15 +12,11 @@ import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopom
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.ProtocoloGuedes;
-import br.com.eits.boot.domain.repository.academia.avaliacaofisica.protocolos.IProtocoloGuedesRepository;
 import br.com.eits.boot.domain.service.academia.avaliacaofisica.protocolos.ProtocoloGuedesService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
 public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationTests {
 
-	
-	@Autowired
-	private IProtocoloGuedesRepository protocoloGuedesRepository;
 	
 	@Autowired
 	private ProtocoloGuedesService protocoloGuedesService;
@@ -61,7 +54,8 @@ public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationT
 		return new IndiceMassaCorporal(
 			null, 
 			BigDecimal.valueOf(1.90d), 
-			BigDecimal.valueOf(100)
+			BigDecimal.valueOf(100),
+			BigDecimal.valueOf(20)
 		);
 	}
 	
@@ -92,7 +86,8 @@ public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationT
 			null, 
 			mockDobrasCutaneas(), 
 			mockIndiceMassaCorporal(), 
-			mockPredicaoGorduraSiri()
+			mockPredicaoGorduraSiri(),
+			10d
 		);
 		
 		protocoloGuedes = this.protocoloGuedesService.insertProtocoloGuedes(protocoloGuedes);

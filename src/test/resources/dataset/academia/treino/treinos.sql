@@ -67,3 +67,8 @@ INSERT INTO treino(
             '2018-01-01 23:00:00', 'Treino de teste', 1011, 1012);
             
 
+INSERT INTO treino_exercicio(
+            id, created, updated, carga, observacoes, repeticoes, series, 
+            tempo_min, tipo_treino_exercicio, exercicio_id, treino_id)
+    VALUES (1000, now(), null, 10, null, 30, 3, 
+            10, 0, 1000, 1000);

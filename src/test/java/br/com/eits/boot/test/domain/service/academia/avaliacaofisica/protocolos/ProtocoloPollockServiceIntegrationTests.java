@@ -7,7 +7,6 @@ import javax.validation.ValidationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -15,15 +14,14 @@ import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopom
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.ProtocoloPollock;
-import br.com.eits.boot.domain.repository.academia.avaliacaofisica.protocolos.IProtocoloPollockRepository;
 import br.com.eits.boot.domain.service.academia.avaliacaofisica.protocolos.ProtocoloPollockService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
 public class ProtocoloPollockServiceIntegrationTests extends AbstractIntegrationTests {
 
 	
-	@Autowired
-	private IProtocoloPollockRepository protocoloPollockRepository;
+//	@Autowired
+//	private IProtocoloPollockRepository protocoloPollockRepository;
 	
 	@Autowired
 	private ProtocoloPollockService protocoloPollockService;
@@ -61,7 +59,8 @@ public class ProtocoloPollockServiceIntegrationTests extends AbstractIntegration
 		return new IndiceMassaCorporal(
 			null, 
 			BigDecimal.valueOf(1.90d), 
-			BigDecimal.valueOf(100)
+			BigDecimal.valueOf(100),
+			BigDecimal.valueOf(20)
 		);
 	}
 	
@@ -92,7 +91,8 @@ public class ProtocoloPollockServiceIntegrationTests extends AbstractIntegration
 			null, 
 			mockDobrasCutaneas(), 
 			mockIndiceMassaCorporal(), 
-			mockPredicaoGorduraSiri()
+			mockPredicaoGorduraSiri(),
+			10d
 		);
 		
 		protocoloPollock = this.protocoloPollockService.insertProtocoloPollock(protocoloPollock);

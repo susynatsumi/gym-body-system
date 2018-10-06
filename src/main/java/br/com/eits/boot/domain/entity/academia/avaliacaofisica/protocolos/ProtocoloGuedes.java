@@ -110,9 +110,10 @@ public class ProtocoloGuedes extends AvaliacaoAntropometrica implements IProtoco
 		Long id, 
 		DobrasCutaneas dobrasCutaneas, 
 		IndiceMassaCorporal indiceMassaCorporal,
-		PredicaoGorduraSiri predicaoGorduraSiri
+		PredicaoGorduraSiri predicaoGorduraSiri,
+		Double densidadeCorporal
 	) {
-		super(id, dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri);
+		super(id, dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri, densidadeCorporal);
 	}
 
 	/**

@@ -100,6 +100,10 @@ public class TreinoData extends AbstractEntity {
 	 */
 	public boolean completouTreinoDoDia(){
 		
+		if(this.exerciciosRealizados == null || this.exerciciosRealizados.isEmpty()){
+			return false;
+		}
+		
 		return !this.exerciciosRealizados
 				.stream()
 				.anyMatch(
