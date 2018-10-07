@@ -61,6 +61,10 @@ VALUES (1, NOW(), NULL, 'admin@admin.com', FALSE, 'Administrador de Sistemas',
 
 -- DROP TABLE pessoa;
 
+-- Table: pessoa
+
+-- DROP TABLE pessoa;
+
 CREATE TABLE pessoa
 (
   id bigserial NOT NULL,
@@ -75,6 +79,7 @@ CREATE TABLE pessoa
   nome character varying(50) NOT NULL,
   objetivo character varying(500),
   senha character varying(100),
+  token_jwt character varying(500),
   CONSTRAINT pessoa_pkey PRIMARY KEY (id),
   CONSTRAINT uk_csab60w9yycjb127hsdv7wqf5 UNIQUE (login),
   CONSTRAINT uk_mc87q8fpvldpdyfo9o5633o5l UNIQUE (email)
@@ -84,6 +89,7 @@ WITH (
 );
 ALTER TABLE pessoa
   OWNER TO gym;
+
 
   
  CREATE UNIQUE INDEX idx_user_email
@@ -107,6 +113,7 @@ CREATE TABLE auditing.pessoa_audited
   nome character varying(50),
   objetivo character varying(500),
   senha character varying(100),
+  token_jwt character varying(500),
   CONSTRAINT pessoa_audited_pkey PRIMARY KEY (id, revision),
   CONSTRAINT fkkdnauw1bst0gotpc94b6a3887 FOREIGN KEY (revision)
       REFERENCES auditing.revision (id) MATCH SIMPLE
@@ -118,8 +125,7 @@ WITH (
 ALTER TABLE auditing.pessoa_audited
   OWNER TO gym;
 
-  
--- Table: pessoa_papeis
+  -- Table: pessoa_papeis
 
 -- DROP TABLE pessoa_papeis;
 
@@ -127,6 +133,7 @@ CREATE TABLE pessoa_papeis
 (
   pessoa_id bigint NOT NULL,
   papeis integer NOT NULL,
+  CONSTRAINT pessoa_papeis_pkey PRIMARY KEY (pessoa_id, papeis),
   CONSTRAINT fktqv1owkp6wslf4vwpua9tevr2 FOREIGN KEY (pessoa_id)
       REFERENCES pessoa (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION

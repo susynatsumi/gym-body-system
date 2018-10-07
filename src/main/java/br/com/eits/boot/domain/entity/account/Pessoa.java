@@ -313,6 +313,18 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 		
 	}
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
+	@Transient
+	public boolean getIsPersonalOrAdministrador(){
+		
+		if(papeis == null){
+			return false;
+		}
+		
+		return papeis.stream().anyMatch(papel -> Papel.PERSONAL.equals(papel) || Papel.ADMINISTRATOR.equals(papel));
+		
+	}
+	
 	/*-------------------------------------------------------------------
 	 *						GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/

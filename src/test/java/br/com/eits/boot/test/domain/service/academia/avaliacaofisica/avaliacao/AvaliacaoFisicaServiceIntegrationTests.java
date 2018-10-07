@@ -8,7 +8,8 @@ import javax.validation.ValidationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
@@ -16,10 +17,11 @@ import org.springframework.transaction.TransactionSystemException;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.Perimetria;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.anamnese.Resposta;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometrica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.DobrasCutaneas;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
-import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.ProtocoloPollock;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
 import br.com.eits.boot.domain.entity.academia.pessoa.Genero;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.avaliacaofisica.avaliacao.IAvaliacaoFisicaRepository;
@@ -107,7 +109,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 	}
 	
 	
-	private ProtocoloPollock mockProtocolo(){
+	private AvaliacaoAntropometrica mockAvalicaoAntropometrica(){
 		
 		DobrasCutaneas dobrasCutaneas = new DobrasCutaneas(
 			null, 
@@ -137,10 +139,63 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		);
 		
 		
-		return new ProtocoloPollock(
+		return new AvaliacaoAntropometrica(
 			null, 
-			dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri, 20d);
+			dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri, 20d, TipoProtocolo.POLLOCK);
 	}
+	
+	/**
+	 * Faz mock de uma avaliacao fisica para calculo da densidade corporal feminina
+	 * @return
+	 */
+	private AvaliacaoFisica mockAvaliacaoFisicaFeminino(){
+		
+		final Pessoa pessoa = new Pessoa();
+		pessoa.setGenero(Genero.FEMININO);
+//		final int ano = LocalDate.now().getYear() - 51;
+		pessoa.setDataNascimento(LocalDate.of(1967, 9, 20));
+		
+		final DobrasCutaneas dobrasCutaneas = new DobrasCutaneas(
+			0L, 
+			15d//tricipal
+			,0d// bicital
+			,21d //subescapular
+			, 9d // peitoral
+			,9d// toraxica
+			,15d// axilarMedia
+			,15d// supraIliaca
+			,19d// abdominal
+			,25d// coxa
+			, null //panturrilha
+		);
+		
+		final AvaliacaoAntropometrica protocoloPollock = new AvaliacaoAntropometrica(
+			null, 
+			dobrasCutaneas, 
+			null,
+			null,
+			null,
+			TipoProtocolo.POLLOCK
+		);
+		
+		final AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica(
+			null, 
+			LocalDate.now(), 
+			pessoa, 
+			null, 
+			null, 
+			protocoloPollock
+		);
+		
+		protocoloPollock.setAvaliacaoFisica(avaliacaoFisica);
+		
+		return avaliacaoFisica;
+		
+	}
+	
+	// ----------------------------------------------------------------
+	// ----------------------- TESTES INSERT --------------------------
+	// ----------------------------------------------------------------
 	
 	
 	/**s
@@ -160,7 +215,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			findAluno(), 
 			mockPerimetria(), 
 			mockResposta(), 
-			mockProtocolo()
+			mockAvalicaoAntropometrica()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -211,7 +266,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			findAluno(), 
 			mockPerimetria(), 
 			mockResposta(), 
-			mockProtocolo()
+			mockAvalicaoAntropometrica()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -221,7 +276,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 	/**
 	 * Falha na inserção de uma avaliacao fisica sem a pessoa
 	 */
-	@Test( expected = DataIntegrityViolationException.class )
+	@Test( expected = IllegalArgumentException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
@@ -235,7 +290,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			null, 
 			mockPerimetria(), 
 			mockResposta(), 
-			mockProtocolo()
+			mockAvalicaoAntropometrica()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -283,7 +338,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			findAluno(), 
 			null, 
 			mockResposta(), 
-			mockProtocolo()
+			mockAvalicaoAntropometrica()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -307,7 +362,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			findAluno(), 
 			mockPerimetria(), 
 			null, 
-			mockProtocolo()
+			mockAvalicaoAntropometrica()
 		);
 		
 		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
@@ -436,6 +491,106 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 	}
 	
 	
+	/**
+	 * Teste de listagem de avaliacao fisica pela data
+	 */
+	@Test( )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
+	})
+	public void listAvaliacaoFisciaByFiltersMustPassReturn2(){
+		
+		LocalDate dataInicio = LocalDate.of(2017, 01, 01);
+		LocalDate dataFim = LocalDate.of(2019, 10, 01);
+		
+		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService
+				.listAvaliacaoFisicaByFilters(
+					null, 
+					dataInicio, 
+					dataFim,
+					null
+				);
+		
+		Assert.assertNotNull(avaliacoes);
+
+		Assert.assertEquals(avaliacoes.getTotalElements(), 2L);
+	}
+	
+	/**
+	 * Teste de listagem de avaliacao fisica pelo seu id 
+	 */
+	@Test( )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
+	})
+	public void listAvaliacaoFisciaByFiltersMustPassReturn1(){
+		
+		
+		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService.listAvaliacaoFisicaByFilters("1000", null, null,  null);
+		
+		Assert.assertNotNull(avaliacoes);
+		
+		Assert.assertEquals(avaliacoes.getTotalElements(), 1L);
+	}
+	
+	/**
+	 * teste de listagem de avaliacoes fisica por pessoa
+	 */
+	@Test( )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
+	})
+	public void listAvaliacaoFisciaByPessoaIdMustPassReturn2(){
+		
+		
+		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService.listAvalicaoFisicaByPessoaId(1011L, null);
+		
+		Assert.assertNotNull(avaliacoes);
+
+		Assert.assertEquals(1L, avaliacoes.getTotalElements());
+	}
+	
+	/**
+	 * teste de listagem de avaliacoes fisica por pessoa, sem usuário logado
+	 */
+	@Test( expected = AuthenticationCredentialsNotFoundException.class )
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
+	})
+	public void listAvaliacaoFisciaByPessoaIdMustFailPessoaNaoLogada(){
+		
+		
+		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService.listAvalicaoFisicaByPessoaId(1011L, null);
+		
+		Assert.assertNotNull(avaliacoes);
+		
+		Assert.assertEquals(avaliacoes.getTotalElements(), 2L);
+	}
+	
+	
+	/**
+	 * teste de listagem de avaliacoes fisica por id, com valor inválido
+	 */
+	@Test( expected = IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
+	})
+	public void listAvaliacaoFisciaByPessoaIdMustFailIdInvalido(){
+		
+		this.avaliacaoFisicaService.listAvalicaoFisicaByPessoaId(null, null);
+		
+	}
+	
+	
 	// ----------------------------------------------------
 	// ----------------- calculo da avaliação física ------
 	// ----------------------------------------------------
@@ -449,59 +604,14 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 
 		final AvaliacaoFisica avaliacaoFisica = mockAvaliacaoFisicaFeminino();
 		
-		final ProtocoloPollock pollock = (ProtocoloPollock) avaliacaoFisica.getAvaliacaoAntropometrica();
+		final AvaliacaoAntropometrica antropometrica = avaliacaoFisica.getAvaliacaoAntropometrica();
 		
-		System.out.println(pollock.realizaCalculoPercentualGordura());
+		antropometrica.calculaDensidadeCorporal();
+		
+		System.out.println(antropometrica.getDensidadeCorporal());
 		
 	}
 	
-	/**
-	 * Faz mock de uma avaliacao fisica para calculo da densidade corporal feminina
-	 * @return
-	 */
-	private AvaliacaoFisica mockAvaliacaoFisicaFeminino(){
-		
-		final Pessoa pessoa = new Pessoa();
-		pessoa.setGenero(Genero.FEMININO);
-//		final int ano = LocalDate.now().getYear() - 51;
-		pessoa.setDataNascimento(LocalDate.of(1967, 9, 20));
-		
-		final DobrasCutaneas dobrasCutaneas = new DobrasCutaneas(
-			0L, 
-			15d//tricipal
-			,0d// bicital
-			,21d //subescapular
-			, 9d // peitoral
-			,9d// toraxica
-			,15d// axilarMedia
-			,15d// supraIliaca
-			,19d// abdominal
-			,25d// coxa
-			, null //panturrilha
-		);
-		
-		final ProtocoloPollock protocoloPollock = new ProtocoloPollock(
-			null, 
-			dobrasCutaneas, 
-			null,
-			null,
-			10d
-		);
-		
-		final AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica(
-			null, 
-			LocalDate.now(), 
-			pessoa, 
-			null, 
-			null, 
-			protocoloPollock
-		);
-		
-		protocoloPollock.setAvaliacaoFisica(avaliacaoFisica);
-		
-		return avaliacaoFisica;
-		
-	}
 	
 }
 

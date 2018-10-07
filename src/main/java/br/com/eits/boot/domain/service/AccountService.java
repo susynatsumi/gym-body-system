@@ -65,7 +65,8 @@ public class AccountService
 		return user;
 	}
 
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	// aluno tambem pode fazer login pelo app
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public Pessoa updatePessoa(Pessoa pessoa){
 		
 		Assert.notNull(pessoa, "pessoa.service.pessoa.null");

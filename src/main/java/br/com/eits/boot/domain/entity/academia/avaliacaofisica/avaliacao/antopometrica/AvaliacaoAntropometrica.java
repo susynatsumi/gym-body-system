@@ -3,6 +3,8 @@ package br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopo
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -17,6 +19,7 @@ import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.envers.Audited;
 
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -79,12 +82,25 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 	@LazyToOne(LazyToOneOption.NO_PROXY)
 	private AvaliacaoFisica avaliacaoFisica;
 
+	@NotNull
+	@Column
+	@Enumerated(EnumType.ORDINAL)
+	private TipoProtocolo tipoProtocolo;
+	
 	/**
 	 * Resultado do cálculo de gordura
 	 */
 	@NotNull
 	@Column
 	private Double densidadeCorporal;
+	
+	// -----------------------------------------------
+	// -------------------- COMPORTAMENTOS------------
+	// -----------------------------------------------
+	
+	public void calculaDensidadeCorporal(){
+		this.densidadeCorporal = this.tipoProtocolo.realizaCalculo(this);
+	}
 	
 	// ------------------------------------------------
 	// ----------------- CONSTRUTORS ------------------
@@ -102,13 +118,15 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 		DobrasCutaneas dobrasCutaneas,
 		IndiceMassaCorporal indiceMassaCorporal, 
 		PredicaoGorduraSiri predicaoGorduraSiri,
-		Double densidadeCorporal
+		Double densidadeCorporal,
+		TipoProtocolo tipoProtocolo
 	) {
 		super(id);
 		this.dobrasCutaneas = dobrasCutaneas;
 		this.indiceMassaCorporal = indiceMassaCorporal;
 		this.predicaoGorduraSiri = predicaoGorduraSiri;
 		this.densidadeCorporal = densidadeCorporal;
+		this.tipoProtocolo = tipoProtocolo;
 	}
 	
 	/**

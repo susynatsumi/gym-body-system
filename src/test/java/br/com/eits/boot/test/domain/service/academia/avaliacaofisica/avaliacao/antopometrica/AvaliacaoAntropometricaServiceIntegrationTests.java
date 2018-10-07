@@ -1,6 +1,8 @@
-package br.com.eits.boot.test.domain.service.academia.avaliacaofisica.protocolos;
+package br.com.eits.boot.test.domain.service.academia.avaliacaofisica.avaliacao.antopometrica;
 
 import java.math.BigDecimal;
+
+import javax.validation.ValidationException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,18 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometrica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.DobrasCutaneas;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
-import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.ProtocoloGuedes;
-import br.com.eits.boot.domain.service.academia.avaliacaofisica.protocolos.ProtocoloGuedesService;
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
+import br.com.eits.boot.domain.service.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometricaService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
 
-public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationTests {
+public class AvaliacaoAntropometricaServiceIntegrationTests extends AbstractIntegrationTests {
 
 	
 	@Autowired
-	private ProtocoloGuedesService protocoloGuedesService;
+	private AvaliacaoAntropometricaService avaliacaoAntropometricaService;
 	
 	// ------------------------------------------------------
 	// --------- INSERTS ------------------------------------
@@ -72,44 +75,46 @@ public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationT
 	}
 	
 	/**
-	 * Insere uma nova ProtocoloGuedes
+	 * Insere uma nova AvaliacaoAntropometrica
 	 */
 	@Test
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/avaliacaoFisica/protocolos/protocoloGuedes.sql"
+		"/dataset/academia/avaliacaoFisica/antopometrica/avaliacaoAntropometricaPollock.sql"
 	})
-	public void insertGuedesMustPass(){
+	public void insertPollockMustPass(){
 		
-		ProtocoloGuedes protocoloGuedes = new ProtocoloGuedes(
+		AvaliacaoAntropometrica protocoloPollock = new AvaliacaoAntropometrica(
 			null, 
 			mockDobrasCutaneas(), 
 			mockIndiceMassaCorporal(), 
 			mockPredicaoGorduraSiri(),
-			10d
+			10d,
+			TipoProtocolo.POLLOCK
 		);
 		
-		protocoloGuedes = this.protocoloGuedesService.insertProtocoloGuedes(protocoloGuedes);
+		protocoloPollock = this.avaliacaoAntropometricaService.insertAvaliacaoAntropometrica(protocoloPollock);
 		
-		Assert.assertNotNull(protocoloGuedes);
-		Assert.assertNotNull(protocoloGuedes.getId());
+		Assert.assertNotNull(protocoloPollock);
+		Assert.assertNotNull(protocoloPollock.getId());
 		
 	}
 	
 	/**
-	 * Falha na inserção de uma nova ProtocoloGuedes com dados inválidos
+	 * Falha na inserção de uma nova AvaliacaoAntropometrica com dados inválidos
 	 */
+	@Test( expected = ValidationException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/avaliacaoFisica/protocolos/protocoloGuedes.sql"
+		"/dataset/academia/avaliacaoFisica/antopometrica/avaliacaoAntropometricaPollock.sql"
 	})
-	public void insertProtocoloGuedesMustFail(){
+	public void insertProtocoloPollockMustFail(){
 
-		ProtocoloGuedes ProtocoloGuedes = new ProtocoloGuedes();
+		AvaliacaoAntropometrica ProtocoloPollock = new AvaliacaoAntropometrica();
 		
-		ProtocoloGuedes = this.protocoloGuedesService.insertProtocoloGuedes(ProtocoloGuedes);
+		ProtocoloPollock = this.avaliacaoAntropometricaService.insertAvaliacaoAntropometrica(ProtocoloPollock);
 		
 	}
 	
@@ -118,32 +123,32 @@ public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationT
 	// ------------------------------------------------------
 
 //	/**
-//	* Teste de update de uma ProtocoloGuedes
+//	* Teste de update de uma ProtocoloPollock
 //	*/
 //	@Test
 //	@WithUserDetails("admin@email.com")
 //	@Sql({
 //		"/dataset/pessoa/pessoas.sql",
-//		"/dataset/academia/avaliacaoFisica/protocolos/protocoloGuedes.sql"
+//		"/dataset/academia/avaliacaoFisica/protocolos/protocoloPollock.sql"
 //	})
-//	public void updateProtocoloGuedesMustPass(){
+//	public void updateProtocoloPollockMustPass(){
 //		
-//		ProtocoloGuedes ProtocoloGuedes = this.ProtocoloGuedesRepository
+//		ProtocoloPollock ProtocoloPollock = this.ProtocoloPollockRepository
 //				.findById(1000L)
 //				.orElse(null);
 //		
-//		Assert.assertNotNull(ProtocoloGuedes);
+//		Assert.assertNotNull(ProtocoloPollock);
 //		
-//		ProtocoloGuedes.setAbdomen(666d);
+//		ProtocoloPollock.setAbdomen(666d);
 //
-//		this.ProtocoloGuedesService.updateProtocoloGuedes(ProtocoloGuedes);
+//		this.ProtocoloPollockService.updateProtocoloPollock(ProtocoloPollock);
 //		
-//		ProtocoloGuedes = this.ProtocoloGuedesRepository
+//		ProtocoloPollock = this.ProtocoloPollockRepository
 //				.findById(1000L)
 //				.orElse(null);
 //		
-//		Assert.assertNotNull(ProtocoloGuedes);
-//		Assert.assertTrue(ProtocoloGuedes.getAbdomen().equals(666d));
+//		Assert.assertNotNull(ProtocoloPollock);
+//		Assert.assertTrue(ProtocoloPollock.getAbdomen().equals(666d));
 //		
 //	}
 //	
@@ -154,20 +159,20 @@ public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationT
 //	@WithUserDetails("admin@email.com")
 //	@Sql({
 //		"/dataset/pessoa/pessoas.sql",
-//		"/dataset/academia/avaliacaoFisica/protocolos/protocoloGuedes.sql"
+//		"/dataset/academia/avaliacaoFisica/protocolos/protocoloPollock.sql"
 //	})
-//	public void updateProtocoloGuedesMustFail(){
+//	public void updateProtocoloPollockMustFail(){
 //		
-//		ProtocoloGuedes ProtocoloGuedes = this.ProtocoloGuedesRepository
+//		ProtocoloPollock ProtocoloPollock = this.ProtocoloPollockRepository
 //				.findById(1000L)
 //				.orElse(null);
 //		
-//		Assert.assertNotNull(ProtocoloGuedes);
+//		Assert.assertNotNull(ProtocoloPollock);
 //		
-//		ProtocoloGuedes.setAbdomen(null);
-//		ProtocoloGuedes.setBracoDireitoRelaxado(null);
+//		ProtocoloPollock.setAbdomen(null);
+//		ProtocoloPollock.setBracoDireitoRelaxado(null);
 //		
-//		this.protocoloGuedesService.updateProtocoloGuedes(ProtocoloGuedes);
+//		this.protocoloPollockService.updateProtocoloPollock(ProtocoloPollock);
 //		
 //	}
 	
@@ -182,31 +187,31 @@ public class ProtocoloGuedesServiceIntegrationTests extends AbstractIntegrationT
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/avaliacaoFisica/protocolos/protocoloGuedes.sql"
+		"/dataset/academia/avaliacaoFisica/antopometrica/avaliacaoAntropometricaPollock.sql"
 	})
-	public void findProtocoloGuedesMustPassById(){
+	public void findProtocoloPollockMustPassById(){
 
-		ProtocoloGuedes ProtocoloGuedes = this.protocoloGuedesService
-				.findProtocoloGuedesById(1000L);
+		AvaliacaoAntropometrica ProtocoloPollock = this.avaliacaoAntropometricaService
+				.findAvaliacaoAntropometricaById(1000L);
 		
-		Assert.assertNotNull(ProtocoloGuedes);
-		Assert.assertNotNull(ProtocoloGuedes.getId());
+		Assert.assertNotNull(ProtocoloPollock);
+		Assert.assertNotNull(ProtocoloPollock.getId());
 		
 	}
 	
 	/**
-	 * Teste de busca de uma ProtocoloGuedes por id inexistente
+	 * Teste de busca de uma AvaliacaoAntropometrica por id inexistente
 	 */
 	@Test(expected = IllegalArgumentException.class )
 	@WithUserDetails("admin@email.com")
 	@Sql({
 		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/avaliacaoFisica/protocolos/protocoloGuedes.sql"
+		"/dataset/academia/avaliacaoFisica/antopometrica/avaliacaoAntropometricaPollock.sql"
 	})
-	public void findProtocoloGuedesMustFailById(){
+	public void findProtocoloPollockMustFailById(){
 		
-		this.protocoloGuedesService
-			.findProtocoloGuedesById(151615615L);
+		this.avaliacaoAntropometricaService
+			.findAvaliacaoAntropometricaById(151615615L);
 		
 	}
 	

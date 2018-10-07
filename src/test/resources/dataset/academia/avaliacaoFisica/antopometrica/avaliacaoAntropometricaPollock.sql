@@ -9,7 +9,6 @@ SET default_with_oids = false;
 SET search_path TO public;
 
 TRUNCATE "avaliacao_antropometrica" CASCADE;
-TRUNCATE "protocolo_guedes" CASCADE;
 TRUNCATE "dobras_cutaneas" CASCADE;
 TRUNCATE "indice_massa_corporal" CASCADE;
 TRUNCATE "predicao_gordura_siri" CASCADE;
@@ -20,12 +19,11 @@ INSERT INTO predicao_gordura_siri(
     
 INSERT INTO predicao_gordura_siri(
             id, created, updated, densidade_corporal, gordura)
-    VALUES (1001, now(), null, 133, 10);
+    VALUES (1001, now(), null, 132, 10);
     
 INSERT INTO predicao_gordura_siri(
             id, created, updated, densidade_corporal, gordura)
-    VALUES (1002, now(), null, 134, 10);
-
+    VALUES (1002, now(), null, 132, 10);
 
 
 INSERT INTO indice_massa_corporal(
@@ -65,26 +63,20 @@ INSERT INTO dobras_cutaneas(
             1, 1, 1, 1, 1, 
             1);
 
+
 INSERT INTO avaliacao_antropometrica(
             id, created, updated, dobras_cutaneas_id, indice_massa_corporal_id, 
             densidade_corporal,
-            predicao_gordura_siri_id)
+            predicao_gordura_siri_id, tipo_protocolo)
     VALUES (1000, now(), null, 1000, 1000,
     		1,
-            1000);
+            1000, 1);
             
 INSERT INTO avaliacao_antropometrica(
             id, created, updated, dobras_cutaneas_id, indice_massa_corporal_id,
             densidade_corporal,
-            predicao_gordura_siri_id)
+            predicao_gordura_siri_id, tipo_protocolo)
     VALUES (1001, now(), null, 1001, 1001,
     		2,
-            1001);
+            1001, 0);
 
-INSERT INTO protocolo_guedes(
-            id)
-    VALUES (1000);
-    
-INSERT INTO protocolo_guedes(
-            id)
-    VALUES (1001);

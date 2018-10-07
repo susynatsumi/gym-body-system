@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.entity.account.Pessoa;
 
 /**
@@ -49,16 +48,16 @@ public class IPessoaRepositoryImpl implements UserDetailsService
 					+ "WHERE "
 					+ "		pessoa.login is not null "
 					+ "		AND pessoa.login = :login "
-					+ "		AND pessoa.isAtivo = true " // somente ativos podem logar
-					+ "		AND ( "
-					+ "				exists( select 1 from pessoa.papeis papel where papel <> :papelAluno ) "
-					+ "		) "; // alunos não podem logar no sistema
+					+ "		AND pessoa.isAtivo = true "; // somente ativos podem logar
+//					+ "		AND ( "
+//					+ "				exists( select 1 from pessoa.papeis papel where papel <> :papelAluno ) "
+//					+ "		) "; // alunos não podem logar no sistema
 			
 //			1 in elements(pessoa.papeis) "
 			
 			final TypedQuery<Pessoa> query = this.entityManager.createQuery( hql, Pessoa.class );
 			query.setParameter( "login", login );
-			query.setParameter( "papelAluno", Papel.ALUNO);
+//			query.setParameter( "papelAluno", Papel.ALUNO);
 			
 			UserDetails u = query.getSingleResult();
 			return u;

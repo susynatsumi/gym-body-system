@@ -1,13 +1,21 @@
 package br.com.eits.boot.domain.service.academia.avaliacaofisica.avaliacao;
 
+import java.time.LocalDate;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
+import br.com.eits.boot.domain.entity.account.Papel;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.avaliacaofisica.avaliacao.IAvaliacaoFisicaRepository;
+import br.com.eits.boot.domain.service.AccountService;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
 
 @Service
@@ -18,6 +26,8 @@ public class AvaliacaoFisicaService {
 	@Autowired
 	private IAvaliacaoFisicaRepository iAvaliacaoFisicaRepository;
 	
+	private AccountService accountService;
+	
 	/**
 	 * 
 	 * Realiza a inserção de um registro na base
@@ -25,6 +35,7 @@ public class AvaliacaoFisicaService {
 	 * @param avaliacaoFisica
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
 	public AvaliacaoFisica insertAvaliacaoFisica( AvaliacaoFisica avaliacaoFisica ){
 		
 		Assert.notNull(
@@ -43,6 +54,8 @@ public class AvaliacaoFisicaService {
 		);
 		
 		avaliacaoFisica.getAvaliacaoAntropometrica().setAvaliacaoFisica(avaliacaoFisica);
+
+		avaliacaoFisica.getAvaliacaoAntropometrica().calculaDensidadeCorporal();
 		
 		return this.iAvaliacaoFisicaRepository.save( avaliacaoFisica );
 		
@@ -87,6 +100,41 @@ public class AvaliacaoFisicaService {
 						)
 					)
 				);
+	}
+	
+	/**
+	 * Lista avaliações fisicas pelos fitros, nome treino, id pessoa, nome pessoa
+	 * Alunos não podem acessar este método, pois não podem ver avaliacoes de outras pessoas, somente as suas
+	 * @param filters
+	 * @param pageRequest
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional( readOnly = true )
+	public Page<AvaliacaoFisica> listAvaliacaoFisicaByFilters(String filters, LocalDate dataInicio, LocalDate dataFim, PageRequest pageRequest){
+		
+		return this.iAvaliacaoFisicaRepository.listAvaliacaoFisicaByFilters(filters, dataInicio, dataFim, pageRequest);
+		
+	}
+	
+	/**
+	 *
+	 * Lista a avaliacao fisica de uma pessoa, através de seu id
+	 * 
+	 * Usado principalmente por alunos
+	 * 
+	 * @param idPessoa
+	 * @param pageRequest
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional( readOnly = true )
+	public Page<AvaliacaoFisica> listAvalicaoFisicaByPessoaId(Long idPessoa, PageRequest pageRequest){
+		
+		Assert.notNull(idPessoa, MessageSourceHolder.translate("service.object.id.not.null"));
+		
+		return this.iAvaliacaoFisicaRepository.findAvaliacaoFisicaByPessoa_id(idPessoa, pageRequest);
+		
 	}
 	
 }
