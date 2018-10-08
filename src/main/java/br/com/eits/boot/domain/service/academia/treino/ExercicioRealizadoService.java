@@ -39,7 +39,7 @@ public class ExercicioRealizadoService {
 	 * @param exercicioRealizado
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public ExercicioRealizado insertExercicioRealizado(
 		ExercicioRealizado exercicioRealizado
 	){
@@ -63,7 +63,7 @@ public class ExercicioRealizadoService {
 	 * @param exercicioRealizado
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public ExercicioRealizado updateExercicioRealizado(
 		ExercicioRealizado exercicioRealizado 
 	){
@@ -88,6 +88,7 @@ public class ExercicioRealizadoService {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	@Transactional( readOnly = true )
 	public ExercicioRealizado findExercicioRealizadoById( Long id ){
 		

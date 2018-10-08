@@ -97,9 +97,14 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 	// -----------------------------------------------
 	// -------------------- COMPORTAMENTOS------------
 	// -----------------------------------------------
-	
+	/**
+	 * Cancula a densidade corporal, de acordo com o protocolo selecionado
+	 */
 	public void calculaDensidadeCorporal(){
 		this.densidadeCorporal = this.tipoProtocolo.realizaCalculo(this);
+		if(this.densidadeCorporal != null){
+			this.densidadeCorporal = Math.scalb(this.densidadeCorporal, 2);
+		}
 	}
 	
 	// ------------------------------------------------

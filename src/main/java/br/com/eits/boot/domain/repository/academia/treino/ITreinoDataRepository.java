@@ -23,7 +23,7 @@ public interface ITreinoDataRepository extends JpaRepository<TreinoData, Long>{
 	@Query("FROM "
 		+ "		TreinoData treinoData "
 		+ "WHERE "
-		+ "		treinoData.data >= :dataInicio"
+		+ "		treinoData.data BETWEEN :dataInicio and :dataTermino "
 		+ "		AND treinoData.treino.aluno.id = :idAluno "
 		+ "		AND ( "
 		+ "			:somenteCompletos IS NULL "
@@ -32,6 +32,7 @@ public interface ITreinoDataRepository extends JpaRepository<TreinoData, Long>{
 	)
 	Page<TreinoData> listByFilters(
 		@Param("dataInicio") LocalDate dataInicio, 
+		@Param("dataTermino") LocalDate dataTermino, 
 		@Param("idAluno") Long idAluno,
 		@Param("somenteCompletos") Boolean somenteCompletos,
 		Pageable pageRequest
@@ -43,5 +44,24 @@ public interface ITreinoDataRepository extends JpaRepository<TreinoData, Long>{
 	})
 	@Override
 	Optional<TreinoData> findById(Long id) ;
+
+	@Query("FROM "
+		+ "		TreinoData treinoData "
+		+ "WHERE "
+		+ "		treinoData.data BETWEEN :dataInicio and :dataTermino "
+		+ "		AND treinoData.treino.aluno.id = :idAluno "
+		+ "		AND ( "
+		+ "			treinoData.completo = true	"
+		+ "			OR ( "
+		+ "				treinoData.data < now()	"
+		+ "			) "
+		+ "		) "
+	)
+	Page<TreinoData> listByFiltersHistorico(
+		@Param("dataInicio") LocalDate dataInicio, 
+		@Param("dataTermino") LocalDate dataTermino, 
+		@Param("idAluno") Long idAluno,
+		Pageable pageRequest
+	);
 	
 }

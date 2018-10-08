@@ -46,7 +46,7 @@ public class TreinoDataService {
 	 * @param treinoData
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public TreinoData insertTreinoData(
 		TreinoData treinoData
 	){
@@ -72,7 +72,7 @@ public class TreinoDataService {
 	 * @param treinoData
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public TreinoData updateTreinoData(
 			TreinoData treinoData 
 	){
@@ -111,7 +111,7 @@ public class TreinoDataService {
 	 * @return
 	 */
 	@Transactional( readOnly = true )
-	public TreinoData findTreinoById( Long id ){
+	public TreinoData findTreinoDataById( Long id ){
 		
 		return this.treinoDataRepository
 				.findById(id)
@@ -177,9 +177,20 @@ public class TreinoDataService {
 		
 	}
 
-	
+	/**
+	 * 
+	 * Lista de acordo com os filtros
+	 * 
+	 * @param dataInicio
+	 * @param dataTermino
+	 * @param idAluno
+	 * @param somenteCompletos
+	 * @param pageRequest
+	 * @return
+	 */
 	public Page<TreinoData> listTreinoDataByFilters(
 		LocalDate dataInicio ,
+		LocalDate dataTermino ,
 		Long idAluno,
 		Boolean somenteCompletos,
 		PageRequest pageRequest
@@ -191,11 +202,42 @@ public class TreinoDataService {
 		);
 		
 		Assert.notNull(
+				dataTermino, 
+			MessageSourceHolder.translate("service.treino.data.informe.data.termino")
+		);
+		
+		Assert.notNull(
 			idAluno,
 			MessageSourceHolder.translate("service.treino.data.informe.codigo.aluno")
 		);
 		
-		return this.treinoDataRepository.listByFilters(dataInicio, idAluno, somenteCompletos ,pageRequest);
+		return this.treinoDataRepository.listByFilters(dataInicio, dataTermino, idAluno, somenteCompletos ,pageRequest);
 	}
+	
+	
+	public Page<TreinoData> listTreinoDataHistoricoByFilters(
+			LocalDate dataInicio ,
+			LocalDate dataTermino ,
+			Long idAluno,
+			PageRequest pageRequest
+		){
+			
+			Assert.notNull(
+				dataInicio, 
+				MessageSourceHolder.translate("service.treino.data.informe.data.inicio")
+			);
+			
+			Assert.notNull(
+					dataTermino, 
+				MessageSourceHolder.translate("service.treino.data.informe.data.termino")
+			);
+			
+			Assert.notNull(
+				idAluno,
+				MessageSourceHolder.translate("service.treino.data.informe.codigo.aluno")
+			);
+			
+			return this.treinoDataRepository.listByFiltersHistorico(dataInicio, dataTermino, idAluno ,pageRequest);
+		}
 	
 }

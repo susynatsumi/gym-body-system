@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.service.academia.avaliacaofisica.avaliacao.AvaliacaoFisicaService;
 
-
+@SuppressWarnings("rawtypes")
 @RequestMapping(value = "/api/avaliacao-fisica")
 @RestController
 public class AvaliacaoFisicaRestController {
@@ -47,7 +47,6 @@ public class AvaliacaoFisicaRestController {
 	 * @param avaliacaoFisica
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	@PostMapping(
 		value= {"/",""},
 		consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -82,25 +81,25 @@ public class AvaliacaoFisicaRestController {
 	}
 	
 	/**
-	 * 
 	 * Busca lista as avaliacoes fisicas pelos filters
 	 * 
-	 * @param idPessoa
+	 * @param filters
+	 * @param dataInicio
+	 * @param dataFim
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	@GetMapping(
 		value = {
+			"/by-filters/{filters}/pessoa-id/{idPessoa}/inicio/{dataInicio}/fim/{dataFim}/",
+			"/by-filters/pessoa-id/{idPessoa}/inicio/{dataInicio}/fim/{dataFim}/",
 			"/by-filters/{filters}/inicio/{dataInicio}/fim/{dataFim}/",
-			"/by-filters/{dataInicio}/inicio/{dataFim}/fim",
-			"/by-filters/{dataInicio}/inicio/",
-			"/by-filters/{dataFim}/fim",
-			"/{filters}/by-filters/"
+			"/by-filters/inicio/{dataInicio}/fim/{dataFim}/"
 		},
 		produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity listAvaliacoesFisicasByFilters(
-		@PathVariable String filters,
+		@PathVariable(required = false) String filters,
+		@PathVariable(required = false) Long idPessoa,
 		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
 		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataFim
 	){
@@ -112,7 +111,11 @@ public class AvaliacaoFisicaRestController {
 			
 			Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService
 					.listAvaliacaoFisicaByFilters(
-							filters,dataInicio, dataFim, pageRequest
+						filters,
+						idPessoa,
+						dataInicio, 
+						dataFim, 
+						pageRequest
 					);
 			
 			return new ResponseEntity<Page<AvaliacaoFisica>>(avaliacoes, HttpStatus.OK);
@@ -121,7 +124,7 @@ public class AvaliacaoFisicaRestController {
 			e.printStackTrace();
 			new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
-		return null;
+		return new ResponseEntity<String>("Error", HttpStatus.NOT_FOUND);
 		
 	}
 	
@@ -133,7 +136,6 @@ public class AvaliacaoFisicaRestController {
 	 * @param idPessoa
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	@GetMapping(
 		value = "/{idPessoa}/pessoa-id",
 		produces = MediaType.APPLICATION_JSON_VALUE
@@ -150,8 +152,33 @@ public class AvaliacaoFisicaRestController {
 			e.printStackTrace();
 			new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
-		return null;
+		return new ResponseEntity<String>("Error", HttpStatus.NOT_FOUND);
 		
 	}
 	
+	@GetMapping(
+		value = {
+			"/{idAvaliacaoFisica}/",
+			"/{idAvaliacaoFisica}"
+		},
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity findAvaliacaoFisicaById(
+		@PathVariable Long idAvaliacaoFisica
+	){
+		try {
+			
+			final AvaliacaoFisica avaliacaoFisica = this.avaliacaoFisicaService
+					.findAvaliacaoFisicaById(
+						idAvaliacaoFisica
+					);
+			
+			return new ResponseEntity<AvaliacaoFisica>(avaliacaoFisica, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<String>("Error", HttpStatus.NOT_FOUND);
+	}
 }

@@ -508,6 +508,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService
 				.listAvaliacaoFisicaByFilters(
 					null, 
+					null,
 					dataInicio, 
 					dataFim,
 					null
@@ -530,7 +531,13 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 	public void listAvaliacaoFisciaByFiltersMustPassReturn1(){
 		
 		
-		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService.listAvaliacaoFisicaByFilters("1000", null, null,  null);
+		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService.listAvaliacaoFisicaByFilters(
+			"1000", 
+			null,
+			null, 
+			null,
+			null
+		);
 		
 		Assert.assertNotNull(avaliacoes);
 		

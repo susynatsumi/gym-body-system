@@ -67,6 +67,7 @@ public class AvaliacaoFisicaService {
 	 * @param avaliacaoFisica
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
 	public AvaliacaoFisica updateAvaliacaoFisica( AvaliacaoFisica avaliacaoFisica ){
 		
 		Assert.notNull(
@@ -111,9 +112,15 @@ public class AvaliacaoFisicaService {
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	@Transactional( readOnly = true )
-	public Page<AvaliacaoFisica> listAvaliacaoFisicaByFilters(String filters, LocalDate dataInicio, LocalDate dataFim, PageRequest pageRequest){
+	public Page<AvaliacaoFisica> listAvaliacaoFisicaByFilters(
+		String filters,
+		Long idPessoa,
+		LocalDate dataInicio, 
+		LocalDate dataFim, 
+		PageRequest pageRequest
+	){
 		
-		return this.iAvaliacaoFisicaRepository.listAvaliacaoFisicaByFilters(filters, dataInicio, dataFim, pageRequest);
+		return this.iAvaliacaoFisicaRepository.listAvaliacaoFisicaByFilters(filters, idPessoa, dataInicio, dataFim, pageRequest);
 		
 	}
 	

@@ -39,7 +39,7 @@ public class TreinoService {
 	 * @param treino
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public Treino insertTreino(
 		Treino treino
 	){
@@ -100,7 +100,7 @@ public class TreinoService {
 	 * @param treino
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public Treino updateTreino(
 		Treino treino 
 	){
@@ -170,6 +170,7 @@ public class TreinoService {
 	 * Remove um treino por id
 	 * @param id
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
 	public void deleteTreino( long id ){
 		this.treinoRepository.deleteById(id);
 	}

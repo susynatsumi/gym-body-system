@@ -84,7 +84,7 @@ public class TreinoExercicio extends AbstractEntity {
 	@NotNull
 	@ManyToOne(
 //		cascade = CascadeType.MERGE,
-		fetch = FetchType.LAZY,
+		fetch = FetchType.EAGER,
 		optional = false,
 		targetEntity = Exercicio.class
 	)

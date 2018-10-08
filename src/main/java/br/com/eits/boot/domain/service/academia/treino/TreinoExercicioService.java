@@ -37,7 +37,7 @@ public class TreinoExercicioService {
 	 * @param treinoExercicio
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public TreinoExercicio insertTreinoExercicio(
 		TreinoExercicio treinoExercicio
 	){
@@ -63,7 +63,7 @@ public class TreinoExercicioService {
 	 * @param treinoExercicio
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public TreinoExercicio updateTreinoExercicio(
 		TreinoExercicio treinoExercicio 
 	){
@@ -121,6 +121,7 @@ public class TreinoExercicioService {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	@Transactional( readOnly = true )
 	public TreinoExercicio findTreinoExercicioById( Long id ){
 		
@@ -143,6 +144,7 @@ public class TreinoExercicioService {
 	 * @param idTreino
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	@Transactional( readOnly = true )
 	public Page<TreinoExercicio> findTreinoExercicioByTreinoId( Long idTreino, PageRequest pageRequest){
 		return this.treinoExercicioRepository.findByTreino_id(idTreino, pageRequest);

@@ -329,7 +329,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 	public void findTreinoDataPassById(){
 
 		final TreinoData treinoData = this.treinoDataService
-				.findTreinoById(1002L);
+				.findTreinoDataById(1002L);
 		
 		Assert.assertNotNull(treinoData);
 		Assert.assertNotNull(treinoData.getId());
@@ -348,7 +348,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 	public void findTreinoDataFailById(){
 
 		this.treinoDataService
-				.findTreinoById(1015655602L);
+				.findTreinoDataById(1015655602L);
 		
 	}
 	
@@ -369,6 +369,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		Page<TreinoData> treinosData = this.treinoDataService
 			.listTreinoDataByFilters(
 				LocalDate.of(2018, 9, 1), 
+				LocalDate.of(2018, 12, 1), 
 				1011L, 
 				null,
 				null
@@ -393,6 +394,7 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		this.treinoDataService
 			.listTreinoDataByFilters(
 				LocalDate.of(2018, 9, 1), 
+				LocalDate.of(2018, 10, 1), 
 				null,
 				null,
 				null
@@ -414,11 +416,36 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 		this.treinoDataService
 				.listTreinoDataByFilters(
 					null,
+					LocalDate.now(),
 					Long.valueOf(1001), 
 					null,
 					null
 				);
 		
 	}
+	
+	
+	/**
+	 * Realiza validação da obrigatoriedade do parametro dataTermino
+	 */
+	@Test( expected = IllegalArgumentException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoData.sql"
+	})
+	public void listTreinoDataTerminoByFiltersIdAluno(){
+		
+		this.treinoDataService
+				.listTreinoDataByFilters(
+					LocalDate.now(),
+					null,
+					Long.valueOf(1001), 
+					true,
+					null
+				);
+		
+	}
+	
 	
 }

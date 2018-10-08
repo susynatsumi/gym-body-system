@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.service.academia.treino.TreinoDataService;
 
+@SuppressWarnings({"rawtypes"})
 @RequestMapping("/api/treino-datas")
 @RestController
 public class TreinoDataRestController {
@@ -38,11 +39,15 @@ public class TreinoDataRestController {
 	 * @return
 	 */
 	@GetMapping(
-		value = "/data-inicio/{dataInicio}/aluno/{idAluno}",
+		value = {
+			"/data-inicio/{dataInicio}/data-termino/{dataTermino}/aluno/{idAluno}/somente-completos/{somenteCompletos}/",
+		},
 		produces = MediaType.APPLICATION_JSON_VALUE
 	)
 	public ResponseEntity<Page<TreinoData>> listTreinoData( 
 		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio, 
+		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataTermino, 
+		@PathVariable Boolean somenteCompletos,
 		@PathVariable Long idAluno 
 	){
 	
@@ -52,8 +57,9 @@ public class TreinoDataRestController {
 			
 			Page<TreinoData> treinosData = this.treinoDataService.listTreinoDataByFilters(
 				dataInicio, 
+				dataTermino,
 				idAluno, 
-				false,// somente completo
+				somenteCompletos,// somente completo
 				PageRequest.of(0, 10, sort)
 			);
 			
@@ -68,6 +74,73 @@ public class TreinoDataRestController {
 			
 		}
 		
+		
+	}
+	
+	/**
+	 * 
+	 * retonra o histórico de treinos
+	 * 
+	 * @param dataInicio
+	 * @param idAluno
+	 * @return
+	 */
+	@GetMapping(
+		value = {
+			"/data-inicio/{dataInicio}/data-termino/{dataTermino}/aluno/{idAluno}/"
+		},
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Page<TreinoData>> listTreinoDataHistorico( 
+		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio, 
+		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataTermino, 
+		@PathVariable Long idAluno 
+	){
+	
+		try {
+			
+			Sort sort = new Sort(Direction.ASC, "data");
+			
+			Page<TreinoData> treinosData = this.treinoDataService.listTreinoDataHistoricoByFilters(
+				dataInicio, 
+				dataTermino,
+				idAluno, 
+				PageRequest.of(0, 10, sort)
+			);
+			
+			return ResponseEntity.ok().body(treinosData);
+//			return new ResponseEntity<Page<TreinoData>>(treinosData, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		}
+		
+		
+	}
+	
+	@GetMapping(
+		value = "/{idTreinoData}/",
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity findExerciciosRealizadosByTreinoDataId(
+		@PathVariable(required = true) Long idTreinoData
+	){
+		
+		try {
+			
+			final TreinoData treinoData = this.treinoDataService
+					.findTreinoDataById(idTreinoData);
+			
+			return new ResponseEntity<TreinoData>(treinoData, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
 		
 	}
 	

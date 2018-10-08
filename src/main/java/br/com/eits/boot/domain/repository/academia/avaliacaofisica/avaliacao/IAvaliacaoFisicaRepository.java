@@ -46,10 +46,14 @@ public interface IAvaliacaoFisicaRepository extends JpaRepository<AvaliacaoFisic
 		+ "	AND ( "
 		+ "		cast( :dataFim as date ) is null	"
 		+ "		OR avaliacaoFisica.data <= :dataFim "
+		+ "	) AND ( "
+		+ "		:idPessoa is null "
+		+ "		OR avaliacaoFisica.pessoa.id = :idPessoa "
 		+ "	) "
 	)
 	Page<AvaliacaoFisica> listAvaliacaoFisicaByFilters(
 		@Param("filter") String filter, 
+		@Param("idPessoa") Long idPessoa,
 		@Param("dataInicio") LocalDate dataInicio, 
 		@Param("dataFim") LocalDate dataFim, 
 		Pageable pageRequest

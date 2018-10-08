@@ -39,10 +39,10 @@ public class ApiAuthController {
 	@Autowired
 	private AccountService accountService;
 
-	@GetMapping("/api/teste")
+	@GetMapping("/api/valida-login")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void authenticate() {
-		System.out.println("PASSOU");
+		System.out.println("Validando login");
 	}
 
 	/**
