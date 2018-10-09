@@ -131,6 +131,7 @@ public class TreinoDataService {
 	 * @param treino
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
 	public void criaDatasTreino(Treino treino) {
 			
 		LocalDate dataAtual = treino.getDataInicio();
@@ -188,6 +189,8 @@ public class TreinoDataService {
 	 * @param pageRequest
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional( readOnly = true )
 	public Page<TreinoData> listTreinoDataByFilters(
 		LocalDate dataInicio ,
 		LocalDate dataTermino ,
@@ -214,7 +217,8 @@ public class TreinoDataService {
 		return this.treinoDataRepository.listByFilters(dataInicio, dataTermino, idAluno, somenteCompletos ,pageRequest);
 	}
 	
-	
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional( readOnly = true )
 	public Page<TreinoData> listTreinoDataHistoricoByFilters(
 			LocalDate dataInicio ,
 			LocalDate dataTermino ,

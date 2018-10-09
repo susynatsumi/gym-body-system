@@ -101,11 +101,20 @@ public class PessoaRestController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public ResponseEntity findAlunosByNome(String nome){
+	@GetMapping(
+		value = {
+			"/alunos/{nome}/",
+			"/alunos/"
+		},
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity findAlunosByNome(
+		@PathVariable(required = false) String nome
+	){
 
 		try {
-			
-			final Sort sort = Sort.by(Direction.ASC, "pessoa.nome");
+			System.out.println("Filtrando por: "+nome);
+			final Sort sort = Sort.by(Direction.ASC, "nome");
 			
 			final PageRequest pageRequest = PageRequest.of(0, 30, sort);
 			
@@ -121,10 +130,10 @@ public class PessoaRestController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			new ResponseEntity<String>(e.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(e.getLocalizedMessage(),HttpStatus.NOT_FOUND);
 		}
 		
-		return null;
+		
 	}
 	
 	/**

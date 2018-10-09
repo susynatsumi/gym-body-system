@@ -25,7 +25,7 @@ public class SecurityConfiguration {
 	
 	@Order(2)
 	@Configuration
-//	@EnableGlobalMethodSecurity(prePostEnabled = false)
+//	@EnableGlobalMethodSecurity(prePostEnabled = true)
 	public static class RestSecurityConfiguration// { 
 		extends WebSecurityConfigurerAdapter {
 

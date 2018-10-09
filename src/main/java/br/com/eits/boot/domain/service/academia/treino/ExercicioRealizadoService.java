@@ -1,18 +1,16 @@
 package br.com.eits.boot.domain.service.academia.treino;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
-import br.com.eits.boot.domain.entity.academia.treino.Treino;
-import br.com.eits.boot.domain.entity.academia.treino.TreinoData;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.treino.IExercicioRealizadoRepository;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
@@ -104,36 +102,18 @@ public class ExercicioRealizadoService {
 		
 	}
 	
-	/**
-	 * Cria um exercicio realizado para todos os exercicio do treino
-	 * @param treinoData
-	 * @return
-	 */
-	public List<ExercicioRealizado> criaExercicioRealizado( TreinoData treinoData ){
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional( readOnly = true )
+	public Page<ExercicioRealizado> findExercicioRealizadoByTreinoDataId(
+		Long idTreinoData,
+		PageRequest pageRequest
+	) {
 		
-		Assert.notNull(
-			treinoData, 
-			MessageSourceHolder.translate("service.object.null")
-		);
-		
-		Assert.notNull(
-			treinoData.getTreino(), 
-			MessageSourceHolder.translate("service.object.null")
-		);
-		
-		final Treino treino = treinoData.getTreino();
-		
-		Assert.notNull(
-			treinoData.getTreino().getTreinoExercicios(), 
-			MessageSourceHolder.translate("service.object.null")
-		);
-		
-		//cria para cada exercicio do treino um exercicio realizado
-		return treino.getTreinoExercicios().stream()
-			.map(treinoExercicio -> 
-				new ExercicioRealizado(false, treinoData, treinoExercicio
-			)).collect(Collectors.toList());
+		return this.exercicioRealizadoRepository.findByTreinoData_id(idTreinoData, pageRequest);
 		
 	}
+	
+	
+	
 	
 }

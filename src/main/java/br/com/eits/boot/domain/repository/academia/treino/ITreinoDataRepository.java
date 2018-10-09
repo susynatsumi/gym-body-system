@@ -40,7 +40,7 @@ public interface ITreinoDataRepository extends JpaRepository<TreinoData, Long>{
 	
 //	verificar se está salvando e buscando novamente todos os atributos
 	@EntityGraph(attributePaths={
-		"exerciciosRealizados.treinoExercicio.exercicio"
+		"exerciciosRealizados"
 	})
 	@Override
 	Optional<TreinoData> findById(Long id) ;
