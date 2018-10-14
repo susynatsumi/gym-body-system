@@ -18,6 +18,8 @@ import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
 import br.com.eits.common.domain.entity.AbstractEntity;
@@ -77,6 +79,7 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 //	// referencia da avaliacao fisica
 //	@LazyToOne foi necessario para não carregar a avaliacao fisica e fazer um loop infinito
 //	@NotNull	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	@LazyToOne(LazyToOneOption.NO_PROXY)

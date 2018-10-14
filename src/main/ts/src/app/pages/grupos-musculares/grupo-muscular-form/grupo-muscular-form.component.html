@@ -29,14 +29,14 @@
           <button 
             mat-raised-button 
             matStepperNext 
-            color="primary"
+            class="botao-finalizar"
             title="Salvar dados" 
             (click)="salvar()">Salvar</button>
           <button 
             mat-raised-button 
             title="Cancela operação e retorna para tela de consulta" 
             [routerLink]="['/grupos-musculares']" 
-            color="warn">Cancelar</button>
+            class="botao-cancelar">Cancelar</button>
       </div>
       </form>
     </mat-step>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import br.com.eits.boot.application.converter.ImagemConverter;
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.exercicio.IExercicioRepository;
@@ -25,6 +26,9 @@ public class ExercicioService {
 
 	@Autowired
 	private IExercicioRepository exercicioRepository;
+	
+	@Autowired
+	private ImagemConverter imageconverter;
 	
 	// -------------------------------------------------
 	// -------------MÉTODOS ----------------------------
@@ -61,6 +65,13 @@ public class ExercicioService {
 				grupoMuscular.setExercicio(exercicio);
 			});
 		
+		byte[] imagem = this.imageconverter
+			.fileTransferToByteArray(
+					exercicio.getImagemFileTransfer()
+			);
+
+		exercicio.setImagem(imagem);
+		
 		return this.exercicioRepository.save( exercicio );
 		
 	}
@@ -93,6 +104,15 @@ public class ExercicioService {
 			.forEach(grupoMuscular -> {
 				grupoMuscular.setExercicio(exercicio);
 		});
+		
+		byte[] imagem = this.imageconverter
+				.fileTransferToByteArray(
+						exercicio.getImagemFileTransfer()
+				);
+		
+		if(imagem != null){
+			exercicio.setImagem(imagem);
+		}
 		
 		return this.exercicioRepository.save( exercicio );
 		

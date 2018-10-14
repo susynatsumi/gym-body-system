@@ -1,45 +1,53 @@
 <ngx-loading [show]="loading"></ngx-loading>
 <mat-card>
-  <mat-card-header>
+  <mat-card-header class="card-content">
     <mat-card-title>{{ pessoa?.nome }}</mat-card-title>
     <mat-card-subtitle>{{ pessoa?.papel }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div>
-      <label>Gênero:</label>
-      <label>{{pessoa?.genero}}</label>
-    </div>
-    <div>
-      <label>Data de Nascimento:</label>
-      <label>{{pessoa?.dataNascimento | date:"dd/MM/yyyy"}}</label>
-    </div>
-    <div>
-      <label>Login:</label>
-      <label>{{pessoa?.login}}</label>
-    </div>
-    <div>
-      <label>E-mail:</label>
-      <label>{{pessoa?.email}}</label>
-    </div>
-    <div>
-      <label>Objetivo:</label>
-      <label>{{pessoa?.objetivo}}</label>
-    </div>
-    <div>
-      <label>Status:</label>
-      <label>{{pessoa?.isAtivo == true? 'Ativo': 'Inativo'}}</label>
+    <div class="card-content">
+      <div>
+        <p>
+          Gênero:
+          <strong>{{pessoa?.genero}}</strong>
+        </p>
+        <p>
+          Data de Nascimento:
+          <strong>{{pessoa?.dataNascimento | date:"dd/MM/yyyy"}}</strong>
+        </p>
+        <p>
+          Login:
+          <strong>{{pessoa?.login}}</strong>
+        <p>
+          E-mail:
+          <strong>{{pessoa?.email}}</strong>
+        </p>
+        <p>
+          Objetivo:
+          <strong>{{pessoa?.objetivo}}</strong>
+        </p>
+        <p>
+          Status:
+          <strong>{{pessoa?.isAtivo == true? 'Ativo': 'Inativo'}}</strong>
+        </p>
+      </div>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <a 
-      mat-raised-button 
-      [routerLink]="['/pessoas']" 
-      color="warn" 
-      title="Voltar para a tela de consulta">Voltar</a>
-    <button 
-      mat-raised-button 
-      (click)="editar(pessoa?.id)"
-      color="primary" 
-      title="Editar dados">Editar</button>
+    <div class="card-content">
+      <div>
+        <a 
+          mat-raised-button 
+          class="botao-cancelar"
+          [routerLink]="['/pessoas']" 
+          title="Voltar para a tela de consulta">Voltar</a>
+        <button 
+          mat-raised-button 
+          class="botao-proximo"
+          (click)="editar(pessoa?.id)"
+          color="primary" 
+          title="Editar dados">Editar</button>
+      </div>
+    </div>
   </mat-card-actions>
 </mat-card>

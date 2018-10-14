@@ -32,6 +32,9 @@ export class ExerciciosDetalharComponent implements OnInit {
   // apresetar ou não o loader na tela
   loading = true;
 
+  // imagem default
+  imageUrl: string = "/assets/imagens/imagem-default.png";
+
   // -----------------------------------
   // ----- CONSTRUCTOR -----------------
   // -----------------------------------

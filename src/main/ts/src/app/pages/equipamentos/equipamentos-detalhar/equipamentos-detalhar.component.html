@@ -1,38 +1,43 @@
 <ngx-loading [show]="loading"></ngx-loading>
 <mat-card>
-  <mat-card-header>
+  <mat-card-header class="card-content">
     <mat-card-title>{{ equipamento?.descricao }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div>
-      <label>Status:</label>
-      <label>{{equipamento && equipamento.isAtivo == true ? 'Ativo' : 'Inativo'}}</label>
-    </div>
-    <div>
-      <label>Imagem:</label>
-    </div>
-    <div>
-      <img 
-        *ngIf="equipamento && equipamento.imagem" 
-        [src]="equipamento?.imagem" 
-        class="imagem-preview" />
+    <div class="card-content">
+      <div>
+        <p>Status: 
+          <strong>
+            {{equipamento && equipamento.isAtivo == true ? 'Ativo' : 'Inativo'}}
+          </strong>
+        </p>
+        <p>Imagem:</p>
+        <img 
+          *ngIf="equipamento && equipamento.imagem" 
+          [src]="equipamento?.imagem" 
+          class="imagem-preview" />
 
-      <img 
-        *ngIf="!equipamento || !equipamento.imagem"
-        [src]="imageUrl" 
-        class="imagem-preview" />
+        <img 
+          *ngIf="!equipamento || !equipamento.imagem"
+          [src]="imageUrl" 
+          class="imagem-preview" />
+      </div>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <a 
-      mat-raised-button 
-      [routerLink]="['/equipamentos']" 
-      color="warn" 
-      title="Voltar para a tela de consulta">Voltar</a>
-    <button 
-      mat-raised-button 
-      (click)="editar(equipamento?.id)"
-      color="primary" 
-      title="Editar dados">Editar</button>
+    <div class="card-content">
+      <div>
+        <a 
+          [routerLink]="['/equipamentos']" 
+          class="botao-cancelar"
+          mat-button
+          title="Voltar para a tela de consulta">Voltar</a>
+        <button 
+          mat-button 
+          class="botao-proximo"
+          (click)="editar(equipamento?.id)"
+          title="Editar dados">Editar</button>
+      </div>
+    </div>
   </mat-card-actions>
 </mat-card>

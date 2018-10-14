@@ -29,7 +29,7 @@
           </mat-form-field>
         </div>
         <div class="input-row"  fxLayout="row" fxLayout.lt-md="column"  fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
-          <mat-form-field fxFlex>
+          <!-- <mat-form-field fxFlex>
             <input
                 matInput 
                 rows="4"
@@ -37,26 +37,72 @@
                 formControlName="linkVideo"
                 name="linkVideo" 
                 [(ngModel)]="exercicio.linkVideo"/>
-        </mat-form-field>
-            <mat-form-field fxFlex >
-              <input matInput placeholder="" style="display: none">
-              <mat-checkbox 
-                  formControlName="isAtivo"    
-                  labelPosition='before'
-                  [(ngModel)]="exercicio.isAtivo">Ativo</mat-checkbox>
+          </mat-form-field> -->
+          <mat-form-field fxFlex >
+            <input matInput placeholder="" style="display: none">
+            <mat-checkbox 
+                formControlName="isAtivo"    
+                labelPosition='before'
+                [(ngModel)]="exercicio.isAtivo">Ativo</mat-checkbox>
           </mat-form-field>
-          <!-- [disabled]="parametroId == null" -->
         </div>
         <div>
           <button 
             mat-raised-button
-            color="default"
+            class="botao-proximo"
             matStepperNext 
             title="Ir para a próxima etapa">Próximo</button>
         </div>
       </form>
     </mat-step>
     <!-- fim step um do form -->
+
+    <mat-step [stepControl]="formImagem">
+      <form  fxLayout="column" class="example-form" [formGroup]="formImagem">
+        <ng-template matStepLabel>Selecionar imagem</ng-template>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field fxFlex>
+            <input matInput placeholder="" style="display: none">
+            <div>
+              <img 
+                *ngIf="!novaFoto &&  exercicio && exercicio.imagem" 
+                [src]="exercicio.imagem" 
+                class="imagem-preview" />
+                <!-- *ngIf="!equipamento || !equipamento.imagem" -->
+                <img 
+                  *ngIf="novaFoto || !exercicio.imagem"
+                  [src]="imageUrl" 
+                  class="imagem-preview" />
+            </div>
+            <button type="button" class="botao-selecionar-imagem" mat-raised-button (click)="arquivoInput.click()">
+              Selecionar imagem
+            </button>
+            <button type="button" class="botao-remover-imagem" mat-raised-button (click)="removerImagem()">
+              Remover imagem
+            </button>
+            <input 
+              hidden
+              multiple="false" 
+              type="file" 
+              accept=".png, .gif, .jpg, .jpeg" 
+              #arquivoInput 
+              (change)="setArquivo($event)">
+          </mat-form-field>
+        </div>
+        <div>
+          <button 
+            mat-raised-button 
+            matStepperPrevious 
+            class="botao-voltar"
+            title="Voltar para etapa anterior">Anterior</button>
+          <button 
+            mat-raised-button 
+            matStepperNext 
+            class="botao-proximo"
+            title="Ir para a próxima etapa">Próximo</button>
+        </div>
+      </form>
+    </mat-step>
 
     <mat-step [stepControl]="formStep2Equipamentos">
 
@@ -80,19 +126,21 @@
             <div fxFlex="15%">
               <button 
                 mat-raised-button 
-                color="primary"
+                class="botao-voltar"
                 (click)="abrirDialog()">Buscar Equipamentos</button>
             </div>
-        </div>
+          </div>
         </div>
         <div>
           <button 
             mat-raised-button 
             matStepperPrevious 
+            class="botao-voltar"
             title="Voltar para etapa anterior">Anterior</button>
           <button 
             mat-raised-button 
             matStepperNext 
+            class="botao-proximo"
             title="Ir para a próxima etapa">Próximo</button>
         </div>
       </form>
@@ -128,8 +176,8 @@
                   <button 
                     mat-button 
                     (click)="removerItem(element.id)"
-                    title="Detalhar">
-                    <mat-icon>delete_outline</mat-icon>
+                    title="Remover">
+                    <mat-icon class="icone-cancelar">delete_outline</mat-icon>
                   </button>    
                 </mat-cell>
               </ng-container>
@@ -142,7 +190,7 @@
             <button 
               type="button"
               mat-raised-button 
-              color="primary"
+              class="botao-voltar"
               (click)="abrirDialogGrupo()">Adicionar grupo muscular</button>
           </div>
 
@@ -151,18 +199,19 @@
             <button 
               mat-raised-button 
               matStepperPrevious 
+              class="botao-voltar"
               title="Voltar para etapa anterior">Anterior</button>
             <button 
               mat-raised-button 
               matStepperNext 
-              color="primary"
+              class="botao-finalizar"
               (click)="salvar()"
               title="Salvar os dados">Finalizar</button>
             <button 
               mat-raised-button 
+              class="botao-cancelar"
               title="Cancela operação e retornar para tela de consulta" 
-              [routerLink]="['/exercicios']"  
-              color="warn">Cancelar</button>
+              [routerLink]="['/exercicios']">Cancelar</button>
           </div>
         </form>
       </mat-step> 

@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.eits.boot.domain.entity.academia.treino.ExercicioRealizado;
 
 public interface IExercicioRealizadoRepository extends JpaRepository<ExercicioRealizado, Long>{

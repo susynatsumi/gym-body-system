@@ -6,11 +6,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.directwebremoting.io.FileTransfer;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -49,9 +52,9 @@ public class Exercicio extends AbstractEntity {
 	@Column(nullable = false , length = 500)
 	private String descricao;
 	
-	// Link do vídeo do youtube
-	@Column(nullable = true)
-	private String linkVideo;
+//	// Link do vídeo do youtube
+//	@Column(nullable = true)
+//	private String linkVideo;
 	
 	// status do exercicios, se estiver inativo 
 	// não deve aparecer pra montagem de treinos
@@ -73,6 +76,14 @@ public class Exercicio extends AbstractEntity {
 		targetEntity = ExercicioGrupoMuscular.class
 	)
 	private List<ExercicioGrupoMuscular> exercicioGrupoMusculares;
+	
+	// imagem ilustrativa do exercicio
+	@Lob
+	@Column
+	private byte[] imagem;
+	
+	@Transient
+	private FileTransfer imagemFileTransfer; 
 	
 	// ---------------------------------------
 	// ------------ CONSTRUCTORS -------------
@@ -105,15 +116,15 @@ public class Exercicio extends AbstractEntity {
 	 */
 	public Exercicio(
 		String nome, 
-		String descricao, 
-		String linkVideo, 
+		String descricao,
+		byte[] imagem,
 		Boolean isAtivo,
 		Equipamento equipamento
 	) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
-		this.linkVideo = linkVideo;
+		this.imagem = imagem;
 		this.isAtivo = isAtivo;
 		this.equipamento = equipamento;
 	}

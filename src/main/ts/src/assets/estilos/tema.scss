@@ -1,0 +1,14 @@
+// define 3 theme color
+// mat-palette accepts $palette-name, main, lighter and darker variants
+
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$primary: mat-palette($mat-purple, 600, 100, 800);
+$accent:  mat-palette($mat-purple, 900, 800, 900);
+$warn:    mat-palette($mat-deep-orange);
+
+$colors-app: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($colors-app);

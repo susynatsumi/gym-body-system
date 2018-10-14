@@ -1,6 +1,7 @@
 package br.com.eits.boot.application.restful.treino;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,10 +41,9 @@ public class TreinoDataRestController {
 	@GetMapping(
 		value = {
 			"/data-inicio/{dataInicio}/data-termino/{dataTermino}/aluno/{idAluno}/somente-completos/{somenteCompletos}/",
-		},
-		produces = MediaType.APPLICATION_JSON_VALUE
+		}
 	)
-	public ResponseEntity<Page<TreinoData>> listTreinoData( 
+	public ResponseEntity<List<TreinoData>> listTreinoData( 
 		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio, 
 		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataTermino, 
 		@PathVariable Boolean somenteCompletos,
@@ -63,8 +62,8 @@ public class TreinoDataRestController {
 				PageRequest.of(0, 10, sort)
 			);
 			
-			return ResponseEntity.ok().body(treinosData);
-//			return new ResponseEntity<Page<TreinoData>>(treinosData, HttpStatus.OK);
+//			return ResponseEntity.ok().body(treinosData);
+			return new ResponseEntity<List<TreinoData>>(treinosData.getContent(), HttpStatus.OK);
 			
 		} catch (Exception e) {
 			
@@ -88,8 +87,7 @@ public class TreinoDataRestController {
 	@GetMapping(
 		value = {
 			"/data-inicio/{dataInicio}/data-termino/{dataTermino}/aluno/{idAluno}/"
-		},
-		produces = MediaType.APPLICATION_JSON_VALUE
+		}
 	)
 	public ResponseEntity<Page<TreinoData>> listTreinoDataHistorico( 
 		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio, 
@@ -123,8 +121,7 @@ public class TreinoDataRestController {
 	}
 	
 	@GetMapping(
-		value = "/{idTreinoData}/",
-		produces = MediaType.APPLICATION_JSON_VALUE
+		value = "/{idTreinoData}/"
 	)
 	public ResponseEntity findExerciciosRealizadosByTreinoDataId(
 		@PathVariable(required = true) Long idTreinoData

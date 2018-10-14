@@ -21,6 +21,10 @@ export class ExerciciosFormComponent implements OnInit {
   // -------------- ATRIBUTOS ----------
   // -----------------------------------
 
+  // para importar imagem
+  novaFoto: File;
+  imageUrl: string = "/assets/imagens/imagem-default.png";
+
   // para apresentação do loader
   loading = false;
 
@@ -34,6 +38,10 @@ export class ExerciciosFormComponent implements OnInit {
   formStep1Cadastro: FormGroup;
   // form group do segundo step
   formStep2Equipamentos: FormGroup;
+
+  // form para selecionar imagem
+  formImagem: FormGroup;
+
   //form group do terceiro e último step
   formStep3GruposMusculares: FormGroup;
 
@@ -103,8 +111,12 @@ export class ExerciciosFormComponent implements OnInit {
     this.formStep1Cadastro = this.formBuilder.group({
       'nome': [this.exercicio.nome, Validators.compose([Validators.required, Validators.maxLength(60)])],
       'descricao': [this.exercicio.descricao, Validators.compose([Validators.required, Validators.maxLength(500)])],
-      'linkVideo' : [this.exercicio.linkVideo],
+      // 'linkVideo' : [this.exercicio.linkVideo],
       'isAtivo': [this.exercicio.isAtivo, Validators.required]
+    });
+
+    this.formImagem = this.formBuilder.group({
+      imagemFileTransfer: [this.exercicio.imagemFileTransfer]
     });
 
     if(this.parametroId == null) {
@@ -137,6 +149,45 @@ export class ExerciciosFormComponent implements OnInit {
 
     // console.log(this.formStep3GruposMusculares);
 
+  }
+
+  // ---------------------------------------------------
+  // ----------------- metodos para manipular imagem -------------
+  // ---------------------------------------------------
+
+  /**
+   * Remove o equipamento da tela
+   */
+  removerImagem(){
+    this.exercicio.imagem = null;
+    this.exercicio.imagemFileTransfer = null;
+    this.novaFoto = null;
+    this.imageUrl =  "/assets/imagens/imagem-default.png";
+  }
+
+  /**
+   * Seleciona a imagem e altera a apresentada no compenent img
+   * @param event 
+   */
+  setArquivo(event) {
+    
+    this.removerImagem();
+
+    if (event.target.files[0]){
+      this.exercicio.imagemFileTransfer = event.target;
+
+      this.novaFoto = event.target.files.item(0);
+  
+      //Show image preview
+      var reader = new FileReader();
+      reader.onload = (event:any) => {
+        this.imageUrl = event.target.result;
+      }
+  
+      reader.readAsDataURL(this.novaFoto);
+
+    }
+   
   }
 
   // ---------------------------------------------------

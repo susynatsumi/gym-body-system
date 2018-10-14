@@ -20,6 +20,11 @@ import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/trein
 const routes: Routes = [
   // pessoas
   {
+    path: '', 
+    redirectTo: 'pessoas',
+    pathMatch: 'full'
+  },
+  {
     path: 'pessoas', 
     component: PessoasComponent,
     // children: [{

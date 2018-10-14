@@ -41,6 +41,7 @@
             <div>
                 <button 
                     mat-raised-button 
+                    class="botao-proximo"
                     matStepperNext 
                     title="Ir para a próxima etapa">Próximo</button>
             </div>
@@ -87,10 +88,12 @@
                 <button 
                     mat-raised-button 
                     matStepperPrevious 
+                    class="botao-voltar"
                     title="Voltar para etapa anterior">Anterior</button>
                 <button 
                     mat-raised-button 
                     matStepperNext 
+                    class="botao-proximo"
                     title="Ir para a próxima etapa">Próximo</button>
             </div>
         </form>
@@ -120,10 +123,12 @@
                 <button 
                     mat-raised-button 
                     matStepperPrevious 
+                    class="botao-voltar"
                     title="Voltar para etapa anterior">Anterior</button>
                 <button 
                     mat-raised-button 
                     matStepperNext 
+                    class="botao-proximo"
                     title="Ir para a próxima etapa">Próximo</button>
             </div>
         </form>
@@ -146,18 +151,19 @@
                 <button 
                     mat-raised-button 
                     matStepperPrevious 
+                    class="botao-voltar"
                     title="Voltar para etapa anterior" >Anterior</button>
                 <button 
                     mat-raised-button 
                     matStepperNext 
+                    class="botao-finalizar"
                     title="Salvar dados" 
-                    color="primary"
                     (click)="salvar()">Finalizar</button>
                 <button 
                     mat-raised-button 
                     title="Cancela operação e retorna para tela de consulta" 
                     [routerLink]="['/pessoas']" 
-                    color="warn">Cancelar</button>
+                    class="botao-cancelar">Cancelar</button>
             </div>
         </form>
     </mat-step>

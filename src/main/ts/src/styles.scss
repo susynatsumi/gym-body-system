@@ -2,33 +2,52 @@
 // definir paleta personalizada
 // https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
 
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-// @import '~@angular/material/theming';
 // // Plus imports for other components in your app.
 
-// // Include the common styles for Angular Material. We include this here so that you only
-// // have to load a single css file for Angular Material in your app.
-// // Be sure that you only ever include this mixin once!
-// @include mat-core();
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
 
-// // Define the palettes for your theme using the Material Design palettes available in palette.scss
-// // (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// // hue. Available color palettes: https://www.google.com/design/spec/style/color.html
-// $candy-app-primary: mat-palette($mat-blue);
-// $candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+// import our custom theme
+@import './assets/estilos/tema.scss';
 
-// // The warn palette is optional (defaults to red).
-// $candy-app-warn:    mat-palette($mat-red);
+// specify theme class eg: <body class="my-theme"> ... </body>
+// .meu-tema  {
+//     // use our theme with angular-material-theme mixin
+//     @include angular-material-theme($colors);
+// }
 
-// // Create the theme object (a Sass map containing all of the palettes).
-// $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+// ------------------------------------------- 
+// --------------- estilos padrões -----------
+// ------------------------------------------- 
+$font-weight: bold;
+$text-color: mat-color($mat-purple , 900);
+$larajado: mat-color($mat-deep-orange , 800);
+$purple-dark: mat-color($mat-purple , 900);
+$purple-ligth: mat-color($mat-purple, 100);
 
-// // Include theme styles for core and each component used in your app.
-// // Alternatively, you can import and @include the theme mixins for each component
-// // that you are using.
-// @include angular-material-theme($candy-app-theme);
+%estilo-texto {
+    color: $text-color !important;
+    font-weight: $font-weight !important;
+}
 
+// defaults backgrounds
+%estilo-background-color {
+    background-color: transparent !important;
+}
+
+%estilo-background {
+    background-image:  url('../src/assets/imagens/fundo17.jpg');
+    background-position: center;
+    background-repeat: repeat;
+    background-size: contain;
+}  
+
+body {
+    @extend %estilo-background;
+}
 
 // styles padroes 
 // -------------------------------------------
@@ -48,10 +67,10 @@ table {
 
 // tamanho da imagem - form
 .imagem-preview{
-    width: 292px; 
-    height: 240px;
+    width: 300px; 
+    height: 250px;
     border: 4px;
-    border-color: #CCC;
+    border-color: $purple-ligth;
     border-style: dashed;
 }
 
@@ -59,6 +78,103 @@ table {
     min-height: 64px;
     padding: 8px 24px 0;
 }
+
+// botoes do formulário 
+
+%borda-botoes{
+    border: 2px !important;
+    border-style: solid !important;
+    border-color: $purple-dark !important;
+}
+
+.botao-voltar, .botao-selecionar-imagem{
+    color:  $purple-dark !important;
+    background:  mat-color($mat-purple , 50) !important;
+    font-weight: bold !important;
+    @extend %borda-botoes;
+}
+
+.botao-proximo{
+    color:  mat-color($mat-purple , 50) !important;
+    background:  $purple-dark !important;
+    @extend %borda-botoes;
+}
+
+.botao-finalizar{
+    color:  mat-color($mat-purple , 50) !important;
+    background:  $purple-dark !important;
+    @extend %borda-botoes;
+}
+
+.botao-cancelar{
+    color:  mat-color($mat-deep-orange , 50) !important;
+    background: $larajado  !important;
+    @extend %borda-botoes;
+    border-color: $larajado !important;
+}
+
+.botao-remover-imagem{
+    background: mat-color($mat-deep-orange , 50) !important;
+    color: $larajado !important;
+    font-weight: bold !important;
+    @extend %borda-botoes;
+    border-color: $larajado !important;
+}
+
+
+// inputs do formulario
+.form-input, .mat-step-label, input, textarea, mat-checkbox  {
+   @extend %estilo-texto;
+}
+
+// estilização do card
+.card-content  {
+    @extend %estilo-texto;
+    width: 100%;
+}
+
+.card-content div {
+    width: 24%;
+    margin: 0 auto;
+}
+
+.card-content mat-card-title {
+    @extend %estilo-texto;
+    font-size: 20pt !important;
+    text-transform: uppercase;
+}
+
+// estilos das tables
+mat-header-cell{
+    @extend %estilo-texto;
+    color: $purple-dark;
+}
+
+mat-cell{
+    @extend %estilo-texto;
+    font-weight: normal !important;
+}
+
+// estilizacao da ta
+p {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+// estilizacao de icones
+mat-icon {
+    color: $purple-dark !important;
+}
+
+.icone-cancelar {
+    color: $larajado !important;
+}
+
+// date picker 
+mat-datepicker {
+    color: $purple-dark !important;
+}
+
 
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 

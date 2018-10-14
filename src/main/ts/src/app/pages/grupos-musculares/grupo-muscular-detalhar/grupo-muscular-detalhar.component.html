@@ -1,25 +1,32 @@
 <ngx-loading [show]="loading"></ngx-loading>
 <mat-card>
-  <mat-card-header>
+  <mat-card-header class="card-content">
     <mat-card-title>{{ grupoMuscular?.nome }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div>
-      <label>Descrição:</label>
-      <label *ngIf="grupoMuscular && grupoMuscular.descricao" >{{ grupoMuscular?.descricao }}</label>
-      <label *ngIf="grupoMuscular && grupoMuscular.descricao == null" >Não informado</label>
+    <div class="card-content">
+      <div>
+        <p>Descrição:
+          <strong *ngIf="grupoMuscular && grupoMuscular.descricao" >{{ grupoMuscular?.descricao }}</strong>
+          <strong *ngIf="grupoMuscular && grupoMuscular.descricao == null" >Não informado</strong>
+        </p>
+      </div>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <a 
-      mat-raised-button 
-      [routerLink]="['/grupos-musculares']" 
-      color="warn" 
-      title="Voltar para a tela de consulta">Voltar</a>
-    <button 
-      mat-raised-button 
-      (click)="editar(grupoMuscular?.id)"
-      color="primary" 
-      title="Editar dados">Editar</button>
+    <div class="card-content">
+      <div>
+        <a 
+          mat-raised-button 
+          [routerLink]="['/grupos-musculares']"
+          class="botao-cancelar" 
+          title="Voltar para a tela de consulta">Voltar</a>
+        <button 
+          mat-raised-button 
+          (click)="editar(grupoMuscular?.id)"
+          class="botao-proximo"
+          title="Editar dados">Editar</button>
+      </div>
+    </div>
   </mat-card-actions>
 </mat-card>

@@ -1,6 +1,6 @@
 <ngx-loading [show]="loading"></ngx-loading>
 <div>
-  <mat-horizontal-stepper [linear]="false" #stepper>
+  <mat-horizontal-stepper [linear]="true" #stepper>
     <mat-step [stepControl]="formGrupoStep1">
       <form fxLayout="column" class="example-form" [formGroup]="formGrupoStep1">
         <ng-template matStepLabel>Cadastro de treino - Selecionar aluno</ng-template>

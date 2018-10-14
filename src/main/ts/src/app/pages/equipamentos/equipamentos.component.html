@@ -25,28 +25,28 @@
             mat-button 
             routerLink="/equipamentos/{{element.id}}"
             title="Detalhar">
-            <mat-icon>description</mat-icon>
+            <mat-icon class="icone">description</mat-icon>
           </button>  
           <button 
             *ngIf="ocultarBotoes == false"
             mat-button 
             routerLink="/equipamentos/editar/{{element.id}}"
             title="Editar dados">
-            <mat-icon>edit</mat-icon>
+            <mat-icon class="icone">edit</mat-icon>
           </button>  
           <button 
             *ngIf="ocultarBotoes == false"
             mat-button 
             (click)="delete(element.id)"
             title="Remover">
-            <mat-icon>delete</mat-icon>
+            <mat-icon class="icone-cancelar">delete</mat-icon>
           </button> 
           <button 
             *ngIf="ocultarBotoes == true"
             mat-button 
             (click)="selecionar(element)"
             title="Selecionar">
-            <mat-icon>touch_app</mat-icon>
+            <mat-icon class="icone">touch_app</mat-icon>
           </button> 
         </mat-cell>
       </ng-container>

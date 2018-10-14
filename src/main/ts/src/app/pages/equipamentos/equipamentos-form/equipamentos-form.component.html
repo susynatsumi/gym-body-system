@@ -1,12 +1,13 @@
 <div>
   <ngx-loading [show]="loading"></ngx-loading>
-    <mat-vertical-stepper [linear]="true" #stepper>
+    <mat-vertical-stepper class="transparente" [linear]="true" #stepper>
       <mat-step [stepControl]="formEquipamento">
         <form  fxLayout="column" class="example-form" [formGroup]="formEquipamento">
-          <ng-template matStepLabel>Dados do equipamento</ng-template>
+          <ng-template class="steper" matStepLabel>Dados do equipamento</ng-template>
           <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
             <mat-form-field fxFlex>
                 <input 
+                    class="form-input"
                     matInput 
                     placeholder="Descrição (Obrigatório)" 
                     formControlName="descricao"
@@ -26,6 +27,7 @@
           <div>
             <button 
               mat-raised-button 
+              class="botao-proximo"
               matStepperNext 
               title="Salvar dados">Próximo</button>
           </div>
@@ -48,10 +50,10 @@
                     [src]="imageUrl" 
                     class="imagem-preview" />
               </div>
-              <button type="button" mat-raised-button (click)="arquivoInput.click()" color="primary">
+              <button type="button" mat-raised-button (click)="arquivoInput.click()" class="botao-selecionar-imagem">
                 Selecionar imagem
               </button>
-              <button type="button" mat-raised-button (click)="removerImagem()" color="accent">
+              <button type="button" mat-raised-button (click)="removerImagem()" class="botao-remover-imagem">
                 Remover imagem
               </button>
               <input 
@@ -67,10 +69,12 @@
             <button 
                 mat-raised-button 
                 matStepperPrevious 
+                class="botao-voltar"
                 title="Voltar para etapa anterior" >Anterior</button>
             <button 
                 mat-raised-button 
                 matStepperNext 
+                class="botao-finalizar"
                 title="Salvar dados" 
                 color="primary"
                 (click)="salvar()">Finalizar</button>
@@ -78,7 +82,7 @@
                 mat-raised-button 
                 title="Cancela operação e retorna para tela de consulta" 
                 [routerLink]="['/equipamentos']" 
-                color="warn">Cancelar</button>
+                class="botao-cancelar" >Cancelar</button>
         </div>
         </form>
       </mat-step>
