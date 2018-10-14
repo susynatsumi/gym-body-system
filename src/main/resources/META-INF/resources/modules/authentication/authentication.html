@@ -1,63 +1,68 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:title="#{userLogin.userAuthentication}">Gym Body System - Login</title>
-    <link rel="stylesheet" href="/webjars/material-design-lite/material.min.css"/>
-    <script type="text/javascript" src="/webjars/material-design-lite/material.min.js"></script>
-    <script type="text/javascript" src="/webjars/jquery/dist/jquery.min.js"></script>
-</head>
-<body 
-	style="display: flex; height: 100vh; align-items: center; justify-content: center; background-color:#3f51b5;
-					 background-size:100%;">
-<div style="display: flex; flex-direction: column; width: 330px; height: 380px; padding: 60px; border-radius: 3px;"
-     class="mdl-color--white mdl-shadow--2dp">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport"
+	          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	    <title th:title="#{userLogin.userAuthentication}">Gym Body System - Login</title>
+	    <link rel="stylesheet" href="/webjars/material-design-lite/material.min.css"/>
+	    <link rel="stylesheet" href="../static/css/theme.css"/>
+	    <script type="text/javascript" src="/webjars/material-design-lite/material.min.js"></script>
+	    <script type="text/javascript" src="/webjars/jquery/dist/jquery.min.js"></script>
+	</head>
+	<body class="login-background">
+		<div style="display: flex; flex-direction: column; width: 330px; height: 380px; padding: 60px; border-radius: 3px;"
+	     	class="mdl-color--white mdl-shadow--2dp">
+	
+	<!-- <img height="100" th:src="@{/static/images/logo3.jpg}" alt="Gym Body System" style="display: block; margin: 0 auto" /> --> 
+		    <h3 class="color-primary">Gym Body System</h3>
+		    <form method="post" class="form-login" id="form">
+		        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label color-primary">
+		            <input autofocus id="login" type="text" name="login" class="mdl-textfield__input color-secondary">
+		            <label for="login" class="mdl-textfield__label">Login</label>
+		        </div>
+		        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label login color-primary">
+		            <input id="senha" type="password" name="senha" class="mdl-textfield__input color-secondary">
+		            <label for="senha" class="mdl-textfield__label">Senha</label>
+		        </div>
+		        <button 
+		        	id="submit" 
+		        	type="submit" 
+		        	style="margin-top: 13px;"
+		        	class="mdl-button mdl-button--raised mdl-button--primary color-primary-background">
+		            	Acessar
+		        </button>
+		    </form>
+		    <span id="message-error" style="top: 4%; position: relative; margin: auto; color: red; font-weight: bold;"></span>
+		    
+		</div>
+		<script>
+		    $('#form').on('submit', function (event) {
+		        event.preventDefault();
+		        $.ajax({
+		            type: "POST",
+		            url: '/authenticate',
+		            data: {
+		                login: $('#login').val(),
+		                senha: $('#senha').val()
+		            },
+		            success: function () {
+		                window.location.replace("/");
+		            },
+		            error: function (error) {
+		                if (error.responseJSON) {
+		                    $("#message-error").html(error.responseJSON);
+		                }
+		                else {
+		                    $("#message-error").html(error.responseText);
+		                }
+		                $("#message-error").css("color", "red");
+		            }
+		        });
+		    });
+		</script>
 
-    <!--  <img height="100" th:src="@{/static/images/logo.png}" alt="eits it solutions" style="display: block; margin: 0 auto" /> -->
-    <h3 style="align-items:center; color:#3f51b5; display: block; margin: 0 auto; font-weight: bold;">Gym Body System</h3>
-    <form method="post" style="display: flex; flex-direction: column; margin-top:25%" id="form">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%">
-            <input autofocus id="login" type="text" name="login" class="mdl-textfield__input">
-            <label for="login" class="mdl-textfield__label">Login</label>
-        </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label login" style="width: 100%">
-            <input id="senha" type="password" name="senha" class="mdl-textfield__input">
-            <label for="senha" class="mdl-textfield__label">Senha</label>
-        </div>
-        <button id="submit" type="submit" style="margin-top: 13px;"
-                class="mdl-button mdl-button--raised mdl-button--primary">Acessar
-        </button>
-    </form>
-    <span id="message-error" style="top: 4%; position: relative; margin: auto; color: red; font-weight: bold;"></span>
-</div>
-<script>
-    $('#form').on('submit', function (event) {
-        event.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: '/authenticate',
-            data: {
-                login: $('#login').val(),
-                senha: $('#senha').val()
-            },
-            success: function () {
-                window.location.replace("/");
-            },
-            error: function (error) {
-                if (error.responseJSON) {
-                    $("#message-error").html(error.responseJSON);
-                }
-                else {
-                    $("#message-error").html(error.responseText);
-                }
-                $("#message-error").css("color", "red");
-            }
-        });
-    });
-</script>
-
-</body>
+	<p class="copyright ">Engenharia de software 2018 &copy; GBS &spades;</p>
+	</body>
 </html>

@@ -1,57 +1,93 @@
 <ngx-loading [show]="loading"></ngx-loading>
 <mat-card>
-    <mat-card-header>
+    <mat-card-header class="card-content">
       <mat-card-title>
-        <h2>Treino: {{ treino?.nome }}</h2>
+        {{treino?.nome}}
       </mat-card-title>
-      <mat-card-subtitle>
-        <span>Aluno: {{ treino?.aluno?.nome }} - Personal: {{ treino?.personal?.nome }}</span>
-      </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div>
-        <span>Data início:</span>
-        <span>{{ treino?.dataInicio | date: 'dd/MM/yyyy' }}</span>
-        - 
-        <span>Data fim:</span>
-        <span>{{ treino?.dataFim | date: 'dd/MM/yyyy' }}</span>
-      </div>
-      <div>
-        <mat-accordion class="according">
-            <mat-expansion-panel *ngFor="let treinoExercicio of treino?.treinoExercicios">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Exercício: {{ treinoExercicio?.exercicio?.nome }}
-                </mat-panel-title>
-                <mat-panel-description>
-                  Dados do exercício
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              
-              <p>Tipo do exercício: {{ treinoExercicio?.tipoTreinoExercicio }}</p>
-              <p>Nr. Séries: {{ treinoExercicio?.series }}</p>
-              
-              <p *ngIf="treinoExercicio?.tipoTreinoExercicio == 'CARGA_REPETICOES' ">Carga (Kg): {{ treinoExercicio?.carga }}</p>
-              <p *ngIf="treinoExercicio?.tipoTreinoExercicio != 'TEMPO' ">Repetições: {{ treinoExercicio?.repeticoes }}</p>
-              
-              <p *ngIf="treinoExercicio?.tipoTreinoExercicio == 'TEMPO' ">Tempo (Min): {{ treinoExercicio?.tempoMin }}</p>
+      <div class="container row">
+        <div class="item1">
+          <div>
+            <p>
+              Aluno:
+              <strong>{{ treino?.aluno?.nome }}</strong>
+            </p>
+            <p>
+              Personal:
+              <strong>{{ treino?.personal?.nome}}</strong>
+            </p>
+            <p>
+              Data início:
+              <strong>{{ treino?.dataInicio | date: 'dd/MM/yyyy' }}</strong>
+            </p>
+            <p>
+              Data fim:
+              <strong>{{ treino?.dataFim | date: 'dd/MM/yyyy' }}</strong>
+            </p>
+          </div>
+        </div>
+        <div class="item">
+          <mat-accordion class="according">
+              <mat-expansion-panel *ngFor="let treinoExercicio of treino?.treinoExercicios">
+                <mat-expansion-panel-header  class="right-aligned-header">
+                  <mat-panel-title>
+                    Exercício: {{ treinoExercicio?.exercicio?.nome }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                  <p>Tipo do exercício:
+                    <strong *ngIf="treinoExercicio?.tipoTreinoExercicio == 'CARGA_REPETICOES' ">
+                      Repetições com Carga
+                    </strong>
+                    <strong *ngIf="treinoExercicio?.tipoTreinoExercicio == 'REPETICOES' ">
+                      Repetições
+                    </strong>
+                    <strong *ngIf="treinoExercicio?.tipoTreinoExercicio == 'TEMPO' ">
+                      Tempo
+                    </strong>
+                  </p>
+                  <p>
+                    Nr. Séries:
+                    <strong>{{ treinoExercicio?.series }}</strong>
+                  </p>
+                  
+                  <p *ngIf="treinoExercicio?.tipoTreinoExercicio == 'CARGA_REPETICOES' ">
+                    Carga (Kg):
+                    <strong>{{ treinoExercicio?.carga }}</strong>
+                  </p>
+                  <p *ngIf="treinoExercicio?.tipoTreinoExercicio != 'TEMPO' ">
+                    Repetições:
+                    <strong>{{ treinoExercicio?.repeticoes }}</strong>
+                  </p>
 
-              <p>Observações: {{ treinoExercicio?.observacoes }}</p>
-              
-            </mat-expansion-panel>
-          </mat-accordion>
+                  <p *ngIf="treinoExercicio?.tipoTreinoExercicio == 'TEMPO' ">
+                    Tempo (Min):
+                    <strong>{{ treinoExercicio?.tempoMin }}</strong>
+                  </p>
+
+                  <p>
+                    Observações:
+                    <strong>{{ treinoExercicio?.observacoes }}</strong>
+                  </p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <a 
-        mat-raised-button 
-        [routerLink]="['/treinos']" 
-        color="warn" 
-        title="Voltar para a tela de consulta">Voltar</a>
-      <button 
-        mat-raised-button 
-        (click)="editar(treino?.id)"
-        color="primary" 
-        title="Editar dados">Editar</button>
+      <div class="container">
+        <div class="botoes">
+          <a 
+            mat-raised-button 
+            [routerLink]="['/treinos']" 
+            class="botao-cancelar"
+            title="Voltar para a tela de consulta">Voltar</a>
+          <button 
+            mat-raised-button 
+            (click)="editar(treino?.id)"
+            class="botao-proximo"
+            title="Editar dados">Editar</button>
+        </div>
+      </div>
     </mat-card-actions>
   </mat-card>

@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ToolbarPrincipalComponent implements OnInit {
 
 
-  logo =  '../../../assets/imagens/logo3.png';
+  logo =  '../../../assets/imagens/logo4.png';
 
   constructor(
     private http: HttpClient

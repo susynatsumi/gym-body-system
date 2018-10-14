@@ -1,3 +1,52 @@
 .according{
-    padding-top: 30px;
+	padding-top: 30px;
+	width: 100%;
+}
+
+.card-content div {
+    width: 100% !important;
+}
+
+.row {
+	flex-direction: row;
+}
+
+/* Flex Container */
+.container {
+	width: 80% !important;
+	margin: 0 auto !important;
+	display: flex !important;
+}
+/* Flex Item */
+.item {
+	flex: 2 !important;
+}
+
+.item1 {
+	flex: 1 !important;
+}
+
+.expansion{
+	text-align: left !important;
+	width: 100%;
+}
+
+.botoes {
+    margin-left: 12px;
+}
+
+.footer-btn {
+    margin-left: 10px;
+}
+
+.right-aligned-header > .mat-content {
+    justify-content: space-between;
+}
+
+.mat-content > mat-panel-title, .mat-content > mat-panel-description {
+  flex: 0 0 auto;
+}
+
+.mat-expansion-panel-content {
+	justify-content: left;
 }

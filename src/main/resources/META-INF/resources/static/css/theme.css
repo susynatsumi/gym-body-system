@@ -1,0 +1,48 @@
+.login-background{
+	display: flex; 
+	height: 100vh; 
+	align-items: center; 
+	justify-content: center;
+	background-image: url("../images/fundo19.jpg"); 
+	background-size:100%;
+	flex-direction: column;
+}
+
+.color-primary {
+	color: #9C27B0 !important;
+}
+
+.color-secondary {
+	color: #4A148C !important;
+}
+
+.color-primary-background {
+	background: #9C27B0 !important;
+}
+
+.form-login {
+	display: flex; 
+	flex-direction: column; 
+	margin-top:25%;
+}
+
+.form-login div {
+	width: 100%;
+}
+
+h3 {
+	align-items:center; 
+	display: block; 
+	margin: 0 auto; 
+	font-weight: bold;
+}
+
+.copyright {
+	position: absolute;
+	bottom:0; 
+	margin-left: 10px;
+	text-align: center;
+	font-weight: bold;
+    width:100%;
+    color: #4A148C !important;
+}

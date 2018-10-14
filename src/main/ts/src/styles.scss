@@ -12,6 +12,7 @@
 
 // import our custom theme
 @import './assets/estilos/tema.scss';
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 
 // specify theme class eg: <body class="my-theme"> ... </body>
 // .meu-tema  {
@@ -27,6 +28,7 @@ $text-color: mat-color($mat-purple , 900);
 $larajado: mat-color($mat-deep-orange , 800);
 $purple-dark: mat-color($mat-purple , 900);
 $purple-ligth: mat-color($mat-purple, 100);
+$expansion-panel-title-color: mat-color($mat-grey, 800);
 
 %estilo-texto {
     color: $text-color !important;
@@ -123,7 +125,7 @@ table {
 
 
 // inputs do formulario
-.form-input, .mat-step-label, input, textarea, mat-checkbox  {
+.form-input, .mat-step-label, input, textarea, mat-checkbox, mat-select , .opcao {
    @extend %estilo-texto;
 }
 
@@ -159,6 +161,12 @@ mat-cell{
 p {
     margin-top: 0px;
     margin-bottom: 5px;
+    @extend %estilo-texto;
+}
+
+mat-panel-title {
+    color: $expansion-panel-title-color !important;
+    text-transform: capitalize;
 }
 
 // estilizacao de icones
@@ -174,9 +182,6 @@ mat-icon {
 mat-datepicker {
     color: $purple-dark !important;
 }
-
-
-@import "~ng-pick-datetime/assets/style/picker.min.css";
 
 /* 
 @import '~@angular/material/theming';
