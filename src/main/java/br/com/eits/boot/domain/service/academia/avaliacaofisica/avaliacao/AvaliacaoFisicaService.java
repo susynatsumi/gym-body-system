@@ -13,7 +13,6 @@ import org.springframework.util.Assert;
 
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.entity.account.Papel;
-import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.boot.domain.repository.academia.avaliacaofisica.avaliacao.IAvaliacaoFisicaRepository;
 import br.com.eits.boot.domain.service.AccountService;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
@@ -26,7 +25,7 @@ public class AvaliacaoFisicaService {
 	@Autowired
 	private IAvaliacaoFisicaRepository iAvaliacaoFisicaRepository;
 	
-	private AccountService accountService;
+//	private AccountService accountService;
 	
 	/**
 	 * 
@@ -36,17 +35,17 @@ public class AvaliacaoFisicaService {
 	 * @return
 	 */
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
-	public AvaliacaoFisica insertAvaliacaoFisica( AvaliacaoFisica avaliacaoFisica ){
+	public AvaliacaoFisica salvarAvaliacaoFisica( AvaliacaoFisica avaliacaoFisica ){
 		
 		Assert.notNull(
 			avaliacaoFisica,
 			MessageSourceHolder.translate("service.object.null")
 		);
 		
-		Assert.isNull(
-			avaliacaoFisica.getId(),
-			MessageSourceHolder.translate("service.object.id.null")
-		);
+//		Assert.isNull(
+//			avaliacaoFisica.getId(),
+//			MessageSourceHolder.translate("service.object.id.null")
+//		);
 		
 		Assert.notNull(
 			avaliacaoFisica.getAvaliacaoAntropometrica(),
@@ -66,7 +65,7 @@ public class AvaliacaoFisicaService {
 	 * 
 	 * @param avaliacaoFisica
 	 * @return
-	 */
+	 *//*
 	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "')")
 	public AvaliacaoFisica updateAvaliacaoFisica( AvaliacaoFisica avaliacaoFisica ){
 		
@@ -84,7 +83,7 @@ public class AvaliacaoFisicaService {
 		return this.iAvaliacaoFisicaRepository.save( avaliacaoFisica );
 		
 	}
-	
+	*/
 	/**
 	 * Busca registro por id
 	 * @param id

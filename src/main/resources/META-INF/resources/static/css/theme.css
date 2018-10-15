@@ -1,6 +1,6 @@
 .login-background{
 	display: flex; 
-	height: 100vh; 
+	height: 100%; 
 	align-items: center; 
 	justify-content: center;
 	background-image: url("../images/fundo19.jpg"); 
@@ -23,7 +23,7 @@
 .form-login {
 	display: flex; 
 	flex-direction: column; 
-	margin-top:25%;
+	margin-top: 40px;
 }
 
 .form-login div {
@@ -38,7 +38,7 @@ h3 {
 }
 
 .copyright {
-	position: absolute;
+	display: flex; flex-direction: column;
 	bottom:0; 
 	margin-left: 10px;
 	text-align: center;

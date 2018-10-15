@@ -85,6 +85,7 @@ export class EquipamentosComponent implements OnInit {
       .subscribe(
         (equipamentos: Page<Equipamento>) => {
           this.dadosTable.data = equipamentos.content;
+          console.log(equipamentos.content);
         }
       );
   }

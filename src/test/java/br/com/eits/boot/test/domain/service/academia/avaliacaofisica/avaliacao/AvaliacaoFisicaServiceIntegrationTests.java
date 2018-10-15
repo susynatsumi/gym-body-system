@@ -218,7 +218,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			mockAvalicaoAntropometrica()
 		);
 		
-		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		avaliacaoFisica = this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 		Assert.assertNotNull(avaliacaoFisica);
 		Assert.assertNotNull(avaliacaoFisica.getId());
@@ -245,7 +245,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		
 		AvaliacaoFisica avaliacaoFisica = new AvaliacaoFisica();
 		
-		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		avaliacaoFisica = this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	
@@ -269,7 +269,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			mockAvalicaoAntropometrica()
 		);
 		
-		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		avaliacaoFisica = this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	
@@ -293,7 +293,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			mockAvalicaoAntropometrica()
 		);
 		
-		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		avaliacaoFisica = this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	
@@ -317,7 +317,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			null
 		);
 		
-		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		avaliacaoFisica = this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	
@@ -341,7 +341,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			mockAvalicaoAntropometrica()
 		);
 		
-		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		avaliacaoFisica = this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	
@@ -365,7 +365,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			mockAvalicaoAntropometrica()
 		);
 		
-		avaliacaoFisica = this.avaliacaoFisicaService.insertAvaliacaoFisica(avaliacaoFisica);
+		avaliacaoFisica = this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	
@@ -394,7 +394,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		
 		avaliacaoFisica.setData(LocalDate.of(1999, 1, 25));
 		
-		this.avaliacaoFisicaService.updateAvaliacaoFisica(avaliacaoFisica);
+		this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 		avaliacaoFisica = this.avaliacaoFisicaRepository
 				.findById(1001L)
@@ -424,7 +424,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		Assert.assertNotNull(avaliacaoFisica);
 		avaliacaoFisica.setPerimetria(null);
 		
-		this.avaliacaoFisicaService.updateAvaliacaoFisica(avaliacaoFisica);
+		this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	
@@ -446,7 +446,7 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		Assert.assertNotNull(avaliacaoFisica);
 		avaliacaoFisica.setResposta(null);
 		
-		this.avaliacaoFisicaService.updateAvaliacaoFisica(avaliacaoFisica);
+		this.avaliacaoFisicaService.salvarAvaliacaoFisica(avaliacaoFisica);
 		
 	}
 	

@@ -14,9 +14,9 @@
 	<body class="login-background">
 		<div style="display: flex; flex-direction: column; width: 330px; height: 380px; padding: 60px; border-radius: 3px;"
 	     	class="mdl-color--white mdl-shadow--2dp">
-	
-	<!-- <img height="100" th:src="@{/static/images/logo3.jpg}" alt="Gym Body System" style="display: block; margin: 0 auto" /> --> 
-		    <h3 class="color-primary">Gym Body System</h3>
+			
+			<img height="130" th:src="@{/static/images/logo6.png}" alt="Gym Body System" style="display: block; margin: 0 auto" />
+		    <!-- <h3 class="color-primary">Gym Body System</h3> -->
 		    <form method="post" class="form-login" id="form">
 		        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label color-primary">
 		            <input autofocus id="login" type="text" name="login" class="mdl-textfield__input color-secondary">
@@ -36,7 +36,9 @@
 		    </form>
 		    <span id="message-error" style="top: 4%; position: relative; margin: auto; color: red; font-weight: bold;"></span>
 		    
+		    
 		</div>
+		<p class="copyright ">&diams; Engenharia de software 2018 &copy; GBS &spades;</p>		
 		<script>
 		    $('#form').on('submit', function (event) {
 		        event.preventDefault();
@@ -62,7 +64,7 @@
 		        });
 		    });
 		</script>
-
-	<p class="copyright ">Engenharia de software 2018 &copy; GBS &spades;</p>
+	
+	
 	</body>
 </html>
