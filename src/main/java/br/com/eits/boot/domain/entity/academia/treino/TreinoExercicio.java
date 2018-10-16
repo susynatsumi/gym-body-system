@@ -15,6 +15,10 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import br.com.eits.boot.domain.entity.academia.exercicio.Exercicio;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
@@ -28,6 +32,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=TreinoExercicio.class)
 public class TreinoExercicio extends AbstractEntity {
 
 	/**
@@ -65,6 +70,7 @@ public class TreinoExercicio extends AbstractEntity {
 	private String observacoes;
 	
 	// treino ao qual o exercicio pertence
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@NotNull
 	@ManyToOne( 
 		cascade = CascadeType.MERGE,

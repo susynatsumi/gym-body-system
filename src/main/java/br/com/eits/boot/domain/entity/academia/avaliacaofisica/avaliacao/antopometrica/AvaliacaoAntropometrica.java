@@ -18,10 +18,13 @@ import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,6 +36,7 @@ import lombok.EqualsAndHashCode;
 @Table
 @EqualsAndHashCode(callSuper=true, exclude = "avaliacaoFisica")
 @DataTransferObject
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=AvaliacaoAntropometrica.class)
 public class AvaliacaoAntropometrica extends AbstractEntity {
 
 	/**

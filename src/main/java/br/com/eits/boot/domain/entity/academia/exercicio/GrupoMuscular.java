@@ -8,6 +8,10 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.EqualsAndHashCode;
 
@@ -19,6 +23,7 @@ import lombok.Data;
 @Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=GrupoMuscular.class)
 public class GrupoMuscular extends AbstractEntity {
 
 	/**

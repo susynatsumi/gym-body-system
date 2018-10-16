@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.anamnese.Resposta;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometrica;
 import br.com.eits.boot.domain.entity.account.Pessoa;
@@ -30,6 +33,7 @@ import lombok.EqualsAndHashCode;
 @Audited
 @DataTransferObject
 @EqualsAndHashCode(callSuper = true, exclude = "avaliacaoAntropometrica")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=AvaliacaoFisica.class)
 public class AvaliacaoFisica extends AbstractEntity {
 
 	/**

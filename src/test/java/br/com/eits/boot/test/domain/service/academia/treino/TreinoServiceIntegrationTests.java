@@ -9,6 +9,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
@@ -589,5 +592,109 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 				.findTreinoById(10116500L);
 		
 	}
+	
+	
+	@Test()
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoData.sql"
+	})
+	public void listTreinoDataTerminoByFiltersIdAluno(){
+
+		String[] order = new String[]{
+			"treinoData.data",
+			"nome"
+		};
+		
+		Page<Treino> treinos = this.treinoRepository.listTreinosComDatasByFilters(
+			1011L, 
+			LocalDate.of(2018, 9, 1),
+			LocalDate.of(2018, 12, 1), 
+			null ,
+			PageRequest.of(0, 10, Direction.ASC, order)
+		);
+		
+		Assert.assertNotNull(treinos);
+		Assert.assertEquals(treinos.getTotalElements(), 1L);
+	
+		final List<TreinoData> treinoDatas = treinos.getContent().get(0).getTreinoDatas();
+		
+		Assert.assertNotNull(treinoDatas);
+		
+		Assert.assertEquals(2, treinoDatas.size());
+		
+	}
+	
+	
+	/**
+	 * Realiza teste de filtragem por data e aluno
+	 */
+	@Test( )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoData.sql"
+	})
+	public void listTreinoDataByFilters(){
+		
+		Page<Treino> treinos = this.treinoService
+			.listTreinosComDatasByFilters(
+				LocalDate.of(2018, 9, 1), 
+				LocalDate.of(2018, 12, 1), 
+				1011L, 
+				null,
+				null
+		);
+		
+		Assert.assertNotNull(treinos);
+		Assert.assertEquals(1, treinos.getTotalElements());
+		
+	}
+	
+	/**
+	 * realiza teste da obrigatoriedade do parametro id aluno
+	 */
+	@Test( expected = IllegalArgumentException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoData.sql"
+	})
+	public void listTreinoDataByFiltersData(){
+		
+		this.treinoService
+			.listTreinosComDatasByFilters(
+				LocalDate.of(2018, 9, 1), 
+				LocalDate.of(2018, 10, 1), 
+				null,
+				null,
+				null
+		);
+		
+	}
+	
+	/**
+	 * Realiza validação da obrigatoriedade do parametro dataInicio
+	 */
+	@Test( expected = IllegalArgumentException.class )
+	@WithUserDetails("admin@email.com")
+	@Sql({
+		"/dataset/pessoa/pessoas.sql",
+		"/dataset/academia/treino/treinoData.sql"
+	})
+	public void listTreinoDataByFiltersIdAluno(){
+		
+		this.treinoService
+			.listTreinosComDatasByFilters(
+				null, 
+				LocalDate.now(),
+				Long.valueOf(1001),
+				null,
+				null
+			);
+			
+	}
+	
 	
 }

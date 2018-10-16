@@ -19,7 +19,9 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
@@ -35,6 +37,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
 @Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=TreinoData.class)
 public class TreinoData extends AbstractEntity {
 	
 	/**
@@ -69,9 +72,10 @@ public class TreinoData extends AbstractEntity {
 	private Boolean completo;
 	
 	// referencia do treino
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@NotNull
 	@ManyToOne(
-		fetch = FetchType.EAGER,
+		fetch = FetchType.LAZY,
 		targetEntity = Treino.class,
 		optional = false
 	)

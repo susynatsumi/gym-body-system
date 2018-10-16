@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.TransactionSystemException;
@@ -355,97 +354,97 @@ public class TreinoDataServiceIntegrationTests extends AbstractIntegrationTests{
 
 	// LIST BY FILTERS 
 	
-	/**
-	 * Realiza teste de filtragem por data e aluno
-	 */
-	@Test( )
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/treinoData.sql"
-	})
-	public void listTreinoDataByFilters(){
-		
-		Page<TreinoData> treinosData = this.treinoDataService
-			.listTreinoDataByFilters(
-				LocalDate.of(2018, 9, 1), 
-				LocalDate.of(2018, 12, 1), 
-				1011L, 
-				null,
-				null
-		);
-		
-		Assert.assertNotNull(treinosData);
-		Assert.assertTrue( Long.valueOf(2).equals(treinosData.getTotalElements()));
-		
-	}
-	
-	/**
-	 * realiza teste da obrigatoriedade do parametro id aluno
-	 */
-	@Test( expected = IllegalArgumentException.class )
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/treinoData.sql"
-	})
-	public void listTreinoDataByFiltersData(){
-		
-		this.treinoDataService
-			.listTreinoDataByFilters(
-				LocalDate.of(2018, 9, 1), 
-				LocalDate.of(2018, 10, 1), 
-				null,
-				null,
-				null
-		);
-		
-	}
-	
-	/**
-	 * Realiza validação da obrigatoriedade do parametro dataInicio
-	 */
-	@Test( expected = IllegalArgumentException.class )
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/treinoData.sql"
-	})
-	public void listTreinoDataByFiltersIdAluno(){
-		
-		this.treinoDataService
-				.listTreinoDataByFilters(
-					null,
-					LocalDate.now(),
-					Long.valueOf(1001), 
-					null,
-					null
-				);
-		
-	}
-	
-	
-	/**
-	 * Realiza validação da obrigatoriedade do parametro dataTermino
-	 */
-	@Test( expected = IllegalArgumentException.class )
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/treino/treinoData.sql"
-	})
-	public void listTreinoDataTerminoByFiltersIdAluno(){
-		
-		this.treinoDataService
-				.listTreinoDataByFilters(
-					LocalDate.now(),
-					null,
-					Long.valueOf(1001), 
-					true,
-					null
-				);
-		
-	}
+//	/**
+//	 * Realiza teste de filtragem por data e aluno
+//	 */
+//	@Test( )
+//	@WithUserDetails("admin@email.com")
+//	@Sql({
+//		"/dataset/pessoa/pessoas.sql",
+//		"/dataset/academia/treino/treinoData.sql"
+//	})
+//	public void listTreinoDataByFilters(){
+//		
+//		Page<TreinoData> treinosData = this.treinoDataService
+//			.listTreinoDataByFilters(
+//				LocalDate.of(2018, 9, 1), 
+//				LocalDate.of(2018, 12, 1), 
+//				1011L, 
+//				null,
+//				null
+//		);
+//		
+//		Assert.assertNotNull(treinosData);
+//		Assert.assertTrue( Long.valueOf(2).equals(treinosData.getTotalElements()));
+//		
+//	}
+//	
+//	/**
+//	 * realiza teste da obrigatoriedade do parametro id aluno
+//	 */
+//	@Test( expected = IllegalArgumentException.class )
+//	@WithUserDetails("admin@email.com")
+//	@Sql({
+//		"/dataset/pessoa/pessoas.sql",
+//		"/dataset/academia/treino/treinoData.sql"
+//	})
+//	public void listTreinoDataByFiltersData(){
+//		
+//		this.treinoDataService
+//			.listTreinoDataByFilters(
+//				LocalDate.of(2018, 9, 1), 
+//				LocalDate.of(2018, 10, 1), 
+//				null,
+//				null,
+//				null
+//		);
+//		
+//	}
+//	
+//	/**
+//	 * Realiza validação da obrigatoriedade do parametro dataInicio
+//	 */
+//	@Test( expected = IllegalArgumentException.class )
+//	@WithUserDetails("admin@email.com")
+//	@Sql({
+//		"/dataset/pessoa/pessoas.sql",
+//		"/dataset/academia/treino/treinoData.sql"
+//	})
+//	public void listTreinoDataByFiltersIdAluno(){
+//		
+//		this.treinoDataService
+//				.listTreinoDataByFilters(
+//					null,
+//					LocalDate.now(),
+//					Long.valueOf(1001), 
+//					null,
+//					null
+//				);
+//		
+//	}
+//	
+//	
+//	/**
+//	 * Realiza validação da obrigatoriedade do parametro dataTermino
+//	 */
+//	@Test( expected = IllegalArgumentException.class )
+//	@WithUserDetails("admin@email.com")
+//	@Sql({
+//		"/dataset/pessoa/pessoas.sql",
+//		"/dataset/academia/treino/treinoData.sql"
+//	})
+//	public void listTreinoDataTerminoByFiltersIdAluno(){
+//		
+//		this.treinoDataService
+//				.listTreinoDataByFilters(
+//					LocalDate.now(),
+//					null,
+//					Long.valueOf(1001), 
+//					true,
+//					null
+//				);
+//		
+//	}
 	
 	
 }

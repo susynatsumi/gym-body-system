@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.Period;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -25,8 +27,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.entity.academia.pessoa.Genero;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
@@ -43,6 +48,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper = true)
 @DataTransferObject
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=Pessoa.class)
 public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 {
 	/**
@@ -133,6 +139,17 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	
 	@Transient
 	private String senhaAntiga;
+	
+	// para listagem de avaliacao física
+//	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+//	@OneToMany(
+//		fetch = FetchType.LAZY,
+//		mappedBy = "pessoa",
+//		orphanRemoval = false,
+//		targetEntity = AvaliacaoFisica.class
+//	)
+//	private List<AvaliacaoFisica> avaliacoesFisicas;
+	
 	/*-------------------------------------------------------------------
 	 *							CONSTRUCTORS
 	 *-------------------------------------------------------------------*/

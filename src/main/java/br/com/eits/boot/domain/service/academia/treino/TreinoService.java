@@ -1,5 +1,7 @@
 package br.com.eits.boot.domain.service.academia.treino;
 
+import java.time.LocalDate;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -167,6 +169,93 @@ public class TreinoService {
 	}
 	
 	/**
+	 * 
+	 * Lista os treinos que o aluno pode realizar nos proximos dias 
+	 * 
+	 * @param dataInicio
+	 * @param dataTermino
+	 * @param idAluno
+	 * @param somenteCompletos
+	 * @param pageRequest
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional(readOnly = true)
+	public Page<Treino> listTreinosComDatasByFilters(
+		LocalDate dataInicio ,
+		LocalDate dataTermino ,
+		Long idAluno,
+		Boolean somenteCompletos,
+		PageRequest pageRequest
+	){
+		
+		Assert.notNull(
+			dataInicio, 
+			MessageSourceHolder.translate("service.treino.data.informe.data.inicio")
+		);
+		
+		Assert.notNull(
+				dataTermino, 
+			MessageSourceHolder.translate("service.treino.data.informe.data.termino")
+		);
+		
+		Assert.notNull(
+			idAluno,
+			MessageSourceHolder.translate("service.treino.data.informe.codigo.aluno")
+		);
+		
+		return this.treinoRepository.listTreinosComDatasByFilters(
+			idAluno, 
+			dataInicio, 
+			dataTermino, 
+			somenteCompletos,
+			pageRequest
+		);
+	}
+	
+	/**
+	 * Lista os treinos já realizados ou de datas anteriores 
+	 * 
+	 * @param dataInicio
+	 * @param dataTermino
+	 * @param idAluno
+	 * @param pageRequest
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional( readOnly = true )
+	public Page<Treino> listTreinoDataHistoricoByFilters(
+		LocalDate dataInicio ,
+		LocalDate dataTermino ,
+		Long idAluno,
+		PageRequest pageRequest
+	){
+		
+		Assert.notNull(
+			dataInicio, 
+			MessageSourceHolder.translate("service.treino.data.informe.data.inicio")
+		);
+		
+		Assert.notNull(
+				dataTermino, 
+			MessageSourceHolder.translate("service.treino.data.informe.data.termino")
+		);
+		
+		Assert.notNull(
+			idAluno,
+			MessageSourceHolder.translate("service.treino.data.informe.codigo.aluno")
+		);
+		
+		return this.treinoRepository.listByFiltersHistorico(
+			dataInicio, 
+			dataTermino, 
+			idAluno,
+			pageRequest
+		);
+		
+	}
+	
+	/**
 	 * Remove um treino por id
 	 * @param id
 	 */
@@ -174,5 +263,6 @@ public class TreinoService {
 	public void deleteTreino( long id ){
 		this.treinoRepository.deleteById(id);
 	}
+	
 	
 }

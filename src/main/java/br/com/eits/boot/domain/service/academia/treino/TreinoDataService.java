@@ -180,6 +180,8 @@ public class TreinoDataService {
 
 	/**
 	 * 
+	 * utilizar o método listTreinosComDatasByFilters do treino Service
+	 * 
 	 * Lista de acordo com os filtros
 	 * 
 	 * @param dataInicio

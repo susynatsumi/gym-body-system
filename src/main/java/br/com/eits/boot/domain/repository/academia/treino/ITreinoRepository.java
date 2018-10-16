@@ -1,5 +1,6 @@
 package br.com.eits.boot.domain.repository.academia.treino;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -34,6 +35,51 @@ public interface ITreinoRepository extends JpaRepository<Treino, Long>{
 	)
 	Page<Treino> listTreinosByFilters( 
 		@Param("filters") String filters, 
+		Pageable pageRequest
+	);
+
+	@EntityGraph(attributePaths = {
+		"treinoDatas"
+	})
+	@Query(
+	   " FROM "
+	 + "	Treino treino "
+	 + "	JOIN treino.treinoDatas treinoData "
+	 + " WHERE "
+	 + "	treinoData.data BETWEEN :dataInicio and :dataTermino "
+	 + "	AND treino.aluno.id = :idAluno "
+	 + " 	AND ( "
+	 + "		:somenteCompletos IS NULL "
+	 + "		OR treinoData.completo = :somenteCompletos	"
+	 + "	) " 		
+	)
+	Page<Treino> listTreinosComDatasByFilters(
+		@Param("idAluno") Long idAluno, 
+		@Param("dataInicio") LocalDate dataInicio, 
+		@Param("dataTermino") LocalDate dataTermino,
+		@Param("somenteCompletos") Boolean somenteCompletos, 
+		Pageable pageRequest
+	);
+	
+	@EntityGraph(attributePaths ={
+		"treinoDatas"
+	})
+	@Query(
+		  " FROM "
+		+ "		Treino treino "
+		+ "		JOIN treino.treinoDatas as treinoData "
+		+ "	WHERE "
+		+ "		treino.aluno.id = :idAluno "
+		+ "		AND treinoData.data BETWEEN :dataInicio and :dataTermino "
+		+ "		AND ( "
+		+ "			treinoData.completo = true "
+		+ "			OR treinoData.data < now() "
+		+ "		) "
+	)
+	Page<Treino> listByFiltersHistorico(
+		@Param("dataInicio") LocalDate dataInicio, 
+		@Param("dataTermino") LocalDate dataTermino,
+		@Param("idAluno") Long idAluno,
 		Pageable pageRequest
 	);
 	

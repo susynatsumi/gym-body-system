@@ -13,6 +13,10 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
@@ -24,6 +28,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode( callSuper = true )
 @DataTransferObject
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=IndiceMassaCorporal.class)
 public class IndiceMassaCorporal extends AbstractEntity {
 	
 	/**

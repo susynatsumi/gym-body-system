@@ -18,7 +18,9 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.domain.entity.AbstractEntity;
@@ -34,6 +36,7 @@ import lombok.EqualsAndHashCode;
 	exclude = {"treinoExercicios"}
 )
 @DataTransferObject
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope=Treino.class)
 public class Treino extends AbstractEntity {
 	
 	/**
@@ -94,10 +97,10 @@ public class Treino extends AbstractEntity {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@NotNull
 	@ManyToOne(
-			fetch = FetchType.LAZY,
-			optional = false,
-			targetEntity = Pessoa.class
-			) 
+		fetch = FetchType.LAZY,
+		optional = false,
+		targetEntity = Pessoa.class
+	) 
 	private Pessoa personal;
 	
 	/**
@@ -106,6 +109,15 @@ public class Treino extends AbstractEntity {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@Transient
 	private List<DiaSemana> diasSemanaSelecionados;
+	
+	
+	@OneToMany(
+		fetch = FetchType.LAZY,
+		mappedBy = "treino",
+		orphanRemoval = false,
+		targetEntity = TreinoData.class
+	)
+	private List<TreinoData> treinoDatas;
 	
 	// ---------------------------------------------
 	// -------------- CONSTRUTORES -----------------

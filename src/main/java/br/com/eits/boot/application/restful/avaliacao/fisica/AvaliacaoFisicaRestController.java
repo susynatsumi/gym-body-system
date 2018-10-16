@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.service.academia.avaliacaofisica.avaliacao.AvaliacaoFisicaService;
+import br.com.eits.common.application.i18n.MessageSourceHolder;
 
 @SuppressWarnings("rawtypes")
 @RequestMapping(value = "/api/avaliacao-fisica")
@@ -56,11 +58,14 @@ public class AvaliacaoFisicaRestController {
 		
 		try {
 			
-			AvaliacaoFisica avaliacaoFisicaSaved = this
+			AvaliacaoFisica avaliacaoFisicaSaved = null;
+			
+			avaliacaoFisicaSaved = this
 					.avaliacaoFisicaService
-					.insertAvaliacaoFisica(
+					.salvarAvaliacaoFisica(
 						avaliacaoFisica
 					);
+				
 			
 			return new ResponseEntity<AvaliacaoFisica>(
 				avaliacaoFisicaSaved, 
@@ -79,6 +84,7 @@ public class AvaliacaoFisicaRestController {
 		}
 		
 	}
+	
 	
 	/**
 	 * Busca lista as avaliacoes fisicas pelos filters
