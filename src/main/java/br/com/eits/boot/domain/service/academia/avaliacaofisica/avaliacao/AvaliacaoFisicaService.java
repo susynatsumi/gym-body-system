@@ -1,7 +1,5 @@
 package br.com.eits.boot.domain.service.academia.avaliacaofisica.avaliacao;
 
-import java.time.LocalDate;
-
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +12,6 @@ import org.springframework.util.Assert;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.entity.account.Papel;
 import br.com.eits.boot.domain.repository.academia.avaliacaofisica.avaliacao.IAvaliacaoFisicaRepository;
-import br.com.eits.boot.domain.service.AccountService;
 import br.com.eits.common.application.i18n.MessageSourceHolder;
 
 @Service
@@ -102,26 +99,26 @@ public class AvaliacaoFisicaService {
 				);
 	}
 	
-	/**
-	 * Lista avaliações fisicas pelos fitros, nome treino, id pessoa, nome pessoa
-	 * Alunos não podem acessar este método, pois não podem ver avaliacoes de outras pessoas, somente as suas
-	 * @param filters
-	 * @param pageRequest
-	 * @return
-	 */
-	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
-	@Transactional( readOnly = true )
-	public Page<AvaliacaoFisica> listAvaliacaoFisicaByFilters(
-		String filters,
-		Long idPessoa,
-		LocalDate dataInicio, 
-		LocalDate dataFim, 
-		PageRequest pageRequest
-	){
-		
-		return this.iAvaliacaoFisicaRepository.listAvaliacaoFisicaByFilters(filters, idPessoa, dataInicio, dataFim, pageRequest);
-		
-	}
+//	/**
+//	 * Lista avaliações fisicas pelos fitros, nome treino, id pessoa, nome pessoa
+//	 * Alunos não podem acessar este método, pois não podem ver avaliacoes de outras pessoas, somente as suas
+//	 * @param filters
+//	 * @param pageRequest
+//	 * @return
+//	 */
+//	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+//	@Transactional( readOnly = true )
+//	public Page<AvaliacaoFisica> listAvaliacaoFisicaByFilters(
+//		String filters,
+//		Long idPessoa,
+//		LocalDate dataInicio, 
+//		LocalDate dataFim, 
+//		PageRequest pageRequest
+//	){
+//		
+//		return this.iAvaliacaoFisicaRepository.listAvaliacaoFisicaByFilters(filters, idPessoa, dataInicio, dataFim, pageRequest);
+//		
+//	}
 	
 	/**
 	 *

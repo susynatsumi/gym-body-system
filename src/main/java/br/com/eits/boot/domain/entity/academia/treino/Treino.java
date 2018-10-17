@@ -1,7 +1,6 @@
 package br.com.eits.boot.domain.entity.academia.treino;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -64,14 +63,6 @@ public class Treino extends AbstractEntity {
 	private LocalDate dataFim;
 	
 	// Hora prevista para inicio dos treinos
-	@NotNull
-	@Column(nullable = false)
-	private LocalDateTime horaPrevistaInicio;
-	
-	// hora prevista de termino dos treinos
-	@NotNull
-	@Column( nullable = false)
-	private LocalDateTime horaPrevistaTermino;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY, required = false)
 	@OneToMany(
@@ -140,8 +131,6 @@ public class Treino extends AbstractEntity {
 		String nome, 
 		LocalDate dataInicio, 
 		LocalDate dataFim,
-		LocalDateTime horaPrevistaInicio, 
-		LocalDateTime horaPrevistaTermino,
 		List<TreinoExercicio> treinoExercicios, 
 		Pessoa aluno, 
 		Pessoa personal,
@@ -151,8 +140,6 @@ public class Treino extends AbstractEntity {
 		this.nome = nome;
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
-		this.horaPrevistaInicio = horaPrevistaInicio;
-		this.horaPrevistaTermino = horaPrevistaTermino;
 		this.treinoExercicios = treinoExercicios;
 		this.aluno = aluno;
 		this.personal = personal;

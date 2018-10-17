@@ -1,10 +1,16 @@
 package br.com.eits.boot.application.restful;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -172,6 +178,61 @@ public class PessoaRestController {
 		}
 		
 		return null;
+	}
+	
+	// ---------------------------------- avaliacao fisica ----------------------------------------
+	
+	
+	/**
+	 * Busca lista as avaliacoes fisicas pelos filters
+	 * 
+	 * @param filters
+	 * @param dataInicio
+	 * @param dataFim
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	@GetMapping(
+		value = {
+			"/avaliacao-fisica//by-filters/{filters}/pessoa-id/{idPessoa}/inicio/{dataInicio}/fim/{dataFim}/",
+			"/avaliacao-fisica//by-filters/pessoa-id/{idPessoa}/inicio/{dataInicio}/fim/{dataFim}/",
+			"/avaliacao-fisica//by-filters/{filters}/inicio/{dataInicio}/fim/{dataFim}/",
+			"/avaliacao-fisica//by-filters/inicio/{dataInicio}/fim/{dataFim}/"
+		},
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity listAvaliacoesFisicasByFilters(
+		@PathVariable(required = false) String filters,
+		@PathVariable(required = false) Long idPessoa,
+		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
+		@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate dataFim
+	){
+		
+		try{
+			
+			
+			List<Sort.Order> orders = Arrays
+					.asList(
+						new Sort.Order(Direction.DESC, "avaliacaoFisica.data"),
+						new Sort.Order(Direction.ASC, "nome")
+					);
+			
+			Page<Pessoa> avaliacoes = this.pessoaService
+					.listAvaliacaoFisicaByFilters(
+						filters,
+						idPessoa,
+						dataInicio, 
+						dataFim, 
+						PageRequest.of(0, 10, Sort.by(orders))
+					);
+			
+			return new ResponseEntity<Page<Pessoa>>(avaliacoes, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
 }

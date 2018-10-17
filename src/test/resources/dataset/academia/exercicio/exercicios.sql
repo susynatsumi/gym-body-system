@@ -27,21 +27,21 @@ INSERT INTO equipamento(
  -- ----------------------------------------------------
  
 INSERT INTO exercicio(
-    id, created, updated, descricao, is_ativo, link_video, nome, 
+    id, created, updated, descricao, is_ativo, nome, 
     equipamento_id)
-VALUES (1000, NOW(), NULL, 'Corrida na esteira, para asdfafsadfafasdfasfsasafdsaf', true, null, 'Corrida', 
+VALUES (1000, NOW(), NULL, 'Corrida na esteira, para asdfafsadfafasdfasfsasafdsaf', true, 'Corrida', 
     1002);
     
 INSERT INTO exercicio(
-    id, created, updated, descricao, is_ativo, link_video, nome, 
+    id, created, updated, descricao, is_ativo, nome, 
     equipamento_id)
-VALUES (1001, NOW(), NULL, 'Corrida na esteira', true, null, 'Corrida abc', 
+VALUES (1001, NOW(), NULL, 'Corrida na esteira', true, 'Corrida abc', 
     1001);
     
 INSERT INTO exercicio(
-    id, created, updated, descricao, is_ativo, link_video, nome, 
+    id, created, updated, descricao, is_ativo, nome, 
     equipamento_id)
-VALUES (1002, NOW(), NULL, 'sdfaklfdjalkjfdsajfa', false, null, 'Corraida abc', 
+VALUES (1002, NOW(), NULL, 'sdfaklfdjalkjfdsajfa', false, 'Corraida abc', 
     1001);
 
 

@@ -2,6 +2,8 @@ package br.com.eits.boot.domain.service;
 
 import static br.com.eits.common.application.i18n.MessageSourceHolder.translate;
 
+import java.time.LocalDate;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -191,6 +193,34 @@ public class AccountService
 				)
 			)
 		);
+	}
+	
+	/**
+	 * Lista avaliações fisicas pelos fitros, nome treino, id pessoa, nome pessoa
+	 * Alunos não podem acessar este método, pois não podem ver avaliacoes de outras pessoas, somente as suas
+	 * @param filters
+	 * @param pageRequest
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('" + Papel.ADMINISTRATOR_VALUE + "','" + Papel.PERSONAL_VALUE + "','" + Papel.ALUNO_VALUE + "')")
+	@Transactional( readOnly = true )
+	public Page<Pessoa> listAvaliacaoFisicaByFilters(
+		String filters,
+		Long idPessoa,
+		LocalDate dataInicio, 
+		LocalDate dataFim, 
+		PageRequest pageRequest
+	){
+		
+		return this.pessoaRepository
+				.findPessoasComAvaliacaoFisicaByFilters(
+					filters, 
+					idPessoa, 
+					dataInicio, 
+					dataFim, 
+					pageRequest
+				);
+		
 	}
 	
 }

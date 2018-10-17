@@ -141,14 +141,13 @@ public class Pessoa extends AbstractEntity implements Serializable, UserDetails
 	private String senhaAntiga;
 	
 	// para listagem de avaliacao física
-//	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-//	@OneToMany(
-//		fetch = FetchType.LAZY,
-//		mappedBy = "pessoa",
-//		orphanRemoval = false,
-//		targetEntity = AvaliacaoFisica.class
-//	)
-//	private List<AvaliacaoFisica> avaliacoesFisicas;
+	@OneToMany(
+		fetch = FetchType.LAZY,
+		mappedBy = "pessoa",
+		orphanRemoval = false,
+		targetEntity = AvaliacaoFisica.class
+	)
+	private List<AvaliacaoFisica> avaliacoesFisicas;
 	
 	/*-------------------------------------------------------------------
 	 *							CONSTRUCTORS

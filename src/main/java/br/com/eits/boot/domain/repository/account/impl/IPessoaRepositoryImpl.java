@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.com.eits.boot.domain.entity.account.Pessoa;
 
 /**
@@ -38,6 +40,7 @@ public class IPessoaRepositoryImpl implements UserDetailsService
 	 * (non-Javadoc)
 	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
+	@JsonIgnoreProperties(value = {"avaliacoesFisicas"})
 	@Override
 	@Transactional( readOnly = true )
 	public UserDetails loadUserByUsername( String login ) throws UsernameNotFoundException

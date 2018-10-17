@@ -34,6 +34,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+
 import br.com.eits.boot.application.configuration.settings.DWRSettings;
 import br.com.eits.common.application.dwr.DwrAnnotationPostProcessor;
 
@@ -175,5 +178,14 @@ public class WebConfiguration implements WebMvcConfigurer
 //	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 //		configurer.defaultContentType(MediaType.APPLICATION_JSON);
 //	}
+	
+	/**
+	 * Trata atributos lazy quando não forem carregados para que não ocorra uma exception
+	 * @return
+	 */
+	@Bean
+	protected Module module() {
+	    return new Hibernate5Module();
+	}
 	
 }

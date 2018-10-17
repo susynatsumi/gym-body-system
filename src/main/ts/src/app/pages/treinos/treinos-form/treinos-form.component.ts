@@ -99,8 +99,6 @@ export class TreinosFormComponent implements OnInit {
       treinoExercicios: [],
       dataFim: null,
       dataInicio: null,
-      horaPrevistaInicio: null,
-      horaPrevistaTermino: null,
     };
 
     this.tiposTreinoExercicio = TipoTreinoExercicioValues;
@@ -145,8 +143,6 @@ export class TreinosFormComponent implements OnInit {
       'nome': [this.treino.nome, Validators.compose([Validators.required, Validators.minLength(1)])],
       'dataInicio': [this.treino.dataInicio, Validators.required],
       'dataFim': [this.treino.dataFim, Validators.required],
-      'horaPrevistaInicio': [this.treino.horaPrevistaInicio],
-      'horaPrevistaTermino': [this.treino.horaPrevistaTermino],
     });
 
     this.formGrupoStep2.controls['dataInicio'].disable();

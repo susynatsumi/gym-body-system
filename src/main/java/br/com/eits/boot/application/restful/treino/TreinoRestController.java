@@ -1,10 +1,13 @@
 package br.com.eits.boot.application.restful.treino;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -41,17 +44,18 @@ public class TreinoRestController {
 	
 		try {
 	
-			String[] order = new String[]{
-				"treinoData.data",
-				"nome"
-			};
+			List<Sort.Order> orders = Arrays
+					.asList(
+						new Sort.Order(Direction.DESC, "treinoData.data"),
+						new Sort.Order(Direction.ASC, "nome")
+					);
 			
 			Page<Treino> treinos = this.treinoService.listTreinosComDatasByFilters(
 				dataInicio, 
 				dataTermino, 
 				idAluno, 
 				somenteCompletos, 
-				PageRequest.of(0, 10, Direction.ASC, order)
+				PageRequest.of(0, 10, Sort.by(orders))
 			);
 			
 			return new ResponseEntity<Page<Treino>>(treinos, HttpStatus.OK); 

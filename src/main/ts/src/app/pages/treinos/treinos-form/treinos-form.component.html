@@ -88,36 +88,20 @@
           </mat-form-field>
         </div>
 
-        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <!-- div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <mat-form-field fxFlex>
-            <!-- <input 
-                matInput 
-                placeholder="Hora prevista de início (Obrigatório)"  
-                formControlName="horaPrevistaInicio"
-                name="horaPrevistaInicio" 
-                mask="00:00"
-                [dropSpecialCharacters]="false"
-                [(ngModel)]="treino.horaPrevistaInicio"> -->
             <input matInput placeholder="Hora prevista de início (Obrigatório)" formControlName="horaPrevistaInicio"
               name="horaPrevistaInicio" [owlDateTimeTrigger]="horaInicio" [(ngModel)]="treino.horaPrevistaInicio"
               [owlDateTime]="horaInicio">
             <owl-date-time [pickerType]="'timer'" #horaInicio></owl-date-time>
           </mat-form-field>
           <mat-form-field fxFlex>
-            <!-- <input 
-              matInput 
-              placeholder="Hora prevista de término (Obrigatório)"  
-              formControlName="horaPrevistaTermino"
-              name="horaPrevistaTermino" 
-              mask="00:00"
-              [dropSpecialCharacters]="false"
-              [(ngModel)]="treino.horaPrevistaTermino"> -->
             <input matInput placeholder="Hora prevista de término (Obrigatório)" formControlName="horaPrevistaTermino"
               name="horaPrevistaTermino" [owlDateTimeTrigger]="horaFim" [(ngModel)]="treino.horaPrevistaTermino"
               [owlDateTime]="horaFim">
             <owl-date-time [pickerType]="'timer'" #horaFim></owl-date-time>
           </mat-form-field>
-        </div>
+        </div> -->
         <div>
           <button 
             class="botao-voltar"

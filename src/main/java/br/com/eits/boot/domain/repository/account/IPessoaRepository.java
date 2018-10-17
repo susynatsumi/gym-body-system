@@ -1,9 +1,11 @@
 package br.com.eits.boot.domain.repository.account;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -87,5 +89,37 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 
 	Optional<Pessoa> findByTokenJwt(String tokenJwt);
 	
+	@EntityGraph(attributePaths ={
+		"avaliacoesFisicas.perimetria",
+		"avaliacoesFisicas.resposta",
+		"avaliacoesFisicas.avaliacaoAntropometrica.dobrasCutaneas",
+		"avaliacoesFisicas.avaliacaoAntropometrica.indiceMassaCorporal",
+		"avaliacoesFisicas.avaliacaoAntropometrica.predicaoGorduraSiri"
+	})
+	@Query(
+	  " FROM "
+	+ "	Pessoa pessoa "
+	+ "		JOIN pessoa.avaliacoesFisicas as avaliacaoFisica "
+	+ "	WHERE "
+	+ "		filter(:filter, avaliacaoFisica.id, avaliacaoFisica.pessoa.nome) = TRUE "
+	+ "	AND ( "
+	+ "		cast( :dataInicio as date ) is null "
+	+ "		OR avaliacaoFisica.data >= :dataInicio  "
+	+ "	) "
+	+ "	AND ( "
+	+ "		cast( :dataFim as date ) is null	"
+	+ "		OR avaliacaoFisica.data <= :dataFim "
+	+ "	) AND ( "
+	+ "		:idPessoa is null "
+	+ "		OR pessoa.id = :idPessoa "
+	+ "	) "
+	)
+	Page<Pessoa> findPessoasComAvaliacaoFisicaByFilters(
+		@Param("filter") String filter, 
+		@Param("idPessoa") Long idPessoa,
+		@Param("dataInicio") LocalDate dataInicio, 
+		@Param("dataFim") LocalDate dataFim, 
+		Pageable pageRequest	
+	);
 	
 }

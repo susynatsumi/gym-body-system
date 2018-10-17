@@ -124,8 +124,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1), 
 			LocalDate.of(2018, 7, 1), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			findAluno(),
 			findPersonal(),
@@ -170,8 +168,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 7, 1), 
 			LocalDate.of(2018, 7, 1), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(), 
 			findAluno(),
 			findPersonal(),
@@ -199,8 +195,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			null,// data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			findAluno(),
 			findPersonal(),
@@ -228,8 +222,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 7, 1),  // data inicio 
 			null,// data fim 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			findAluno(),
 			findPersonal(),
@@ -257,8 +249,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 7, 1),  // data inicio 
 			null,// data fim 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			null,
 			findPersonal(),
@@ -286,8 +276,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 				"Treino bla bla bla", 
 				LocalDate.of(2018, 7, 1),  // data inicio 
 				null,// data fim 
-				LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-				LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 				mockTreinoExercicio(),
 				findAluno(),
 				null,
@@ -315,8 +303,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1),  // data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			null, 
 			findAluno(),
 			findPersonal(),
@@ -344,8 +330,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 1),  // data inicio 
 			LocalDate.of(2018, 7, 1),  // data fim 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			findAluno(),
 			findPersonal(),
@@ -374,8 +358,6 @@ public class TreinoServiceIntegrationTests extends AbstractIntegrationTests{
 			"Treino bla bla bla", 
 			LocalDate.of(2018, 6, 2),  // data inicio 
 			LocalDate.of(2018, 6, 3),  // data fim 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), 
-			LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 00)), 
 			mockTreinoExercicio(),
 			findAluno(),
 			findPersonal(),

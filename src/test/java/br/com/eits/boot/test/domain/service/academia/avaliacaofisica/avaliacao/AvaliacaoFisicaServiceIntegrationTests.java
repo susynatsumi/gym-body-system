@@ -491,58 +491,6 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 	}
 	
 	
-	/**
-	 * Teste de listagem de avaliacao fisica pela data
-	 */
-	@Test( )
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
-	})
-	public void listAvaliacaoFisciaByFiltersMustPassReturn2(){
-		
-		LocalDate dataInicio = LocalDate.of(2017, 01, 01);
-		LocalDate dataFim = LocalDate.of(2019, 10, 01);
-		
-		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService
-				.listAvaliacaoFisicaByFilters(
-					null, 
-					null,
-					dataInicio, 
-					dataFim,
-					null
-				);
-		
-		Assert.assertNotNull(avaliacoes);
-
-		Assert.assertEquals(avaliacoes.getTotalElements(), 2L);
-	}
-	
-	/**
-	 * Teste de listagem de avaliacao fisica pelo seu id 
-	 */
-	@Test( )
-	@WithUserDetails("admin@email.com")
-	@Sql({
-		"/dataset/pessoa/pessoas.sql",
-		"/dataset/academia/avaliacaoFisica/avaliacaoFisica.sql"
-	})
-	public void listAvaliacaoFisciaByFiltersMustPassReturn1(){
-		
-		
-		Page<AvaliacaoFisica> avaliacoes = this.avaliacaoFisicaService.listAvaliacaoFisicaByFilters(
-			"1000", 
-			null,
-			null, 
-			null,
-			null
-		);
-		
-		Assert.assertNotNull(avaliacoes);
-		
-		Assert.assertEquals(avaliacoes.getTotalElements(), 1L);
-	}
 	
 	/**
 	 * teste de listagem de avaliacoes fisica por pessoa
