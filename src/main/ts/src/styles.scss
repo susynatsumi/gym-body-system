@@ -51,6 +51,10 @@ body {
     @extend %estilo-background;
 }
 
+.mat-dialog-container {
+    @extend %estilo-background;
+}
+
 // styles padroes 
 // -------------------------------------------
 // ---- tables -------------------------------
@@ -125,7 +129,7 @@ table {
 
 
 // inputs do formulario
-.form-input, .mat-step-label, input, textarea, mat-checkbox, mat-select , .opcao {
+.form-input, .mat-step-label, input, textarea,h2,  mat-checkbox, mat-select , .opcao {
    @extend %estilo-texto;
 }
 

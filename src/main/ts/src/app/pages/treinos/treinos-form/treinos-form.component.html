@@ -33,6 +33,12 @@
         </div>
         <div>
           <button 
+            class="botao-cancelar"
+            mat-raised-button 
+            title="Cancela operação e retornar para tela de consulta" 
+            [routerLink]="['/treinos']"
+            type="button" >Cancelar</button>
+          <button 
             class="botao-proximo"
             mat-raised-button 
             matStepperNext 

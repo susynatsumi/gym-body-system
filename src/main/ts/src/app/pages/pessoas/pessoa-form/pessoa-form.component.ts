@@ -101,8 +101,6 @@ export class PessoaFormComponent implements OnInit {
       'dataNascimento': [this.pessoa.dataNascimento, Validators.required],
     });
 
-    this.formStep1DadosPessoas.controls['dataNascimento'].disable();
-
     this.formStep2DadosAcesso = this.formBuilder.group({
       'email': [this.pessoa.email, Validators.compose([Validators.required, Validators.minLength(4)])],
       'login': [this.pessoa.login],

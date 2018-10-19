@@ -27,6 +27,11 @@
           <div>
             <button 
               mat-raised-button 
+              title="Cancela operação e retorna para tela de consulta" 
+              [routerLink]="['/equipamentos']" 
+              class="botao-cancelar" >Cancelar</button>
+            <button 
+              mat-raised-button 
               class="botao-proximo"
               matStepperNext 
               title="Salvar dados">Próximo</button>

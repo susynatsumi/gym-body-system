@@ -26,17 +26,17 @@
           </mat-form-field>
       </div>
       <div>
+        <button 
+          mat-raised-button 
+          title="Cancela operação e retorna para tela de consulta" 
+          [routerLink]="['/grupos-musculares']" 
+          class="botao-cancelar">Cancelar</button>
           <button 
             mat-raised-button 
             matStepperNext 
             class="botao-finalizar"
             title="Salvar dados" 
             (click)="salvar()">Salvar</button>
-          <button 
-            mat-raised-button 
-            title="Cancela operação e retorna para tela de consulta" 
-            [routerLink]="['/grupos-musculares']" 
-            class="botao-cancelar">Cancelar</button>
       </div>
       </form>
     </mat-step>

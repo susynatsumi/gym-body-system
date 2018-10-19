@@ -18,7 +18,7 @@ export class EquipamentosFormComponent implements OnInit {
   // ---------------------------------
 
   novaFoto: File;
-  imageUrl: string = "/assets/imagens/imagem-default.png";
+  imageUrl: string =  "../../static/images/imagem-default.png";
 
   equipamento: Equipamento;
 
@@ -69,9 +69,6 @@ export class EquipamentosFormComponent implements OnInit {
           .finally(()=> this.loading = false)
           .subscribe( (equipamento: Equipamento) => {
             this.equipamento = equipamento;
-
-            console.log(equipamento.imagem);
-
           },(error: Error)=>{
             alert(error.message);
           });

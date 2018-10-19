@@ -11,7 +11,7 @@ export class MensagemAlertaService {
     this.snackBar.open(
       'Não foi possível salvar, pois ocorreu o seguinte erro: '+mensagem, 
       '', 
-      {duration: 4000, verticalPosition: 'top' , horizontalPosition: 'center'}
+      {duration: 4000, verticalPosition: 'bottom' , horizontalPosition: 'center'}
     );
 
   }
@@ -21,7 +21,7 @@ export class MensagemAlertaService {
     this.snackBar.open(
       'O seguinte erro ocorreu ao carregar: '+mensagem, 
       '', 
-      {duration: 4000, verticalPosition: 'top' , horizontalPosition: 'center'}
+      {duration: 4000, verticalPosition: 'bottom' , horizontalPosition: 'center'}
     );
 
   }
@@ -31,7 +31,7 @@ export class MensagemAlertaService {
     this.snackBar.open(
       'O seguinte erro ocorreu ao remover: '+mensagem, 
       '', 
-      {duration: 4000, verticalPosition: 'top' , horizontalPosition: 'center'}
+      {duration: 4000, verticalPosition: 'bottom' , horizontalPosition: 'center'}
     );
 
   }
@@ -41,7 +41,7 @@ export class MensagemAlertaService {
     this.snackBar.open(
       mensagem, 
       '', 
-      {duration: 4000, verticalPosition: 'top' , horizontalPosition: 'center'}
+      {duration: 4000, verticalPosition: 'bottom' , horizontalPosition: 'center'}
     );
 
   }

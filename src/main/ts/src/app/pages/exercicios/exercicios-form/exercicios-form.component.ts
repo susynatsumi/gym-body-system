@@ -162,7 +162,7 @@ export class ExerciciosFormComponent implements OnInit {
     this.exercicio.imagem = null;
     this.exercicio.imagemFileTransfer = null;
     this.novaFoto = null;
-    this.imageUrl =  "/assets/imagens/imagem-default.png";
+    this.imageUrl =  "../../static/images/imagem-default.png";
   }
 
   /**
@@ -231,7 +231,6 @@ export class ExerciciosFormComponent implements OnInit {
 
     this.exercicio.exercicioGrupoMusculares
       .forEach((exercicioGrupoMuscular: ExercicioGrupoMuscular) =>{
-        console.log(exercicioGrupoMuscular.grupoMuscular.id);
         ids.push(exercicioGrupoMuscular.grupoMuscular.id);
       });
 
@@ -250,7 +249,6 @@ export class ExerciciosFormComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((grupoMuscular:GrupoMuscular) => {
-      console.log('passou');
       if(grupoMuscular != null && grupoMuscular.id != null){
         this.adicionarTableRow(grupoMuscular);
       }

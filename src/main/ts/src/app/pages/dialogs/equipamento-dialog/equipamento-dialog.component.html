@@ -3,6 +3,9 @@
     <app-equipamentos [ocultarBotoes]="true" (respostaDialog)="resposta($event)" ></app-equipamentos>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancelar</button>
+    <button 
+        class="botao-cancelar"
+        mat-raised-button  
+        mat-dialog-close >Cancelar</button>
     <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
 </mat-dialog-actions>

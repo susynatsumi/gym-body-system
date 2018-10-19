@@ -301,12 +301,9 @@ export class TreinosFormComponent implements OnInit {
    */
   setExercicio(indice, exercicio: Exercicio){
 
-    console.log(indice);
-
     if(indice != null){
 
       this.treino.treinoExercicios[indice].exercicio = exercicio;
-      console.log(this.treino.treinoExercicios[indice].exercicio);
     }
 
   }
@@ -397,8 +394,6 @@ export class TreinosFormComponent implements OnInit {
    */
   newTreinoExercicioFormGroup() {
 
-    console.log('Novo treino exercicio');
-
     let treinoExercicio: TreinoExercicio = {
       exercicio: {
         nome: ''
@@ -441,8 +436,6 @@ export class TreinosFormComponent implements OnInit {
   
     treino.treinoExercicios.forEach((treinoExercicio: TreinoExercicio)=>{
       
-      console.log(treinoExercicio);
-
       let form: FormGroup = this.formBuilder.group({
         exercicio: [
           treinoExercicio.exercicio,
@@ -490,14 +483,10 @@ export class TreinosFormComponent implements OnInit {
         observacoes: [treinoExercicio.observacoes]
       });
     
-      console.log(form);
-
       controles.push(form);
 
     });
     
-    console.log(this.formGroupStep4.controls.treinoExercicios);
-
   }
 
   // -----------------------------------------------------------
@@ -515,8 +504,6 @@ export class TreinosFormComponent implements OnInit {
     }
 
     this.loading = true;
-
-    console.log(this.treino);
 
     // this.treino.treinoExercicios = this.formArrayTreinoExercicio.value;
 
@@ -538,6 +525,8 @@ export class TreinosFormComponent implements OnInit {
    */
   private enviar() {
 
+    this.treino.treinoExercicios[0].exercicio.imagem = null;
+    
     if (this.parametroId == null) {
 
       this.treino.personal = this.pessoaLogada;

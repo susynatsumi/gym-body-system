@@ -41,6 +41,11 @@
             <div>
                 <button 
                     mat-raised-button 
+                    title="Cancela operação e retorna para tela de consulta" 
+                    [routerLink]="['/pessoas']" 
+                    class="botao-cancelar">Cancelar</button>
+                <button 
+                    mat-raised-button 
                     class="botao-proximo"
                     matStepperNext 
                     title="Ir para a próxima etapa">Próximo</button>
