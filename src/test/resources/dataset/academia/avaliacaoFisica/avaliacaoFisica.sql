@@ -12,7 +12,6 @@ TRUNCATE "avaliacao_fisica" CASCADE;
 TRUNCATE "dobras_cutaneas" CASCADE;
 TRUNCATE "predicao_gordura_siri" CASCADE;
 TRUNCATE "indice_massa_corporal" CASCADE;
-TRUNCATE "avaliacao_antropometrica" CASCADE;
 
 TRUNCATE "perimetria" CASCADE;
 
@@ -158,31 +157,15 @@ INSERT INTO predicao_gordura_siri(
     VALUES (1002, now(), null, 134, 10);
 
 
-    
-INSERT INTO avaliacao_antropometrica(
-            id, created, updated, dobras_cutaneas_id, indice_massa_corporal_id, 
-            densidade_corporal,
-            predicao_gordura_siri_id, tipo_protocolo)
-    VALUES (1000, now(), null, 1000, 1000,
-    		1,
-            1000,1);
-            
-INSERT INTO avaliacao_antropometrica(
-            id, created, updated, dobras_cutaneas_id, indice_massa_corporal_id,
-            densidade_corporal,
-            predicao_gordura_siri_id, tipo_protocolo)
-    VALUES (1001, now(), null, 1001, 1001,
-    		2,
-            1001,0);
             
 INSERT INTO avaliacao_fisica(
-            id, created, updated, data, avaliacao_antropometrica_id, 
+            id, created, updated, data, 
             perimetria_id, pessoa_id, resposta_id)
     VALUES (1000, now(), null, '2018-09-01', 1000, 
             1000, 1011, 1000);
             
 INSERT INTO avaliacao_fisica(
-            id, created, updated, data, avaliacao_antropometrica_id, 
+            id, created, updated, data, 
             perimetria_id, pessoa_id, resposta_id)
     VALUES (1001, now(), null, '2018-09-01', 1001, 
             1001, 1012, 1001);

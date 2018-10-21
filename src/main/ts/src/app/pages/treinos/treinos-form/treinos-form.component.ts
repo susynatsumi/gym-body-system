@@ -489,6 +489,16 @@ export class TreinosFormComponent implements OnInit {
     
   }
 
+  removeExercioTreino(indice: number) {
+
+    if(this.treino.treinoExercicios.length == 0){
+      return;
+    }
+
+    this.treino.treinoExercicios.splice(indice);
+    this.formArrayTreinoExercicio.removeAt(indice);
+  }
+
   // -----------------------------------------------------------
   // ------------------- SALVAR --------------------------------
   // -----------------------------------------------------------
@@ -509,7 +519,8 @@ export class TreinosFormComponent implements OnInit {
 
     // console.log(this.formArrayTreinoExercicio.value);
     // console.log(this.treino.treinoExercicios);
-
+    console.log(this.treino);
+    
     this.enviar()
       .finally(() => this.loading = false)
       .subscribe(() => {
@@ -525,12 +536,21 @@ export class TreinosFormComponent implements OnInit {
    */
   private enviar() {
 
+    if(this.treino.treinoExercicios.length == 0){
+      this.messageService.message('Adicione ao menos um exercício neste treino!');
+      this.loading = false;
+      return;
+    }  
+
     this.treino.treinoExercicios[0].exercicio.imagem = null;
     
     if (this.parametroId == null) {
 
       this.treino.personal = this.pessoaLogada;
       this.treino.aluno = this.alunoSelecionado;
+
+      console.log(this.treino.dataInicio);
+      console.log(this.treino.dataFim);
 
       return this.treinoService.insertTreino(this.treino);
 

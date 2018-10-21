@@ -7,11 +7,13 @@ import { AccountService } from '../../../../generated/services';
 import 'rxjs/add/operator/finally';
 import { MensagemAlertaService } from '../../../services/mensagem-alerta.service';
 import { UsuarioSessaoService } from '../../../services/usuario-sessao-service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'pessoa-form',
   templateUrl: './pessoa-form.component.html',
   styleUrls: ['./pessoa-form.component.scss'],
+  providers: [TranslatePipe]
 })
 export class PessoaFormComponent implements OnInit {
 
@@ -55,7 +57,7 @@ export class PessoaFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private mensagemAlerta: MensagemAlertaService,
-    private usuarioSessaoService: UsuarioSessaoService
+    private usuarioSessaoService: UsuarioSessaoService,
   ) {
 
     this.pessoaLogada = this.usuarioSessaoService.usuarioLogado;

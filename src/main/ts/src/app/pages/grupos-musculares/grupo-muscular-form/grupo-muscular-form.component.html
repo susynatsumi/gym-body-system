@@ -3,7 +3,7 @@
   <mat-horizontal-stepper [linear]="true" #stepper>
     <mat-step [stepControl]="formGrupoMusular">
       <form  fxLayout="column" class="example-form" [formGroup]="formGrupoMusular">
-        <ng-template matStepLabel>Dados Pessoais</ng-template>
+        <ng-template matStepLabel>Dados do grupo muscular</ng-template>
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
             <mat-form-field fxFlex>
                 <input 
@@ -28,6 +28,7 @@
       <div>
         <button 
           mat-raised-button 
+          type="button"
           title="Cancela operação e retorna para tela de consulta" 
           [routerLink]="['/grupos-musculares']" 
           class="botao-cancelar">Cancelar</button>

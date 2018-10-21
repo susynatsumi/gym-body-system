@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.AvaliacaoFisica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
-import br.com.eits.boot.domain.entity.account.Pessoa;
 import br.com.eits.common.domain.entity.AbstractEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -67,18 +66,7 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 		orphanRemoval = true
 	)
 	private IndiceMassaCorporal indiceMassaCorporal;
-//	
-//	// gordura siri
-	@NotNull
-	@OneToOne(
-		cascade = CascadeType.ALL,
-		fetch = FetchType.LAZY,
-		optional = true,
-		targetEntity = PredicaoGorduraSiri.class,
-//		mappedBy = "abstractEntityAvaliacaoAntropometrica",
-		orphanRemoval = true
-	)
-	private PredicaoGorduraSiri predicaoGorduraSiri;
+
 //	
 //	// referencia da avaliacao fisica
 //	@LazyToOne foi necessario para não carregar a avaliacao fisica e fazer um loop infinito
@@ -129,14 +117,12 @@ public class AvaliacaoAntropometrica extends AbstractEntity {
 		Long id, 
 		DobrasCutaneas dobrasCutaneas,
 		IndiceMassaCorporal indiceMassaCorporal, 
-		PredicaoGorduraSiri predicaoGorduraSiri,
 		Double densidadeCorporal,
 		TipoProtocolo tipoProtocolo
 	) {
 		super(id);
 		this.dobrasCutaneas = dobrasCutaneas;
 		this.indiceMassaCorporal = indiceMassaCorporal;
-		this.predicaoGorduraSiri = predicaoGorduraSiri;
 		this.densidadeCorporal = densidadeCorporal;
 		this.tipoProtocolo = tipoProtocolo;
 	}

@@ -1,6 +1,7 @@
 package br.com.eits.boot.domain.service.academia.treino;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ public class TreinoService {
 	public Treino insertTreino(
 		Treino treino
 	){
+		System.out.println(treino.getDataInicio());
+		System.out.println(treino.getDataFim());
 		
 		Assert.notNull(
 			treino,
@@ -126,6 +129,8 @@ public class TreinoService {
 		.forEach(treinoExercico ->{
 			treinoExercico.setTreino(treino);
 		});
+		
+		treino.setTreinoDatas(new ArrayList<>());
 		
 		return this.treinoRepository.save(treino);
 	}

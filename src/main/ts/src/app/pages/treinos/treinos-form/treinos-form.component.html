@@ -161,14 +161,22 @@
               <mat-expansion-panel [expanded]="itemAtual == i" (opened)="setItemAtual(i)">
         
                 <mat-expansion-panel-header>
-                  <mat-panel-title *ngIf="i != null && treino.treinoExercicios[i] != null && treino.treinoExercicios[i].exercicio != null && treino.treinoExercicios[i].exercicio.nome">
+                  <mat-panel-title fxLayoutAlign="center center" *ngIf="i != null && treino.treinoExercicios[i] != null && treino.treinoExercicios[i].exercicio != null && treino.treinoExercicios[i].exercicio.nome">
                     Exercício: {{ treino?.treinoExercicios[i]?.exercicio?.nome }}
                   </mat-panel-title>
-                  <mat-panel-title *ngIf="i != null && (treino.treinoExercicios[i] == null || treino.treinoExercicios[i].exercicio == null || !treino.treinoExercicios[i].exercicio.nome)">
+                  <mat-panel-title fxLayoutAlign="center center" *ngIf="i != null && (treino.treinoExercicios[i] == null || treino.treinoExercicios[i].exercicio == null || !treino.treinoExercicios[i].exercicio.nome)">
                     Informe os dados do exercicio
                   </mat-panel-title>
-                  <mat-panel-description>
+                  <mat-panel-description fxLayoutAlign="center center">
                     Clique aqui para visualizar os dados do exercicio
+                    <button 
+                    mat-button
+                    *ngIf="treino?.treinoExercicios[i]?.id == null "
+                    class="botao-remover"
+                    title="Remover" 
+                    (click)="removeExercioTreino(i)">
+                    <mat-icon class="icone-cancelar">delete_outline</mat-icon>
+                  </button>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
   
@@ -201,9 +209,7 @@
                               class="opcao"
                               *ngFor="let tipoTreinoExercicio of tiposTreinoExercicio" 
                               [value]="tipoTreinoExercicio">
-                              <strong *ngIf=" tipoTreinoExercicio == 'CARGA_REPETICOES' ">Repetições com Carga</strong>
-                              <strong *ngIf=" tipoTreinoExercicio == 'REPETICOES' ">Repetições</strong>
-                              <strong *ngIf=" tipoTreinoExercicio == 'TEMPO'">Tempo</strong>
+                              {{ tipoTreinoExercicio | translate }}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>

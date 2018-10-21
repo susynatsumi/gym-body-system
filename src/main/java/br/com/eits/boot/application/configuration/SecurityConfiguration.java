@@ -259,6 +259,7 @@ public class SecurityConfiguration {
 					"/broker/**/*.js", 
 					"/bundles/**", 
 					"/webjars/**",
+					"/assets/**",
 					"/api/**",
 					"/api-login"
 				);

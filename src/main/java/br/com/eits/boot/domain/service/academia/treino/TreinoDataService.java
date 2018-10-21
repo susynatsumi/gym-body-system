@@ -141,6 +141,13 @@ public class TreinoDataService {
 		
 		do {
 			final LocalDate data = dataAtual;
+			System.out.println("Data atual "+dataAtual);
+			System.out.println("Data atual"+ data.getDayOfWeek());
+
+			diasSemana.forEach(d ->{
+				System.out.println("do array "+d.getDayOfWeek());
+			});
+			
 			final Optional<DiaSemana> diaSemanaAtual = diasSemana.stream()
 				.filter(diaSemana -> 
 					diaSemana.getDayOfWeek().equals(String.valueOf(data.getDayOfWeek()))
@@ -168,7 +175,7 @@ public class TreinoDataService {
 		
 		Assert.notEmpty(
 			datasDoTreino,
-			MessageSourceHolder.translate("service.treino.insert.dias.semana.empty")
+			MessageSourceHolder.translate("service.treino.insert.dias.treino.empty")
 		);
 
 		datasDoTreino.forEach(treinoData ->{

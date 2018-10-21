@@ -22,7 +22,7 @@
                         formControlName="genero"
                         name="genero" 
                         [(ngModel)]="pessoa.genero">
-                        <mat-option *ngFor="let gen of generos" [value]="gen">{{gen}}</mat-option>
+                        <mat-option *ngFor="let gen of generos" [value]="gen">{{ gen | translate }}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field fxFlex>
@@ -43,6 +43,7 @@
                     mat-raised-button 
                     title="Cancela operação e retorna para tela de consulta" 
                     [routerLink]="['/pessoas']" 
+                    type="button"
                     class="botao-cancelar">Cancelar</button>
                 <button 
                     mat-raised-button 
@@ -113,7 +114,7 @@
                         formControlName="papeis"
                         name="papeis" 
                         [(ngModel)]="pessoa.papeis" multiple>
-                            <mat-option *ngFor="let papel of papeis" [value]="papel">{{papel}}</mat-option>
+                            <mat-option *ngFor="let papel of papeis" [value]="papel">{{ papel | translate}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field fxFlex >

@@ -69,7 +69,7 @@ public class Treino extends AbstractEntity {
 		cascade = CascadeType.ALL,
 		fetch = FetchType.LAZY,
 		mappedBy = "treino",
-		orphanRemoval = false,
+		orphanRemoval = true,
 		targetEntity = TreinoExercicio.class
 	)
 	private List<TreinoExercicio> treinoExercicios;
@@ -103,9 +103,10 @@ public class Treino extends AbstractEntity {
 	
 	
 	@OneToMany(
+		cascade = CascadeType.REMOVE,
 		fetch = FetchType.LAZY,
 		mappedBy = "treino",
-		orphanRemoval = false,
+		orphanRemoval = true,
 		targetEntity = TreinoData.class
 	)
 	private List<TreinoData> treinoDatas;

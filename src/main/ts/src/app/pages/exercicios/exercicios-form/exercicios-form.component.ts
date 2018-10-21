@@ -23,7 +23,7 @@ export class ExerciciosFormComponent implements OnInit {
 
   // para importar imagem
   novaFoto: File;
-  imageUrl: string = "/assets/imagens/imagem-default.png";
+  imageUrl =  "../../static/images/imagem-default.png";
 
   // para apresentação do loader
   loading = false;

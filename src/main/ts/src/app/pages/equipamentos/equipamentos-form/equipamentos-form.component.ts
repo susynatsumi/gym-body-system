@@ -18,7 +18,7 @@ export class EquipamentosFormComponent implements OnInit {
   // ---------------------------------
 
   novaFoto: File;
-  imageUrl: string =  "../../static/images/imagem-default.png";
+  imageUrl =  "../../static/images/imagem-default.png";
 
   equipamento: Equipamento;
 
@@ -104,7 +104,7 @@ export class EquipamentosFormComponent implements OnInit {
     this.equipamento.imagem = null;
     this.equipamento.imagemFileTransfer = null;
     this.novaFoto = null;
-    this.imageUrl =  "/assets/imagens/imagem-default.png";
+    this.imageUrl =  "../../static/images/imagem-default.png";
   }
 
   /**

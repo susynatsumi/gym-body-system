@@ -20,7 +20,6 @@ import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.anamnes
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometrica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.DobrasCutaneas;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
-import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
 import br.com.eits.boot.domain.entity.academia.pessoa.Genero;
 import br.com.eits.boot.domain.entity.account.Pessoa;
@@ -132,16 +131,11 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 			BigDecimal.valueOf(20)
 		);
 		
-		PredicaoGorduraSiri predicaoGorduraSiri = new PredicaoGorduraSiri(
-			null, 
-			10d, 
-			16d
-		);
 		
 		
 		return new AvaliacaoAntropometrica(
 			null, 
-			dobrasCutaneas, indiceMassaCorporal, predicaoGorduraSiri, 20d, TipoProtocolo.POLLOCK);
+			dobrasCutaneas, indiceMassaCorporal, 20d, TipoProtocolo.POLLOCK);
 	}
 	
 	/**
@@ -172,7 +166,6 @@ public class AvaliacaoFisicaServiceIntegrationTests extends AbstractIntegrationT
 		final AvaliacaoAntropometrica protocoloPollock = new AvaliacaoAntropometrica(
 			null, 
 			dobrasCutaneas, 
-			null,
 			null,
 			null,
 			TipoProtocolo.POLLOCK

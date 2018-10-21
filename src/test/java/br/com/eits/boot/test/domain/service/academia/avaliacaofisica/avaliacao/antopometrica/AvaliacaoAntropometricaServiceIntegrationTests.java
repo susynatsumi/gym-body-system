@@ -13,7 +13,6 @@ import org.springframework.test.context.jdbc.Sql;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometrica;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.DobrasCutaneas;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.IndiceMassaCorporal;
-import br.com.eits.boot.domain.entity.academia.avaliacaofisica.avaliacao.antopometrica.PredicaoGorduraSiri;
 import br.com.eits.boot.domain.entity.academia.avaliacaofisica.protocolos.TipoProtocolo;
 import br.com.eits.boot.domain.service.academia.avaliacaofisica.avaliacao.antopometrica.AvaliacaoAntropometricaService;
 import br.com.eits.boot.test.domain.AbstractIntegrationTests;
@@ -63,18 +62,6 @@ public class AvaliacaoAntropometricaServiceIntegrationTests extends AbstractInte
 	}
 	
 	/**
-	 * Faz mock de predicao gorgura siri
-	 * @return
-	 */
-	private PredicaoGorduraSiri mockPredicaoGorduraSiri(){
-		return new PredicaoGorduraSiri(
-			null, 
-			10d, 
-			16d
-		);
-	}
-	
-	/**
 	 * Insere uma nova AvaliacaoAntropometrica
 	 */
 	@Test
@@ -89,7 +76,6 @@ public class AvaliacaoAntropometricaServiceIntegrationTests extends AbstractInte
 			null, 
 			mockDobrasCutaneas(), 
 			mockIndiceMassaCorporal(), 
-			mockPredicaoGorduraSiri(),
 			10d,
 			TipoProtocolo.POLLOCK
 		);

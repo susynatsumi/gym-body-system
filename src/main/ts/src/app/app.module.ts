@@ -39,7 +39,7 @@ import { EquipamentosComponent } from './pages/equipamentos/equipamentos.compone
 import { EquipamentosFormComponent } from './pages/equipamentos/equipamentos-form/equipamentos-form.component';
 import { EquipamentosDetalharComponent } from './pages/equipamentos/equipamentos-detalhar/equipamentos-detalhar.component';
 import { EquipamentoDialogComponent } from './pages/dialogs/equipamento-dialog/equipamento-dialog.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { GrupoMuscularDialogComponent } from './pages/dialogs/grupo-muscular-dialog/grupo-muscular-dialog.component';
 import { MensagemAlertaService } from './services/mensagem-alerta.service';
 import { TreinosDetalharComponent } from './pages/treinos/treinos-detalhar/treinos-detalhar.component';
@@ -50,6 +50,10 @@ import { getLabelsPaginatorIntl } from './compartilhados/labels-paginator';
 import { PaginatorDefaultComponent } from './compartilhados/paginator-default/paginator-default.component';
 import { RemoveRowTableService } from './services/remove-row-table.service';
 import { UsuarioSessaoService } from './services/usuario-sessao-service';
+
+import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
 // import { LabelsPadraoDatePicker } from './compartilhados/time-picker-label/timer-picker-label';
 
 /* 
@@ -75,6 +79,10 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
   hour12AMLabel= 'AM',
   hour12PMLabel= 'PM'
 }; */
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -110,6 +118,13 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
     FlexLayoutModule,
     ReactiveFormsModule,
     FormsModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+      }
+    }),
     NgxMaskModule.forRoot(),
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.circleSwish,
@@ -128,6 +143,7 @@ export class LabelsPadraoDatePicker extends OwlDateTimeIntl = {
       realTime: false
     }
   },
+  TranslateService,
   MensagemAlertaService,
   RemoveRowTableService,
   UsuarioSessaoService,
