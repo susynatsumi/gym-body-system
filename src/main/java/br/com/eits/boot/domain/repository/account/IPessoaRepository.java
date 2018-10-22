@@ -93,8 +93,7 @@ public interface IPessoaRepository extends JpaRepository<Pessoa, Long>
 		"avaliacoesFisicas.perimetria",
 		"avaliacoesFisicas.resposta",
 		"avaliacoesFisicas.avaliacaoAntropometrica.dobrasCutaneas",
-		"avaliacoesFisicas.avaliacaoAntropometrica.indiceMassaCorporal",
-		"avaliacoesFisicas.avaliacaoAntropometrica.predicaoGorduraSiri"
+		"avaliacoesFisicas.avaliacaoAntropometrica.indiceMassaCorporal"
 	})
 	@Query(
 	  " FROM "

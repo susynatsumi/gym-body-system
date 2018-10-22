@@ -17,8 +17,7 @@ public interface IAvaliacaoFisicaRepository extends JpaRepository<AvaliacaoFisic
 		"perimetria",
 		"resposta",
 		"avaliacaoAntropometrica.dobrasCutaneas",
-		"avaliacaoAntropometrica.indiceMassaCorporal",
-		"avaliacaoAntropometrica.predicaoGorduraSiri"
+		"avaliacaoAntropometrica.indiceMassaCorporal"
 	})
 	@Override
 	Optional<AvaliacaoFisica> findById(Long id);
@@ -28,8 +27,7 @@ public interface IAvaliacaoFisicaRepository extends JpaRepository<AvaliacaoFisic
 //		"perimetria",
 //		"resposta",
 //		"avaliacaoAntropometrica.dobrasCutaneas",
-//		"avaliacaoAntropometrica.indiceMassaCorporal",
-//		"avaliacaoAntropometrica.predicaoGorduraSiri"
+//		"avaliacaoAntropometrica.indiceMassaCorporal"
 //	})
 //	@Query(
 //		" FROM AvaliacaoFisica avaliacaoFisica "
@@ -60,8 +58,7 @@ public interface IAvaliacaoFisicaRepository extends JpaRepository<AvaliacaoFisic
 		"perimetria",
 		"resposta",
 		"avaliacaoAntropometrica.dobrasCutaneas",
-		"avaliacaoAntropometrica.indiceMassaCorporal",
-		"avaliacaoAntropometrica.predicaoGorduraSiri"
+		"avaliacaoAntropometrica.indiceMassaCorporal"
 	})
 	Page<AvaliacaoFisica> findAvaliacaoFisicaByPessoa_id(Long idPessoa, Pageable pageRequest);
 	

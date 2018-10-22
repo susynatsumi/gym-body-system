@@ -1,0 +1,10 @@
+{
+    "MASCULINO" : "Masculino",
+    "FEMININO" : "Feminino",
+    "ALUNO" : "Aluno",
+    "PERSONAL" : "Personal",
+    "ADMINISTRADOR" : "Administrador",
+    "CARGA_REPETICOES" : "Repetições com Carga",
+    "REPETICOES" : "Repetições",
+    "TEMPO" : "Tempo"
+}
