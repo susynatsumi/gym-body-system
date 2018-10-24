@@ -145,9 +145,6 @@ export class TreinosFormComponent implements OnInit {
       'dataFim': [this.treino.dataFim, Validators.required],
     });
 
-    this.formGrupoStep2.controls['dataInicio'].disable();
-    this.formGrupoStep2.controls['dataFim'].disable();
-
     this.formGroupStep3 = this.formBuilder.group({
       'segunda': [],
       'terca': [],

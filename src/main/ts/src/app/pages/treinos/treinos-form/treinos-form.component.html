@@ -58,8 +58,15 @@
         <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
           <mat-form-field fxFlex>
 
-            <input matInput [min]="minDate" [matDatepicker]="picker" placeholder="Data de início do treino (Obrigatório)"
-              formControlName="dataInicio" name="dataInicio" [(ngModel)]="treino.dataInicio" />
+            <input 
+              matInput 
+              [min]="minDate" 
+              [matDatepicker]="picker" 
+              placeholder="Data de início do treino (Obrigatório)"
+              formControlName="dataInicio" 
+              name="dataInicio" 
+              readonly
+              [(ngModel)]="treino.dataInicio" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
 
@@ -76,8 +83,15 @@
           </mat-form-field>
           <mat-form-field fxFlex>
 
-            <input matInput [min]="minDate" [matDatepicker]="pickerFim" placeholder="Data de término do treino (Obrigatório)"
-              formControlName="dataFim" name="dataFim" [(ngModel)]="treino.dataFim" />
+            <input 
+              matInput 
+              [min]="minDate" 
+              [matDatepicker]="pickerFim" 
+              placeholder="Data de término do treino (Obrigatório)"
+              formControlName="dataFim" 
+              name="dataFim" 
+              readonly
+              [(ngModel)]="treino.dataFim" />
             <mat-datepicker-toggle matSuffix [for]="pickerFim"></mat-datepicker-toggle>
             <mat-datepicker #pickerFim disabled="false"></mat-datepicker>
 

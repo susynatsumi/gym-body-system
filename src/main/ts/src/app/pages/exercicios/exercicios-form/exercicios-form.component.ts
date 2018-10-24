@@ -130,8 +130,6 @@ export class ExerciciosFormComponent implements OnInit {
       'equipamento': [this.exercicio.equipamento, Validators.required]
     });
 
-    this.formStep2Equipamentos.controls['equipamento'].disable();
-
     this.formStep3GruposMusculares = this.formBuilder.group({
       'gruposMusculares': []
     });
