@@ -548,6 +548,8 @@ export class TreinosFormComponent implements OnInit {
 
       this.treino.personal = this.pessoaLogada;
       this.treino.aluno = this.alunoSelecionado;
+      this.treino.personal.lastLogin = null;
+      this.treino.aluno.lastLogin = null;
 
       console.log(this.treino.dataInicio);
       console.log(this.treino.dataFim);

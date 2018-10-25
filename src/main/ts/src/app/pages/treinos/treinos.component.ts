@@ -77,6 +77,10 @@ export class TreinosComponent implements OnInit {
    */
   delete(id){
 
+    if(!confirm('Deseja remover este treino?')) {
+      return;
+    }
+
     this.loading = true;
 
     this.treinoService.deleteTreino(id)

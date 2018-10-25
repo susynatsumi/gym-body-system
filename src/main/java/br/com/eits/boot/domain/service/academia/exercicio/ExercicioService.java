@@ -112,9 +112,28 @@ public class ExercicioService {
 		
 		if(imagem != null){
 			exercicio.setImagem(imagem);
+		} else {
+			Exercicio exercicioImagem = this.findExercicioById(exercicio.getId());
+			exercicio.setImagem(exercicioImagem.getImagem());
 		}
 		
 		return this.exercicioRepository.save( exercicio );
+		
+	}
+	
+	/**
+	 * 
+	 * Remove a imagem do exercício 
+	 * 
+	 * @param exercicioId
+	 */
+	public void removerImagem(long exercicioId){
+		
+		Exercicio exercicio = this.findExercicioById(exercicioId);
+		
+		exercicio.setImagem(null);
+		
+		this.exercicioRepository.save(exercicio);
 		
 	}
 	

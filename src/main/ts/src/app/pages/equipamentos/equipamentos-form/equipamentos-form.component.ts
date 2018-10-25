@@ -107,6 +107,23 @@ export class EquipamentosFormComponent implements OnInit {
     this.imageUrl =  "../../static/images/imagem-default.png";
   }
 
+
+  removerImagemInServer(){
+    if(!confirm('Deseja remover esta imagem?')) {
+      return;
+    }
+
+    if(this.equipamento == null || this.equipamento.id == null){
+      return;
+    }
+
+    this.equipamentoService.removerImagem(this.equipamento.id).subscribe(
+      ()=>{
+        this.removerImagem();
+      }
+    );
+  }
+
   /**
    * Seleciona a imagem e altera a apresentada no compenent img
    * @param event 
@@ -172,6 +189,8 @@ export class EquipamentosFormComponent implements OnInit {
 
     this.loading = true;
     
+    this.equipamento.imagem = null;
+
     this.enviar()
     .finally(()=> this.loading = false)
     .subscribe(

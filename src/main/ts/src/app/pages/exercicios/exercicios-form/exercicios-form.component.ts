@@ -165,6 +165,23 @@ export class ExerciciosFormComponent implements OnInit {
     this.imageUrl =  "../../static/images/imagem-default.png";
   }
 
+  removerImagemInServer(){
+
+    if(this.exercicio == null || this.exercicio.id == null){
+      return;
+    }
+
+    if(!confirm('Deseja remover esta imagem?')) {
+      return;
+    }
+
+    this.exercicioService.removerImagem(this.exercicio.id).subscribe(
+      ()=>{
+        this.removerImagem();
+      }
+    );
+  }
+
   /**
    * Seleciona a imagem e altera a apresentada no compenent img
    * @param event 
@@ -316,6 +333,7 @@ export class ExerciciosFormComponent implements OnInit {
     this.loading = true;
     // unica forma que encontrei para não dar erro
     this.exercicio.equipamento.imagem = null;
+    this.exercicio.imagem = null;
 
     this.enviar()
       .finally(() => this.loading = false)

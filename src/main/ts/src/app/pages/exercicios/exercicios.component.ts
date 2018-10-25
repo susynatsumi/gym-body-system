@@ -87,6 +87,10 @@ export class ExerciciosComponent implements OnInit {
    */
   delete(id){
 
+    if(!confirm('Deseja remover este exercício?')) {
+      return;
+    }
+
     this.loading = true;
 
     this.exercicioService.deleteExercicio(id)

@@ -104,6 +104,10 @@ export class PessoasComponent implements OnInit {
    */
   delete(id){
     
+    if(!confirm('Deseja remover esta pessoa?')) {
+      return;
+    }
+
     this.loading = true;
     
     this.pessoaService.deletePessoa(id)

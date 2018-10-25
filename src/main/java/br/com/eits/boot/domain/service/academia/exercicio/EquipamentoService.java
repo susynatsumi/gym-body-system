@@ -93,14 +93,31 @@ public class EquipamentoService {
 		
 		if(imagem != null){
 			equipamento.setImagem(imagem);
+		} else {
+			Equipamento equipamento2 = this.findEquipamentoById(equipamento.getId());
+			equipamento.setImagem(equipamento2.getImagem());
 		}
 		
 		return this.equipamentoRepository.save( equipamento );
 		
 	}
 	
-	
-	
+	/**
+	 * 
+	 * Remove imagem de um equipamento
+	 * 
+	 * @param equipamentoId
+	 * 
+	 */
+	public void removerImagem(long equipamentoId){
+		
+		Equipamento equipamento = this.findEquipamentoById(equipamentoId);
+		
+		equipamento.setImagem(null);
+		
+		this.equipamentoRepository.save(equipamento);
+		
+	}
 	
 	/**
 	 * Busca um equipamento por id 

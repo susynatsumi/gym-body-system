@@ -121,6 +121,11 @@ export class GruposMuscularesComponent implements OnInit {
    * @param id 
    */
   delete(id){
+
+    if(!confirm('Deseja remover este grupo muscular?')) {
+      return;
+    }
+
     this.loading = true;
     this.grupoMuscularService
       .deleteGrupoMuscular(id)

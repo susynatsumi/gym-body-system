@@ -96,6 +96,10 @@ export class EquipamentosComponent implements OnInit {
    */
   delete(id){
 
+    if(!confirm('Deseja remover este equipamento?')) {
+      return;
+    }
+
     this.loading = true;
 
     this.equipamentoService.deleteEquipamento(id)
