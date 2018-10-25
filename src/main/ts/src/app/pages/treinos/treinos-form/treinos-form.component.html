@@ -219,25 +219,25 @@
                       <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
   
                         <mat-form-field fxFlex>
-                          <input matInput formControlName="series" (ngModelChange)="treino.treinoExercicios[i].series=$event"
+                          <input matInput type='number' formControlName="series" (ngModelChange)="treino.treinoExercicios[i].series=$event"
                             [ngModel]="treinoExercicio?.controls?.series?.value" placeholder="Séries (Obrigatório)" />
                         </mat-form-field>
   
                         <mat-form-field *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' "
                           fxFlex>
-                          <input matInput formControlName="carga" (ngModelChange)="treino.treinoExercicios[i].carga=$event"
-                            [ngModel]="treinoExercicio?.controls?.carga?.value" placeholder="Carga (Obrigatório)" />
+                          <input matInput type='number' formControlName="carga" (ngModelChange)="treino.treinoExercicios[i].carga=$event"
+                            [ngModel]="treinoExercicio?.controls?.carga?.value" placeholder="Carga Kg (Obrigatório)" />
                         </mat-form-field>
   
                         <mat-form-field *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && ( treinoExercicio.tipoTreinoExercicio == 'CARGA_REPETICOES' || treinoExercicio.tipoTreinoExercicio == 'REPETICOES' )"
                           fxFlex>
-                          <input matInput  formControlName="repeticoes" (ngModelChange)="treino.treinoExercicios[i].repeticoes=$event"
+                          <input matInput type='number' formControlName="repeticoes" (ngModelChange)="treino.treinoExercicios[i].repeticoes=$event"
                             [ngModel]="treinoExercicio?.controls?.repeticoes?.value" placeholder="Repeticões (Obrigatório)" />
                         </mat-form-field>
   
                         <mat-form-field *ngIf="treinoExercicio && treinoExercicio.tipoTreinoExercicio && treinoExercicio.tipoTreinoExercicio == 'TEMPO'"
                           fxFlex>
-                          <input matInput  formControlName="tempoMin" (ngModelChange)="treino.treinoExercicios[i].tempoMin=$event"
+                          <input matInput  type='number' formControlName="tempoMin" (ngModelChange)="treino.treinoExercicios[i].tempoMin=$event"
                             [ngModel]="treinoExercicio?.controls?.tempoMin?.value" placeholder="Tempo em minutos (Obrigatório)" />
                         </mat-form-field>
   
